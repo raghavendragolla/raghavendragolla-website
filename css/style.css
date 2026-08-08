@@ -113,25 +113,11 @@ h1 em{
 /* =========================================
    Button
 ========================================= */
+/* =========================================
+Button
+========================================= */
 
-/* .enter{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    font-family:var(--font-heading);
-    font-size:19px;
-    font-weight:500;
-    color:var(--ink);
-    text-decoration:none;
-    border:1px solid var(--ink);
-    border-radius:var(--radius-full);
-    padding:14px 30px;
-    margin-bottom:44px;
-    transition:all var(--transition-fast);
-    width:100%;
-    max-width:320px;
-} */
- .enter {
+.enter {
     position: relative;
 
     display: flex;
@@ -151,19 +137,26 @@ h1 em{
     border: 1px solid var(--ink);
     border-radius: var(--radius-full);
 
-    transition: all 0.8s ease;
+    transition:
+        background-color 0.8s ease,
+        color 0.8s ease,
+        border-color 0.8s ease,
+        transform 0.8s ease,
+        box-shadow 0.8s ease;
 
     cursor: pointer;
 }
 
+/* Arrow */
+
 .enter .arrow {
     position: absolute;
     right: 32px;
+
     transition: transform 0.8s ease;
 }
 
-
-/* Text transition */
+/* Text */
 
 .enter .enter-text,
 .enter .coming-text {
@@ -175,6 +168,8 @@ h1 em{
     opacity: 0;
 }
 
+/* Hover text change */
+
 .enter:hover .enter-text {
     opacity: 0;
 }
@@ -183,82 +178,30 @@ h1 em{
     opacity: 1;
 }
 
-
-/* Your existing hover */
+/* Hover button */
 
 .enter:hover {
-    background: var(--ink);
+    background-color: var(--ink);
     color: var(--paper);
-    gap: 16px;
+
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
+
+/* Hover arrow */
 
 .enter:hover .arrow {
     transform: translateX(6px);
 }
-.enter .enter-text,
-.enter .coming-text {
-    transition: opacity 0.8s ease;
+
+/* Keyboard accessibility */
+
+.enter:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 4px;
 }
 
-.enter .coming-text {
-    position: absolute;
-    opacity: 0;
-}
-
-.enter:hover .enter-text {
-    opacity: 0;
-}
-
-.enter:hover .coming-text {
-    opacity: 1;
-}
-
-.coming-soon{
-    position:absolute;
-    bottom:-35px;
-    left:50%;
-    transform:translateX(-50%);
-
-    font-size:11px;
-    font-weight:500;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    white-space:nowrap;
-
-    opacity:1;
-    visibility:hidden;
-
-    transition:opacity 0.3s ease, transform 0.3s ease;
-}
-
-.enter:hover .coming-soon{
-    opacity:1;
-    visibility:visible;
-    transform:translateX(-50%) translateY(3px);
-}
-
-.enter:hover{
-    background:var(--ink);
-    color:var(--paper);
-    gap:16px;
-    transform:translateY(-2px);
-    box-shadow:0 12px 30px rgba(0,0,0,.12);
-}
-
-.enter .arrow{
-    transition:transform var(--transition-fast);
-}
-
-.enter:hover .arrow{
-    transform:translateX(6px);
-}
-
-.enter:focus-visible{
-    outline:3px solid var(--teal);
-    outline-offset:4px;
-}
 
 /* =========================================
    Currently
@@ -294,10 +237,31 @@ h1 em{
    Footer
 ========================================= */
 
-footer{
-    text-align:center;
-    padding:22px;
-    color:var(--muted);
-    font-size:11px;
-    letter-spacing:.06em;
+footer {
+    text-align: center;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .06em;
+}
+
+footer a {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 5px 12px;
+
+    color: var(--teal);
+    background: transparent;
+
+    text-decoration: none;
+    border-radius: 999px;
+
+    transition:
+        color 0.4s ease,
+        background-color 0.4s ease;
+}
+
+footer a:hover {
+    color: #17212B;
+    background-color: #E2E8E6;
 }
