@@ -131,36 +131,88 @@ h1 em{
     width:100%;
     max-width:320px;
 } */
- .enter{
-    position:relative;
+ .enter {
+    position: relative;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    width:320px;
-    height:72px;
+    width: 320px;
+    height: 72px;
 
-    font-family:var(--font-heading);
-    font-size:19px;
-    font-weight:500;
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 500;
 
-    color:var(--ink);
-    text-decoration:none;
+    color: var(--ink);
+    text-decoration: none;
 
-    border:1px solid var(--ink);
-    border-radius:var(--radius-full);
+    border: 1px solid var(--ink);
+    border-radius: var(--radius-full);
 
-    transition:all var(--transition-fast);
-    
-    cursor:pointer;
+    transition: all 0.8s ease;
+
+    cursor: pointer;
 }
 
-.enter .arrow{
-    position:absolute;
-    right:32px;
-    transition:transform var(--transition-fast);
+.enter .arrow {
+    position: absolute;
+    right: 32px;
+    transition: transform 0.8s ease;
+}
 
+
+/* Text transition */
+
+.enter .enter-text,
+.enter .coming-text {
+    transition: opacity 1.2s ease;
+}
+
+.enter .coming-text {
+    position: absolute;
+    opacity: 0;
+}
+
+.enter:hover .enter-text {
+    opacity: 0;
+}
+
+.enter:hover .coming-text {
+    opacity: 1;
+}
+
+
+/* Your existing hover */
+
+.enter:hover {
+    background: var(--ink);
+    color: var(--paper);
+    gap: 16px;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+
+.enter:hover .arrow {
+    transform: translateX(6px);
+}
+.enter .enter-text,
+.enter .coming-text {
+    transition: opacity 0.8s ease;
+}
+
+.enter .coming-text {
+    position: absolute;
+    opacity: 0;
+}
+
+.enter:hover .enter-text {
+    opacity: 0;
+}
+
+.enter:hover .coming-text {
+    opacity: 1;
 }
 
 .coming-soon{
@@ -175,7 +227,7 @@ h1 em{
     text-transform:uppercase;
     white-space:nowrap;
 
-    opacity:0;
+    opacity:1;
     visibility:hidden;
 
     transition:opacity 0.3s ease, transform 0.3s ease;
