@@ -1,39 +1,59 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* ==========================================================================
+   Raghavendra Golla - Apple-Grade Design System & Interactive Styles
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
-body{
-    height:100%;
-    scroll-behavior:smooth;
+body {
+    height: 100%;
+    scroll-behavior: smooth;
 }
 
-::selection{
-    background:var(--teal);
-    color:white;
+::selection {
+    background: var(--teal);
+    color: white;
 }
 
-body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--font-body);
-    -webkit-font-smoothing:antialiased;
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-    min-height:100vh;
-
-    display:flex;
-    flex-direction:column;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow-x: hidden;
 
-    transition:var(--transition-theme);
+    transition: var(--transition-theme);
 }
 
 /* =========================================
    Background & Ambient Effects
 ========================================= */
+
+#neural-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    transition: opacity 0.4s ease;
+}
+
+[data-theme="dark"] #neural-canvas {
+    opacity: 0.75;
+}
 
 .bg-grid {
     position: fixed;
@@ -64,22 +84,24 @@ body{
     position: absolute;
     top: 10%;
     left: 15%;
-    width: 500px;
-    height: 500px;
+    width: 520px;
+    height: 520px;
     background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
     filter: blur(100px);
     animation: floatGlow1 16s ease-in-out infinite;
+    will-change: transform;
 }
 
 .ambient-glow-2 {
     position: absolute;
     bottom: 15%;
     right: 12%;
-    width: 550px;
-    height: 550px;
+    width: 560px;
+    height: 560px;
     background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 70%);
     filter: blur(120px);
     animation: floatGlow2 20s ease-in-out infinite;
+    will-change: transform;
 }
 
 /* =========================================
@@ -88,7 +110,7 @@ body{
 
 header {
     position: relative;
-    z-index: 5;
+    z-index: 10;
     width: 100%;
     display: flex;
     align-items: center;
@@ -108,20 +130,22 @@ header {
     height: 38px;
 
     background: var(--paper-card);
-    border: 1px solid var(--line);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-full);
     color: var(--ink);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
 
     cursor: pointer;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .theme-toggle:hover {
     transform: scale(1.08);
     border-color: var(--teal);
+    box-shadow: 0 6px 18px var(--teal-glow);
 }
 
 .theme-toggle svg {
@@ -147,7 +171,7 @@ header {
 }
 
 /* =========================================
-   ECG
+   ECG Vitals
 ========================================= */
 
 .vitals-container {
@@ -155,25 +179,25 @@ header {
     width: 100%;
 }
 
-.vitals{
-    width:100%;
-    height:44px;
+.vitals {
+    width: 100%;
+    height: 44px;
 }
 
-.vitals svg{
-    width:100%;
-    height:100%;
-    display:block;
+.vitals svg {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-.vitals path{
-    fill:none;
-    stroke:var(--teal);
-    stroke-width:1.6;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-dasharray:1400;
-    stroke-dashoffset:1400;
+.vitals path {
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
     animation:
         draw 2.4s ease-out forwards,
         pulse 3.4s ease-in-out 2.4s infinite;
@@ -187,18 +211,20 @@ header {
     z-index: 2;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0.08em;
     color: var(--teal);
     text-transform: uppercase;
     background: var(--paper-card);
-    padding: 3px 10px;
+    padding: 3.5px 12px;
     border-radius: var(--radius-full);
-    border: 1px solid var(--line);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: var(--transition-theme);
 }
 
 .vitals-dot {
@@ -210,16 +236,236 @@ header {
 
 
 /* =========================================
-   Highlights Grid & 3D Cursor Spotlight
+   Main Content Area
+========================================= */
+
+main {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 38px 24px 44px;
+
+    animation: fadeUp 0.8s var(--apple-ease);
+}
+
+/* =========================================
+   Status Badge & Eyebrow
+========================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px;
+    margin-bottom: 20px;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    background: var(--badge-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease;
+}
+
+.status-badge:hover {
+    transform: translateY(-2px);
+    border-color: var(--teal);
+}
+
+.badge-sparkle {
+    display: inline-block;
+    animation: sparkle 3s ease-in-out infinite;
+}
+
+.eyebrow {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   Heading & Dynamic Rotating Text
+========================================= */
+
+h1 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: clamp(2.2rem, 7vw, 4.2rem);
+    line-height: 1.06;
+    letter-spacing: -.01em;
+    margin-bottom: 24px;
+    max-width: 15ch;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+}
+
+.dynamic-wrapper {
+    display: inline-block;
+    position: relative;
+    vertical-align: baseline;
+}
+
+#dynamic-text {
+    display: inline-block;
+    color: var(--teal);
+    font-style: italic;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.3s var(--apple-ease), transform 0.3s var(--apple-ease), filter 0.3s ease;
+    will-change: transform, opacity;
+}
+
+#dynamic-text.swapping {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+    filter: blur(4px);
+}
+
+/* =========================================
+   Social Links Bar
+========================================= */
+
+.social-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--paper-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-4px) scale(1.05);
+    border-color: var(--teal);
+    color: var(--teal);
+    background-color: var(--paper-card-hover);
+    box-shadow: 0 10px 24px var(--teal-glow);
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* =========================================
+   Apple-Grade Call to Action Button
+========================================= */
+
+.enter {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 320px;
+    height: 70px;
+
+    font-family: var(--font-heading);
+    font-size: 19px;
+    font-weight: 500;
+
+    color: var(--ink);
+    text-decoration: none;
+
+    border: 1px solid var(--border-button);
+    border-radius: var(--radius-full);
+    background: var(--paper-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--glass-shadow);
+    margin-bottom: 28px;
+
+    transition:
+        background-color 0.35s ease,
+        color 0.35s ease,
+        border-color 0.35s ease,
+        transform 0.35s var(--apple-ease),
+        box-shadow 0.35s ease;
+
+    cursor: pointer;
+}
+
+.enter .arrow {
+    position: absolute;
+    right: 32px;
+    transition: transform 0.35s var(--apple-ease);
+}
+
+.enter .enter-text,
+.enter .coming-text {
+    transition: opacity 0.35s ease;
+}
+
+.enter .coming-text {
+    position: absolute;
+    opacity: 0;
+}
+
+.enter:hover .enter-text {
+    opacity: 0;
+}
+
+.enter:hover .coming-text {
+    opacity: 1;
+}
+
+.enter:hover {
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 16px 36px var(--teal-glow);
+}
+
+.enter:hover .arrow {
+    transform: translateX(6px);
+}
+
+.enter:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 4px;
+}
+
+/* =========================================
+   Highlights Grid & 3D Interactive Cards
 ========================================= */
 
 .highlights-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 22px;
     width: 100%;
-    max-width: 900px;
+    max-width: 920px;
     margin: 28px 0 34px;
+    perspective: 1000px;
 }
 
 .highlight-card {
@@ -229,14 +475,16 @@ header {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    padding: 22px 24px;
+    padding: 24px 26px;
     background: var(--paper-card);
-    border: 1px solid var(--line);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--glass-shadow);
+    transform-style: preserve-3d;
+    transition: transform 0.25s var(--apple-ease), border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    will-change: transform;
 }
 
 .highlight-card::before {
@@ -246,7 +494,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--teal-glow), transparent 65%);
+    background: radial-gradient(380px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--teal-glow), transparent 65%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
@@ -257,88 +505,68 @@ header {
 }
 
 .highlight-card:hover {
-    transform: translateY(-6px);
     border-color: var(--teal);
-    box-shadow: 0 16px 36px var(--teal-glow);
+    background: var(--paper-card-hover);
+    box-shadow: 0 20px 48px -10px var(--teal-glow), 0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.highlight-card.active-highlight {
+    border-color: var(--teal) !important;
+    box-shadow: 0 0 0 2px var(--teal), 0 20px 45px var(--teal-glow) !important;
+    transform: translateY(-8px) scale(1.02) !important;
+    animation: cardPulseGlow 1.5s ease-out;
 }
 
 .highlight-icon {
-    font-size: 24px;
-    margin-bottom: 12px;
+    font-size: 26px;
+    margin-bottom: 14px;
     line-height: 1;
+    transition: transform 0.35s var(--apple-ease);
+}
+
+.highlight-card:hover .highlight-icon {
+    transform: scale(1.18) rotate(6deg);
 }
 
 .highlight-title {
     font-family: var(--font-heading);
-    font-size: 15.5px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
 }
 
 .highlight-desc {
-    font-size: 11.5px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 1.65;
     color: var(--muted);
 }
 
 
 /* =========================================
-   Tech Stack Skills Chips
-========================================= */
-
-.skills-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 22px 0 30px;
-    max-width: 720px;
-}
-
-.skill-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 15px;
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--ink);
-    background: var(--paper-card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-full);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer;
-}
-
-.skill-chip:hover {
-    transform: translateY(-3px) scale(1.03);
-    border-color: var(--teal);
-    color: var(--teal);
-    box-shadow: 0 6px 18px var(--teal-glow);
-}
-
-/* =========================================
-   Skyroot Aerospace-inspired Metrics Bar
+   Dynamic Realistic Metrics Bar
 ========================================= */
 
 .specs-bar {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 18px;
     width: 100%;
-    max-width: 860px;
+    max-width: 880px;
     margin: 28px 0 34px;
-    border: 1px solid var(--line);
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     background: var(--paper-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 20px 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 22px 28px;
+    box-shadow: var(--glass-shadow);
+    transition: var(--transition-theme), transform 0.3s ease;
+}
+
+.specs-bar:hover {
+    box-shadow: 0 16px 40px -12px rgba(16, 24, 32, 0.08);
 }
 
 .spec-item {
@@ -347,7 +575,7 @@ header {
     align-items: center;
     text-align: center;
     border-right: 1px solid var(--line);
-    padding: 0 12px;
+    padding: 0 14px;
 }
 
 .spec-item:last-child {
@@ -356,10 +584,10 @@ header {
 
 .spec-number {
     font-family: var(--font-heading);
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 600;
     color: var(--teal);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     line-height: 1.1;
     margin-bottom: 4px;
 }
@@ -374,315 +602,83 @@ header {
 }
 
 /* =========================================
-   Main
+   Tech Stack Skills Chips
 ========================================= */
 
-main{
-    position: relative;
-    z-index: 2;
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:36px 24px;
-
-    animation:fadeUp .8s ease-out;
+.skills-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 22px 0 30px;
+    max-width: 740px;
 }
 
-/* =========================================
-   Status Badge & Name
-========================================= */
-
-.status-badge {
+.skill-chip {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 18px;
-    margin-bottom: 20px;
+    gap: 7px;
+    padding: 8px 16px;
     font-size: 11.5px;
     font-weight: 500;
-    letter-spacing: 0.06em;
-    color: var(--teal);
-    background: var(--badge-bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-full);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.status-badge:hover {
-    transform: translateY(-2px);
-    border-color: var(--teal);
-}
-
-.badge-sparkle {
-    display: inline-block;
-    animation: sparkle 3s ease-in-out infinite;
-}
-
-.eyebrow{
-
-    font-size:15px;
-
-    font-weight:600;
-
-    letter-spacing:.22em;
-
-    text-transform:uppercase;
-
-    color:var(--teal);
-
-    margin-bottom:22px;
-
-}
-
-/* =========================================
-   Heading
-========================================= */
-
-h1{
-    font-family:var(--font-heading);
-    font-weight:500;
-    font-size:clamp(2.2rem,7vw,4.2rem);
-    line-height:1.04;
-    letter-spacing:-.01em;
-    margin-bottom:26px;
-    max-width:14ch;
-}
-
-h1 em{
-    color:var(--teal);
-    font-style:italic;
-    background: linear-gradient(135deg, var(--teal) 0%, var(--gold) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* =========================================
-   Button
-========================================= */
-
-.enter {
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 320px;
-    height: 72px;
-
-    font-family: var(--font-heading);
-    font-size: 19px;
-    font-weight: 500;
-
     color: var(--ink);
-    text-decoration: none;
-
-    border: 1px solid var(--border-button);
-    border-radius: var(--radius-full);
     background: var(--paper-card);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    margin-bottom: 28px;
-
-    transition:
-        background-color 0.4s ease,
-        color 0.4s ease,
-        border-color 0.4s ease,
-        transform 0.4s ease,
-        box-shadow 0.4s ease;
-
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
     cursor: pointer;
+    user-select: none;
 }
 
-/* Arrow */
-
-.enter .arrow {
-    position: absolute;
-    right: 32px;
-
-    transition: transform 0.4s ease;
-}
-
-/* Text */
-
-.enter .enter-text,
-.enter .coming-text {
-    transition: opacity 0.4s ease;
-}
-
-.enter .coming-text {
-    position: absolute;
-    opacity: 0;
-}
-
-/* Hover text change */
-
-.enter:hover .enter-text {
-    opacity: 0;
-}
-
-.enter:hover .coming-text {
-    opacity: 1;
-}
-
-/* Hover button */
-
-.enter:hover {
-    background-color: var(--hover-bg);
-    color: var(--hover-text);
-
-    transform: translateY(-3px);
-
-    box-shadow: 0 12px 30px var(--teal-glow);
-}
-
-/* Hover arrow */
-
-.enter:hover .arrow {
-    transform: translateX(6px);
-}
-
-/* Keyboard accessibility */
-
-.enter:focus-visible {
-    outline: 3px solid var(--teal);
-    outline-offset: 4px;
-}
-
-
-/* =========================================
-   Social Links Bar
-========================================= */
-
-.social-links {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 26px;
-}
-
-.social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    color: var(--ink);
-    text-decoration: none;
-    background: var(--paper-card);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
-}
-
-.social-link:hover {
-    transform: translateY(-4px);
+.skill-chip:hover {
+    transform: translateY(-3px) scale(1.04);
     border-color: var(--teal);
     color: var(--teal);
-    background-color: var(--paper);
-    box-shadow: 0 8px 20px var(--teal-glow);
+    background: var(--paper-card-hover);
+    box-shadow: 0 8px 22px var(--teal-glow);
 }
 
-.social-link svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-}
-
-
-/* =========================================
-   Highlights Grid
-========================================= */
-
-.highlights-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 100%;
-    max-width: 900px;
-    margin: 28px 0 34px;
-}
-
-.highlight-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    padding: 20px 22px;
-    background: var(--paper-card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-.highlight-card:hover {
-    transform: translateY(-6px);
+.skill-chip.active {
     border-color: var(--teal);
-    box-shadow: 0 16px 36px var(--teal-glow);
+    background: var(--teal);
+    color: var(--paper);
+    box-shadow: 0 8px 24px var(--teal-glow);
 }
-
-.highlight-icon {
-    font-size: 24px;
-    margin-bottom: 12px;
-    line-height: 1;
-}
-
-.highlight-title {
-    font-family: var(--font-heading);
-    font-size: 15.5px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 6px;
-}
-
-.highlight-desc {
-    font-size: 11.5px;
-    line-height: 1.6;
-    color: var(--muted);
-}
-
 
 /* =========================================
    Currently
 ========================================= */
 
-.currently{
+.currently {
     width: 100%;
-    max-width:540px;
-    border-top:1px solid var(--line);
-    padding-top:20px;
-    color:var(--muted);
-    font-size:12.5px;
-    line-height:1.75;
+    max-width: 560px;
+    border-top: 1px solid var(--line);
+    padding-top: 22px;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.8;
 }
 
-.currently .label{
-    color:var(--gold);
-    text-transform:uppercase;
-    letter-spacing:.1em;
-    margin-right:8px;
+.currently .label {
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-right: 8px;
     font-weight: 500;
 }
 
-.currently .dot{
-    width:7px;
-    height:7px;
-    display:inline-block;
-    border-radius:50%;
-    background:var(--teal);
-    margin-right:8px;
-    animation:blink 2.6s ease-in-out infinite;
+.currently .dot {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-right: 8px;
+    animation: blink 2.6s ease-in-out infinite;
 }
 
 /* =========================================
@@ -700,28 +696,30 @@ h1 em{
     align-items: center;
     gap: 10px;
 
-    padding: 12px 22px;
+    padding: 12px 24px;
     background: var(--ink);
     color: var(--paper);
     border-radius: var(--radius-full);
     border: 1px solid var(--teal);
 
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 500;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
     opacity: 0;
     pointer-events: none;
 }
 
 .toast.show {
-    animation: toastIn 0.35s ease forwards;
+    animation: toastIn 0.35s var(--apple-ease) forwards;
     pointer-events: auto;
 }
 
 .toast.hide {
-    animation: toastOut 0.35s ease forwards;
+    animation: toastOut 0.35s var(--apple-ease) forwards;
 }
 
 .toast-icon {
@@ -742,41 +740,123 @@ h1 em{
 
 
 /* =========================================
-   Footer
+   Apple-Grade Footer
 ========================================= */
 
 footer {
     position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 22px;
+    z-index: 5;
+    width: 100%;
+    border-top: 1px solid var(--line);
+    background: var(--paper-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 22px 32px;
+    margin-top: auto;
+    transition: var(--transition-theme);
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
     color: var(--muted);
-    font-size: 11px;
-    letter-spacing: .06em;
+    letter-spacing: 0.03em;
 }
 
-footer a {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 6px 16px;
+.footer-name {
+    font-weight: 600;
+    color: var(--ink);
+}
 
+.footer-separator {
     color: var(--teal);
-    background: transparent;
-
-    text-decoration: none;
-    border-radius: 999px;
-    border: 1px dashed var(--line);
-
-    transition:
-        color 0.3s ease,
-        background-color 0.3s ease,
-        border-color 0.3s ease,
-        transform 0.3s ease;
+    font-size: 8px;
 }
 
-footer a:hover {
+.footer-tagline {
+    color: var(--muted);
+}
+
+.footer-copy {
+    font-family: var(--font-body);
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.footer-icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    transition: transform 0.25s ease;
+}
+
+.footer-link:hover {
+    color: var(--teal);
+    transform: translateY(-1px);
+}
+
+.footer-link:hover .footer-icon {
+    transform: scale(1.15);
+}
+
+.footer-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--teal);
+    background: var(--teal-subtle);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--teal);
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s var(--apple-ease);
+}
+
+.footer-cta span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.footer-cta:hover {
+    background: var(--teal);
     color: var(--paper);
-    background-color: var(--teal);
-    border-color: var(--teal);
+    box-shadow: 0 6px 20px var(--teal-glow);
     transform: translateY(-2px);
+}
+
+.footer-cta:hover span {
+    transform: translateX(3px);
 }

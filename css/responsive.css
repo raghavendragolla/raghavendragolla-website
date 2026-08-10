@@ -1,152 +1,264 @@
-/* =========================================
-   Large Desktop (1600px and above)
-========================================= */
-
-@media (min-width:1600px){
-
-    h1{
-        font-size:5rem;
-        max-width:15ch;
-    }
-
-    .currently{
-        max-width:520px;
-    }
-
-    .enter{
-        font-size:21px;
-        padding:18px 40px;
-    }
-
-}
-
-@media (max-width:1440px){
-
-    h1{
-        font-size:4.2rem;
-    }
-
-}
-
+/* ==========================================================================
+   Raghavendra Golla - Comprehensive Responsive Design System
+   Optimized for: 4K/Ultra-wide, Laptops, Tablets, Phablets & All Mobile Devices
+   ========================================================================== */
 
 /* =========================================
-   Desktop / Large Laptop
-========================================= */
-
-@media (max-width:1400px){
-
-    h1{
-        font-size:clamp(3.5rem,6vw,4.5rem);
+   1. Ultra-Wide & 4K Displays (1600px+)
+   ========================================= */
+@media (min-width: 1600px) {
+    .ambient-glow-1 {
+        width: 700px;
+        height: 700px;
+        filter: blur(140px);
     }
 
-}
-
-
-/* =========================================
-   Laptop
-========================================= */
-
-@media (max-width:1200px){
-
-    main{
-        padding:28px;
+    .ambient-glow-2 {
+        width: 750px;
+        height: 750px;
+        filter: blur(160px);
     }
 
-    .eyebrow{
-        font-size:15px;
+    main {
+        padding: 48px 32px;
     }
 
-    h1{
-        max-width:13ch;
-    }
-
-    .currently{
-        max-width:420px;
-    }
-
-}
-
-
-/* =========================================
-   Tablet
-========================================= */
-
-@media (max-width:992px){
-
-    main{
-        padding:24px;
-    }
-
-    .eyebrow{
-        font-size:14px;
-        letter-spacing:.18em;
-    }
-
-    h1{
-        font-size:3.2rem;
-        line-height:1.08;
-    }
-
-    .enter{
-        font-size:18px;
-        padding:15px 30px;
+    h1 {
+        font-size: clamp(4.5rem, 5vw, 5.4rem);
+        max-width: 16ch;
     }
 
     .highlights-grid {
-        gap: 14px;
-        max-width: 780px;
+        max-width: 1020px;
+        gap: 24px;
     }
 
-    .currently{
-        font-size:12px;
-        max-width:420px;
+    .highlight-card {
+        padding: 26px 28px;
     }
 
+    .specs-bar {
+        max-width: 960px;
+        padding: 24px 32px;
+    }
+
+    .spec-number {
+        font-size: 32px;
+    }
+
+    .currently {
+        max-width: 580px;
+        font-size: 13.5px;
+    }
+
+    .enter {
+        width: 350px;
+        height: 76px;
+        font-size: 20px;
+    }
 }
 
+/* =========================================
+   2. Desktop / Standard Laptops (1200px - 1440px)
+   ========================================= */
+@media (max-width: 1440px) {
+    h1 {
+        font-size: clamp(3.2rem, 5.2vw, 4.2rem);
+    }
+}
+
+@media (max-width: 1200px) {
+    main {
+        padding: 32px 24px;
+    }
+
+    .highlights-grid {
+        max-width: 860px;
+        gap: 16px;
+    }
+
+    .highlight-card {
+        padding: 20px 20px;
+    }
+
+    .highlight-title {
+        font-size: 14.5px;
+    }
+
+    .highlight-desc {
+        font-size: 11px;
+    }
+
+    .specs-bar {
+        max-width: 820px;
+        padding: 18px 20px;
+    }
+
+    .currently {
+        max-width: 480px;
+    }
+}
 
 /* =========================================
-   Mobile
-========================================= */
+   3. Tablets & Small Laptops (769px - 1024px)
+   ========================================= */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: clamp(2.8rem, 6vw, 3.6rem);
+        line-height: 1.08;
+    }
 
-@media (max-width:768px){
+    .highlights-grid {
+        max-width: 760px;
+        gap: 14px;
+    }
+
+    .highlight-card {
+        padding: 18px 18px;
+    }
+
+    .specs-bar {
+        max-width: 760px;
+        padding: 16px 18px;
+    }
+
+    .spec-number {
+        font-size: 23px;
+    }
+
+    .spec-label {
+        font-size: 9.5px;
+    }
+
+    .enter {
+        width: 300px;
+        height: 68px;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 900px) {
+    .highlights-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 700px;
+        gap: 12px;
+    }
+
+    .highlight-card {
+        padding: 16px 14px;
+    }
+
+    .highlight-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    .highlight-title {
+        font-size: 14px;
+    }
+
+    .highlight-desc {
+        font-size: 10.5px;
+        line-height: 1.5;
+    }
+}
+
+/* =========================================
+   4. Phablets & Mobile Landscape (600px - 768px)
+   ========================================= */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+    }
 
     .theme-toggle {
-        top: 6px;
-        right: 14px;
-        width: 34px;
-        height: 34px;
+        top: 8px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .vitals-status {
+        left: 16px;
+        font-size: 10px;
+        padding: 3px 9px;
+    }
+
+    main {
+        padding: 24px 20px;
+    }
+
+    .eyebrow {
+        font-size: 13px;
+        letter-spacing: .18em;
+        margin-bottom: 18px;
+    }
+
+    h1 {
+        font-size: clamp(2.3rem, 7.5vw, 2.9rem);
+        line-height: 1.1;
+        max-width: 16ch;
+        margin-bottom: 22px;
     }
 
     .social-links {
-        gap: 12px;
+        gap: 14px;
         margin-bottom: 22px;
     }
 
     .social-link {
-        width: 38px;
-        height: 38px;
+        width: 42px;
+        height: 42px;
     }
 
+    .social-link svg {
+        width: 19px;
+        height: 19px;
+    }
+
+    .enter {
+        width: 100%;
+        max-width: 320px;
+        height: 66px;
+        font-size: 18px;
+        margin-bottom: 26px;
+    }
+
+    /* Single column stack for maximum readability and visual impact */
     .highlights-grid {
         grid-template-columns: 1fr;
-        max-width: 360px;
-        margin: 22px 0 28px;
+        width: 100%;
+        max-width: 440px;
         gap: 14px;
+        margin: 22px 0 28px;
+    }
+
+    .highlight-card {
+        padding: 20px 22px;
+    }
+
+    .highlight-title {
+        font-size: 15px;
+    }
+
+    .highlight-desc {
+        font-size: 11.5px;
+        line-height: 1.6;
     }
 
     .specs-bar {
         grid-template-columns: 1fr;
-        gap: 16px;
-        max-width: 360px;
-        padding: 16px 20px;
-        margin: 22px 0 28px;
+        width: 100%;
+        max-width: 440px;
+        gap: 14px;
+        padding: 18px 20px;
+        margin: 20px 0 28px;
     }
 
     .spec-item {
         border-right: none;
         border-bottom: 1px solid var(--line);
-        padding-bottom: 14px;
+        padding-bottom: 12px;
     }
 
     .spec-item:last-child {
@@ -154,201 +266,352 @@
         padding-bottom: 0;
     }
 
-    .vitals{
-        height:36px;
+    .spec-number {
+        font-size: 24px;
     }
 
-    main{
-        padding:22px;
+    .spec-label {
+        font-size: 10px;
     }
 
-    .eyebrow{
-        font-size:13px;
-        letter-spacing:.16em;
+    .skills-section {
+        max-width: 460px;
+        gap: 8px;
+        margin: 18px 0 24px;
     }
 
-    h1{
-
-        font-size:2.6rem;
-
-        line-height:1.1;
-
-        max-width:10ch;
-
-        margin-bottom:24px;
-
+    .skill-chip {
+        padding: 6px 13px;
+        font-size: 11px;
     }
 
-    .enter{
-
-        width:100%;
-
-        max-width:320px;
-
-        justify-content:center;
-
-        padding:16px 24px;
-
-        font-size:18px;
-
-        margin-bottom:36px;
-
+    .currently {
+        width: 100%;
+        max-width: 440px;
+        font-size: 12px;
+        line-height: 1.75;
+        padding-top: 18px;
     }
 
-    .currently{
-
-        width:100%;
-
-        max-width:340px;
-
-        font-size:12px;
-
-        line-height:1.8;
-
+    footer {
+        padding: 20px 16px;
     }
 
-    footer{
-
-        font-size:10px;
-
-        padding:18px;
-
+    .footer-container {
+        justify-content: center;
+        text-align: center;
+        gap: 14px;
     }
 
+    .footer-left {
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 11px;
+    }
+
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
 }
-
 
 /* =========================================
-   Small Mobile
-========================================= */
-
-@media (max-width:480px){
-
-    main{
-        padding:18px;
+   5. Standard Smartphones (376px - 480px)
+   ========================================= */
+@media (max-width: 480px) {
+    .theme-toggle {
+        top: 6px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
     }
 
-    .eyebrow{
-
-        font-size:12px;
-
-        letter-spacing:.15em;
-
+    .vitals-status {
+        left: 10px;
+        font-size: 9.5px;
+        padding: 2.5px 8px;
+        gap: 4px;
     }
 
-    h1{
-
-        font-size:2.2rem;
-
-        line-height:1.08;
-
-        margin-bottom:22px;
-
+    main {
+        padding: 20px 16px;
     }
 
-    .enter{
-
-        width:100%;
-
-        max-width:290px;
-
-        font-size:17px;
-
-        padding:15px 20px;
-
+    .status-badge {
+        font-size: 11px;
+        padding: 5px 14px;
+        margin-bottom: 16px;
     }
 
-    .currently{
-
-        max-width:290px;
-
-        font-size:11px;
-
-        line-height:1.75;
-
+    .eyebrow {
+        font-size: 12px;
+        letter-spacing: .16em;
+        margin-bottom: 16px;
     }
 
+    h1 {
+        font-size: clamp(2rem, 8.5vw, 2.4rem);
+        line-height: 1.12;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .social-links {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+
+    .social-link svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .enter {
+        width: 100%;
+        max-width: 290px;
+        height: 60px;
+        font-size: 17px;
+        margin-bottom: 22px;
+    }
+
+    .enter .arrow {
+        right: 24px;
+    }
+
+    .highlights-grid {
+        max-width: 100%;
+        gap: 12px;
+        margin: 18px 0 24px;
+    }
+
+    .highlight-card {
+        padding: 16px 18px;
+        border-radius: var(--radius-md);
+    }
+
+    .highlight-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    .highlight-title {
+        font-size: 14.5px;
+    }
+
+    .highlight-desc {
+        font-size: 11px;
+    }
+
+    .specs-bar {
+        max-width: 100%;
+        padding: 16px 18px;
+        margin: 18px 0 24px;
+        border-radius: var(--radius-md);
+    }
+
+    .spec-number {
+        font-size: 22px;
+    }
+
+    .spec-label {
+        font-size: 9.5px;
+    }
+
+    .skills-section {
+        gap: 7px;
+        margin: 16px 0 22px;
+    }
+
+    .skill-chip {
+        padding: 5.5px 11px;
+        font-size: 10.5px;
+    }
+
+    .currently {
+        max-width: 100%;
+        font-size: 11.5px;
+        line-height: 1.7;
+    }
+
+    footer {
+        font-size: 10px;
+        padding: 16px 12px;
+    }
 }
-
 
 /* =========================================
-   Extra Small Mobile
-========================================= */
-
-@media (max-width:360px){
-
-    main{
-        padding:16px;
+   6. Small & Compact Phones (320px - 375px)
+   ========================================= */
+@media (max-width: 375px) {
+    .vitals-status {
+        left: 8px;
+        font-size: 8.5px;
+        padding: 2px 7px;
     }
 
-    .eyebrow{
-        font-size:11px;
+    .theme-toggle {
+        right: 8px;
+        width: 32px;
+        height: 32px;
     }
 
-    h1{
-
-        font-size:1.9rem;
-
-        line-height:1.1;
-
+    main {
+        padding: 16px 12px;
     }
 
-    .enter{
-
-        max-width:260px;
-
-        font-size:16px;
-
-        padding:14px 18px;
-
+    .status-badge {
+        font-size: 10px;
+        padding: 4px 12px;
     }
 
-    .currently{
-
-        max-width:260px;
-
-        font-size:10px;
-
+    .eyebrow {
+        font-size: 11px;
+        letter-spacing: .14em;
     }
 
+    h1 {
+        font-size: 1.85rem;
+        line-height: 1.15;
+    }
+
+    .social-link {
+        width: 36px;
+        height: 36px;
+    }
+
+    .enter {
+        max-width: 260px;
+        height: 54px;
+        font-size: 15.5px;
+    }
+
+    .enter .arrow {
+        right: 18px;
+    }
+
+    .highlight-card {
+        padding: 14px 15px;
+    }
+
+    .highlight-title {
+        font-size: 13.5px;
+    }
+
+    .highlight-desc {
+        font-size: 10.5px;
+    }
+
+    .specs-bar {
+        padding: 14px 14px;
+    }
+
+    .spec-number {
+        font-size: 20px;
+    }
+
+    .skill-chip {
+        padding: 5px 9px;
+        font-size: 10px;
+    }
+
+    .currently {
+        font-size: 10.5px;
+    }
 }
-
 
 /* =========================================
-   Reduced Motion
-========================================= */
-
-@media (prefers-reduced-motion: reduce){
-
-    .vitals path{
-
-        animation:none;
-
-        stroke-dashoffset:0;
-
+   7. Mobile Landscape & Short Viewports (height <= 600px)
+   ========================================= */
+@media (max-height: 600px) and (orientation: landscape) {
+    main {
+        padding: 16px 20px;
     }
 
-    .currently .dot{
-
-        animation:none;
-
+    .status-badge {
+        margin-bottom: 10px;
     }
 
+    .eyebrow {
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 14px;
+    }
+
+    .social-links {
+        margin-bottom: 16px;
+    }
+
+    .enter {
+        height: 52px;
+        margin-bottom: 18px;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 760px;
+        gap: 10px;
+        margin: 14px 0 18px;
+    }
+
+    .highlight-card {
+        padding: 12px 14px;
+    }
+
+    .specs-bar {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 760px;
+        padding: 12px 16px;
+        margin: 14px 0 18px;
+    }
+
+    .spec-item {
+        border-right: 1px solid var(--line);
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .skills-section {
+        margin: 12px 0 16px;
+    }
+
+    .currently {
+        padding-top: 12px;
+    }
 }
 
-
-@media (max-height:800px){
-
-    main{
-        padding:20px;
+/* =========================================
+   8. Reduced Motion Accessibility
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 
-    h1{
-        margin-bottom:20px;
+    .vitals path {
+        stroke-dashoffset: 0 !important;
+        animation: none !important;
     }
 
-    .enter{
-        margin-bottom:28px;
+    .currently .dot {
+        animation: none !important;
     }
 
+    .ambient-glow-1,
+    .ambient-glow-2 {
+        animation: none !important;
+    }
 }

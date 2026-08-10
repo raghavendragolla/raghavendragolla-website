@@ -1,97 +1,91 @@
-/* =========================================
-   VARIABLES
-========================================= */
+/* ==========================================================================
+   Raghavendra Golla - Apple-Grade Design System Tokens
+   Pristine Glassmorphism, Dynamic Aerospace Accents & Fluid Typography
+   ========================================================================== */
 
-:root{
+:root {
 
-    /* ---------- Colors (Light Theme Default) ---------- */
+    /* ---------- Core Palette (Light Theme) ---------- */
+    --ink: #101820;
+    --paper: #f7f6f2;
+    --paper-card: rgba(255, 255, 255, 0.72);
+    --paper-card-hover: rgba(255, 255, 255, 0.9);
 
-    --ink:#101820;
-    --paper:#f6f4ee;
-    --paper-card:rgba(255, 255, 255, 0.65);
+    /* ---------- Accents (Teal Laser & Warm Gold) ---------- */
+    --teal: #2f7d78;
+    --teal-glow: rgba(47, 125, 120, 0.16);
+    --teal-subtle: rgba(47, 125, 120, 0.08);
+    --gold: #b8902f;
+    --gold-glow: rgba(184, 144, 47, 0.14);
 
-    --teal:#2f7d78;
-    --teal-glow:rgba(47, 125, 120, 0.15);
-    --gold:#b8902f;
+    /* ---------- Ambient Light Glows ---------- */
+    --glow-primary: rgba(47, 125, 120, 0.18);
+    --glow-secondary: rgba(184, 144, 47, 0.12);
+    --grid-line: rgba(16, 24, 32, 0.035);
+    --badge-bg: rgba(255, 255, 255, 0.85);
 
-    --glow-primary:rgba(47, 125, 120, 0.18);
-    --glow-secondary:rgba(184, 144, 47, 0.12);
-    --grid-line:rgba(16, 24, 32, 0.04);
-    --badge-bg:rgba(255, 255, 255, 0.8);
+    /* ---------- Borders & Glassmorphic Highlights ---------- */
+    --line: rgba(16, 24, 32, 0.1);
+    --line-subtle: rgba(16, 24, 32, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 12px 32px -8px rgba(16, 24, 32, 0.06), 0 1px 1px 0 rgba(255, 255, 255, 0.8) inset;
+    --muted: #5e6660;
 
-    --line:#c9c6bb;
-    --muted:#6b6f66;
-    --border-button:#101820;
-    --hover-bg:#101820;
-    --hover-text:#f6f4ee;
-
+    /* ---------- Buttons & Interactive ---------- */
+    --border-button: #101820;
+    --hover-bg: #101820;
+    --hover-text: #f7f6f2;
 
     /* ---------- Typography ---------- */
-
-    --font-heading:'Fraunces', serif;
-    --font-body:'IBM Plex Mono', monospace;
-
+    --font-heading: 'Fraunces', serif;
+    --font-body: 'IBM Plex Mono', monospace;
 
     /* ---------- Font Weights ---------- */
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
 
-    --font-regular:400;
-    --font-medium:500;
-    --font-semibold:600;
+    /* ---------- Border Radii ---------- */
+    --radius-full: 999px;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
 
+    /* ---------- Fluid Transitions (Apple Spring Easing) ---------- */
+    --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 
-    /* ---------- Font Sizes ---------- */
-
-    --text-xs:11px;
-    --text-sm:12px;
-    --text-base:12.5px;
-    --text-lg:19px;
-
-
-    /* ---------- Border Radius ---------- */
-
-    --radius-full:999px;
-    --radius-md:14px;
-    --radius-lg:20px;
-
-
-    /* ---------- Spacing ---------- */
-
-    --space-xs:8px;
-    --space-sm:16px;
-    --space-md:22px;
-    --space-lg:32px;
-    --space-xl:44px;
-
-
-    /* ---------- Transition ---------- */
-
-    --transition-fast:.22s ease;
-    --transition-theme:background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
-
-
-    /* ---------- ECG Animation ---------- */
-
-    --ecg-length:1400;
-
+    /* ---------- ECG Line ---------- */
+    --ecg-length: 1400;
 }
 
+/* ---------- Dark Theme (Apple Pro / Deep Space Aesthetic) ---------- */
 [data-theme="dark"] {
-    --ink:#f0f4f8;
-    --paper:#0b1016;
-    --paper-card:rgba(22, 32, 44, 0.7);
+    --ink: #f2f6fa;
+    --paper: #080d14;
+    --paper-card: rgba(16, 25, 38, 0.72);
+    --paper-card-hover: rgba(22, 34, 52, 0.85);
 
-    --teal:#42b3ab;
-    --teal-glow:rgba(66, 179, 171, 0.2);
-    --gold:#d4a742;
+    --teal: #42b3ab;
+    --teal-glow: rgba(66, 179, 171, 0.22);
+    --teal-subtle: rgba(66, 179, 171, 0.12);
+    --gold: #e2b34a;
+    --gold-glow: rgba(226, 179, 74, 0.16);
 
-    --glow-primary:rgba(66, 179, 171, 0.25);
-    --glow-secondary:rgba(212, 167, 66, 0.18);
-    --grid-line:rgba(240, 244, 248, 0.05);
-    --badge-bg:rgba(22, 32, 44, 0.85);
+    --glow-primary: rgba(66, 179, 171, 0.22);
+    --glow-secondary: rgba(226, 179, 74, 0.15);
+    --grid-line: rgba(242, 246, 250, 0.04);
+    --badge-bg: rgba(16, 25, 38, 0.85);
 
-    --line:#2a3644;
-    --muted:#8e9aab;
-    --border-button:#42b3ab;
-    --hover-bg:#42b3ab;
-    --hover-text:#0b1016;
+    --line: rgba(242, 246, 250, 0.1);
+    --line-subtle: rgba(242, 246, 250, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.4), 0 1px 1px 0 rgba(255, 255, 255, 0.08) inset;
+    --muted: #8b9bb0;
+
+    --border-button: #42b3ab;
+    --hover-bg: #42b3ab;
+    --hover-text: #080d14;
 }

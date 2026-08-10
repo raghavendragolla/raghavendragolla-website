@@ -1,12 +1,21 @@
 /**
- * Raghavendra Golla - Personal Website Script
- * Theme Toggle, Copy Email Toast, CTA interaction
+ * Raghavendra Golla - Personal Portfolio Dynamic Engine
+ * Features:
+ * 1. Theme Management (Light / Dark)
+ * 2. Interactive Neural Particle Node Canvas (60fps, touch & mouse responsive)
+ * 3. Dynamic Rotating Headline Text
+ * 4. Animated Metric Number Count-Up (on load)
+ * 5. 3D Magnetic Tilt & Specular Sheen for Highlight Cards
+ * 6. Interactive Skill Matrix linked with Highlight Cards
+ * 7. Live System Heartbeat (ECG BPM)
+ * 8. Interactive Toast Notifications & CTA Handlers
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ----------------------------------------------------
+
+    // ====================================================
     // 1. Theme Management (Light / Dark Mode)
-    // ----------------------------------------------------
+    // ====================================================
     const themeToggleBtn = document.getElementById('theme-toggle');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -28,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
             }
         }
+        // Notify canvas to re-read theme colors
+        if (window.updateCanvasTheme) {
+            window.updateCanvasTheme();
+        }
     }
 
     // Initialize Theme
@@ -38,14 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme('dark');
     }
 
-    // System Preference Change Listener
     systemPrefersDark.addEventListener('change', (e) => {
         if (!getSavedTheme()) {
             applyTheme(e.matches ? 'dark' : 'light');
         }
     });
 
-    // Toggle Button Click Handler
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -55,9 +66,308 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ----------------------------------------------------
-    // 2. Toast Notification System
-    // ----------------------------------------------------
+
+    // ====================================================
+    // 2. Interactive Neural Particle Node Canvas
+    // ====================================================
+    const canvas = document.getElementById('neural-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const isMobile = window.innerWidth <= 768;
+        const particleCount = isMobile ? 32 : 65;
+        const maxDistance = isMobile ? 95 : 140;
+
+        let mouse = {
+            x: null,
+            y: null,
+            radius: isMobile ? 100 : 160
+        };
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Track fine pointer mouse position for node attraction
+        if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            window.addEventListener('mouseleave', () => {
+                mouse.x = null;
+                mouse.y = null;
+            });
+        }
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.55;
+                this.vy = (Math.random() - 0.5) * 0.55;
+                this.radius = Math.random() * 1.8 + 1;
+                this.colorType = Math.random() > 0.3 ? 'teal' : 'gold';
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Screen boundaries bounce
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+
+                // Mouse interaction / gravity
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.hypot(dx, dy);
+
+                    if (distance < mouse.radius) {
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        this.x += (dx / distance) * force * 1.2;
+                        this.y += (dy / distance) * force * 1.2;
+                    }
+                }
+            }
+
+            draw(tealRgb, goldRgb) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.colorType === 'teal' 
+                    ? `rgba(${tealRgb}, 0.7)` 
+                    : `rgba(${goldRgb}, 0.75)`;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        let tealRgb = '47, 125, 120';
+        let goldRgb = '184, 144, 47';
+
+        window.updateCanvasTheme = function() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            tealRgb = isDark ? '66, 179, 171' : '47, 125, 120';
+            goldRgb = isDark ? '212, 167, 66' : '184, 144, 47';
+        };
+
+        window.updateCanvasTheme();
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Connect nearby nodes with neural lines
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a + 1; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < maxDistance) {
+                        const alpha = (1 - dist / maxDistance) * 0.28;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${tealRgb}, ${alpha})`;
+                        ctx.lineWidth = 0.9;
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw and update each particle
+            particles.forEach(p => {
+                p.update();
+                p.draw(tealRgb, goldRgb);
+            });
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        animateCanvas();
+    }
+
+
+    // ====================================================
+    // 3. Dynamic Rotating Headline Text
+    // ====================================================
+    const dynamicTextEl = document.getElementById('dynamic-text');
+    if (dynamicTextEl) {
+        const phrases = [
+            'intelligent solutions.',
+            'predictive models.',
+            'actionable insights.',
+            'scalable AI systems.',
+            'practical ML apps.'
+        ];
+
+        let currentIndex = 0;
+
+        setInterval(() => {
+            dynamicTextEl.classList.add('swapping');
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % phrases.length;
+                dynamicTextEl.textContent = phrases[currentIndex];
+                dynamicTextEl.classList.remove('swapping');
+            }, 320);
+        }, 3400);
+    }
+
+
+    // ====================================================
+    // 4. Animated Metric Number Count-Up (on Load)
+    // ====================================================
+    const metricElements = document.querySelectorAll('.spec-number[data-count]');
+
+    function animateCountUp() {
+        metricElements.forEach(el => {
+            const target = parseFloat(el.getAttribute('data-count'));
+            const suffix = el.getAttribute('data-suffix') || '';
+            const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+            const duration = 1800; // ms
+            const startTime = performance.now();
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Ease out cubic: 1 - pow(1 - progress, 3)
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentVal = (target * easeOut).toFixed(decimals);
+
+                el.textContent = currentVal + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    el.textContent = (decimals > 0 ? target.toFixed(decimals) : target) + suffix;
+                }
+            }
+
+            requestAnimationFrame(updateCounter);
+        });
+    }
+
+    // Trigger Count Up Animation after page fade-in
+    setTimeout(animateCountUp, 350);
+
+
+    // ====================================================
+    // 5. 3D Magnetic Tilt & Specular Sheen for Highlight Cards
+    // ====================================================
+    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const highlightCards = document.querySelectorAll('.highlight-card');
+    const glow1 = document.querySelector('.ambient-glow-1');
+    const glow2 = document.querySelector('.ambient-glow-2');
+
+    if (isFinePointer) {
+        // Parallax background orbs
+        window.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.035;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.035;
+
+            if (glow1) glow1.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            if (glow2) glow2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
+        });
+
+        // 3D Tilt for Highlight Cards
+        highlightCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                // Card spotlight coordinates
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+
+                // 3D Rotation Angles
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -7;
+                const rotateY = ((x - centerX) / centerX) * 7;
+
+                card.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)`;
+            });
+        });
+    }
+
+
+    // ====================================================
+    // 6. Interactive Skill Matrix & Highlight Linked Cards
+    // ====================================================
+    const skillChips = document.querySelectorAll('.skill-chip');
+
+    skillChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const category = chip.getAttribute('data-category');
+            const info = chip.getAttribute('data-info') || chip.textContent.trim();
+
+            // Toggle active state on chips
+            skillChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+
+            // Pulse corresponding card
+            highlightCards.forEach(card => {
+                card.classList.remove('active-highlight');
+                if (card.getAttribute('data-category') === category) {
+                    card.classList.add('active-highlight');
+                    setTimeout(() => {
+                        card.classList.remove('active-highlight');
+                    }, 1800);
+                }
+            });
+
+            // Display descriptive toast
+            showToast(info);
+        });
+    });
+
+
+    // ====================================================
+    // 7. Live Real-Time Clock & Availability Ticker (IST)
+    // ====================================================
+    const clockEl = document.getElementById('vitals-clock');
+    function updateClock() {
+        if (!clockEl) return;
+        const now = new Date();
+        const options = {
+            timeZone: 'Asia/Kolkata',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        };
+        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+        clockEl.textContent = `${timeString} IST`;
+    }
+
+    if (clockEl) {
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+
+
+    // ====================================================
+    // 8. Toast Notification & CTA Handlers
+    // ====================================================
     let toastTimeout;
 
     function showToast(message) {
@@ -87,22 +397,16 @@ document.addEventListener('DOMContentLoaded', () => {
         toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
             toast.classList.add('hide');
-        }, 3200);
+        }, 3400);
     }
 
-    // ----------------------------------------------------
-    // 3. Email Link Action
-    // ----------------------------------------------------
     const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
     emailLinks.forEach(emailLink => {
         emailLink.addEventListener('click', () => {
-            showToast('Opening email application...');
+            showToast('Opening default email app...');
         });
     });
 
-    // ----------------------------------------------------
-    // 4. CTA Button Click Handler
-    // ----------------------------------------------------
     const enterBtn = document.querySelector('.enter');
     if (enterBtn) {
         enterBtn.addEventListener('click', (e) => {
@@ -111,61 +415,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ----------------------------------------------------
-    // 5. Dynamic Footer Year
-    // ----------------------------------------------------
-    const footerText = document.querySelector('footer div');
-    if (footerText) {
-        const currentYear = new Date().getFullYear();
-        footerText.innerHTML = `&copy; ${currentYear} www.raghavendragolla.com`;
-    }
-
-    // ----------------------------------------------------
-    // 6. 3D Card Spotlight & Mouse Movement Parallax
-    // ----------------------------------------------------
-    const glow1 = document.querySelector('.ambient-glow-1');
-    const glow2 = document.querySelector('.ambient-glow-2');
-    const highlightCards = document.querySelectorAll('.highlight-card');
-
-    if (window.innerWidth > 768) {
-        window.addEventListener('mousemove', (e) => {
-            const moveX = (e.clientX - window.innerWidth / 2) * 0.035;
-            const moveY = (e.clientY - window.innerHeight / 2) * 0.035;
-
-            if (glow1) glow1.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            if (glow2) glow2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
-        });
-
-        highlightCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-    }
-
-    // ----------------------------------------------------
-    // 7. Tech Stack Skill Chips Interaction
-    // ----------------------------------------------------
-    const skillChips = document.querySelectorAll('.skill-chip');
-    skillChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const skillName = chip.textContent.trim();
-            showToast('Expertise area: ' + skillName);
-        });
-    });
-
-    // ----------------------------------------------------
-    // 8. Live Vitals Heartbeat Counter
-    // ----------------------------------------------------
-    const vitalsText = document.getElementById('vitals-bpm');
-    if (vitalsText) {
-        setInterval(() => {
-            const randomBpm = 70 + Math.floor(Math.random() * 6);
-            vitalsText.textContent = randomBpm + ' BPM';
-        }, 4000);
+    // Dynamic Footer Copyright Year
+    const footerYearEl = document.getElementById('footer-year');
+    if (footerYearEl) {
+        footerYearEl.textContent = new Date().getFullYear();
     }
 });
