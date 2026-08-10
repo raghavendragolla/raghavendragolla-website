@@ -311,34 +311,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ====================================================
-    // 6. Interactive Skill Matrix & Highlight Linked Cards
+    // 6. Interactive Skill Matrix (Universal Click & Auto Deselect)
     // ====================================================
     const skillChips = document.querySelectorAll('.skill-chip');
+    let skillAutoResetTimeout;
+
+    function deselectAllSkills() {
+        skillChips.forEach(c => c.classList.remove('active'));
+        highlightCards.forEach(card => card.classList.remove('active-highlight'));
+        clearTimeout(skillAutoResetTimeout);
+        hideToast();
+    }
 
     skillChips.forEach(chip => {
-        chip.addEventListener('click', () => {
+        chip.addEventListener('click', (e) => {
             const category = chip.getAttribute('data-category');
             const info = chip.getAttribute('data-info') || chip.textContent.trim();
+            const isAlreadyActive = chip.classList.contains('active');
 
-            // Toggle active state on chips
-            skillChips.forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
+            if (isAlreadyActive) {
+                // Clicking the active skill immediately deselects it
+                deselectAllSkills();
+            } else {
+                // Clear any previous active states
+                skillChips.forEach(c => c.classList.remove('active'));
+                highlightCards.forEach(card => card.classList.remove('active-highlight'));
+                clearTimeout(skillAutoResetTimeout);
 
-            // Pulse corresponding card
-            highlightCards.forEach(card => {
-                card.classList.remove('active-highlight');
-                if (card.getAttribute('data-category') === category) {
-                    card.classList.add('active-highlight');
-                    setTimeout(() => {
-                        card.classList.remove('active-highlight');
-                    }, 1800);
-                }
-            });
+                // Activate clicked chip
+                chip.classList.add('active');
 
-            // Display descriptive toast
-            showToast(info);
+                // Pulse corresponding card
+                highlightCards.forEach(card => {
+                    if (card.getAttribute('data-category') === category) {
+                        card.classList.add('active-highlight');
+                    }
+                });
+
+                // Display descriptive toast
+                showToast(info);
+
+                // Auto-deselect back to normal after 2.5s
+                skillAutoResetTimeout = setTimeout(() => {
+                    skillChips.forEach(c => c.classList.remove('active'));
+                    highlightCards.forEach(card => card.classList.remove('active-highlight'));
+                }, 2500);
+            }
         });
     });
+
+    // Clicking anywhere on the screen (outside skill chips) immediately deselects
+    window.addEventListener('click', (e) => {
+        if (!e.target.closest('.skill-chip')) {
+            deselectAllSkills();
+        }
+    }, true);
 
 
     // ====================================================
@@ -370,6 +397,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     let toastTimeout;
 
+    function hideToast() {
+        const toast = document.getElementById('toast');
+        if (toast && toast.classList.contains('show')) {
+            clearTimeout(toastTimeout);
+            toast.classList.remove('show');
+            toast.classList.add('hide');
+        }
+    }
+
     function showToast(message) {
         let toast = document.getElementById('toast');
         if (!toast) {
@@ -384,6 +420,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </span>
                 <span class="toast-message"></span>
             `;
+            // Clicking toast directly closes it immediately
+            toast.addEventListener('click', hideToast);
             document.body.appendChild(toast);
         }
 
@@ -395,9 +433,8 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.classList.add('show');
 
         toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-            toast.classList.add('hide');
-        }, 3400);
+            hideToast();
+        }, 2800);
     }
 
     const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
