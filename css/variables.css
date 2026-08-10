@@ -4,16 +4,26 @@
 
 :root{
 
-    /* ---------- Colors ---------- */
+    /* ---------- Colors (Light Theme Default) ---------- */
 
     --ink:#101820;
     --paper:#f6f4ee;
+    --paper-card:rgba(255, 255, 255, 0.65);
 
     --teal:#2f7d78;
+    --teal-glow:rgba(47, 125, 120, 0.15);
     --gold:#b8902f;
+
+    --glow-primary:rgba(47, 125, 120, 0.18);
+    --glow-secondary:rgba(184, 144, 47, 0.12);
+    --grid-line:rgba(16, 24, 32, 0.04);
+    --badge-bg:rgba(255, 255, 255, 0.8);
 
     --line:#c9c6bb;
     --muted:#6b6f66;
+    --border-button:#101820;
+    --hover-bg:#101820;
+    --hover-text:#f6f4ee;
 
 
     /* ---------- Typography ---------- */
@@ -40,6 +50,8 @@
     /* ---------- Border Radius ---------- */
 
     --radius-full:999px;
+    --radius-md:14px;
+    --radius-lg:20px;
 
 
     /* ---------- Spacing ---------- */
@@ -54,10 +66,32 @@
     /* ---------- Transition ---------- */
 
     --transition-fast:.22s ease;
+    --transition-theme:background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 
 
     /* ---------- ECG Animation ---------- */
 
     --ecg-length:1400;
 
+}
+
+[data-theme="dark"] {
+    --ink:#f0f4f8;
+    --paper:#0b1016;
+    --paper-card:rgba(22, 32, 44, 0.7);
+
+    --teal:#42b3ab;
+    --teal-glow:rgba(66, 179, 171, 0.2);
+    --gold:#d4a742;
+
+    --glow-primary:rgba(66, 179, 171, 0.25);
+    --glow-secondary:rgba(212, 167, 66, 0.18);
+    --grid-line:rgba(240, 244, 248, 0.05);
+    --badge-bg:rgba(22, 32, 44, 0.85);
+
+    --line:#2a3644;
+    --muted:#8e9aab;
+    --border-button:#42b3ab;
+    --hover-bg:#42b3ab;
+    --hover-text:#0b1016;
 }
