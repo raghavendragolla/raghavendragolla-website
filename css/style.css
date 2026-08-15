@@ -172,7 +172,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 8px;
+    padding: 8px 0;
 }
 
 .theme-toggle {
@@ -851,13 +851,21 @@ h1 {
 }
 
 .currently .dot {
-    width: 7px;
-    height: 7px;
+    width: 7.5px;
+    height: 7.5px;
     display: inline-block;
     border-radius: 50%;
     background: var(--teal);
     margin-right: 8px;
-    animation: blink 2.6s ease-in-out infinite;
+    animation: 
+        blink 2.6s ease-in-out infinite,
+        currentlyDotColorCycle 12s ease-in-out infinite;
+}
+
+[data-theme="dark"] .currently .dot {
+    animation: 
+        blink 2.6s ease-in-out infinite,
+        currentlyDotColorCycleDark 12s ease-in-out infinite;
 }
 
 /* =========================================

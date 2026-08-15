@@ -96,6 +96,44 @@
     75% { color: #34d399; text-shadow: 0 0 6px #34d399; }
 }
 
+@keyframes currentlyDotColorCycle {
+    0%, 100% {
+        background-color: #0d9488;
+        box-shadow: 0 0 6px rgba(13, 148, 136, 0.5);
+    }
+    25% {
+        background-color: #8b5cf6;
+        box-shadow: 0 0 6px rgba(139, 92, 246, 0.5);
+    }
+    50% {
+        background-color: #f59e0b;
+        box-shadow: 0 0 6px rgba(245, 158, 11, 0.5);
+    }
+    75% {
+        background-color: #10b981;
+        box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+    }
+}
+
+@keyframes currentlyDotColorCycleDark {
+    0%, 100% {
+        background-color: #00f2fe;
+        box-shadow: 0 0 8px rgba(0, 242, 254, 0.75);
+    }
+    25% {
+        background-color: #c084fc;
+        box-shadow: 0 0 8px rgba(192, 132, 252, 0.75);
+    }
+    50% {
+        background-color: #fbbf24;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.75);
+    }
+    75% {
+        background-color: #34d399;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.75);
+    }
+}
+
 /* -----------------------------------------
    Circular 360-Degree Rotating Border Angle
    ----------------------------------------- */
