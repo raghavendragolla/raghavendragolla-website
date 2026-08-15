@@ -217,6 +217,11 @@ header {
     stroke-linejoin: round;
 }
 
+.theme-toggle .moon-icon {
+    animation: moonColorBlinkCycle 8s ease-in-out infinite;
+    will-change: stroke, filter, opacity;
+}
+
 .theme-toggle .sun-icon {
     display: none;
     transform-origin: center center;
