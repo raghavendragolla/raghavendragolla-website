@@ -8,9 +8,8 @@
     box-sizing: border-box;
 }
 
-html,
-body {
-    height: 100%;
+html {
+    min-height: 100%;
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
@@ -53,6 +52,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     position: relative;
 
     transition: var(--transition-theme);
@@ -269,13 +269,16 @@ header {
 main {
     position: relative;
     z-index: 2;
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 38px 24px 44px;
+    padding: clamp(20px, 3.2vh, 38px) clamp(16px, 2.5vw, 24px);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
 
     animation: fadeUp 0.8s var(--apple-ease);
 }
@@ -288,8 +291,8 @@ main {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 18px;
-    margin-bottom: 20px;
+    padding: 5px 16px;
+    margin-bottom: clamp(10px, 1.8vh, 18px);
     font-size: 11.5px;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -314,12 +317,12 @@ main {
 }
 
 .eyebrow {
-    font-size: 15px;
+    font-size: clamp(12.5px, 1.1vw, 14.5px);
     font-weight: 600;
     letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--teal);
-    margin-bottom: 20px;
+    margin-bottom: clamp(10px, 1.6vh, 18px);
 }
 
 /* =========================================
@@ -329,11 +332,11 @@ main {
 h1 {
     font-family: var(--font-heading);
     font-weight: 500;
-    font-size: clamp(2.2rem, 7vw, 4.2rem);
-    line-height: 1.06;
+    font-size: clamp(2.1rem, 4.4vw, 3.8rem);
+    line-height: 1.08;
     letter-spacing: -.01em;
-    margin-bottom: 24px;
-    max-width: 15ch;
+    margin-bottom: clamp(12px, 2vh, 22px);
+    max-width: 17ch;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
 }
@@ -368,16 +371,16 @@ h1 {
 .social-links {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
+    gap: clamp(10px, 1.2vw, 14px);
+    margin-bottom: clamp(12px, 2vh, 22px);
 }
 
 .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: clamp(38px, 4vw, 44px);
+    height: clamp(38px, 4vw, 44px);
     border-radius: 50%;
     border: 1px solid var(--glass-border);
     color: var(--ink);
@@ -398,8 +401,8 @@ h1 {
 }
 
 .social-link svg {
-    width: 20px;
-    height: 20px;
+    width: clamp(17px, 1.8vw, 20px);
+    height: clamp(17px, 1.8vw, 20px);
     fill: currentColor;
 }
 
@@ -413,11 +416,11 @@ h1 {
     justify-content: center;
     align-items: center;
 
-    width: 320px;
-    height: 70px;
+    width: clamp(260px, 24vw, 320px);
+    height: clamp(52px, 6.2vh, 68px);
 
     font-family: var(--font-heading);
-    font-size: 19px;
+    font-size: clamp(16px, 1.3vw, 19px);
     font-weight: 500;
 
     color: var(--ink);
@@ -429,7 +432,7 @@ h1 {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: var(--glass-shadow);
-    margin-bottom: 28px;
+    margin-bottom: clamp(14px, 2.2vh, 26px);
 
     transition:
         background-color 0.35s ease,
@@ -443,7 +446,7 @@ h1 {
 
 .enter .arrow {
     position: absolute;
-    right: 32px;
+    right: clamp(20px, 2.2vw, 32px);
     transition: transform 0.35s var(--apple-ease);
 }
 
@@ -488,10 +491,10 @@ h1 {
 .highlights-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+    gap: clamp(12px, 1.6vw, 22px);
     width: 100%;
-    max-width: 920px;
-    margin: 28px 0 34px;
+    max-width: 900px;
+    margin: clamp(12px, 2vh, 24px) 0 clamp(14px, 2.2vh, 28px);
     perspective: 1000px;
 }
 
@@ -502,7 +505,7 @@ h1 {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    padding: 24px 26px;
+    padding: clamp(14px, 2vh, 22px) clamp(16px, 2vw, 24px);
     background: var(--paper-card);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
@@ -545,8 +548,8 @@ h1 {
 }
 
 .highlight-icon {
-    font-size: 26px;
-    margin-bottom: 14px;
+    font-size: clamp(20px, 2.2vw, 26px);
+    margin-bottom: clamp(6px, 1vh, 12px);
     line-height: 1;
     transition: transform 0.35s var(--apple-ease);
 }
@@ -557,16 +560,16 @@ h1 {
 
 .highlight-title {
     font-family: var(--font-heading);
-    font-size: 16px;
+    font-size: clamp(14px, 1.2vw, 16px);
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: 8px;
+    margin-bottom: clamp(4px, 0.6vh, 8px);
     letter-spacing: -0.01em;
 }
 
 .highlight-desc {
-    font-size: 12px;
-    line-height: 1.65;
+    font-size: clamp(10.5px, 0.9vw, 12px);
+    line-height: 1.55;
     color: var(--muted);
 }
 
@@ -578,16 +581,16 @@ h1 {
 .specs-bar {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: clamp(10px, 1.4vw, 18px);
     width: 100%;
-    max-width: 880px;
-    margin: 28px 0 34px;
+    max-width: 840px;
+    margin: clamp(12px, 2vh, 24px) 0 clamp(14px, 2.2vh, 28px);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     background: var(--paper-card);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 22px 28px;
+    padding: clamp(12px, 1.8vh, 20px) clamp(16px, 2.2vw, 26px);
     box-shadow: var(--glass-shadow);
     transition: var(--transition-theme), transform 0.3s ease;
 }
@@ -602,7 +605,7 @@ h1 {
     align-items: center;
     text-align: center;
     border-right: 1px solid var(--line);
-    padding: 0 14px;
+    padding: 0 clamp(8px, 1.2vw, 14px);
 }
 
 .spec-item:last-child {
@@ -611,17 +614,17 @@ h1 {
 
 .spec-number {
     font-family: var(--font-heading);
-    font-size: 28px;
+    font-size: clamp(22px, 2.2vw, 28px);
     font-weight: 600;
     color: var(--teal);
     letter-spacing: -0.03em;
     line-height: 1.1;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .spec-label {
     font-family: var(--font-body);
-    font-size: 10.5px;
+    font-size: clamp(9px, 0.8vw, 10.5px);
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -637,17 +640,17 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin: 22px 0 30px;
-    max-width: 740px;
+    gap: clamp(6px, 0.8vw, 10px);
+    margin: clamp(10px, 1.6vh, 20px) 0 clamp(12px, 1.8vh, 26px);
+    max-width: 720px;
 }
 
 .skill-chip {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
-    font-size: 11.5px;
+    gap: 6px;
+    padding: clamp(5px, 0.8vh, 8px) clamp(10px, 1.2vw, 15px);
+    font-size: clamp(10.5px, 0.85vw, 11.5px);
     font-weight: 500;
     color: var(--ink);
     background: var(--paper-card);
@@ -682,12 +685,12 @@ h1 {
 
 .currently {
     width: 100%;
-    max-width: 560px;
+    max-width: 540px;
     border-top: 1px solid var(--line);
-    padding-top: 22px;
+    padding-top: clamp(10px, 1.6vh, 20px);
     color: var(--muted);
-    font-size: 12.5px;
-    line-height: 1.8;
+    font-size: clamp(11px, 0.9vw, 12.5px);
+    line-height: 1.65;
 }
 
 .currently .label {
