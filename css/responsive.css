@@ -171,17 +171,31 @@
         padding-bottom: max(16px, env(safe-area-inset-bottom));
     }
 
+    .desktop-heartbeat {
+        display: none !important;
+    }
+
+    .mobile-heartbeat {
+        display: block !important;
+    }
+
     .theme-toggle {
-        top: 8px;
-        right: 16px;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 14px;
         width: 36px;
         height: 36px;
     }
 
+    .theme-toggle:hover {
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+
     .vitals-status {
-        left: 16px;
+        left: 14px;
         font-size: 10px;
-        padding: 3px 9px;
+        padding: 3px 10px;
+        max-width: calc(100% - 60px);
     }
 
     main {
@@ -224,26 +238,38 @@
         margin-bottom: 26px;
     }
 
-    /* Single column stack for maximum readability and visual impact */
+    /* Adjacent 3-Column Grid for cards on mobile */
     .highlights-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr) !important;
         width: 100%;
-        max-width: 440px;
-        gap: 14px;
+        max-width: 600px;
+        gap: 10px;
         margin: 22px 0 28px;
     }
 
     .highlight-card {
-        padding: 20px 22px;
+        padding: 16px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .highlight-icon {
+        font-size: 22px;
+        margin-bottom: 6px;
     }
 
     .highlight-title {
-        font-size: 15px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        line-height: 1.25;
     }
 
     .highlight-desc {
-        font-size: 11.5px;
-        line-height: 1.6;
+        font-size: 10px;
+        line-height: 1.45;
     }
 
     .specs-bar {
@@ -321,17 +347,23 @@
    ========================================= */
 @media (max-width: 480px) {
     .theme-toggle {
-        top: 6px;
-        right: 12px;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 10px;
         width: 34px;
         height: 34px;
     }
 
+    .theme-toggle:hover {
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+
     .vitals-status {
-        left: 10px;
-        font-size: 9.5px;
+        left: 8px;
+        font-size: 9px;
         padding: 2.5px 8px;
         gap: 4px;
+        max-width: calc(100% - 50px);
     }
 
     .vitals-text-desktop {
@@ -343,7 +375,7 @@
     }
 
     main {
-        padding: 20px 16px;
+        padding: 20px 14px;
     }
 
     .status-badge {
@@ -392,28 +424,40 @@
         right: 24px;
     }
 
+    /* Adjacent 3-Column Grid for cards on standard phones */
     .highlights-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        width: 100%;
         max-width: 100%;
-        gap: 12px;
+        gap: 8px;
         margin: 18px 0 24px;
     }
 
     .highlight-card {
-        padding: 16px 18px;
+        padding: 13px 6px;
         border-radius: var(--radius-md);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
     .highlight-icon {
-        font-size: 22px;
-        margin-bottom: 8px;
+        font-size: 20px;
+        margin-bottom: 5px;
     }
 
     .highlight-title {
-        font-size: 14.5px;
+        font-size: 11.5px;
+        font-weight: 600;
+        margin-bottom: 3px;
+        line-height: 1.2;
     }
 
     .highlight-desc {
-        font-size: 11px;
+        font-size: 8.8px;
+        line-height: 1.35;
+        color: var(--muted);
     }
 
     .specs-bar {
@@ -458,19 +502,22 @@
    ========================================= */
 @media (max-width: 375px) {
     .vitals-status {
-        left: 8px;
-        font-size: 8.5px;
-        padding: 2px 7px;
+        left: 6px;
+        font-size: 8px;
+        padding: 2px 6px;
+        gap: 3px;
     }
 
     .theme-toggle {
-        right: 8px;
-        width: 32px;
-        height: 32px;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 6px;
+        width: 30px;
+        height: 30px;
     }
 
     main {
-        padding: 16px 12px;
+        padding: 16px 10px;
     }
 
     .status-badge {
@@ -503,16 +550,34 @@
         right: 18px;
     }
 
+    /* Adjacent 3-Column Grid for compact phones */
+    .highlights-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px;
+    }
+
     .highlight-card {
-        padding: 14px 15px;
+        padding: 10px 4px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .highlight-icon {
+        font-size: 17px;
+        margin-bottom: 3px;
     }
 
     .highlight-title {
-        font-size: 13.5px;
+        font-size: 10.5px;
+        margin-bottom: 2px;
     }
 
     .highlight-desc {
-        font-size: 10.5px;
+        font-size: 8px;
+        line-height: 1.25;
     }
 
     .specs-bar {

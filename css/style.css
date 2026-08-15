@@ -267,9 +267,18 @@ header {
 
 /* Only the heartbeat spikes physically beat and pump up & down */
 .heartbeat-pulse-zone {
-    transform-origin: 594px 32px;
     animation: realHeartbeatPump 1.8s ease-in-out infinite;
     will-change: transform;
+}
+
+.desktop-heartbeat {
+    display: block;
+    transform-origin: 594px 32px;
+}
+
+.mobile-heartbeat {
+    display: none;
+    transform-origin: 1035px 32px;
 }
 
 .vitals-status {
