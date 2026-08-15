@@ -138,6 +138,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-shrink: 0;
 }
 
 .theme-toggle {
@@ -783,6 +784,7 @@ footer {
     -webkit-backdrop-filter: blur(20px);
     padding: 22px 32px;
     margin-top: auto;
+    flex-shrink: 0;
     transition: var(--transition-theme);
 }
 
