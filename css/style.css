@@ -12,6 +12,41 @@ html,
 body {
     height: 100%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+/* =========================================
+   Apple-Grade Minimalist Scrollbar
+   ========================================= */
+
+/* Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Chrome, Edge, Safari, Opera (WebKit / Blink) */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--radius-full);
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 ::selection {
@@ -30,7 +65,6 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow-x: hidden;
 
     transition: var(--transition-theme);
 }
@@ -232,6 +266,10 @@ header {
     color: var(--teal);
     font-size: 8px;
     animation: blink 2s ease-in-out infinite;
+}
+
+.vitals-text-mobile {
+    display: none;
 }
 
 

@@ -57,6 +57,11 @@
     --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 
+    /* ---------- Scrollbar (Sleek & Semi-Invisible) ---------- */
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(16, 24, 32, 0.14);
+    --scrollbar-thumb-hover: rgba(47, 125, 120, 0.45);
+
     /* ---------- ECG Line ---------- */
     --ecg-length: 1400;
 }
@@ -88,4 +93,9 @@
     --border-button: #42b3ab;
     --hover-bg: #42b3ab;
     --hover-text: #080d14;
+
+    /* ---------- Scrollbar Dark Mode ---------- */
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+    --scrollbar-thumb-hover: rgba(66, 179, 171, 0.45);
 }

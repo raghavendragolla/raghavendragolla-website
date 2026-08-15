@@ -167,6 +167,12 @@
    4. Phablets & Mobile Landscape (600px - 768px)
    ========================================= */
 @media (max-width: 768px) {
+    /* Sleek, whisper-thin scrollbar on mobile/tablets */
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
     body {
         padding-bottom: max(16px, env(safe-area-inset-bottom));
     }
@@ -320,6 +326,12 @@
    5. Standard Smartphones (376px - 480px)
    ========================================= */
 @media (max-width: 480px) {
+    /* Ultra-sleek, non-intrusive scrollbar on mobile devices / simulators */
+    ::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+    }
+
     .theme-toggle {
         top: 6px;
         right: 12px;
@@ -332,6 +344,14 @@
         font-size: 9.5px;
         padding: 2.5px 8px;
         gap: 4px;
+    }
+
+    .vitals-text-desktop {
+        display: none;
+    }
+
+    .vitals-text-mobile {
+        display: inline;
     }
 
     main {

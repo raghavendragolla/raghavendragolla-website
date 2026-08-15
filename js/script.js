@@ -446,9 +446,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const enterBtn = document.querySelector('.enter');
     if (enterBtn) {
-        enterBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Portfolio is coming soon! Stay tuned.');
+        enterBtn.addEventListener('click', () => {
+            showToast('Entering Portfolio...');
         });
     }
 
