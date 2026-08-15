@@ -118,13 +118,13 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=9.0">
-    <link rel="stylesheet" href="css/style.css?v=9.0">
-    <link rel="stylesheet" href="css/animations.css?v=9.0">
-    <link rel="stylesheet" href="css/responsive.css?v=9.0">
+    <link rel="stylesheet" href="css/variables.css?v=10.0">
+    <link rel="stylesheet" href="css/style.css?v=10.0">
+    <link rel="stylesheet" href="css/animations.css?v=10.0">
+    <link rel="stylesheet" href="css/responsive.css?v=10.0">
 
     <!-- JavaScript -->
-    <script src="js/script.js?v=9.0" defer></script>
+    <script src="js/script.js?v=10.0" defer></script>
 
 </head>
 
@@ -144,15 +144,21 @@
     <header>
         <div class="vitals-container">
             <div class="vitals" aria-hidden="true">
-                <svg viewBox="0 0 1400 64" preserveAspectRatio="none">
-                    <!-- Flat Left Baseline (Exact 50% Center at Y=32) -->
-                    <path class="vitals-baseline" d="M0,32 L520,32" />
-                    <!-- Animated Pumping Heartbeat Spikes Only -->
+                <!-- Desktop Clean ECG Path (Centered Spikes, No Line Cutting Through) -->
+                <svg class="vitals-svg-desktop" viewBox="0 0 1400 64" preserveAspectRatio="none">
+                    <path d="M0,32 L520,32" />
                     <g class="heartbeat-pulse-zone">
-                        <path class="vitals-spikes" d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
+                        <path d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
                     </g>
-                    <!-- Flat Right Baseline (Exact 50% Center at Y=32) -->
-                    <path class="vitals-baseline" d="M668,32 L1400,32" />
+                    <path d="M668,32 L1400,32" />
+                </svg>
+                <!-- Mobile Clean ECG Path (Spikes Placed to Right of Status Pill, No Line Cutting Through) -->
+                <svg class="vitals-svg-mobile" viewBox="0 0 1400 64" preserveAspectRatio="none">
+                    <path d="M0,32 L1060,32" />
+                    <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
+                        <path d="M1060,32 L1080,12 L1096,52 L1112,32 L1128,32 L1144,16 L1160,46 L1174,32" />
+                    </g>
+                    <path d="M1174,32 L1400,32" />
                 </svg>
             </div>
             <div class="vitals-status">
@@ -235,20 +241,26 @@
         <!-- Glassmorphic Highlights Grid -->
         <div class="highlights-grid">
             <div class="highlight-card" data-category="data-science">
-                <div class="highlight-icon">📊</div>
-                <div class="highlight-title">Data Science</div>
+                <div class="highlight-header">
+                    <div class="highlight-icon">📊</div>
+                    <div class="highlight-title">Data Science</div>
+                </div>
                 <div class="highlight-desc">End-to-end pipelines, exploratory analytics, statistical modeling, and
                     insights.</div>
             </div>
             <div class="highlight-card" data-category="machine-learning">
-                <div class="highlight-icon">🧠</div>
-                <div class="highlight-title">Machine Learning</div>
+                <div class="highlight-header">
+                    <div class="highlight-icon">🧠</div>
+                    <div class="highlight-title">Machine Learning</div>
+                </div>
                 <div class="highlight-desc">Predictive algorithms, deep learning neural networks, and custom model
                     deployments.</div>
             </div>
             <div class="highlight-card" data-category="ai-research">
-                <div class="highlight-icon">🚀</div>
-                <div class="highlight-title">Applied AI</div>
+                <div class="highlight-header">
+                    <div class="highlight-icon">🚀</div>
+                    <div class="highlight-title">Applied AI</div>
+                </div>
                 <div class="highlight-desc">Exploring generative AI, large language models, and real-world applied
                     intelligence.</div>
             </div>
