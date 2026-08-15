@@ -9,7 +9,7 @@
 }
 
 html {
-    min-height: 100%;
+    height: 100%;
     scroll-behavior: smooth;
     overflow-x: hidden;
 }
@@ -50,10 +50,12 @@ body {
     -moz-osx-font-smoothing: grayscale;
 
     min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    overflow-x: hidden;
 
     transition: var(--transition-theme);
 }
@@ -270,15 +272,16 @@ header {
 main {
     position: relative;
     z-index: 2;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: clamp(20px, 3.2vh, 38px) clamp(16px, 2.5vw, 24px);
+    padding: clamp(6px, 1.2vh, 16px) clamp(14px, 2vw, 24px);
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
 
     animation: fadeUp 0.8s var(--apple-ease);
@@ -291,10 +294,10 @@ main {
 .status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 5px 16px;
-    margin-bottom: clamp(10px, 1.8vh, 18px);
-    font-size: 11.5px;
+    gap: 7px;
+    padding: 3.5px 12px;
+    margin-bottom: clamp(4px, 0.8vh, 8px);
+    font-size: 10.5px;
     font-weight: 500;
     letter-spacing: 0.06em;
     color: var(--teal);
@@ -318,12 +321,12 @@ main {
 }
 
 .eyebrow {
-    font-size: clamp(12.5px, 1.1vw, 14.5px);
+    font-size: clamp(11px, 1vw, 13px);
     font-weight: 600;
-    letter-spacing: .22em;
+    letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--teal);
-    margin-bottom: clamp(10px, 1.6vh, 18px);
+    margin-bottom: clamp(4px, 0.8vh, 8px);
 }
 
 /* =========================================
@@ -333,11 +336,11 @@ main {
 h1 {
     font-family: var(--font-heading);
     font-weight: 500;
-    font-size: clamp(2.1rem, 4.4vw, 3.8rem);
+    font-size: clamp(1.8rem, 2.7vw, 2.4rem);
     line-height: 1.08;
     letter-spacing: -.01em;
-    margin-bottom: clamp(12px, 2vh, 22px);
-    max-width: 17ch;
+    margin-bottom: clamp(6px, 1vh, 10px);
+    max-width: 18ch;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
 }
@@ -372,16 +375,16 @@ h1 {
 .social-links {
     display: flex;
     align-items: center;
-    gap: clamp(10px, 1.2vw, 14px);
-    margin-bottom: clamp(12px, 2vh, 22px);
+    gap: 8px;
+    margin-bottom: clamp(6px, 1vh, 10px);
 }
 
 .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(38px, 4vw, 44px);
-    height: clamp(38px, 4vw, 44px);
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 1px solid var(--glass-border);
     color: var(--ink);
@@ -394,16 +397,16 @@ h1 {
 }
 
 .social-link:hover {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-3px) scale(1.05);
     border-color: var(--teal);
     color: var(--teal);
     background-color: var(--paper-card-hover);
-    box-shadow: 0 10px 24px var(--teal-glow);
+    box-shadow: 0 8px 20px var(--teal-glow);
 }
 
 .social-link svg {
-    width: clamp(17px, 1.8vw, 20px);
-    height: clamp(17px, 1.8vw, 20px);
+    width: 16px;
+    height: 16px;
     fill: currentColor;
 }
 
@@ -417,11 +420,11 @@ h1 {
     justify-content: center;
     align-items: center;
 
-    width: clamp(260px, 24vw, 320px);
-    height: clamp(52px, 6.2vh, 68px);
+    width: clamp(220px, 20vw, 260px);
+    height: clamp(42px, 5vh, 48px);
 
     font-family: var(--font-heading);
-    font-size: clamp(16px, 1.3vw, 19px);
+    font-size: clamp(14.5px, 1.2vw, 16px);
     font-weight: 500;
 
     color: var(--ink);
@@ -433,7 +436,7 @@ h1 {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: var(--glass-shadow);
-    margin-bottom: clamp(14px, 2.2vh, 26px);
+    margin-bottom: clamp(6px, 1vh, 12px);
 
     transition:
         background-color 0.35s ease,
@@ -447,7 +450,7 @@ h1 {
 
 .enter .arrow {
     position: absolute;
-    right: clamp(20px, 2.2vw, 32px);
+    right: 18px;
     transition: transform 0.35s var(--apple-ease);
 }
 
@@ -472,12 +475,12 @@ h1 {
 .enter:hover {
     background-color: var(--hover-bg);
     color: var(--hover-text);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 16px 36px var(--teal-glow);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 28px var(--teal-glow);
 }
 
 .enter:hover .arrow {
-    transform: translateX(6px);
+    transform: translateX(5px);
 }
 
 .enter:focus-visible {
@@ -492,10 +495,10 @@ h1 {
 .highlights-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(12px, 1.6vw, 22px);
+    gap: clamp(8px, 1.2vw, 14px);
     width: 100%;
-    max-width: 900px;
-    margin: clamp(12px, 2vh, 24px) 0 clamp(14px, 2.2vh, 28px);
+    max-width: 800px;
+    margin: clamp(6px, 1vh, 10px) 0;
     perspective: 1000px;
 }
 
@@ -506,10 +509,10 @@ h1 {
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
-    padding: clamp(14px, 2vh, 22px) clamp(16px, 2vw, 24px);
+    padding: clamp(10px, 1.4vh, 14px) clamp(12px, 1.5vw, 16px);
     background: var(--paper-card);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: var(--glass-shadow);
@@ -538,39 +541,39 @@ h1 {
 .highlight-card:hover {
     border-color: var(--teal);
     background: var(--paper-card-hover);
-    box-shadow: 0 20px 48px -10px var(--teal-glow), 0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
+    box-shadow: 0 16px 36px -10px var(--teal-glow), 0 1px 1px 0 rgba(255, 255, 255, 0.9) inset;
 }
 
 .highlight-card.active-highlight {
     border-color: var(--teal) !important;
-    box-shadow: 0 0 0 2px var(--teal), 0 20px 45px var(--teal-glow) !important;
-    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 0 0 2px var(--teal), 0 16px 36px var(--teal-glow) !important;
+    transform: translateY(-6px) scale(1.02) !important;
     animation: cardPulseGlow 1.5s ease-out;
 }
 
 .highlight-icon {
-    font-size: clamp(20px, 2.2vw, 26px);
-    margin-bottom: clamp(6px, 1vh, 12px);
+    font-size: clamp(18px, 1.8vw, 22px);
+    margin-bottom: clamp(2px, 0.6vh, 5px);
     line-height: 1;
     transition: transform 0.35s var(--apple-ease);
 }
 
 .highlight-card:hover .highlight-icon {
-    transform: scale(1.18) rotate(6deg);
+    transform: scale(1.15) rotate(6deg);
 }
 
 .highlight-title {
     font-family: var(--font-heading);
-    font-size: clamp(14px, 1.2vw, 16px);
+    font-size: clamp(13px, 1.1vw, 14.5px);
     font-weight: 600;
     color: var(--ink);
-    margin-bottom: clamp(4px, 0.6vh, 8px);
+    margin-bottom: clamp(2px, 0.4vh, 4px);
     letter-spacing: -0.01em;
 }
 
 .highlight-desc {
-    font-size: clamp(10.5px, 0.9vw, 12px);
-    line-height: 1.55;
+    font-size: clamp(9.5px, 0.8vw, 11px);
+    line-height: 1.45;
     color: var(--muted);
 }
 
@@ -582,22 +585,22 @@ h1 {
 .specs-bar {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: clamp(10px, 1.4vw, 18px);
+    gap: clamp(8px, 1.2vw, 14px);
     width: 100%;
-    max-width: 840px;
-    margin: clamp(12px, 2vh, 24px) 0 clamp(14px, 2.2vh, 28px);
+    max-width: 760px;
+    margin: clamp(6px, 1vh, 10px) 0;
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--paper-card);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: clamp(12px, 1.8vh, 20px) clamp(16px, 2.2vw, 26px);
+    padding: clamp(8px, 1.2vh, 12px) clamp(14px, 1.8vw, 20px);
     box-shadow: var(--glass-shadow);
     transition: var(--transition-theme), transform 0.3s ease;
 }
 
 .specs-bar:hover {
-    box-shadow: 0 16px 40px -12px rgba(16, 24, 32, 0.08);
+    box-shadow: 0 14px 32px -10px rgba(16, 24, 32, 0.08);
 }
 
 .spec-item {
@@ -606,7 +609,7 @@ h1 {
     align-items: center;
     text-align: center;
     border-right: 1px solid var(--line);
-    padding: 0 clamp(8px, 1.2vw, 14px);
+    padding: 0 clamp(6px, 1vw, 10px);
 }
 
 .spec-item:last-child {
@@ -615,17 +618,17 @@ h1 {
 
 .spec-number {
     font-family: var(--font-heading);
-    font-size: clamp(22px, 2.2vw, 28px);
+    font-size: clamp(19px, 1.8vw, 23px);
     font-weight: 600;
     color: var(--teal);
     letter-spacing: -0.03em;
     line-height: 1.1;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
 .spec-label {
     font-family: var(--font-body);
-    font-size: clamp(9px, 0.8vw, 10.5px);
+    font-size: clamp(8px, 0.7vw, 9.5px);
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -641,17 +644,17 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: clamp(6px, 0.8vw, 10px);
-    margin: clamp(10px, 1.6vh, 20px) 0 clamp(12px, 1.8vh, 26px);
-    max-width: 720px;
+    gap: clamp(4px, 0.6vw, 6px);
+    margin: clamp(6px, 1vh, 10px) 0;
+    max-width: 660px;
 }
 
 .skill-chip {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: clamp(5px, 0.8vh, 8px) clamp(10px, 1.2vw, 15px);
-    font-size: clamp(10.5px, 0.85vw, 11.5px);
+    gap: 5px;
+    padding: clamp(3.5px, 0.6vh, 6px) clamp(8px, 1vw, 12px);
+    font-size: clamp(9.5px, 0.75vw, 10.5px);
     font-weight: 500;
     color: var(--ink);
     background: var(--paper-card);
@@ -666,18 +669,18 @@ h1 {
 }
 
 .skill-chip:hover {
-    transform: translateY(-3px) scale(1.04);
+    transform: translateY(-2px) scale(1.03);
     border-color: var(--teal);
     color: var(--teal);
     background: var(--paper-card-hover);
-    box-shadow: 0 8px 22px var(--teal-glow);
+    box-shadow: 0 6px 18px var(--teal-glow);
 }
 
 .skill-chip.active {
     border-color: var(--teal);
     background: var(--teal);
     color: var(--paper);
-    box-shadow: 0 8px 24px var(--teal-glow);
+    box-shadow: 0 6px 20px var(--teal-glow);
 }
 
 /* =========================================
@@ -686,12 +689,12 @@ h1 {
 
 .currently {
     width: 100%;
-    max-width: 540px;
+    max-width: 500px;
     border-top: 1px solid var(--line);
-    padding-top: clamp(10px, 1.6vh, 20px);
+    padding-top: clamp(6px, 1vh, 10px);
     color: var(--muted);
-    font-size: clamp(11px, 0.9vw, 12.5px);
-    line-height: 1.65;
+    font-size: clamp(10px, 0.8vw, 11.5px);
+    line-height: 1.55;
 }
 
 .currently .label {
@@ -703,8 +706,8 @@ h1 {
 }
 
 .currently .dot {
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     display: inline-block;
     border-radius: 50%;
     background: var(--teal);
@@ -782,7 +785,7 @@ footer {
     background: var(--paper-card);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 22px 32px;
+    padding: 8px 20px;
     margin-top: auto;
     flex-shrink: 0;
     transition: var(--transition-theme);
