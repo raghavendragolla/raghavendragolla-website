@@ -101,26 +101,43 @@ body {
 
 .ambient-glow-1 {
     position: absolute;
-    top: 10%;
-    left: 15%;
-    width: 520px;
-    height: 520px;
+    top: 8%;
+    left: 12%;
+    width: 580px;
+    height: 580px;
     background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
-    filter: blur(100px);
+    filter: blur(110px);
     animation: floatGlow1 16s ease-in-out infinite;
     will-change: transform;
 }
 
 .ambient-glow-2 {
     position: absolute;
-    bottom: 15%;
-    right: 12%;
-    width: 560px;
-    height: 560px;
+    bottom: 12%;
+    right: 10%;
+    width: 600px;
+    height: 600px;
     background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 70%);
-    filter: blur(120px);
+    filter: blur(130px);
     animation: floatGlow2 20s ease-in-out infinite;
     will-change: transform;
+}
+
+.ambient-glow-3 {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%);
+    filter: blur(140px);
+    animation: floatGlow3 24s ease-in-out infinite;
+    will-change: transform;
+}
+
+[data-theme="dark"] .ambient-glow-3 {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 70%);
 }
 
 /* =========================================

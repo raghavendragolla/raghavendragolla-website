@@ -165,10 +165,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.updateCanvasTheme();
 
+        let waveTime = 0;
+
+        function drawQuantumWave(time, isDark) {
+            const centerY = height * 0.44;
+            const step = isMobile ? 8 : 4;
+
+            const waves = isDark ? [
+                { amp: isMobile ? 24 : 38, freq: 0.0032, speed: 0.024, phase: 0, colorStart: 'rgba(66, 179, 171, 0)', colorMid: 'rgba(66, 179, 171, 0.85)', colorEnd: 'rgba(66, 179, 171, 0)', glow: 'rgba(66, 179, 171, 0.45)', blur: 16, width: 2.2 },
+                { amp: isMobile ? 18 : 30, freq: 0.0050, speed: -0.018, phase: 1.6, colorStart: 'rgba(226, 179, 74, 0)', colorMid: 'rgba(226, 179, 74, 0.8)', colorEnd: 'rgba(226, 179, 74, 0)', glow: 'rgba(226, 179, 74, 0.38)', blur: 14, width: 1.8 },
+                { amp: isMobile ? 14 : 22, freq: 0.0024, speed: 0.014, phase: 3.2, colorStart: 'rgba(168, 85, 247, 0)', colorMid: 'rgba(168, 85, 247, 0.7)', colorEnd: 'rgba(168, 85, 247, 0)', glow: 'rgba(168, 85, 247, 0.3)', blur: 12, width: 1.4 }
+            ] : [
+                { amp: isMobile ? 18 : 28, freq: 0.0032, speed: 0.020, phase: 0, colorStart: 'rgba(47, 125, 120, 0)', colorMid: 'rgba(47, 125, 120, 0.55)', colorEnd: 'rgba(47, 125, 120, 0)', glow: 'rgba(47, 125, 120, 0.25)', blur: 8, width: 1.8 },
+                { amp: isMobile ? 14 : 22, freq: 0.0048, speed: -0.015, phase: 1.6, colorStart: 'rgba(184, 144, 47, 0)', colorMid: 'rgba(184, 144, 47, 0.5)', colorEnd: 'rgba(184, 144, 47, 0)', glow: 'rgba(184, 144, 47, 0.2)', blur: 6, width: 1.5 },
+                { amp: isMobile ? 10 : 16, freq: 0.0022, speed: 0.012, phase: 3.2, colorStart: 'rgba(139, 92, 246, 0)', colorMid: 'rgba(139, 92, 246, 0.4)', colorEnd: 'rgba(139, 92, 246, 0)', glow: 'rgba(139, 92, 246, 0.15)', blur: 6, width: 1.2 }
+            ];
+
+            waves.forEach(cfg => {
+                ctx.save();
+                ctx.beginPath();
+
+                const grad = ctx.createLinearGradient(0, 0, width, 0);
+                grad.addColorStop(0, cfg.colorStart);
+                grad.addColorStop(0.2, cfg.colorMid);
+                grad.addColorStop(0.5, cfg.colorMid);
+                grad.addColorStop(0.8, cfg.colorMid);
+                grad.addColorStop(1, cfg.colorEnd);
+
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = cfg.width;
+                ctx.shadowColor = cfg.glow;
+                ctx.shadowBlur = cfg.blur;
+
+                for (let x = 0; x <= width; x += step) {
+                    let y = centerY 
+                          + Math.sin(x * cfg.freq + time * cfg.speed + cfg.phase) * cfg.amp
+                          + Math.cos(x * (cfg.freq * 0.55) + time * (cfg.speed * 0.65)) * (cfg.amp * 0.45);
+
+                    // Dynamic interactive pointer wave deflection
+                    if (mouse.x !== null && mouse.y !== null) {
+                        const dist = Math.hypot(x - mouse.x, centerY - mouse.y);
+                        if (dist < 260) {
+                            const force = (1 - dist / 260) * (cfg.amp * 0.9);
+                            y += Math.sin(dist * 0.04 - time * 0.06) * force;
+                        }
+                    }
+
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+                ctx.restore();
+            });
+        }
+
         function animateCanvas() {
             ctx.clearRect(0, 0, width, height);
 
-            // Connect nearby nodes with neural lines
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            waveTime += 1;
+
+            // 1. Draw Quantum Neural Data Waveform
+            drawQuantumWave(waveTime, isDark);
+
+            // 2. Connect nearby nodes with neural lines
             for (let a = 0; a < particles.length; a++) {
                 for (let b = a + 1; b < particles.length; b++) {
                     const dx = particles[a].x - particles[b].x;
@@ -187,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Draw and update each particle
+            // 3. Draw and update each particle
             particles.forEach(p => {
                 p.update();
                 p.draw(tealRgb, goldRgb);

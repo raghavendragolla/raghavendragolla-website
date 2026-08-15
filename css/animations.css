@@ -94,6 +94,15 @@
     }
 }
 
+@keyframes floatGlow3 {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-45%, -55%) scale(1.18) rotate(180deg);
+    }
+}
+
 /* -----------------------------------------
    Badge Sparkle & Shimmer
    ----------------------------------------- */
