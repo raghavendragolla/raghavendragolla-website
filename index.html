@@ -118,13 +118,13 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=10.0">
-    <link rel="stylesheet" href="css/style.css?v=10.0">
-    <link rel="stylesheet" href="css/animations.css?v=10.0">
-    <link rel="stylesheet" href="css/responsive.css?v=10.0">
+    <link rel="stylesheet" href="css/variables.css?v=9.0">
+    <link rel="stylesheet" href="css/style.css?v=9.0">
+    <link rel="stylesheet" href="css/animations.css?v=9.0">
+    <link rel="stylesheet" href="css/responsive.css?v=9.0">
 
     <!-- JavaScript -->
-    <script src="js/script.js?v=10.0" defer></script>
+    <script src="js/script.js?v=9.0" defer></script>
 
 </head>
 
@@ -145,16 +145,14 @@
         <div class="vitals-container">
             <div class="vitals" aria-hidden="true">
                 <svg viewBox="0 0 1400 64" preserveAspectRatio="none">
-                    <!-- Continuous Baseline -->
-                    <path class="vitals-baseline" d="M0,32 L1400,32" />
-                    <!-- Desktop Heartbeat Spikes (Centered) -->
-                    <g class="heartbeat-pulse-zone desktop-heartbeat">
+                    <!-- Flat Left Baseline (Exact 50% Center at Y=32) -->
+                    <path class="vitals-baseline" d="M0,32 L520,32" />
+                    <!-- Animated Pumping Heartbeat Spikes Only -->
+                    <g class="heartbeat-pulse-zone">
                         <path class="vitals-spikes" d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
                     </g>
-                    <!-- Mobile Heartbeat Spikes (Clear of status pill on phones) -->
-                    <g class="heartbeat-pulse-zone mobile-heartbeat">
-                        <path class="vitals-spikes" d="M960,32 L985,12 L1005,52 L1025,32 L1050,32 L1070,16 L1090,46 L1110,32" />
-                    </g>
+                    <!-- Flat Right Baseline (Exact 50% Center at Y=32) -->
+                    <path class="vitals-baseline" d="M668,32 L1400,32" />
                 </svg>
             </div>
             <div class="vitals-status">
