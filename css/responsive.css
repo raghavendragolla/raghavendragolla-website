@@ -498,7 +498,12 @@
    ========================================= */
 @media (max-width: 768px) {
     body {
+        justify-content: flex-start;
         padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    header {
+        position: relative;
     }
 
     .theme-toggle {
