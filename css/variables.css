@@ -18,9 +18,13 @@
     --gold: #b8902f;
     --gold-glow: rgba(184, 144, 47, 0.14);
 
-    /* ---------- Ambient Light Glows ---------- */
-    --glow-primary: rgba(47, 125, 120, 0.18);
-    --glow-secondary: rgba(184, 144, 47, 0.12);
+    /* ---------- Ambient Light Glows (Vibrant Abstract Aurora) ---------- */
+    --glow-primary: rgba(147, 51, 234, 0.22);
+    --glow-secondary: rgba(6, 182, 212, 0.24);
+    --glow-purple: rgba(147, 51, 234, 0.24);
+    --glow-cyan: rgba(6, 182, 212, 0.26);
+    --glow-orange: rgba(255, 107, 44, 0.24);
+    --glow-lime: rgba(74, 222, 128, 0.18);
     --grid-line: rgba(16, 24, 32, 0.035);
     --badge-bg: rgba(255, 255, 255, 0.85);
 
@@ -69,20 +73,24 @@
 /* ---------- Dark Theme (Apple Pro / Deep Space Aesthetic) ---------- */
 [data-theme="dark"] {
     --ink: #f2f6fa;
-    --paper: #080d14;
-    --paper-card: rgba(16, 25, 38, 0.72);
-    --paper-card-hover: rgba(22, 34, 52, 0.85);
+    --paper: #090514;
+    --paper-card: rgba(18, 12, 34, 0.74);
+    --paper-card-hover: rgba(28, 18, 52, 0.88);
 
-    --teal: #42b3ab;
-    --teal-glow: rgba(66, 179, 171, 0.22);
-    --teal-subtle: rgba(66, 179, 171, 0.12);
-    --gold: #e2b34a;
-    --gold-glow: rgba(226, 179, 74, 0.16);
+    --teal: #00f2fe;
+    --teal-glow: rgba(0, 242, 254, 0.25);
+    --teal-subtle: rgba(0, 242, 254, 0.12);
+    --gold: #f59e0b;
+    --gold-glow: rgba(245, 158, 11, 0.2);
 
-    --glow-primary: rgba(66, 179, 171, 0.22);
-    --glow-secondary: rgba(226, 179, 74, 0.15);
-    --grid-line: rgba(242, 246, 250, 0.04);
-    --badge-bg: rgba(16, 25, 38, 0.85);
+    --glow-primary: rgba(168, 85, 247, 0.42);
+    --glow-secondary: rgba(6, 182, 212, 0.38);
+    --glow-purple: rgba(168, 85, 247, 0.45);
+    --glow-cyan: rgba(0, 242, 254, 0.42);
+    --glow-orange: rgba(255, 87, 34, 0.45);
+    --glow-lime: rgba(74, 222, 128, 0.32);
+    --grid-line: rgba(242, 246, 250, 0.045);
+    --badge-bg: rgba(18, 12, 34, 0.85);
 
     --line: rgba(242, 246, 250, 0.1);
     --line-subtle: rgba(242, 246, 250, 0.05);

@@ -103,6 +103,24 @@
     }
 }
 
+@keyframes floatSun {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, -35px) scale(1.12);
+    }
+}
+
+@keyframes swooshFloat {
+    0%, 100% {
+        transform: rotate(-22deg) translate(0, 0) scale(1);
+    }
+    50% {
+        transform: rotate(-18deg) translate(30px, -20px) scale(1.08);
+    }
+}
+
 /* -----------------------------------------
    Badge Sparkle & Shimmer
    ----------------------------------------- */
