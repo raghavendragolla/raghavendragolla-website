@@ -219,6 +219,7 @@ header {
 
 .theme-toggle .sun-icon {
     display: none;
+    transform-origin: center center;
 }
 
 [data-theme="dark"] .theme-toggle .moon-icon {
@@ -227,6 +228,8 @@ header {
 
 [data-theme="dark"] .theme-toggle .sun-icon {
     display: block;
+    animation: sunSpinClockwise 12s linear infinite;
+    will-change: transform;
 }
 
 /* =========================================
@@ -311,6 +314,13 @@ header {
     align-items: center;
     gap: 3px;
     font-weight: 500;
+}
+
+.vitals-eye {
+    display: inline-block;
+    transform-origin: center center;
+    animation: eyeBlink 3s infinite ease-in-out;
+    will-change: transform;
 }
 
 .vitals-dot {
