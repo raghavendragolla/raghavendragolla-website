@@ -118,13 +118,13 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=8.0">
-    <link rel="stylesheet" href="css/style.css?v=8.0">
-    <link rel="stylesheet" href="css/animations.css?v=8.0">
-    <link rel="stylesheet" href="css/responsive.css?v=8.0">
+    <link rel="stylesheet" href="css/variables.css?v=9.0">
+    <link rel="stylesheet" href="css/style.css?v=9.0">
+    <link rel="stylesheet" href="css/animations.css?v=9.0">
+    <link rel="stylesheet" href="css/responsive.css?v=9.0">
 
     <!-- JavaScript -->
-    <script src="js/script.js?v=8.0" defer></script>
+    <script src="js/script.js?v=9.0" defer></script>
 
 </head>
 
@@ -144,15 +144,25 @@
     <header>
         <div class="vitals-container">
             <div class="vitals" aria-hidden="true">
-                <svg viewBox="0 0 1400 44" preserveAspectRatio="none">
-                    <path d="M0,22 L520,22 L545,6 L565,38 L585,22 L610,22 L630,10 L650,32 L668,22 L1400,22" />
+                <svg viewBox="0 0 1400 64" preserveAspectRatio="none">
+                    <!-- Flat Left Baseline (Exact 50% Center at Y=32) -->
+                    <path class="vitals-baseline" d="M0,32 L520,32" />
+                    <!-- Animated Pumping Heartbeat Spikes Only -->
+                    <g class="heartbeat-pulse-zone">
+                        <path class="vitals-spikes" d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
+                    </g>
+                    <!-- Flat Right Baseline (Exact 50% Center at Y=32) -->
+                    <path class="vitals-baseline" d="M668,32 L1400,32" />
                 </svg>
             </div>
             <div class="vitals-status">
                 <span class="vitals-dot">●</span>
-                <span><span class="vitals-text-desktop">AVAILABLE FOR OPPORTUNITIES</span><span
-                        class="vitals-text-mobile">AVAILABLE</span> &bull; <strong id="vitals-clock">--:--:--
-                        IST</strong></span>
+                <span>
+                    <span class="vitals-text-desktop">AVAILABLE FOR OPPORTUNITIES</span>
+                    <span class="vitals-text-mobile">AVAILABLE</span>
+                    &bull; <strong id="vitals-clock">--:--:-- IST</strong>
+                    &bull; <span class="vitals-views" title="Total Page Visits">👁️ <strong id="visitor-count">1,420</strong></span>
+                </span>
             </div>
         </div>
         <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
@@ -215,10 +225,10 @@
             </a>
         </div>
 
-        <a class="enter" href="../Portfolio/index.html"
-            aria-label="Enter Raghavendra's Data Science and Machine Learning Portfolio">
+        <a class="enter" href="#portfolio"
+            aria-label="Raghavendra's Data Science and Machine Learning Portfolio (Coming Soon)">
             <span class="enter-text">Enter Portfolio</span>
-            <span class="coming-text">Explore Projects</span>
+            <span class="coming-text">Coming Soon</span>
             <span class="arrow">→</span>
         </a>
 

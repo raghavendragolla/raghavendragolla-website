@@ -172,12 +172,14 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-top: 8px;
 }
 
 .theme-toggle {
     position: absolute;
-    top: 10px;
+    top: 50%;
     right: 20px;
+    transform: translateY(-50%);
     z-index: 10;
 
     display: flex;
@@ -200,7 +202,7 @@ header {
 }
 
 .theme-toggle:hover {
-    transform: scale(1.08);
+    transform: translateY(-50%) scale(1.08);
     border-color: var(--teal);
     box-shadow: 0 6px 18px var(--teal-glow);
 }
@@ -238,7 +240,7 @@ header {
 
 .vitals {
     width: 100%;
-    height: 44px;
+    height: 64px;
 }
 
 .vitals svg {
@@ -250,14 +252,24 @@ header {
 .vitals path {
     fill: none;
     stroke: var(--teal);
-    stroke-width: 1.6;
+    stroke-width: 1.4;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
-    animation:
-        draw 2.4s ease-out forwards,
-        pulse 3.4s ease-in-out 2.4s infinite;
+    filter: drop-shadow(0 0 3px rgba(13, 148, 136, 0.2));
+    animation: ecgColorCycle 12s ease-in-out infinite;
+}
+
+[data-theme="dark"] .vitals path {
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.35));
+    animation: ecgColorCycleDark 12s ease-in-out infinite;
+}
+
+/* Only the heartbeat spikes physically beat and pump up & down */
+.heartbeat-pulse-zone {
+    transform-origin: 594px 32px;
+    animation: realHeartbeatPump 1.8s ease-in-out infinite;
+    will-change: transform;
 }
 
 .vitals-status {
@@ -284,11 +296,26 @@ header {
     transition: var(--transition-theme);
 }
 
+.vitals-views {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 500;
+}
+
 .vitals-dot {
     display: inline-block;
     color: var(--teal);
     font-size: 8px;
-    animation: blink 2s ease-in-out infinite;
+    animation: 
+        blink 2s ease-in-out infinite,
+        dotColorCycle 12s ease-in-out infinite;
+}
+
+[data-theme="dark"] .vitals-dot {
+    animation: 
+        blink 2s ease-in-out infinite,
+        dotColorCycleDark 12s ease-in-out infinite;
 }
 
 .vitals-text-mobile {
@@ -457,53 +484,122 @@ h1 {
     color: var(--ink);
     text-decoration: none;
 
-    border: 1px solid var(--border-button);
     border-radius: var(--radius-full);
-    background: var(--paper-card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: var(--glass-shadow);
     margin-bottom: 28px;
+    cursor: pointer;
+
+    /* 360-Degree Circular Rotating Conic Gradient Border (Soft & Translucent) */
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(var(--paper-card), var(--paper-card)) padding-box,
+        conic-gradient(from var(--angle), rgba(13, 148, 136, 0.7) 0deg, rgba(139, 92, 246, 0.7) 90deg, rgba(245, 158, 11, 0.7) 180deg, rgba(16, 185, 129, 0.7) 270deg, rgba(13, 148, 136, 0.7) 360deg) border-box;
+    animation: spinAngle 7s linear infinite;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.05);
 
     transition:
-        background-color 0.35s ease,
-        color 0.35s ease,
-        border-color 0.35s ease,
-        transform 0.35s var(--apple-ease),
-        box-shadow 0.35s ease;
+        color 1.2s ease,
+        transform 0.6s var(--apple-ease),
+        box-shadow 0.8s ease;
+}
 
-    cursor: pointer;
+/* Outer Diffused Rotating Corner & Bottom Glow Aura */
+.enter::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: var(--radius-full);
+    background: conic-gradient(
+        from var(--angle),
+        rgba(13, 148, 136, 0.35) 0deg,
+        rgba(139, 92, 246, 0.35) 90deg,
+        rgba(245, 158, 11, 0.35) 180deg,
+        rgba(16, 185, 129, 0.35) 270deg,
+        rgba(13, 148, 136, 0.35) 360deg
+    );
+    filter: blur(14px);
+    opacity: 0.75;
+    z-index: -1;
+    pointer-events: none;
+    animation: spinAngle 7s linear infinite;
+    transition: opacity 0.8s ease, filter 0.8s ease;
+}
+
+[data-theme="dark"] .enter {
+    background: 
+        linear-gradient(var(--paper-card), var(--paper-card)) padding-box,
+        conic-gradient(from var(--angle), rgba(0, 242, 254, 0.75) 0deg, rgba(192, 132, 252, 0.75) 90deg, rgba(251, 191, 36, 0.75) 180deg, rgba(52, 211, 153, 0.75) 270deg, rgba(0, 242, 254, 0.75) 360deg) border-box;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .enter::before {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 242, 254, 0.45) 0deg,
+        rgba(192, 132, 252, 0.45) 90deg,
+        rgba(251, 191, 36, 0.45) 180deg,
+        rgba(52, 211, 153, 0.45) 270deg,
+        rgba(0, 242, 254, 0.45) 360deg
+    );
+    opacity: 0.65;
+    filter: blur(16px);
+}
+
+.enter:hover::before {
+    opacity: 0.95;
+    filter: blur(18px);
 }
 
 .enter .arrow {
     position: absolute;
     right: 32px;
-    transition: transform 0.35s var(--apple-ease);
+    transition: transform 0.8s var(--apple-ease);
 }
 
 .enter .enter-text,
 .enter .coming-text {
-    transition: opacity 0.35s ease;
+    display: inline-block;
+    transition: 
+        opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+        transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity, transform;
+    pointer-events: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.enter .enter-text {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .enter .coming-text {
     position: absolute;
+    left: 50%;
+    transform: translate(-50%, 12px);
     opacity: 0;
+    white-space: nowrap;
 }
 
 .enter:hover .enter-text {
     opacity: 0;
+    transform: translateY(-12px);
 }
 
 .enter:hover .coming-text {
     opacity: 1;
+    transform: translate(-50%, 0);
 }
 
 .enter:hover {
-    background-color: var(--hover-bg);
     color: var(--hover-text);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 16px 36px var(--teal-glow);
+    background: 
+        linear-gradient(var(--hover-bg), var(--hover-bg)) padding-box,
+        conic-gradient(from var(--angle), rgba(0, 242, 254, 0.85) 0deg, rgba(192, 132, 252, 0.85) 90deg, rgba(251, 191, 36, 0.85) 180deg, rgba(52, 211, 153, 0.85) 270deg, rgba(0, 242, 254, 0.85) 360deg) border-box;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.35);
 }
 
 .enter:hover .arrow {

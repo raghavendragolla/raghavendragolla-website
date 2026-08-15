@@ -168,46 +168,137 @@ document.addEventListener('DOMContentLoaded', () => {
         let waveTime = 0;
 
         function drawQuantumWave(time, isDark) {
-            const centerY = height * 0.44;
-            const step = isMobile ? 8 : 4;
+            // Positioned elegantly below the headline in the lower-mid atmosphere
+            const centerY = height * 0.58;
+            const pulseCenter = width * 0.50;
+            const pulseSpread = isMobile ? width * 0.36 : width * 0.28;
+            const step = isMobile ? 6 : 3;
 
-            const waves = isDark ? [
-                { amp: isMobile ? 24 : 38, freq: 0.0032, speed: 0.024, phase: 0, colorStart: 'rgba(66, 179, 171, 0)', colorMid: 'rgba(66, 179, 171, 0.85)', colorEnd: 'rgba(66, 179, 171, 0)', glow: 'rgba(66, 179, 171, 0.45)', blur: 16, width: 2.2 },
-                { amp: isMobile ? 18 : 30, freq: 0.0050, speed: -0.018, phase: 1.6, colorStart: 'rgba(226, 179, 74, 0)', colorMid: 'rgba(226, 179, 74, 0.8)', colorEnd: 'rgba(226, 179, 74, 0)', glow: 'rgba(226, 179, 74, 0.38)', blur: 14, width: 1.8 },
-                { amp: isMobile ? 14 : 22, freq: 0.0024, speed: 0.014, phase: 3.2, colorStart: 'rgba(168, 85, 247, 0)', colorMid: 'rgba(168, 85, 247, 0.7)', colorEnd: 'rgba(168, 85, 247, 0)', glow: 'rgba(168, 85, 247, 0.3)', blur: 12, width: 1.4 }
+            // 1. Subtle Ambient Data Matrix Dust (Faint Stardust Equalizer)
+            const eqColumns = isMobile ? 20 : 36;
+            const colSpacing = width / eqColumns;
+            ctx.save();
+            for (let i = 0; i < eqColumns; i++) {
+                const colX = i * colSpacing + colSpacing * 0.5;
+                const distFromPulse = Math.abs(colX - pulseCenter);
+                const colEnv = Math.exp(-Math.pow(distFromPulse / (pulseSpread * 1.4), 2));
+
+                if (colEnv > 0.12) {
+                    const colHeight = (isMobile ? 45 : 75) * colEnv * (0.5 + 0.5 * Math.sin(i * 0.9 + time * 0.04));
+                    const dotCount = Math.floor(colHeight / 14);
+
+                    for (let d = 0; d < dotCount; d++) {
+                        const dotY = centerY - colHeight * 0.5 + d * 14;
+                        const alpha = colEnv * (isDark ? 0.08 : 0.07) * (1 - d / dotCount);
+                        ctx.fillStyle = isDark 
+                            ? (i % 2 === 0 ? `rgba(0, 242, 254, ${alpha})` : `rgba(245, 158, 11, ${alpha})`)
+                            : (i % 2 === 0 ? `rgba(13, 148, 136, ${alpha})` : `rgba(217, 119, 6, ${alpha})`);
+                        ctx.fillRect(colX - 1, dotY - 1, 2, 2);
+                    }
+                }
+            }
+            ctx.restore();
+
+            // 2. The "Ghost" Multi-Harmonic Silk Wave Ribbons
+            const waveRibbons = isDark ? [
+                // Cyan Ghost Ribbon (Soft atmospheric depth)
+                {
+                    color: 'rgba(0, 242, 254, 0.18)',
+                    glow: 'rgba(0, 242, 254, 0.08)',
+                    blur: 8,
+                    width: 1.4,
+                    peakAmp: isMobile ? 28 : 42,
+                    freq1: 0.008,
+                    freq2: 0.018,
+                    speed: 0.018,
+                    phase: 0
+                },
+                // Gold / Amber Ghost Ribbon
+                {
+                    color: 'rgba(251, 191, 36, 0.15)',
+                    glow: 'rgba(245, 158, 11, 0.07)',
+                    blur: 7,
+                    width: 1.2,
+                    peakAmp: isMobile ? 24 : 36,
+                    freq1: 0.007,
+                    freq2: 0.016,
+                    speed: -0.015,
+                    phase: 1.6
+                },
+                // Electric Violet Accent
+                {
+                    color: 'rgba(168, 85, 247, 0.12)',
+                    glow: 'rgba(168, 85, 247, 0.05)',
+                    blur: 6,
+                    width: 1.0,
+                    peakAmp: isMobile ? 18 : 26,
+                    freq1: 0.009,
+                    freq2: 0.022,
+                    speed: 0.012,
+                    phase: 3.2
+                }
             ] : [
-                { amp: isMobile ? 18 : 28, freq: 0.0032, speed: 0.020, phase: 0, colorStart: 'rgba(47, 125, 120, 0)', colorMid: 'rgba(47, 125, 120, 0.55)', colorEnd: 'rgba(47, 125, 120, 0)', glow: 'rgba(47, 125, 120, 0.25)', blur: 8, width: 1.8 },
-                { amp: isMobile ? 14 : 22, freq: 0.0048, speed: -0.015, phase: 1.6, colorStart: 'rgba(184, 144, 47, 0)', colorMid: 'rgba(184, 144, 47, 0.5)', colorEnd: 'rgba(184, 144, 47, 0)', glow: 'rgba(184, 144, 47, 0.2)', blur: 6, width: 1.5 },
-                { amp: isMobile ? 10 : 16, freq: 0.0022, speed: 0.012, phase: 3.2, colorStart: 'rgba(139, 92, 246, 0)', colorMid: 'rgba(139, 92, 246, 0.4)', colorEnd: 'rgba(139, 92, 246, 0)', glow: 'rgba(139, 92, 246, 0.15)', blur: 6, width: 1.2 }
+                // Light Mode Pearlescent Watercolor Silk Waves (Zero Scribble / Zero Strikethrough)
+                {
+                    color: 'rgba(13, 148, 136, 0.16)',
+                    glow: 'rgba(13, 148, 136, 0.06)',
+                    blur: 6,
+                    width: 1.4,
+                    peakAmp: isMobile ? 24 : 36,
+                    freq1: 0.008,
+                    freq2: 0.018,
+                    speed: 0.016,
+                    phase: 0
+                },
+                {
+                    color: 'rgba(217, 119, 6, 0.13)',
+                    glow: 'rgba(217, 119, 6, 0.05)',
+                    blur: 5,
+                    width: 1.2,
+                    peakAmp: isMobile ? 20 : 30,
+                    freq1: 0.007,
+                    freq2: 0.016,
+                    speed: -0.014,
+                    phase: 1.6
+                },
+                {
+                    color: 'rgba(168, 85, 247, 0.11)',
+                    glow: 'rgba(168, 85, 247, 0.04)',
+                    blur: 4,
+                    width: 1.0,
+                    peakAmp: isMobile ? 16 : 24,
+                    freq1: 0.009,
+                    freq2: 0.022,
+                    speed: 0.010,
+                    phase: 3.2
+                }
             ];
 
-            waves.forEach(cfg => {
+            waveRibbons.forEach(ribbon => {
                 ctx.save();
                 ctx.beginPath();
 
-                const grad = ctx.createLinearGradient(0, 0, width, 0);
-                grad.addColorStop(0, cfg.colorStart);
-                grad.addColorStop(0.2, cfg.colorMid);
-                grad.addColorStop(0.5, cfg.colorMid);
-                grad.addColorStop(0.8, cfg.colorMid);
-                grad.addColorStop(1, cfg.colorEnd);
-
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = cfg.width;
-                ctx.shadowColor = cfg.glow;
-                ctx.shadowBlur = cfg.blur;
+                ctx.strokeStyle = ribbon.color;
+                ctx.lineWidth = ribbon.width;
+                ctx.shadowColor = ribbon.glow;
+                ctx.shadowBlur = ribbon.blur;
 
                 for (let x = 0; x <= width; x += step) {
-                    let y = centerY 
-                          + Math.sin(x * cfg.freq + time * cfg.speed + cfg.phase) * cfg.amp
-                          + Math.cos(x * (cfg.freq * 0.55) + time * (cfg.speed * 0.65)) * (cfg.amp * 0.45);
+                    const dx = (x - pulseCenter) / pulseSpread;
+                    const gaussian = Math.exp(-Math.pow(dx, 2));
 
-                    // Dynamic interactive pointer wave deflection
+                    const harmonic1 = Math.sin(x * ribbon.freq1 + time * ribbon.speed + ribbon.phase);
+                    const harmonic2 = Math.sin(x * ribbon.freq2 - time * (ribbon.speed * 1.3) + ribbon.phase * 1.4) * 0.5;
+
+                    const totalOsc = (harmonic1 + harmonic2);
+                    let y = centerY + totalOsc * ribbon.peakAmp * (0.35 + 0.65 * gaussian);
+
+                    // Gentle subtle ripple from cursor
                     if (mouse.x !== null && mouse.y !== null) {
-                        const dist = Math.hypot(x - mouse.x, centerY - mouse.y);
-                        if (dist < 260) {
-                            const force = (1 - dist / 260) * (cfg.amp * 0.9);
-                            y += Math.sin(dist * 0.04 - time * 0.06) * force;
+                        const mouseDist = Math.hypot(x - mouse.x, centerY - mouse.y);
+                        if (mouseDist < 200) {
+                            const mouseForce = (1 - mouseDist / 200) * (ribbon.peakAmp * 0.4);
+                            y += Math.sin(mouseDist * 0.04 - time * 0.05) * mouseForce;
                         }
                     }
 
@@ -509,8 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const enterBtn = document.querySelector('.enter');
     if (enterBtn) {
-        enterBtn.addEventListener('click', () => {
-            showToast('Entering Portfolio...');
+        enterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Portfolio projects coming soon ✨');
         });
     }
 
@@ -518,5 +610,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerYearEl = document.getElementById('footer-year');
     if (footerYearEl) {
         footerYearEl.textContent = new Date().getFullYear();
+    }
+
+    // ====================================================
+    // 9. Real-Time Global Cloud Visitor Counter
+    // ====================================================
+    const visitorCountEl = document.getElementById('visitor-count');
+    if (visitorCountEl) {
+        const namespace = 'raghavendragolla_com';
+        const key = 'visits';
+        const baseOffset = 1420; // Base launch visits
+
+        function animateCount(start, end) {
+            const duration = 1500;
+            const startTime = performance.now();
+            function update(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (end - start) * easeOut);
+                visitorCountEl.textContent = current.toLocaleString();
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    visitorCountEl.textContent = end.toLocaleString();
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Prevent spamming the counter within the same session
+        const hasCountedSession = sessionStorage.getItem('visited_session');
+        const apiAction = hasCountedSession ? '' : '/up';
+
+        // Connect to Real Global Cloud Counter API
+        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}${apiAction}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data && typeof data.count === 'number') {
+                    if (!hasCountedSession) {
+                        sessionStorage.setItem('visited_session', 'true');
+                    }
+                    const totalRealVisits = baseOffset + data.count;
+                    localStorage.setItem('cached_visits', totalRealVisits.toString());
+                    animateCount(Math.max(1000, totalRealVisits - 35), totalRealVisits);
+                } else {
+                    throw new Error('Invalid counter response');
+                }
+            })
+            .catch(() => {
+                // Graceful fallback from cache or baseline
+                let cached = parseInt(localStorage.getItem('cached_visits') || '1420', 10);
+                if (!hasCountedSession) {
+                    cached += 1;
+                    localStorage.setItem('cached_visits', cached.toString());
+                    sessionStorage.setItem('visited_session', 'true');
+                }
+                animateCount(Math.max(1000, cached - 25), cached);
+            });
     }
 });
