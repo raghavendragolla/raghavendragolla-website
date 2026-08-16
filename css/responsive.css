@@ -187,24 +187,23 @@
         display: block !important;
     }
 
-    .header-controls {
-        right: 12px;
-        gap: 6px;
-    }
-
-    .thoughts-toggle-btn {
-        padding: 5px 9px;
-        font-size: 10px;
-        gap: 5px;
-    }
-
-    .thoughts-badge {
-        display: none;
-    }
-
     .theme-toggle {
-        width: 34px;
-        height: 34px;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .theme-toggle:hover {
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+
+    .thoughts-floating-btn {
+        bottom: 18px;
+        right: 16px;
+        padding: 7px 13px;
+        font-size: 10px;
     }
 
     .thoughts-panel {
@@ -562,20 +561,6 @@
    6. Small & Compact Phones (320px - 375px)
    ========================================= */
 @media (max-width: 375px) {
-    .header-controls {
-        right: 6px;
-        gap: 4px;
-    }
-
-    .thoughts-toggle-btn {
-        padding: 4px 8px;
-        font-size: 9.5px;
-    }
-
-    .thoughts-label {
-        display: none;
-    }
-
     .vitals-status {
         left: 6px;
         font-size: 8.5px;
@@ -584,8 +569,22 @@
     }
 
     .theme-toggle {
-        width: 30px;
-        height: 30px;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        right: 6px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .theme-toggle:hover {
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+
+    .thoughts-floating-btn {
+        bottom: 14px;
+        right: 12px;
+        padding: 6px 10px;
+        font-size: 9.5px;
     }
 
     main {

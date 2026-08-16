@@ -666,6 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 10. My Thoughts & Intelligence Hub Controller
     // ====================================================
     const thoughtsToggleBtn = document.getElementById('thoughts-toggle-btn');
+    const thoughtsFooterBtn = document.getElementById('thoughts-footer-btn');
     const thoughtsDrawer = document.getElementById('thoughtsDrawer');
     const closeThoughtsBtn = document.getElementById('closeThoughtsBtn');
     const closeThoughtsBackdrop = document.getElementById('closeThoughtsBackdrop');
@@ -692,6 +693,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (thoughtsToggleBtn) {
         thoughtsToggleBtn.addEventListener('click', openThoughtsHub);
+    }
+    if (thoughtsFooterBtn) {
+        thoughtsFooterBtn.addEventListener('click', openThoughtsHub);
     }
     if (closeThoughtsBtn) {
         closeThoughtsBtn.addEventListener('click', closeThoughtsHub);
