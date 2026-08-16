@@ -1109,6 +1109,15 @@ footer {
    My Thoughts & Market Intelligence Hub Drawer
    ========================================= */
 
+/* Scroll Lock when drawer is active */
+html.drawer-open,
+body.drawer-open {
+    overflow: hidden !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+    height: 100% !important;
+}
+
 .thoughts-drawer {
     position: fixed;
     top: 0;
@@ -1119,6 +1128,7 @@ footer {
     display: none;
     opacity: 0;
     transition: opacity 0.3s ease;
+    overscroll-behavior: contain;
 }
 
 .thoughts-drawer.active {
@@ -1136,6 +1146,8 @@ footer {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     cursor: pointer;
+    touch-action: none;
+    overscroll-behavior: none;
 }
 
 [data-theme="light"] .thoughts-backdrop {
@@ -1157,6 +1169,7 @@ footer {
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 2;
+    overscroll-behavior: contain;
 }
 
 .thoughts-drawer.active .thoughts-panel {
@@ -1277,6 +1290,8 @@ footer {
     overflow-y: auto;
     padding: 24px 28px 40px;
     scrollbar-width: thin;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 .hub-pane {

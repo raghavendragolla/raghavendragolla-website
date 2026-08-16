@@ -676,7 +676,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (thoughtsDrawer) {
             thoughtsDrawer.classList.add('active');
             thoughtsDrawer.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
+            document.documentElement.classList.add('drawer-open');
+            document.body.classList.add('drawer-open');
         }
     }
 
@@ -684,7 +685,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (thoughtsDrawer) {
             thoughtsDrawer.classList.remove('active');
             thoughtsDrawer.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            document.documentElement.classList.remove('drawer-open');
+            document.body.classList.remove('drawer-open');
         }
     }
 
@@ -696,6 +698,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (closeThoughtsBackdrop) {
         closeThoughtsBackdrop.addEventListener('click', closeThoughtsHub);
+        // Prevent wheel or touch events on the backdrop from reaching background document
+        closeThoughtsBackdrop.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
+        closeThoughtsBackdrop.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
     }
 
     // Keyboard ESC to close
