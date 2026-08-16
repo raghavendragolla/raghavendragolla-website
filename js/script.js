@@ -598,14 +598,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const enterBtn = document.querySelector('.enter');
-    if (enterBtn) {
-        enterBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Portfolio projects coming soon ✨');
-        });
-    }
-
     // Dynamic Footer Copyright Year
     const footerYearEl = document.getElementById('footer-year');
     if (footerYearEl) {
