@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
   <!-- Google tag (gtag.js) -->
@@ -11,6 +11,21 @@
     gtag('config', 'G-NQRWM60R9L');
   </script>
 
+  <!-- Immediate Theme Initialization (Zero-FOUC) -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } catch (e) { }
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,18 +34,24 @@
     content="Portfolio of Raghavendra Golla — MSc Data Science, Chandigarh University. Machine learning, statistical modeling, computer vision, NLP, and healthcare AI projects.">
   <meta name="author" content="Raghavendra Golla">
   <meta name="keywords"
-    content="Raghavendra Golla, Data Science, Machine Learning, Python, SQL, Portfolio, Chandigarh University, AI, Explainable AI">
-  <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#080d14">
+    content="Raghavendra Golla, Data Science, Machine Learning, Python, PyTorch, Scikit-Learn, SQL, Portfolio, Chandigarh University, AI, Explainable AI">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#fcfbf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#080d14" media="(prefers-color-scheme: dark)">
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Raghavendra Golla — Data Science &amp; Applied ML Portfolio">
+  <meta property="og:type" content="website">
   <meta property="og:site_name" content="Raghavendra Golla">
+  <meta property="og:title" content="Raghavendra Golla — Data Science &amp; Applied ML Portfolio">
   <meta property="og:description"
     content="MSc Data Science &amp; Machine Learning Portfolio. Transforming complex data into intelligent, explainable solutions.">
   <meta property="og:image" content="https://www.raghavendragolla.com/images/og-image.jpg">
-  <meta property="og:type" content="website">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Raghavendra Golla - Data Science &amp; Machine Learning Portfolio">
   <meta property="og:url" content="https://www.raghavendragolla.com/portfolio/">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
@@ -38,36 +59,84 @@
   <meta name="twitter:description"
     content="MSc Data Science &amp; Machine Learning Portfolio. Transforming complex data into intelligent, explainable solutions.">
   <meta name="twitter:image" content="https://www.raghavendragolla.com/images/og-image.jpg">
+  <meta name="twitter:image:alt" content="Raghavendra Golla - Data Science &amp; Machine Learning Portfolio">
 
   <link rel="canonical" href="https://www.raghavendragolla.com/portfolio/">
 
-  <!-- Structured Data (Schema.org JSON-LD) -->
+  <!-- Structured Data (Schema.org JSON-LD Graph) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Raghavendra Golla",
-    "url": "https://www.raghavendragolla.com/",
-    "jobTitle": "Data Scientist & Applied ML Researcher",
-    "alumniOf": "Chandigarh University",
-    "knowsAbout": [
-      "Data Science",
-      "Machine Learning",
-      "Explainable AI",
-      "Python",
-      "SQL",
-      "Deep Learning",
-      "Big Data Analytics"
-    ],
-    "sameAs": [
-      "https://www.linkedin.com/in/raghavendra-golla-a25334192",
-      "https://github.com/raghavendrayadavgolla"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.raghavendragolla.com/#website",
+        "name": "Raghavendra Golla",
+        "url": "https://www.raghavendragolla.com/",
+        "inLanguage": "en-US",
+        "description": "Data science and machine learning portfolio of Raghavendra Golla."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://www.raghavendragolla.com/portfolio/#profilepage",
+        "url": "https://www.raghavendragolla.com/portfolio/",
+        "name": "Raghavendra Golla — Data Science & Applied ML Portfolio",
+        "isPartOf": { "@id": "https://www.raghavendragolla.com/#website" },
+        "mainEntity": { "@id": "https://www.raghavendragolla.com/#person" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.raghavendragolla.com/#person",
+        "name": "Raghavendra Golla",
+        "url": "https://www.raghavendragolla.com/",
+        "jobTitle": "Data Scientist & Applied ML Researcher",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Chandigarh University"
+        },
+        "knowsAbout": [
+          "Data Science",
+          "Machine Learning",
+          "Explainable AI",
+          "Python",
+          "PyTorch",
+          "Scikit-Learn",
+          "SQL",
+          "Deep Learning",
+          "Big Data Analytics"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/raghavendra-golla-a25334192",
+          "https://github.com/raghavendrayadavgolla"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "California House Price Predictor",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://house-price-prediction-raghav.streamlit.app",
+        "author": { "@id": "https://www.raghavendragolla.com/#person" },
+        "description": "End-to-end regression pipeline on the California Housing dataset with geospatial map inference and real-time model analytics."
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Handwritten Digit Recognition",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web",
+        "url": "https://handwritten-digit-recognition.streamlit.app",
+        "author": { "@id": "https://www.raghavendragolla.com/#person" },
+        "description": "PyTorch CNN trained on MNIST with live interactive canvas digit drawing and real-time inference."
+      }
     ]
   }
   </script>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon/favicon.png">
+  <!-- Favicons (Full HD+ & Multi-Resolution) -->
+  <link rel="icon" type="image/png" sizes="256x256" href="favicon/favicon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,14 +146,14 @@
     rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/variables.css?v=17">
-  <link rel="stylesheet" href="css/animations.css?v=17">
-  <link rel="stylesheet" href="css/style.css?v=17">
-  <link rel="stylesheet" href="css/responsive.css?v=17">
+  <link rel="stylesheet" href="css/variables.css?v=20">
+  <link rel="stylesheet" href="css/animations.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/responsive.css?v=20">
 
   <!-- Lucide Icons & Core Script -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="js/script.js?v=17" defer></script>
+  <script src="js/script.js?v=20" defer></script>
 </head>
 
 <body>
@@ -508,15 +577,11 @@
 
           <!-- Project Filter Category Pills -->
           <div class="project-filters">
-            <button class="filter-btn active" data-filter="all">All Projects</button>
-            <button class="filter-btn" data-filter="ml">Machine Learning</button>
-            <button class="filter-btn" data-filter="vision">Computer Vision</button>
-            <button class="filter-btn" data-filter="explainable">Explainable AI</button>
-            <button class="filter-btn" data-filter="analytics">Data Analytics</button>
-            <!-- Commented out inactive category filters
-            <button class="filter-btn" data-filter="nlp">NLP</button>
-            <button class="filter-btn" data-filter="fullstack">Full-Stack AI</button>
-            -->
+            <button class="filter-btn active" data-filter="all"><span>All</span> <span class="filter-count">4</span></button>
+            <button class="filter-btn" data-filter="ml"><span>Machine Learning</span> <span class="filter-count">3</span></button>
+            <button class="filter-btn" data-filter="vision"><span>Computer Vision</span> <span class="filter-count">1</span></button>
+            <button class="filter-btn" data-filter="explainable"><span>Explainable AI</span> <span class="filter-count">1</span></button>
+            <button class="filter-btn" data-filter="analytics"><span>Data Analytics</span> <span class="filter-count">1</span></button>
           </div>
 
           <div class="projects-grid">
@@ -525,8 +590,11 @@
             <div class="project-card" data-category="ml">
               <div>
                 <div class="project-top">
-                  <span class="project-number">01</span>
-                  <span class="project-category">Machine Learning &bull; Regression</span>
+                  <div class="project-meta-wrap">
+                    <span class="project-number">01</span>
+                    <span class="project-category">Machine Learning &bull; Regression</span>
+                  </div>
+                  <span class="project-live-badge"><span class="pulse-live-dot"></span>Live App</span>
                 </div>
                 <h3 class="project-title">California House Price Predictor</h3>
                 <p class="project-desc">
@@ -565,8 +633,11 @@
             <div class="project-card" data-category="vision ml">
               <div>
                 <div class="project-top">
-                  <span class="project-number">02</span>
-                  <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                  <div class="project-meta-wrap">
+                    <span class="project-number">02</span>
+                    <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                  </div>
+                  <span class="project-live-badge"><span class="pulse-live-dot"></span>Live App</span>
                 </div>
                 <h3 class="project-title">Handwritten Digit Recognition</h3>
                 <p class="project-desc">
@@ -603,8 +674,11 @@
             <div class="project-card" data-category="explainable ml">
               <div>
                 <div class="project-top">
-                  <span class="project-number">03</span>
-                  <span class="project-category">Explainable AI &bull; Healthcare</span>
+                  <div class="project-meta-wrap">
+                    <span class="project-number">03</span>
+                    <span class="project-category">Explainable AI &bull; Healthcare</span>
+                  </div>
+                  <span class="project-paper-badge">🔬 Research Paper</span>
                 </div>
                 <h3 class="project-title">Explainable ML for Heart Disease</h3>
                 <p class="project-desc">
@@ -626,6 +700,9 @@
                   Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
                 </div>
                 <div class="project-links">
+                  <button type="button" class="btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
+                    <i data-lucide="book-open"></i><span>Abstract &amp; BibTeX</span>
+                  </button>
                   <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
                     <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
                   </a>
@@ -637,8 +714,11 @@
             <div class="project-card" data-category="analytics ml">
               <div>
                 <div class="project-top">
-                  <span class="project-number">04</span>
-                  <span class="project-category">Data Analytics &bull; Insights</span>
+                  <div class="project-meta-wrap">
+                    <span class="project-number">04</span>
+                    <span class="project-category">Data Analytics &bull; Insights</span>
+                  </div>
+                  <span class="project-cert-badge">🏛️ IBM Capstone</span>
                 </div>
                 <h3 class="project-title">IBM Data Analyst Capstone</h3>
                 <p class="project-desc">
@@ -1084,6 +1164,61 @@
     </div>
   </div>
 
+  <!-- Research Paper Abstract & Citation Modal -->
+  <div id="citationModal" class="citation-modal" aria-hidden="true" role="dialog" aria-label="Research Paper Abstract & Citation">
+    <div class="citation-backdrop" id="closeCitationBackdrop"></div>
+    <div class="citation-dialog">
+      <div class="citation-header">
+        <div class="citation-title-wrap">
+          <span class="citation-badge">🔬 Research Study &bull; Explainable AI</span>
+          <h3 class="citation-title">Explainable Machine Learning for Early Cardiovascular Disease Risk Prediction</h3>
+          <p class="citation-author">Golla Raghavendra &bull; MSc Data Science, Chandigarh University</p>
+        </div>
+        <button class="citation-close-btn" id="closeCitationBtn" aria-label="Close modal">&times;</button>
+      </div>
+      
+      <div class="citation-body">
+        <div class="citation-section">
+          <h4>📄 Abstract</h4>
+          <p class="citation-abstract-text">
+            Cardiovascular diseases (CVDs) remain the leading cause of global mortality. While complex machine learning architectures achieve high predictive accuracy, their clinical adoption is hindered by their "black-box" nature. This research develops a transparent predictive framework integrating SHAP (Shapley Additive exPlanations) and LIME (Local Interpretable Model-agnostic Explanations) with gradient boosting ensembles. The system quantifies individual clinical biomarkers, generates global risk feature rankings, and provides clinician-interpretable waterfall explanations for high-stakes decision support.
+          </p>
+        </div>
+
+        <div class="citation-section">
+          <h4>Key Contributions</h4>
+          <ul class="citation-highlights">
+            <li><strong>Model Benchmarking:</strong> Comparative performance analysis across Random Forest, XGBoost, and HistGradientBoosting classifiers.</li>
+            <li><strong>Explainability Layer:</strong> Game-theoretic SHAP tree explainers translating non-linear feature interactions into clinical impact scores.</li>
+            <li><strong>Decision Support:</strong> Individualized risk factor attributions tailored for medical practitioner review.</li>
+          </ul>
+        </div>
+
+        <div class="citation-section">
+          <div class="citation-code-header">
+            <h4>📋 BibTeX Citation</h4>
+            <button type="button" class="btn-copy-bibtex" id="copyBibtexBtn">
+              <i data-lucide="copy"></i><span>Copy BibTeX</span>
+            </button>
+          </div>
+          <pre class="citation-code-block"><code id="bibtexCode">@article{golla2026explainable,
+  title={Explainable Machine Learning for Early Cardiovascular Disease Risk Prediction},
+  author={Golla, Raghavendra},
+  journal={Department of Data Science, Chandigarh University},
+  year={2026},
+  url={https://github.com/raghavendrayadavgolla}
+}</code></pre>
+        </div>
+      </div>
+      
+      <div class="citation-footer">
+        <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener" class="btn primary">
+          <i data-lucide="github"></i><span>View Research Repository</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Certificate Lightbox Modal -->
   <div id="certModal" class="cert-modal" aria-hidden="true" role="dialog" aria-label="Certificate Lightbox">
     <div class="cert-modal-backdrop" id="closeCertBackdrop"></div>
@@ -1102,6 +1237,13 @@
       </div>
     </div>
   </div>
+
+  <!-- Floating Back to Top Button (Mobile & Desktop) -->
+  <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to Top" title="Back to Top">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
 
 </body>
 

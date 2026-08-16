@@ -399,7 +399,7 @@ header {
 .vitals-eye {
     display: inline-block;
     transform-origin: center center;
-    animation: eyeBlink 2.2s infinite ease-in-out;
+    animation: eyeBlink 2s infinite ease-in-out;
     will-change: transform;
 }
 

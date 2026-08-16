@@ -13,6 +13,21 @@
         gtag('config', 'G-NQRWM60R9L');
     </script>
 
+    <!-- Immediate Theme Initialization (Zero-FOUC) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -108,6 +123,7 @@
     <link rel="icon" type="image/png" sizes="256x256" href="favicon/favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

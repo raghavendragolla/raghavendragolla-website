@@ -733,4 +733,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // ====================================================
+    // 11. Service Worker Registration (PWA Install Support)
+    // ====================================================
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+    }
 });

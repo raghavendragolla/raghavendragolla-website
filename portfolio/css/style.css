@@ -996,7 +996,7 @@ h1.hero-title em {
     font-family: var(--font-mono);
     font-size: 0.78rem;
     font-weight: 500;
-    padding: 0.45rem 1rem;
+    padding: 0.4rem 0.9rem;
     border-radius: var(--radius-full);
     border: 1px solid var(--line);
     background: var(--paper-card);
@@ -1005,6 +1005,24 @@ h1.hero-title em {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: all 0.22s var(--apple-ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.1rem 0.45rem;
+    border-radius: var(--radius-full);
+    background: var(--paper-raised);
+    color: var(--ink-muted);
+    border: 1px solid var(--line);
+    min-width: 18px;
+    transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
@@ -1018,6 +1036,12 @@ h1.hero-title em {
     color: #ffffff;
     border-color: var(--teal);
     box-shadow: 0 4px 16px var(--teal-glow);
+}
+
+.filter-btn.active .filter-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* Projects Grid */
@@ -1051,9 +1075,17 @@ h1.hero-title em {
 
 .project-top {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.project-meta-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
 }
 
 .project-number {
@@ -1073,6 +1105,64 @@ h1.hero-title em {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--ink-muted);
+}
+
+.project-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .project-live-badge {
+    background: rgba(16, 185, 129, 0.16);
+    border-color: rgba(16, 185, 129, 0.38);
+    color: #34d399;
+}
+
+.pulse-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: livePulseDot 1.8s infinite ease-in-out;
+}
+
+@keyframes livePulseDot {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.35;
+        transform: scale(0.75);
+    }
+}
+
+.project-paper-badge,
+.project-cert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
 }
 
 .project-title {
@@ -2049,4 +2139,296 @@ h1.hero-title em {
     stroke: currentColor;
     stroke-width: 2.5;
     fill: none;
+}
+
+/* =========================================
+   Floating Back to Top Button
+   ========================================= */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--paper-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    box-shadow: var(--card-shadow);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.9);
+    transition: all 0.28s var(--apple-ease);
+}
+
+.back-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.back-to-top-btn:hover {
+    background: var(--teal);
+    color: #ffffff;
+    border-color: var(--teal);
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 10px 24px var(--teal-glow);
+}
+
+@media (max-width: 768px) {
+    .back-to-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* =========================================
+   Research Paper Abstract & Citation Modal
+   ========================================= */
+.btn-paper-cite {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--teal);
+    background: var(--teal-subtle);
+    border: 1px solid var(--teal-glow);
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.22s var(--apple-ease);
+}
+
+.btn-paper-cite:hover {
+    background: var(--teal);
+    color: #ffffff;
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--teal-glow);
+}
+
+.btn-paper-cite i,
+.btn-paper-cite svg {
+    width: 14px;
+    height: 14px;
+}
+
+.citation-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s var(--apple-ease), visibility 0.3s ease;
+}
+
+.citation-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.citation-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(9, 5, 20, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.citation-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 660px;
+    max-height: 86vh;
+    overflow-y: auto;
+    background: var(--paper-card-hover);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 2rem;
+    transform: scale(0.95) translateY(16px);
+    transition: transform 0.35s var(--apple-ease);
+}
+
+.citation-modal.active .citation-dialog {
+    transform: scale(1) translateY(0);
+}
+
+.citation-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.citation-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+}
+
+.citation-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.citation-author {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    margin-top: 0.35rem;
+}
+
+.citation-close-btn {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.citation-close-btn:hover {
+    background: var(--hover-bg);
+    color: var(--hover-text);
+    transform: rotate(90deg);
+}
+
+.citation-body {
+    padding: 1.2rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.citation-section h4 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+}
+
+.citation-abstract-text {
+    font-size: 0.93rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.citation-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.citation-highlights li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    position: relative;
+    padding-left: 1.2rem;
+}
+
+.citation-highlights li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--teal);
+    font-weight: bold;
+}
+
+.citation-code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.btn-copy-bibtex {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--teal);
+    background: var(--teal-subtle);
+    border: 1px solid var(--teal-glow);
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-copy-bibtex:hover {
+    background: var(--teal);
+    color: #ffffff;
+}
+
+.btn-copy-bibtex svg {
+    width: 13px;
+    height: 13px;
+}
+
+.citation-code-block {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--ink);
+}
+
+.citation-footer {
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: flex-end;
 }

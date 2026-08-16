@@ -631,9 +631,28 @@
         gap: 0.5rem;
     }
 
-    .project-links a {
+    .project-links a,
+    .project-links button {
         width: 100%;
         justify-content: center;
+    }
+
+    .citation-modal {
+        padding: 12px;
+    }
+
+    .citation-dialog {
+        padding: 1.4rem 1.1rem;
+        max-height: 92vh;
+    }
+
+    .citation-title {
+        font-size: 1.15rem;
+    }
+
+    .citation-code-block {
+        font-size: 0.72rem;
+        padding: 0.75rem;
     }
 
     .callout {

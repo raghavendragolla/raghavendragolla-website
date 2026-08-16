@@ -191,23 +191,14 @@
 }
 
 /* -----------------------------------------
-   Natural Visitor Eye Blink Animation
+   Natural Visitor Eye Blink Animation (Single Blink)
    ----------------------------------------- */
 @keyframes eyeBlink {
-    0%, 86%, 100% {
+    0%, 90%, 100% {
         transform: scaleY(1);
     }
-    90% {
-        transform: scaleY(0.08); /* Natural blink shut */
-    }
-    94% {
-        transform: scaleY(1); /* Open */
-    }
-    96% {
-        transform: scaleY(0.08); /* Quick follow-up flutter */
-    }
-    98% {
-        transform: scaleY(1);
+    95% {
+        transform: scaleY(0.08); /* Natural single blink shut */
     }
 }
 

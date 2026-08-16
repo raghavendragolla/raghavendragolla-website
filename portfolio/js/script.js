@@ -336,10 +336,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ====================================================
-    // 7. Interactive Project Category Filter Tabs
+    // 7. Interactive Project Category Filter Tabs & Dynamic Counts
     // ====================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+
+    // Compute project counts dynamically for each category
+    filterButtons.forEach(btn => {
+        const filterValue = btn.getAttribute('data-filter');
+        let count = 0;
+        projectCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category') || '';
+            if (filterValue === 'all' || cardCategory.includes(filterValue)) {
+                count++;
+            }
+        });
+        const countSpan = btn.querySelector('.filter-count');
+        if (countSpan) {
+            countSpan.textContent = count;
+        }
+    });
 
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -349,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const filterValue = btn.getAttribute('data-filter');
 
             projectCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
+                const cardCategory = card.getAttribute('data-category') || '';
                 if (filterValue === 'all' || cardCategory.includes(filterValue)) {
                     card.style.display = 'flex';
                     card.style.animation = 'fadeUp 0.35s var(--apple-ease)';
@@ -730,6 +746,83 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (btnText) btnText.textContent = 'Send Message';
                 }
             }
+        });
+    }
+
+    // ====================================================
+    // 14. Floating Back to Top Button Controller
+    // ====================================================
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        }, { passive: true });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // ====================================================
+    // 15. Research Paper Abstract & Citation Modal Controller
+    // ====================================================
+    const citationModal = document.getElementById('citationModal');
+    const openCitationBtn = document.getElementById('openCitationBtn');
+    const closeCitationBtn = document.getElementById('closeCitationBtn');
+    const closeCitationBackdrop = document.getElementById('closeCitationBackdrop');
+    const copyBibtexBtn = document.getElementById('copyBibtexBtn');
+    const bibtexCode = document.getElementById('bibtexCode');
+
+    function openCitation() {
+        if (citationModal) {
+            citationModal.classList.add('active');
+            citationModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeCitation() {
+        if (citationModal) {
+            citationModal.classList.remove('active');
+            citationModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (openCitationBtn) openCitationBtn.addEventListener('click', openCitation);
+    if (closeCitationBtn) closeCitationBtn.addEventListener('click', closeCitation);
+    if (closeCitationBackdrop) closeCitationBackdrop.addEventListener('click', closeCitation);
+
+    if (copyBibtexBtn && bibtexCode) {
+        copyBibtexBtn.addEventListener('click', () => {
+            const code = bibtexCode.textContent.trim();
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('✓ BibTeX citation copied to clipboard! 📋');
+            }).catch(() => {
+                showToast('Could not copy citation.');
+            });
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && citationModal && citationModal.classList.contains('active')) {
+            closeCitation();
+        }
+    });
+
+    // ====================================================
+    // 16. Service Worker Registration (PWA Install Support)
+    // ====================================================
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
     }
 });
