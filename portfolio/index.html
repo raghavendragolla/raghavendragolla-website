@@ -60,8 +60,8 @@
       "Big Data Analytics"
     ],
     "sameAs": [
-      "https://github.com/raghavendrayadavgolla",
-      "https://www.linkedin.com/in/raghavendra-golla-a25334192"
+      "https://www.linkedin.com/in/raghavendra-golla-a25334192",
+      "https://github.com/raghavendrayadavgolla"
     ]
   }
   </script>
@@ -77,14 +77,14 @@
     rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/variables.css?v=16">
-  <link rel="stylesheet" href="css/animations.css?v=16">
-  <link rel="stylesheet" href="css/style.css?v=16">
-  <link rel="stylesheet" href="css/responsive.css?v=16">
+  <link rel="stylesheet" href="css/variables.css?v=17">
+  <link rel="stylesheet" href="css/animations.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/responsive.css?v=17">
 
   <!-- Lucide Icons & Core Script -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="js/script.js" defer></script>
+  <script src="js/script.js?v=17" defer></script>
 </head>
 
 <body>
@@ -952,31 +952,120 @@
           <p class="contact-intro">
             I'm actively open to Data Analyst, Data Scientist, and Machine Learning internship and full-time
             opportunities,
-            as well as applied research collaborations. Let's connect!
+            as well as applied research collaborations. Feel free to reach out directly using the form below or through
+            my direct channels!
           </p>
 
-          <div class="contact-grid">
-            <div class="contact-card" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email">
-              <span class="k"><i data-lucide="mail"></i> Email (Click to Copy)</span>
-              <span class="v"><a
-                  href="mailto:raghavendrayadavgolla@gmail.com">raghavendrayadavgolla@gmail.com</a></span>
+          <div class="contact-layout">
+            <!-- Left Column: Direct Channels & Information -->
+            <div class="contact-channels">
+              <div class="contact-card" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email">
+                <span class="k"><i data-lucide="mail"></i> Email (Click to Copy)</span>
+                <span class="v"><a
+                    href="mailto:raghavendrayadavgolla@gmail.com">raghavendrayadavgolla@gmail.com</a></span>
+              </div>
+
+              <div class="contact-card">
+                <span class="k"><i data-lucide="linkedin"></i> LinkedIn Profile</span>
+                <span class="v"><a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank"
+                    rel="noopener">linkedin.com/in/raghavendra-golla &rarr;</a></span>
+              </div>
+
+              <div class="contact-card">
+                <span class="k"><i data-lucide="github"></i> GitHub Profile</span>
+                <span class="v"><a href="https://github.com/raghavendrayadavgolla" target="_blank"
+                    rel="noopener">github.com/raghavendrayadavgolla &rarr;</a></span>
+              </div>
+
+              <div class="contact-card">
+                <span class="k"><i data-lucide="map-pin"></i> Location &amp; Mobility</span>
+                <span class="v">Guntur, Andhra Pradesh, India &bull; Open to Remote &amp; Relocation (DE / IN)</span>
+              </div>
+
+              <div class="contact-status-card">
+                <div class="status-pulse-dot"></div>
+                <div class="status-content">
+                  <span class="status-title">⚡ Fast Response</span>
+                  <span class="status-desc">I typically respond within 24 hours to all academic and professional inquiries.</span>
+                </div>
+              </div>
             </div>
 
-            <div class="contact-card">
-              <span class="k"><i data-lucide="github"></i> GitHub Profile</span>
-              <span class="v"><a href="https://github.com/raghavendrayadavgolla" target="_blank"
-                  rel="noopener">github.com/raghavendrayadavgolla &rarr;</a></span>
-            </div>
+            <!-- Right Column: Interactive Direct Message Form -->
+            <div class="contact-form-container">
+              <div class="form-header">
+                <h3 class="form-title"><i data-lucide="send"></i> Send a Direct Message</h3>
+                <p class="form-subtitle">Drop a note directly to my inbox without opening an external mail client.</p>
+              </div>
 
-            <div class="contact-card">
-              <span class="k"><i data-lucide="linkedin"></i> LinkedIn Profile</span>
-              <span class="v"><a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank"
-                  rel="noopener">linkedin.com/in/raghavendra-golla &rarr;</a></span>
-            </div>
+              <form id="contactForm" class="contact-form" novalidate>
+                <!-- Hidden fields for form submission service -->
+                <input type="hidden" name="access_key" value="dcce0916-1f6e-4e20-82af-bc1db19bbecf">
+                <input type="hidden" name="from_name" value="Raghavendra Portfolio Visitor">
+                <input type="hidden" name="subject" value="New Message from Data Science Portfolio">
+                <!-- Honeypot field for anti-spam protection -->
+                <input type="checkbox" name="botcheck" class="hidden-field" style="display: none;">
 
-            <div class="contact-card">
-              <span class="k"><i data-lucide="map-pin"></i> Location &amp; Mobility</span>
-              <span class="v">Guntur, Andhra Pradesh, India &bull; Open to Remote &amp; Relocation (DE / IN)</span>
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="senderName" class="form-label">Your Name <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i data-lucide="user" class="input-icon"></i>
+                      <input type="text" id="senderName" name="name" class="form-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
+                    </div>
+                    <span class="form-error" id="nameError"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="senderEmail" class="form-label">Your Email <span class="req">*</span></label>
+                    <div class="input-wrapper">
+                      <i data-lucide="mail" class="input-icon"></i>
+                      <input type="email" id="senderEmail" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="email">
+                    </div>
+                    <span class="form-error" id="emailError"></span>
+                  </div>
+                </div>
+
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="senderPhone" class="form-label">Phone Number <span class="opt">(Optional)</span></label>
+                    <div class="input-wrapper">
+                      <i data-lucide="phone" class="input-icon"></i>
+                      <input type="tel" id="senderPhone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" autocomplete="tel">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="senderTopic" class="form-label">Subject / Purpose</label>
+                    <div class="input-wrapper">
+                      <i data-lucide="tag" class="input-icon"></i>
+                      <select id="senderTopic" name="topic" class="form-input form-select">
+                        <option value="Internship / Full-time Opportunity">💼 Internship / Full-time Opportunity</option>
+                        <option value="Research & ML Collaboration">🔬 Research &amp; ML Collaboration</option>
+                        <option value="Project Inquiry / Feedback">💡 Project Inquiry / Feedback</option>
+                        <option value="General Networking / Coffee Chat">☕ General Networking</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="senderMessage" class="form-label">Message <span class="req">*</span></label>
+                  <div class="input-wrapper textarea-wrapper">
+                    <textarea id="senderMessage" name="message" class="form-input form-textarea" rows="4" placeholder="Hi Raghavendra, I came across your portfolio and wanted to discuss..." required></textarea>
+                  </div>
+                  <span class="form-error" id="messageError"></span>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" id="submitBtn" class="btn primary btn-submit">
+                    <span class="btn-text">Send Message</span>
+                    <i data-lucide="send" class="btn-icon"></i>
+                    <span class="btn-spinner" aria-hidden="true"></span>
+                  </button>
+                  <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+                </div>
+              </form>
             </div>
           </div>
         </section>

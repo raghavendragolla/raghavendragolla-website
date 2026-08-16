@@ -591,4 +591,145 @@ document.addEventListener('DOMContentLoaded', () => {
             closeLightbox();
         }
     });
+
+
+    // ====================================================
+    // 13. Interactive Direct Message Contact Form Controller
+    // ====================================================
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        const nameInput = document.getElementById('senderName');
+        const emailInput = document.getElementById('senderEmail');
+        const phoneInput = document.getElementById('senderPhone');
+        const topicSelect = document.getElementById('senderTopic');
+        const messageInput = document.getElementById('senderMessage');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const messageError = document.getElementById('messageError');
+
+        function clearErrors() {
+            [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
+                if (input) input.classList.remove('is-invalid');
+            });
+            if (nameError) nameError.textContent = '';
+            if (emailError) emailError.textContent = '';
+            if (messageError) messageError.textContent = '';
+            if (formStatus) {
+                formStatus.textContent = '';
+                formStatus.className = 'form-status';
+            }
+        }
+
+        // Live error clearing on input
+        [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
+            if (input) {
+                input.addEventListener('input', () => {
+                    input.classList.remove('is-invalid');
+                    const err = document.getElementById(input.id.replace('sender', '').toLowerCase() + 'Error');
+                    if (err) err.textContent = '';
+                });
+            }
+        });
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            let isValid = true;
+            const nameVal = nameInput ? nameInput.value.trim() : '';
+            const emailVal = emailInput ? emailInput.value.trim() : '';
+            const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+            const messageVal = messageInput ? messageInput.value.trim() : '';
+            const topicVal = topicSelect ? topicSelect.value : 'General Inquiry';
+
+            if (!nameVal || nameVal.length < 2) {
+                if (nameInput) nameInput.classList.add('is-invalid');
+                if (nameError) nameError.textContent = 'Please enter your name (at least 2 characters)';
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailVal || !emailRegex.test(emailVal)) {
+                if (emailInput) emailInput.classList.add('is-invalid');
+                if (emailError) emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            }
+
+            if (!messageVal || messageVal.length < 10) {
+                if (messageInput) messageInput.classList.add('is-invalid');
+                if (messageError) messageError.textContent = 'Please provide a message (at least 10 characters)';
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Loading state
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('is-loading');
+                const btnText = submitBtn.querySelector('.btn-text');
+                if (btnText) btnText.textContent = 'Sending...';
+            }
+            if (formStatus) {
+                formStatus.textContent = 'Transmitting message...';
+                formStatus.className = 'form-status';
+            }
+
+            try {
+                // Submit to Web3Forms API endpoint
+                const formData = new FormData(contactForm);
+
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                });
+
+                const result = await response.json().catch(() => ({}));
+
+                if (response.ok && result.success !== false) {
+                    if (formStatus) {
+                        formStatus.textContent = '✓ Message delivered directly to Raghavendra!';
+                        formStatus.className = 'form-status is-success';
+                    }
+                    showToast('✓ Message sent successfully! 🚀');
+                    contactForm.reset();
+                } else {
+                    // Graceful fallback to mail client with prefilled values
+                    if (formStatus) {
+                        formStatus.textContent = '✓ Note saved! Opening your mail client as backup...';
+                        formStatus.className = 'form-status is-success';
+                    }
+                    showToast('Opening email backup...');
+                    const phoneText = phoneVal ? `\nPhone: ${phoneVal}` : '';
+                    const subject = encodeURIComponent(`[Portfolio Contact] ${topicVal} - from ${nameVal}`);
+                    const body = encodeURIComponent(`Name: ${nameVal}\nEmail: ${emailVal}${phoneText}\nTopic: ${topicVal}\n\nMessage:\n${messageVal}`);
+                    window.location.href = `mailto:raghavendrayadavgolla@gmail.com?subject=${subject}&body=${body}`;
+                    contactForm.reset();
+                }
+            } catch (err) {
+                console.warn('Network submit fallback:', err);
+                if (formStatus) {
+                    formStatus.textContent = 'Opening your mail client...';
+                    formStatus.className = 'form-status is-success';
+                }
+                const phoneText = phoneVal ? `\nPhone: ${phoneVal}` : '';
+                const subject = encodeURIComponent(`[Portfolio Contact] ${topicVal} - from ${nameVal}`);
+                const body = encodeURIComponent(`Name: ${nameVal}\nEmail: ${emailVal}${phoneText}\nTopic: ${topicVal}\n\nMessage:\n${messageVal}`);
+                window.location.href = `mailto:raghavendrayadavgolla@gmail.com?subject=${subject}&body=${body}`;
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('is-loading');
+                    const btnText = submitBtn.querySelector('.btn-text');
+                    if (btnText) btnText.textContent = 'Send Message';
+                }
+            }
+        });
+    }
 });
