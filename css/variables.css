@@ -12,9 +12,9 @@
     --paper-card-hover: rgba(255, 255, 255, 0.96);
 
     /* ---------- Accents (Teal Laser & Warm Gold) ---------- */
-    --teal: #0d9488;
-    --teal-glow: rgba(13, 148, 136, 0.15);
-    --teal-subtle: rgba(13, 148, 136, 0.08);
+    --teal: #2f7d78;
+    --teal-glow: rgba(47, 125, 120, 0.25);
+    --teal-subtle: rgba(47, 125, 120, 0.08);
     --gold: #d97706;
     --gold-glow: rgba(217, 119, 6, 0.14);
 
@@ -79,11 +79,11 @@
     --paper-card: rgba(18, 12, 34, 0.74);
     --paper-card-hover: rgba(28, 18, 52, 0.88);
 
-    --teal: #00f2fe;
-    --teal-glow: rgba(0, 242, 254, 0.25);
-    --teal-subtle: rgba(0, 242, 254, 0.12);
-    --gold: #f59e0b;
-    --gold-glow: rgba(245, 158, 11, 0.2);
+    --teal: #42b3ab;
+    --teal-glow: rgba(66, 179, 171, 0.25);
+    --teal-subtle: rgba(66, 179, 171, 0.12);
+    --gold: #e2b34a;
+    --gold-glow: rgba(226, 179, 74, 0.18);
 
     --glow-primary: rgba(168, 85, 247, 0.42);
     --glow-secondary: rgba(6, 182, 212, 0.38);

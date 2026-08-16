@@ -568,6 +568,10 @@
         line-height: 1.4;
     }
 
+    .vitals-text-desktop {
+        display: none;
+    }
+
     footer {
         font-size: 10px;
         padding: 18px 12px max(24px, env(safe-area-inset-bottom)) !important;
