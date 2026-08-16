@@ -82,7 +82,7 @@ body {
     height: 100vh;
     z-index: 0;
     pointer-events: none;
-    background-image: 
+    background-image:
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: 36px 36px;
@@ -353,13 +353,13 @@ header {
     display: inline-block;
     color: var(--teal);
     font-size: 8px;
-    animation: 
+    animation:
         blink 2s ease-in-out infinite,
         dotColorCycle 12s ease-in-out infinite;
 }
 
 [data-theme="dark"] .vitals-dot {
-    animation: 
+    animation:
         blink 2s ease-in-out infinite,
         dotColorCycleDark 12s ease-in-out infinite;
 }
@@ -536,7 +536,7 @@ h1 {
 
     /* 360-Degree Circular Rotating Conic Gradient Border (Soft & Translucent) */
     border: 2px solid transparent;
-    background: 
+    background:
         linear-gradient(var(--paper-card), var(--paper-card)) padding-box,
         conic-gradient(from var(--angle), rgba(13, 148, 136, 0.7) 0deg, rgba(139, 92, 246, 0.7) 90deg, rgba(245, 158, 11, 0.7) 180deg, rgba(16, 185, 129, 0.7) 270deg, rgba(13, 148, 136, 0.7) 360deg) border-box;
     animation: spinAngle 7s linear infinite;
@@ -557,14 +557,12 @@ h1 {
     position: absolute;
     inset: -3px;
     border-radius: var(--radius-full);
-    background: conic-gradient(
-        from var(--angle),
-        rgba(13, 148, 136, 0.35) 0deg,
-        rgba(139, 92, 246, 0.35) 90deg,
-        rgba(245, 158, 11, 0.35) 180deg,
-        rgba(16, 185, 129, 0.35) 270deg,
-        rgba(13, 148, 136, 0.35) 360deg
-    );
+    background: conic-gradient(from var(--angle),
+            rgba(13, 148, 136, 0.35) 0deg,
+            rgba(139, 92, 246, 0.35) 90deg,
+            rgba(245, 158, 11, 0.35) 180deg,
+            rgba(16, 185, 129, 0.35) 270deg,
+            rgba(13, 148, 136, 0.35) 360deg);
     filter: blur(14px);
     opacity: 0.75;
     z-index: -1;
@@ -574,21 +572,19 @@ h1 {
 }
 
 [data-theme="dark"] .enter {
-    background: 
+    background:
         linear-gradient(var(--paper-card), var(--paper-card)) padding-box,
         conic-gradient(from var(--angle), rgba(0, 242, 254, 0.75) 0deg, rgba(192, 132, 252, 0.75) 90deg, rgba(251, 191, 36, 0.75) 180deg, rgba(52, 211, 153, 0.75) 270deg, rgba(0, 242, 254, 0.75) 360deg) border-box;
     box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .enter::before {
-    background: conic-gradient(
-        from var(--angle),
-        rgba(0, 242, 254, 0.45) 0deg,
-        rgba(192, 132, 252, 0.45) 90deg,
-        rgba(251, 191, 36, 0.45) 180deg,
-        rgba(52, 211, 153, 0.45) 270deg,
-        rgba(0, 242, 254, 0.45) 360deg
-    );
+    background: conic-gradient(from var(--angle),
+            rgba(0, 242, 254, 0.45) 0deg,
+            rgba(192, 132, 252, 0.45) 90deg,
+            rgba(251, 191, 36, 0.45) 180deg,
+            rgba(52, 211, 153, 0.45) 270deg,
+            rgba(0, 242, 254, 0.45) 360deg);
     opacity: 0.65;
     filter: blur(16px);
 }
@@ -607,8 +603,8 @@ h1 {
 .enter .enter-text,
 .enter .coming-text {
     display: inline-block;
-    transition: 
-        opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+    transition:
+        opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
         transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: opacity, transform;
     pointer-events: none;
@@ -641,7 +637,7 @@ h1 {
 
 .enter:hover {
     color: var(--hover-text);
-    background: 
+    background:
         linear-gradient(var(--hover-bg), var(--hover-bg)) padding-box,
         conic-gradient(from var(--angle), rgba(0, 242, 254, 0.85) 0deg, rgba(192, 132, 252, 0.85) 90deg, rgba(251, 191, 36, 0.85) 180deg, rgba(52, 211, 153, 0.85) 270deg, rgba(0, 242, 254, 0.85) 360deg) border-box;
     transform: translateY(-4px) scale(1.02);
@@ -893,13 +889,13 @@ h1 {
     border-radius: 50%;
     background: var(--teal);
     margin-right: 8px;
-    animation: 
+    animation:
         blink 2.6s ease-in-out infinite,
         currentlyDotColorCycle 12s ease-in-out infinite;
 }
 
 [data-theme="dark"] .currently .dot {
-    animation: 
+    animation:
         blink 2.6s ease-in-out infinite,
         currentlyDotColorCycleDark 12s ease-in-out infinite;
 }
@@ -1223,11 +1219,14 @@ body.drawer-open {
 }
 
 @keyframes livePulseBlink {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 1;
         transform: scale(1);
         box-shadow: 0 0 6px #10b981, 0 0 12px rgba(16, 185, 129, 0.6);
     }
+
     50% {
         opacity: 0.2;
         transform: scale(0.7);
@@ -1344,8 +1343,15 @@ body.drawer-open {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* 1. Thoughts Grid & Cards */
@@ -1390,10 +1396,29 @@ body.drawer-open {
     letter-spacing: 0.03em;
 }
 
-.tag-ai { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); }
-.tag-book { background: rgba(245, 158, 11, 0.14); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.22); }
-.tag-math { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
-.tag-genai { background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+.tag-ai {
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.tag-book {
+    background: rgba(245, 158, 11, 0.14);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.22);
+}
+
+.tag-math {
+    background: rgba(168, 85, 247, 0.12);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.tag-genai {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
 
 .read-time {
     font-family: var(--font-mono);
