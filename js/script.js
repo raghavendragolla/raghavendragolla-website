@@ -661,4 +661,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 animateCount(Math.max(1000, cached - 25), cached);
             });
     }
+
+    // ====================================================
+    // 10. My Thoughts & Intelligence Hub Controller
+    // ====================================================
+    const thoughtsToggleBtn = document.getElementById('thoughts-toggle-btn');
+    const thoughtsDrawer = document.getElementById('thoughtsDrawer');
+    const closeThoughtsBtn = document.getElementById('closeThoughtsBtn');
+    const closeThoughtsBackdrop = document.getElementById('closeThoughtsBackdrop');
+    const hubTabs = document.querySelectorAll('.hub-tab');
+    const hubPanes = document.querySelectorAll('.hub-pane');
+
+    function openThoughtsHub() {
+        if (thoughtsDrawer) {
+            thoughtsDrawer.classList.add('active');
+            thoughtsDrawer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeThoughtsHub() {
+        if (thoughtsDrawer) {
+            thoughtsDrawer.classList.remove('active');
+            thoughtsDrawer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (thoughtsToggleBtn) {
+        thoughtsToggleBtn.addEventListener('click', openThoughtsHub);
+    }
+    if (closeThoughtsBtn) {
+        closeThoughtsBtn.addEventListener('click', closeThoughtsHub);
+    }
+    if (closeThoughtsBackdrop) {
+        closeThoughtsBackdrop.addEventListener('click', closeThoughtsHub);
+    }
+
+    // Keyboard ESC to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && thoughtsDrawer && thoughtsDrawer.classList.contains('active')) {
+            closeThoughtsHub();
+        }
+    });
+
+    // Tab Switching Logic
+    hubTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetTab = tab.getAttribute('data-tab');
+            hubTabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            hubPanes.forEach(pane => pane.classList.remove('active'));
+
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+
+            const targetPane = document.getElementById(`pane-${targetTab}`);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+        });
+    });
 });

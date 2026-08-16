@@ -175,13 +175,55 @@ header {
     padding: 8px 0;
 }
 
-.theme-toggle {
+.header-controls {
     position: absolute;
     top: 50%;
     right: 20px;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
+.thoughts-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    background: var(--paper-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    color: var(--ink);
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.thoughts-toggle-btn:hover {
+    border-color: var(--teal);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 20px var(--teal-glow);
+}
+
+.thoughts-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    font-size: 8.5px;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.18);
+    color: #10b981;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.theme-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,7 +244,7 @@ header {
 }
 
 .theme-toggle:hover {
-    transform: translateY(-50%) scale(1.08);
+    transform: scale(1.08);
     border-color: var(--teal);
     box-shadow: 0 6px 18px var(--teal-glow);
 }
@@ -1061,4 +1103,434 @@ footer {
 
 .footer-cta:hover span {
     transform: translateX(3px);
+}
+
+/* =========================================
+   My Thoughts & Market Intelligence Hub Drawer
+   ========================================= */
+
+.thoughts-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.thoughts-drawer.active {
+    display: block;
+    opacity: 1;
+}
+
+.thoughts-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 22, 0.7);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    cursor: pointer;
+}
+
+[data-theme="light"] .thoughts-backdrop {
+    background: rgba(240, 244, 248, 0.75);
+}
+
+.thoughts-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(720px, 92vw);
+    height: 100%;
+    background: var(--paper-card);
+    border-left: 1px solid var(--glass-border);
+    box-shadow: -8px 0 36px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+}
+
+.thoughts-drawer.active .thoughts-panel {
+    transform: translateX(0);
+}
+
+.thoughts-header {
+    padding: 24px 28px 18px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.thoughts-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.thoughts-header-sparkle {
+    font-size: 20px;
+}
+
+.thoughts-title-row h2 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+}
+
+.pulse-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    border-radius: 9999px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    letter-spacing: 0.04em;
+}
+
+.thoughts-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+.thoughts-close-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.thoughts-close-btn:hover {
+    color: var(--ink);
+    border-color: var(--teal);
+    transform: scale(1.1);
+}
+
+/* Hub Navigation Tabs */
+.hub-tabs {
+    display: flex;
+    padding: 10px 24px 0;
+    gap: 8px;
+    border-bottom: 1px solid var(--glass-border);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.hub-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.hub-tab {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 14px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.hub-tab:hover {
+    color: var(--ink);
+}
+
+.hub-tab.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+}
+
+/* Content Container */
+.hub-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px 40px;
+    scrollbar-width: thin;
+}
+
+.hub-pane {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.hub-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 1. Thoughts Grid & Cards */
+.thoughts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.thought-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    transition: transform 0.25s var(--apple-ease), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+[data-theme="light"] .thought-card {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.thought-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.thought-tag-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.thought-tag {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.03em;
+}
+
+.tag-ai { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+.tag-book { background: rgba(245, 158, 11, 0.14); color: #f59e0b; }
+.tag-math { background: rgba(168, 85, 247, 0.12); color: #c084fc; }
+.tag-genai { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+
+.read-time {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--muted);
+}
+
+.thought-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.thought-snippet {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+
+.thought-footer {
+    border-top: 1px dashed var(--glass-border);
+    padding-top: 8px;
+}
+
+.thought-meta {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--teal);
+    font-weight: 500;
+}
+
+/* 2. Now & Journey Styling */
+.now-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.now-intro-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    background: rgba(47, 125, 120, 0.08);
+    border: 1px solid rgba(47, 125, 120, 0.2);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--teal);
+}
+
+.now-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.now-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease;
+}
+
+.now-item:hover {
+    border-color: var(--teal);
+}
+
+.now-icon {
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.now-body h4 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 4px;
+}
+
+.now-body p {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+/* 3. Market Intelligence Styling */
+.market-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.market-pulse-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    font-size: 11.5px;
+    color: var(--ink);
+}
+
+.live-blink-dot {
+    color: #10b981;
+    font-size: 12px;
+    animation: blink 1.5s infinite ease-in-out;
+}
+
+.market-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.market-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+}
+
+.market-card h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.market-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.market-list li {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+.market-list li strong {
+    color: var(--ink);
+}
+
+.intel-resources {
+    border-top: 1px solid var(--glass-border);
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.intel-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+.intel-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.intel-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--teal);
+    background: rgba(47, 125, 120, 0.1);
+    border: 1px solid rgba(47, 125, 120, 0.25);
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.intel-chip:hover {
+    background: var(--teal);
+    color: white;
 }

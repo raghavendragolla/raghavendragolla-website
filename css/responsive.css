@@ -187,22 +187,46 @@
         display: block !important;
     }
 
-    .theme-toggle {
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        right: 14px;
-        width: 36px;
-        height: 36px;
+    .header-controls {
+        right: 12px;
+        gap: 6px;
     }
 
-    .theme-toggle:hover {
-        transform: translateY(-50%) scale(1.08) !important;
+    .thoughts-toggle-btn {
+        padding: 5px 9px;
+        font-size: 10px;
+        gap: 5px;
+    }
+
+    .thoughts-badge {
+        display: none;
+    }
+
+    .theme-toggle {
+        width: 34px;
+        height: 34px;
+    }
+
+    .thoughts-panel {
+        width: 100vw;
+    }
+
+    .thoughts-header {
+        padding: 18px 16px 14px;
+    }
+
+    .hub-tabs {
+        padding: 6px 14px 0;
+    }
+
+    .hub-content {
+        padding: 16px 16px 32px;
     }
 
     .vitals-status {
-        left: 12px;
-        font-size: 10px;
-        padding: 3px 9px;
+        left: 10px;
+        font-size: 9.5px;
+        padding: 3px 8px;
     }
 
     main {

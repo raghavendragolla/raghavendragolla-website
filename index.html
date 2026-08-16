@@ -118,13 +118,13 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=13.0">
-    <link rel="stylesheet" href="css/style.css?v=13.0">
-    <link rel="stylesheet" href="css/animations.css?v=13.0">
-    <link rel="stylesheet" href="css/responsive.css?v=13.0">
+    <link rel="stylesheet" href="css/variables.css?v=14.0">
+    <link rel="stylesheet" href="css/style.css?v=14.0">
+    <link rel="stylesheet" href="css/animations.css?v=14.0">
+    <link rel="stylesheet" href="css/responsive.css?v=14.0">
 
     <!-- JavaScript -->
-    <script src="js/script.js?v=13.0" defer></script>
+    <script src="js/script.js?v=14.0" defer></script>
 
 </head>
 
@@ -172,22 +172,29 @@
                 </span>
             </div>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
-            <svg class="moon-icon" viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-            <svg class="sun-icon" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-        </button>
+        <div class="header-controls">
+            <button id="thoughts-toggle-btn" class="thoughts-toggle-btn" aria-label="Open My Thoughts & Market Intelligence Hub" title="My Thoughts & Market Intel">
+                <span class="thoughts-icon">💡</span>
+                <span class="thoughts-label">My Thoughts &amp; Intel</span>
+                <span class="thoughts-badge">Live</span>
+            </button>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
+                <svg class="moon-icon" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg class="sun-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
     </header>
 
     <main>
@@ -350,6 +357,219 @@
             </div>
         </div>
     </footer>
+
+    <!-- My Thoughts & Market Intelligence Slide-over Hub Drawer -->
+    <div id="thoughtsDrawer" class="thoughts-drawer" aria-hidden="true" role="dialog" aria-label="My Thoughts and Market Intelligence Hub">
+        <div class="thoughts-backdrop" id="closeThoughtsBackdrop"></div>
+        <div class="thoughts-panel">
+            <div class="thoughts-header">
+                <div class="thoughts-header-info">
+                    <div class="thoughts-title-row">
+                        <span class="thoughts-header-sparkle">💡</span>
+                        <h2>My Thoughts &amp; Market Hub</h2>
+                        <span class="pulse-pill">● Live Intelligence</span>
+                    </div>
+                    <p class="thoughts-subtitle">Curated engineering notes, reading breakdowns &amp; live AI market intelligence.</p>
+                </div>
+                <button class="thoughts-close-btn" id="closeThoughtsBtn" aria-label="Close Hub">&times;</button>
+            </div>
+
+            <!-- Hub Navigation Tabs -->
+            <div class="hub-tabs" role="tablist">
+                <button class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true">
+                    <span>💡 My Thoughts &amp; Notes</span>
+                </button>
+                <button class="hub-tab" data-tab="now" role="tab" aria-selected="false">
+                    <span>⚡ Now &bull; Active Focus</span>
+                </button>
+                <button class="hub-tab" data-tab="market" role="tab" aria-selected="false">
+                    <span>📈 Live AI &amp; Market Intel</span>
+                </button>
+            </div>
+
+            <!-- Tab Content Panes -->
+            <div class="hub-content">
+
+                <!-- 1. My Thoughts & Book Notes Pane -->
+                <div id="pane-thoughts" class="hub-pane active" role="tabpanel">
+                    <div class="thoughts-grid">
+                        <article class="thought-card">
+                            <div class="thought-tag-row">
+                                <span class="thought-tag tag-ai">🔬 AI &amp; ML Research</span>
+                                <span class="read-time">4 min read</span>
+                            </div>
+                            <h3 class="thought-title">Why Explainable AI (SHAP) is Essential in High-Stakes ML</h3>
+                            <p class="thought-snippet">
+                                In healthcare diagnosis and financial credit scoring, high test accuracy isn't enough. Feature attribution and SHAP value game-theory calculations transform black-box neural predictions into auditable, clinician-friendly decision support systems.
+                            </p>
+                            <div class="thought-footer">
+                                <span class="thought-meta">Interpretable Machine Learning &bull; Healthcare AI</span>
+                            </div>
+                        </article>
+
+                        <article class="thought-card">
+                            <div class="thought-tag-row">
+                                <span class="thought-tag tag-book">📚 Book Takeaway &bull; James Clear</span>
+                                <span class="read-time">3 min read</span>
+                            </div>
+                            <h3 class="thought-title">Atomic Habits for Data Scientists: The Math of Compounding 1%</h3>
+                            <p class="thought-snippet">
+                                Mastering deep learning frameworks isn't about giant overnight leaps. Applying the 4 Laws of Behavior Change creates compounding daily momentum: 1% improvement every day makes you 37x better over a single year (1.01<sup>365</sup> = 37.78).
+                            </p>
+                            <div class="thought-footer">
+                                <span class="thought-meta">Key Idea: Systems over goals &bull; Habit stacking for engineering</span>
+                            </div>
+                        </article>
+
+                        <article class="thought-card">
+                            <div class="thought-tag-row">
+                                <span class="thought-tag tag-math">📐 Mathematics &amp; Foundations</span>
+                                <span class="read-time">3 min read</span>
+                            </div>
+                            <h3 class="thought-title">From Statistical Rigor to Dependable Deep Learning</h3>
+                            <p class="thought-snippet">
+                                Strong mathematical intuition in linear algebra (eigenvalues, SVD), multivariable calculus (gradients, backpropagation), and Bayesian probability makes model optimization, loss convergence debugging, and architecture design intuitive rather than guessing.
+                            </p>
+                            <div class="thought-footer">
+                                <span class="thought-meta">Foundation: Linear Algebra &bull; Calculus &bull; Probability Theory</span>
+                            </div>
+                        </article>
+
+                        <article class="thought-card">
+                            <div class="thought-tag-row">
+                                <span class="thought-tag tag-genai">⚡ GenAI &amp; Applied LLMs</span>
+                                <span class="read-time">3 min read</span>
+                            </div>
+                            <h3 class="thought-title">The Commercial Shift Toward Small Language Models (SLMs)</h3>
+                            <p class="thought-snippet">
+                                While massive 70B+ parameter models get hype, real enterprise adoption is surging around sub-7B models (Phi-3, Gemma, Mistral). They provide low latency, privacy-first offline execution on edge devices, and cost-effective fine-tuning.
+                            </p>
+                            <div class="thought-footer">
+                                <span class="thought-meta">Focus: Edge AI &bull; Low-Latency Inference &bull; Model Quantization</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <!-- 2. Now & Journey Pane (Derek Sivers Style) -->
+                <div id="pane-now" class="hub-pane" role="tabpanel">
+                    <div class="now-container">
+                        <div class="now-intro-banner">
+                            <span class="now-pin">📍 Guntur, Andhra Pradesh, India</span>
+                            <span class="now-sync">Updated for 2026</span>
+                        </div>
+
+                        <div class="now-timeline">
+                            <div class="now-item">
+                                <div class="now-icon">🔭</div>
+                                <div class="now-body">
+                                    <h4>Active Research: Explainable AI</h4>
+                                    <p>Investigating tree-based ensemble interpretability and SHAP feature importance for clinical risk stratification and early diagnostic decision support.</p>
+                                </div>
+                            </div>
+
+                            <div class="now-item">
+                                <div class="now-icon">📖</div>
+                                <div class="now-body">
+                                    <h4>Reading &amp; Literature</h4>
+                                    <p><em>Atomic Habits</em> by James Clear, along with research papers on Transformer architectures, model quantization, and tabular deep learning.</p>
+                                </div>
+                            </div>
+
+                            <div class="now-item">
+                                <div class="now-icon">🛠️</div>
+                                <div class="now-body">
+                                    <h4>Engineering &amp; Building</h4>
+                                    <p>Constructing end-to-end reproducible machine learning pipelines with Python, PyTorch, Scikit-Learn, FastAPI REST endpoints, and Docker containerization.</p>
+                                </div>
+                            </div>
+
+                            <div class="now-item">
+                                <div class="now-icon">🎓</div>
+                                <div class="now-body">
+                                    <h4>Academic Pathway</h4>
+                                    <p>Pursuing Master of Science in Data Science at Chandigarh University (2025–2027), deepening foundations in advanced statistical modeling and distributed systems.</p>
+                                </div>
+                            </div>
+
+                            <div class="now-item">
+                                <div class="now-icon">💼</div>
+                                <div class="now-body">
+                                    <h4>Target Milestones</h4>
+                                    <p>Actively open to Data Scientist, ML Engineer, and Data Analyst internship and full-time opportunities (Remote &amp; Relocation).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Live AI & Job Market Intelligence Pane -->
+                <div id="pane-market" class="hub-pane" role="tabpanel">
+                    <div class="market-container">
+                        <!-- Top Signal Bar -->
+                        <div class="market-pulse-bar">
+                            <span class="live-blink-dot">●</span>
+                            <span class="market-headline">2026 Data Science &amp; AI Job Market Signal: <strong>High Demand for Applied &amp; Explainable AI Practitioners</strong></span>
+                        </div>
+
+                        <div class="market-grid">
+                            <!-- In-Demand Skill Stack Card -->
+                            <div class="market-card">
+                                <h4><span class="card-icon">🔥</span> Top In-Demand Skills (2026)</h4>
+                                <ul class="market-list">
+                                    <li>
+                                        <strong>1. Python &amp; PyTorch:</strong> Core tensor programming, fine-tuning, and model evaluation pipelines.
+                                    </li>
+                                    <li>
+                                        <strong>2. SQL &amp; Data Warehouses:</strong> Advanced window functions, aggregations, and high-performance querying.
+                                    </li>
+                                    <li>
+                                        <strong>3. Explainable AI (XAI):</strong> Model governance, SHAP/LIME audits for compliance and trust.
+                                    </li>
+                                    <li>
+                                        <strong>4. MLOps &amp; Docker:</strong> Containerized REST APIs, model versioning, and CI/CD deployment.
+                                    </li>
+                                    <li>
+                                        <strong>5. RAG &amp; Embeddings:</strong> Vector search, hybrid retrieval, and practical LLM pipelines.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Key Industry Trends Card -->
+                            <div class="market-card">
+                                <h4><span class="card-icon">🚀</span> Key Industry AI Trends</h4>
+                                <ul class="market-list">
+                                    <li>
+                                        <strong>Agentic AI Workflows:</strong> Transition from simple prompt-response bots to multi-step reasoning tools.
+                                    </li>
+                                    <li>
+                                        <strong>Edge AI &amp; SLMs:</strong> Deploying sub-7B models locally on devices for zero-latency &amp; privacy compliance.
+                                    </li>
+                                    <li>
+                                        <strong>Decision Intelligence:</strong> Companies value predictive models that prescribe actions over static reports.
+                                    </li>
+                                    <li>
+                                        <strong>Proof-of-Work Portfolios:</strong> Practical, reproducible GitHub repositories with clean documentation beat generic certificates.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Curated Intel Resources -->
+                        <div class="intel-resources">
+                            <span class="intel-title">Verified Live Sources:</span>
+                            <div class="intel-links">
+                                <a href="https://arxiv.org/list/cs.AI/recent" target="_blank" rel="noopener noreferrer" class="intel-chip">arXiv cs.AI &rarr;</a>
+                                <a href="https://huggingface.co/papers" target="_blank" rel="noopener noreferrer" class="intel-chip">Hugging Face Daily &rarr;</a>
+                                <a href="https://towardsdatascience.com/" target="_blank" rel="noopener noreferrer" class="intel-chip">Towards Data Science &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 </body>
 
