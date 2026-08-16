@@ -114,17 +114,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=16.0">
-    <link rel="stylesheet" href="css/style.css?v=16.0">
-    <link rel="stylesheet" href="css/animations.css?v=16.0">
-    <link rel="stylesheet" href="css/responsive.css?v=16.0">
+    <link rel="stylesheet" href="css/variables.css?v=17.0">
+    <link rel="stylesheet" href="css/style.css?v=17.0">
+    <link rel="stylesheet" href="css/animations.css?v=17.0">
+    <link rel="stylesheet" href="css/responsive.css?v=17.0">
 
     <!-- JavaScript -->
-    <script src="js/script.js?v=16.0" defer></script>
+    <script src="js/script.js?v=17.0" defer></script>
 
 </head>
 
@@ -364,28 +364,35 @@
         <div class="thoughts-backdrop" id="closeThoughtsBackdrop"></div>
         <div class="thoughts-panel">
             <div class="thoughts-header">
-                <div class="thoughts-header-info">
+                <div class="thoughts-header-main">
                     <div class="thoughts-title-row">
                         <span class="thoughts-header-sparkle">💡</span>
-                        <h2>My Thoughts &amp; Market Hub</h2>
-                        <span class="pulse-pill">● Live Intelligence</span>
+                        <h2 class="thoughts-title">My Thoughts &amp; Intel</h2>
+                        <span class="pulse-pill">● LIVE</span>
                     </div>
-                    <p class="thoughts-subtitle">Curated engineering notes, reading breakdowns &amp; live AI market intelligence.</p>
+                    <p class="thoughts-subtitle">Engineering notes, reading takeaways &amp; 2026 AI industry insights</p>
                 </div>
-                <button class="thoughts-close-btn" id="closeThoughtsBtn" aria-label="Close Hub">&times;</button>
+                <button class="thoughts-close-btn" id="closeThoughtsBtn" aria-label="Close Hub">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
             </div>
 
-            <!-- Hub Navigation Tabs -->
-            <div class="hub-tabs" role="tablist">
-                <button class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true">
-                    <span>💡 My Thoughts &amp; Notes</span>
-                </button>
-                <button class="hub-tab" data-tab="now" role="tab" aria-selected="false">
-                    <span>⚡ Now &bull; Active Focus</span>
-                </button>
-                <button class="hub-tab" data-tab="market" role="tab" aria-selected="false">
-                    <span>📈 Live AI &amp; Market Intel</span>
-                </button>
+            <!-- Segmented Pill Tabs -->
+            <div class="hub-tabs-container">
+                <div class="hub-tabs" role="tablist">
+                    <button class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true">
+                        <span>💡 Thoughts &amp; Notes</span>
+                    </button>
+                    <button class="hub-tab" data-tab="now" role="tab" aria-selected="false">
+                        <span>⚡ Now Focus</span>
+                    </button>
+                    <button class="hub-tab" data-tab="market" role="tab" aria-selected="false">
+                        <span>📈 Market Intel</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Tab Content Panes -->
