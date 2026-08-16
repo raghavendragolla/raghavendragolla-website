@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Raghavendra Golla - Portfolio Design System Tokens
+   Pristine Glassmorphism, Dynamic Aerospace Accents & Fluid Typography
+   ========================================================================== */
+
+:root {
+    /* ---------- Core Palette (Light Theme) ---------- */
+    --ink: #101820;
+    --ink-soft: #4a5568;
+    --ink-muted: #718096;
+    --paper: #f7f6f2;
+    --paper-raised: #ffffff;
+    --paper-card: rgba(255, 255, 255, 0.75);
+    --paper-card-hover: rgba(255, 255, 255, 0.92);
+    --sidebar-bg: rgba(247, 246, 242, 0.85);
+
+    /* ---------- Accents (Teal Laser, Warm Gold & Vibrant Orange) ---------- */
+    --teal: #2f7d78;
+    --teal-glow: rgba(47, 125, 120, 0.18);
+    --teal-subtle: rgba(47, 125, 120, 0.08);
+    --gold: #b8902f;
+    --gold-glow: rgba(184, 144, 47, 0.14);
+    --orange: #e2703a;
+    --orange-soft: #fbe6da;
+    --green: #2e8555;
+    --green-soft: #e1efe3;
+
+    /* ---------- Ambient Light Glows ---------- */
+    --glow-primary: rgba(47, 125, 120, 0.16);
+    --glow-secondary: rgba(184, 144, 47, 0.12);
+    --grid-line: rgba(16, 24, 32, 0.035);
+    --badge-bg: rgba(255, 255, 255, 0.85);
+
+    /* ---------- Borders & Glassmorphic Highlights ---------- */
+    --line: rgba(16, 24, 32, 0.1);
+    --line-subtle: rgba(16, 24, 32, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 12px 32px -8px rgba(16, 24, 32, 0.06), 0 1px 1px 0 rgba(255, 255, 255, 0.8) inset;
+    --card-shadow: 0 4px 20px -2px rgba(16, 24, 32, 0.05);
+    --card-hover-shadow: 0 16px 36px -6px rgba(16, 24, 32, 0.12), 0 0 0 1px var(--teal);
+
+    /* ---------- Interactive Controls ---------- */
+    --border-button: #101820;
+    --btn-primary-bg: #101820;
+    --btn-primary-text: #f7f6f2;
+    --hover-bg: #2f7d78;
+    --hover-text: #ffffff;
+
+    /* ---------- Typography ---------- */
+    --font-heading: 'Fraunces', serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    /* ---------- Border Radii ---------- */
+    --radius-full: 999px;
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    /* ---------- Fluid Transitions (Apple Spring Easing) ---------- */
+    --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+
+    /* ---------- Scrollbar Tokens ---------- */
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(16, 24, 32, 0.14);
+    --scrollbar-thumb-hover: rgba(47, 125, 120, 0.45);
+
+    /* ---------- ECG Vitals ---------- */
+    --ecg-length: 1400;
+}
+
+/* ---------- Dark Theme (Apple Pro / Deep Space Aesthetic) ---------- */
+[data-theme="dark"] {
+    --ink: #f2f6fa;
+    --ink-soft: #94a3b8;
+    --ink-muted: #64748b;
+    --paper: #080d14;
+    --paper-raised: #0f1724;
+    --paper-card: rgba(15, 23, 36, 0.75);
+    --paper-card-hover: rgba(22, 34, 52, 0.88);
+    --sidebar-bg: rgba(8, 13, 20, 0.85);
+
+    --teal: #42b3ab;
+    --teal-glow: rgba(66, 179, 171, 0.25);
+    --teal-subtle: rgba(66, 179, 171, 0.12);
+    --gold: #e2b34a;
+    --gold-glow: rgba(226, 179, 74, 0.18);
+    --orange: #f08c5a;
+    --orange-soft: rgba(240, 140, 90, 0.15);
+    --green: #4ade80;
+    --green-soft: rgba(74, 222, 128, 0.14);
+
+    --glow-primary: rgba(66, 179, 171, 0.22);
+    --glow-secondary: rgba(226, 179, 74, 0.16);
+    --grid-line: rgba(242, 246, 250, 0.04);
+    --badge-bg: rgba(15, 23, 36, 0.85);
+
+    --line: rgba(242, 246, 250, 0.1);
+    --line-subtle: rgba(242, 246, 250, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 1px 1px 0 rgba(255, 255, 255, 0.08) inset;
+    --card-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
+    --card-hover-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--teal);
+
+    --border-button: #42b3ab;
+    --btn-primary-bg: #f2f6fa;
+    --btn-primary-text: #080d14;
+    --hover-bg: #42b3ab;
+    --hover-text: #080d14;
+
+    /* ---------- Scrollbar Dark Mode ---------- */
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+    --scrollbar-thumb-hover: rgba(66, 179, 171, 0.45);
+}

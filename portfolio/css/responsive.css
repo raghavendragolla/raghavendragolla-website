@@ -1,0 +1,661 @@
+/* ==========================================================================
+   Raghavendra Golla - Comprehensive Responsive Design System
+   Optimized for: 4K/Ultra-Wide, Laptops, Tablets, Phablets & All Mobile Devices
+   ========================================================================== */
+
+/* =========================================
+   1. Ultra-Wide & 4K Displays (1600px+)
+   ========================================= */
+@media (min-width: 1600px) {
+    .shell {
+        grid-template-columns: 320px minmax(0, 1fr);
+    }
+    section {
+        max-width: 1440px;
+        padding: 6rem 5rem;
+    }
+    .hero-title {
+        font-size: 3.8rem;
+    }
+}
+
+/* =========================================
+   2. Desktop / Standard Laptops (1200px - 1400px)
+   ========================================= */
+@media (max-width: 1400px) {
+    .shell {
+        grid-template-columns: 270px minmax(0, 1fr);
+    }
+    .hero-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .about-grid {
+        grid-template-columns: 1.4fr 1fr;
+        gap: 2rem;
+    }
+}
+
+/* =========================================
+   3. Compact Laptop & Large Tablet (993px - 1199px)
+   ========================================= */
+@media (max-width: 1199px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+    .skill-groups {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+/* =========================================
+   4. Tablet & Mobile Navigation (< 992px)
+   ========================================= */
+@media (max-width: 992px) {
+    .shell {
+        grid-template-columns: 1fr;
+        display: block;
+    }
+
+    /* Transform Sidebar into Sticky Top Bar */
+    nav.sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        background: var(--sidebar-bg);
+        z-index: 1000;
+        overflow: visible;
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+    }
+
+    .sidebar-top {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 60px;
+        height: 60px;
+        gap: 0.5rem;
+    }
+
+    .brand-container {
+        border-bottom: none;
+        padding-bottom: 0;
+        gap: 0.5rem;
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        flex: 1;
+        justify-content: center;
+    }
+
+    .avatar-wrapper {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+    }
+
+    .brand {
+        font-size: clamp(0.82rem, 3.8vw, 0.96rem);
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+        color: var(--ink);
+        letter-spacing: -0.01em;
+    }
+
+    .brand span {
+        display: none !important;
+    }
+
+    .back-hub {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        border-radius: var(--radius-md);
+        background: var(--paper-card);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        flex-shrink: 0;
+        transition: transform 0.2s var(--apple-ease), border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .back-hub:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+        transform: scale(1.05);
+    }
+
+    .back-hub span {
+        display: none !important;
+    }
+
+    .back-hub svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.2;
+    }
+
+    /* Soft Blur Backdrop Overlay for Mobile Dropdown */
+    .mobile-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .mobile-backdrop.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /* Floating Glassmorphic Dropdown Card */
+    .navlist {
+        display: flex;
+        position: fixed;
+        top: 68px;
+        left: 12px;
+        right: 12px;
+        max-width: 380px;
+        margin: 0 0 0 auto;
+        background: var(--paper-raised);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--line);
+        padding: 0.85rem 0.75rem;
+        flex-direction: column;
+        gap: 0.35rem;
+        z-index: 999;
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+        pointer-events: none;
+        transform-origin: top right;
+        transition: transform 0.28s var(--apple-ease), opacity 0.28s ease;
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+    }
+
+    [data-theme="dark"] .navlist {
+        background: rgba(18, 26, 38, 0.95);
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 25px var(--teal-glow);
+    }
+
+    .navlist.open {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+    }
+
+    .navlist a {
+        font-size: 0.92rem;
+        padding: 0.65rem 0.9rem;
+        border-radius: var(--radius-md);
+        border-left: 2px solid transparent;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        color: var(--ink-soft);
+        transition: all 0.2s ease;
+    }
+
+    .navlist a:hover,
+    .navlist a.active {
+        background: var(--paper-card);
+        color: var(--ink);
+        border-left-color: var(--teal);
+        padding-left: 1.1rem;
+    }
+
+    .navlist a svg,
+    .navlist a i {
+        width: 1.15rem;
+        height: 1.15rem;
+        color: var(--ink-muted);
+    }
+
+    .navlist a:hover svg,
+    .navlist a:hover i,
+    .navlist a.active svg,
+    .navlist a.active i {
+        color: var(--teal);
+    }
+
+    .sidebar-foot {
+        display: none;
+    }
+
+    .theme-toggle-sidebar {
+        display: none;
+    }
+
+    /* Mobile Menu Toggle & Theme Button */
+    .mobile-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        flex-shrink: 0;
+    }
+
+    .mobile-theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--paper-card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-full);
+        color: var(--ink);
+        cursor: pointer;
+        transition: transform 0.2s var(--apple-ease), border-color 0.2s ease;
+    }
+
+    .mobile-theme-toggle:hover {
+        border-color: var(--teal);
+        transform: scale(1.05);
+    }
+
+    .mobile-theme-toggle svg {
+        width: 17px;
+        height: 17px;
+        stroke-width: 2;
+        fill: none;
+        stroke: currentColor;
+        transform-origin: center center;
+    }
+
+    .mobile-theme-toggle .moon-icon {
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .mobile-theme-toggle:hover .moon-icon {
+        transform: rotate(360deg);
+    }
+
+    .mobile-theme-toggle .sun-icon {
+        display: none;
+        transform-origin: center center;
+    }
+
+    [data-theme="dark"] .mobile-theme-toggle .moon-icon {
+        display: none;
+    }
+
+    [data-theme="dark"] .mobile-theme-toggle .sun-icon {
+        display: block !important;
+        animation: sunSpinClockwise 12s linear infinite !important;
+        transform-origin: center center !important;
+        will-change: transform;
+    }
+
+    .mobile-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: var(--paper-card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        color: var(--ink);
+        cursor: pointer;
+        transition: transform 0.2s var(--apple-ease), border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .mobile-toggle-btn:hover {
+        border-color: var(--teal);
+        transform: scale(1.05);
+    }
+
+    .mobile-toggle-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 2.2;
+    }
+
+    .mobile-toggle-btn .close-icon {
+        display: none;
+    }
+
+    .mobile-toggle-btn.active .hamburger-icon {
+        display: none;
+    }
+
+    .mobile-toggle-btn.active .close-icon {
+        display: block;
+    }
+
+    .mobile-toggle-btn.active {
+        background: var(--teal);
+        color: #ffffff;
+        border-color: var(--teal);
+    }
+
+    /* Offset for Top Sticky Bar */
+    .main-content {
+        margin-top: 60px;
+        width: 100%;
+    }
+
+    header.top-vitals {
+        position: sticky;
+        top: 60px;
+        z-index: 900;
+        height: 44px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .vitals-container {
+        height: 44px;
+    }
+
+    .vitals-svg-desktop {
+        display: none !important;
+    }
+
+    .vitals-svg-mobile {
+        display: block !important;
+    }
+
+    .vitals-status {
+        right: 12px;
+        left: auto;
+        font-size: 0.65rem;
+        padding: 3px 9px;
+    }
+
+    .timeline li {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* =========================================
+   5. Phablets & Mobile Landscape (< 768px)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Horizontal scrollable category filter pills */
+    .project-filters {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 0.6rem;
+        margin-bottom: 1.8rem;
+        gap: 0.5rem;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .project-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        font-size: 0.78rem;
+        padding: 0.45rem 0.9rem;
+    }
+
+    .hero-strip {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .skill-groups {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .cert-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .cert-media {
+        height: 200px;
+        padding: 10px;
+    }
+
+    .cert-content {
+        padding: 1.4rem 1.2rem;
+    }
+
+    .cert-title {
+        font-size: 1.15rem;
+    }
+
+    .cert-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cert-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cert-modal {
+        padding: 0.75rem;
+    }
+
+    .cert-modal-dialog {
+        max-height: 94vh;
+    }
+
+    .cert-modal-img {
+        max-height: 60vh;
+    }
+}
+
+/* =========================================
+   6. Smartphones (< 640px)
+   ========================================= */
+@media (max-width: 640px) {
+    section {
+        padding: 3rem 1.2rem;
+    }
+
+    .section-head h2 {
+        font-size: 1.6rem;
+    }
+
+    h1.hero-title {
+        font-size: clamp(2rem, 7.5vw, 2.5rem);
+        line-height: 1.18;
+    }
+
+    .hero-bio {
+        font-size: 0.95rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.88rem;
+    }
+
+    .hero-strip {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .strip-card {
+        padding: 1.1rem 1.2rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .project-card {
+        padding: 1.4rem 1.2rem;
+    }
+
+    .project-title {
+        font-size: 1.15rem;
+    }
+
+    .stack-row {
+        gap: 0.35rem;
+    }
+
+    .stack-row span {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.55rem;
+    }
+
+    .resume-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.2rem;
+        padding: 1.5rem 1.2rem;
+    }
+
+    .resume-box .btn {
+        width: 100%;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* =========================================
+   7. Small Smartphones / iPhone SE (< 480px)
+   ========================================= */
+@media (max-width: 480px) {
+    section {
+        padding: 2.5rem 1rem;
+    }
+
+    .status-badge {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.65rem;
+    }
+
+    .chip-row {
+        gap: 0.35rem;
+    }
+
+    .chip {
+        font-size: 0.74rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .project-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .project-links a {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .callout {
+        padding: 1rem 1.1rem;
+        font-size: 0.85rem;
+    }
+
+    .cert-content {
+        padding: 1.2rem 0.9rem;
+    }
+
+    .cert-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+
+    .cert-secondary-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        padding: 1rem;
+    }
+}
+
+/* =========================================
+   8. Ultra-Narrow Devices (< 360px)
+   ========================================= */
+@media (max-width: 360px) {
+    nav.sidebar {
+        padding: 0 0.6rem;
+    }
+
+    h1.hero-title {
+        font-size: 1.75rem;
+    }
+
+    .avatar-wrapper {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* =========================================
+   9. Accessibility & Reduced Motion
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -1,0 +1,341 @@
+/* ==========================================================================
+   Raghavendra Golla - Portfolio Animation Engine
+   Fluid Keyframes, Micro-Interactions, Toast Motion & Ambient Physics
+   ========================================================================== */
+
+/* -----------------------------------------
+   ECG Line Draw & Continuous Heartbeat
+   ----------------------------------------- */
+@keyframes realHeartbeatPump {
+    0% {
+        transform: scaleY(1);
+    }
+    10% {
+        transform: scaleY(1.45);
+    }
+    18% {
+        transform: scaleY(0.85);
+    }
+    28% {
+        transform: scaleY(1.55);
+    }
+    38% {
+        transform: scaleY(0.92);
+    }
+    48% {
+        transform: scaleY(1);
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.45;
+    }
+}
+
+/* -----------------------------------------
+   Status Dot Multi-Color Cycle & Blink
+   ----------------------------------------- */
+@keyframes dotColorBlink {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        color: #10b981; /* Fresh Mint / Emerald */
+        filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
+    }
+    20% {
+        opacity: 0.35;
+        transform: scale(0.85);
+        color: #38bdf8; /* Soft Cyan */
+        filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.4));
+    }
+    40% {
+        opacity: 1;
+        transform: scale(1.15);
+        color: #2f7d78; /* Aerospace Teal */
+        filter: drop-shadow(0 0 5px rgba(47, 125, 120, 0.6));
+    }
+    60% {
+        opacity: 0.35;
+        transform: scale(0.85);
+        color: #f59e0b; /* Warm Amber */
+        filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.4));
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1.15);
+        color: #ec4899; /* Soft Rose */
+        filter: drop-shadow(0 0 5px rgba(236, 72, 153, 0.6));
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        color: #10b981; /* Back to Mint */
+        filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
+    }
+}
+
+/* -----------------------------------------
+   Status Dot Color Cycle (Light Mode)
+   ----------------------------------------- */
+@keyframes currentlyDotColorCycle {
+    0%, 100% {
+        background-color: #0d9488;
+        box-shadow: 0 0 8px rgba(13, 148, 136, 0.6);
+    }
+    25% {
+        background-color: #8b5cf6;
+        box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+    }
+    50% {
+        background-color: #f59e0b;
+        box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+    75% {
+        background-color: #10b981;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+}
+
+/* -----------------------------------------
+   Status Dot Color Cycle (Dark Mode)
+   ----------------------------------------- */
+@keyframes currentlyDotColorCycleDark {
+    0%, 100% {
+        background-color: #00f2fe;
+        box-shadow: 0 0 10px rgba(0, 242, 254, 0.85);
+    }
+    25% {
+        background-color: #c084fc;
+        box-shadow: 0 0 10px rgba(192, 132, 252, 0.85);
+    }
+    50% {
+        background-color: #fbbf24;
+        box-shadow: 0 0 10px rgba(251, 191, 36, 0.85);
+    }
+    75% {
+        background-color: #34d399;
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.85);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.35;
+        transform: scale(0.85);
+    }
+}
+
+@keyframes radarPing,
+@keyframes radarSonarPing {
+    0% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+/* -----------------------------------------
+   Page Fade & Staggered Reveal
+   ----------------------------------------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* -----------------------------------------
+   Toast Notifications
+   ----------------------------------------- */
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+    }
+}
+
+@keyframes toastOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -15px) scale(0.95);
+    }
+}
+
+/* -----------------------------------------
+   Ambient Background Glow Orbs
+   ----------------------------------------- */
+@keyframes floatGlow1 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(60px, -40px) scale(1.15);
+    }
+}
+
+@keyframes floatGlow2 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(-50px, 50px) scale(1.1);
+    }
+}
+
+/* -----------------------------------------
+   Badge Sparkle & Shimmer
+   ----------------------------------------- */
+@keyframes sparkle {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scale(1.25) rotate(15deg);
+        opacity: 1;
+    }
+}
+
+@keyframes cardPulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(47, 125, 120, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(47, 125, 120, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(47, 125, 120, 0);
+    }
+}
+
+/* -----------------------------------------
+   Dynamic Rotating Text Swap
+   ----------------------------------------- */
+@keyframes textSwapIn {
+    0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes textSwapOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.98);
+        filter: blur(4px);
+    }
+}
+
+/* -----------------------------------------
+   Interactive Card Spotlight Shimmer
+   ----------------------------------------- */
+@keyframes shimmerGlow {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* -----------------------------------------
+   Theme Toggle Sun Smooth Continuous 360 Spin
+   ----------------------------------------- */
+@keyframes sunSpinClockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes quickSpin360 {
+    0% {
+        transform: rotate(0deg) scale(0.85);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* -----------------------------------------
+   Theme Toggle Crescent Moon Color Shift & Pulse
+   ----------------------------------------- */
+@keyframes moonColorBlinkCycle {
+    0%, 100% {
+        stroke: #0d9488;
+        filter: drop-shadow(0 0 4px rgba(13, 148, 136, 0.45));
+        opacity: 0.95;
+    }
+    25% {
+        stroke: #8b5cf6;
+        filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.45));
+        opacity: 0.7;
+    }
+    50% {
+        stroke: #f59e0b;
+        filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.45));
+        opacity: 0.95;
+    }
+    75% {
+        stroke: #10b981;
+        filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.45));
+        opacity: 0.7;
+    }
+}

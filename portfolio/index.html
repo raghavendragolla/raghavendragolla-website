@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NQRWM60R9L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-NQRWM60R9L');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Raghavendra Golla — Data Science &amp; Applied ML Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Raghavendra Golla — MSc Data Science, Chandigarh University. Machine learning, statistical modeling, computer vision, NLP, and healthcare AI projects.">
+  <meta name="author" content="Raghavendra Golla">
+  <meta name="keywords"
+    content="Raghavendra Golla, Data Science, Machine Learning, Python, SQL, Portfolio, Chandigarh University, AI, Explainable AI">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#080d14">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Raghavendra Golla — Data Science &amp; Applied ML Portfolio">
+  <meta property="og:site_name" content="Raghavendra Golla">
+  <meta property="og:description"
+    content="MSc Data Science &amp; Machine Learning Portfolio. Transforming complex data into intelligent, explainable solutions.">
+  <meta property="og:image" content="https://www.raghavendragolla.com/images/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.raghavendragolla.com/portfolio/">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Raghavendra Golla — Data Science &amp; Applied ML Portfolio">
+  <meta name="twitter:description"
+    content="MSc Data Science &amp; Machine Learning Portfolio. Transforming complex data into intelligent, explainable solutions.">
+  <meta name="twitter:image" content="https://www.raghavendragolla.com/images/og-image.jpg">
+
+  <link rel="canonical" href="https://www.raghavendragolla.com/portfolio/">
+
+  <!-- Structured Data (Schema.org JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Raghavendra Golla",
+    "url": "https://www.raghavendragolla.com/",
+    "jobTitle": "Data Scientist & Applied ML Researcher",
+    "alumniOf": "Chandigarh University",
+    "knowsAbout": [
+      "Data Science",
+      "Machine Learning",
+      "Explainable AI",
+      "Python",
+      "SQL",
+      "Deep Learning",
+      "Big Data Analytics"
+    ],
+    "sameAs": [
+      "https://github.com/raghavendrayadavgolla",
+      "https://www.linkedin.com/in/raghavendra-golla-a25334192"
+    ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon/favicon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css?v=16">
+  <link rel="stylesheet" href="css/animations.css?v=16">
+  <link rel="stylesheet" href="css/style.css?v=16">
+  <link rel="stylesheet" href="css/responsive.css?v=16">
+
+  <!-- Lucide Icons & Core Script -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Neural Canvas Background & Ambient Glows -->
+  <canvas id="neural-canvas" aria-hidden="true"></canvas>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+  </div>
+
+  <!-- Master Layout Shell -->
+  <div class="shell">
+
+    <!-- Glassmorphic Sticky Sidebar -->
+    <nav class="sidebar" aria-label="Main Navigation">
+      <div class="sidebar-top">
+
+        <!-- Back to Main Website Hub Link -->
+        <a href="../index.html" class="back-hub" title="Return to Main Landing Hub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Main Site</span>
+        </a>
+
+        <!-- Profile Brand & Monogram -->
+        <div class="brand-container">
+          <div class="avatar-wrapper">
+            <img src="images/profile/My Photo.JPG" alt="Raghavendra Golla Photo"
+              onerror="this.src='favicon/favicon.png';">
+          </div>
+          <div class="brand">
+            Raghavendra Golla
+            <span>DATA SCIENCE • AI</span>
+          </div>
+        </div>
+
+        <!-- Mobile Controls (Visible on Tablet/Mobile only via media queries) -->
+        <div class="mobile-controls">
+          <button id="theme-toggle-mobile" class="mobile-theme-toggle" aria-label="Switch Theme" title="Toggle Theme">
+            <svg class="moon-icon" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg class="sun-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+          <button class="mobile-toggle-btn" id="navToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Backdrop Overlay for Mobile Dropdown Card -->
+      <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
+
+      <!-- Sidebar Navigation List -->
+      <ul class="navlist" id="navlist">
+        <li><a href="#home"><i data-lucide="house"></i><span>Home</span></a></li>
+        <li><a href="#about"><i data-lucide="user"></i><span>About</span></a></li>
+        <li><a href="#skills"><i data-lucide="brain"></i><span>Skills</span></a></li>
+        <li><a href="#projects"><i data-lucide="folder-git-2"></i><span>Projects</span></a></li>
+        <li><a href="#resume"><i data-lucide="file-text"></i><span>Resume</span></a></li>
+        <li><a href="#certifications"><i data-lucide="award"></i><span>Certifications</span></a></li>
+        <li><a href="#contact"><i data-lucide="mail"></i><span>Get in Touch</span></a></li>
+        <li style="margin-top: 1rem; border-top: 1px dashed var(--line-subtle); padding-top: 0.5rem;">
+          <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">
+            <i data-lucide="external-link"></i><span>raghavendragolla.com</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Sidebar Foot Controls & Status -->
+      <div class="sidebar-foot">
+        <button id="theme-toggle-sidebar" class="theme-toggle-sidebar" aria-label="Toggle Dark/Light Mode">
+          <span>Theme Mode</span>
+          <svg class="moon-icon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <div class="status">
+          <span class="dot"></span>
+          <span>Open to Opportunities &mdash; IN | DE</span>
+        </div>
+        <div>
+          MSc Data Science (2025&ndash;2027)<br>
+          Chandigarh University
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Flow -->
+    <div class="main-content">
+
+      <!-- Top Vitals Bar with Animated ECG & Live IST Clock -->
+      <header class="top-vitals" aria-label="System Heartbeat and Time">
+        <div class="vitals-container">
+          <div class="vitals" aria-hidden="true">
+            <!-- Desktop Clean ECG Path with Smooth Flowing Chromatic Wave -->
+            <svg class="vitals-svg-desktop" viewBox="0 0 1400 48" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="ecgBeamDesktop" x1="-60%" y1="0%" x2="40%" y2="0%">
+                  <stop offset="0%" stop-color="#2f7d78" stop-opacity="0.35" />
+                  <stop offset="25%" stop-color="#38bdf8" stop-opacity="0.85" />
+                  <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.9" />
+                  <stop offset="75%" stop-color="#10b981" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#2f7d78" stop-opacity="0.35" />
+                  <animate attributeName="x1" from="-60%" to="100%" dur="4.5s" repeatCount="indefinite" />
+                  <animate attributeName="x2" from="40%" to="200%" dur="4.5s" repeatCount="indefinite" />
+                </linearGradient>
+              </defs>
+              <!-- Base subtle track -->
+              <path class="ecg-base-track" d="M0,24 L520,24" />
+              <g class="heartbeat-pulse-zone">
+                <path class="ecg-base-track" d="M520,24 L545,8 L565,40 L585,24 L610,24 L630,12 L650,36 L668,24" />
+              </g>
+              <path class="ecg-base-track" d="M668,24 L1400,24" />
+
+              <!-- Flowing Chromatic Pulse Beam -->
+              <path class="ecg-flowing-beam" d="M0,24 L520,24" />
+              <g class="heartbeat-pulse-zone">
+                <path class="ecg-flowing-beam" d="M520,24 L545,8 L565,40 L585,24 L610,24 L630,12 L650,36 L668,24" />
+              </g>
+              <path class="ecg-flowing-beam" d="M668,24 L1400,24" />
+            </svg>
+
+            <!-- Mobile Clean ECG Path with Smooth Flowing Chromatic Wave -->
+            <svg class="vitals-svg-mobile" viewBox="0 0 1400 48" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="ecgBeamMobile" x1="-60%" y1="0%" x2="40%" y2="0%">
+                  <stop offset="0%" stop-color="#2f7d78" stop-opacity="0.35" />
+                  <stop offset="25%" stop-color="#38bdf8" stop-opacity="0.85" />
+                  <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.9" />
+                  <stop offset="75%" stop-color="#10b981" stop-opacity="0.85" />
+                  <stop offset="100%" stop-color="#2f7d78" stop-opacity="0.35" />
+                  <animate attributeName="x1" from="-60%" to="100%" dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="x2" from="40%" to="200%" dur="4.5s" repeatCount="indefinite" />
+                </linearGradient>
+              </defs>
+              <!-- Base subtle track -->
+              <path class="ecg-base-track" d="M0,24 L200,24" />
+              <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
+                <path class="ecg-base-track" d="M200,24 L220,8 L236,40 L252,24 L268,24 L284,12 L300,36 L314,24" />
+              </g>
+              <path class="ecg-base-track" d="M314,24 L1400,24" />
+
+              <!-- Flowing Chromatic Pulse Beam -->
+              <path class="ecg-flowing-beam-mobile" d="M0,24 L200,24" />
+              <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
+                <path class="ecg-flowing-beam-mobile"
+                  d="M200,24 L220,8 L236,40 L252,24 L268,24 L284,12 L300,36 L314,24" />
+              </g>
+              <path class="ecg-flowing-beam-mobile" d="M314,24 L1400,24" />
+            </svg>
+          </div>
+          <div class="vitals-status">
+            <span class="vitals-dot">●</span>
+            <span>AVAILABLE &bull; <strong id="vitals-clock">--:--:-- IST</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <main>
+
+        <!-- ============ 1. HOME / HERO ============ -->
+        <section id="home">
+          <div class="status-badge">
+            <span class="badge-sparkle">✨</span>
+            <span>MSc Data Science &bull; Applied AI &amp; ML</span>
+          </div>
+
+          <h1 class="hero-title">
+            Building toward <span class="dynamic-wrapper"><em id="dynamic-text">intelligent, data-driven
+                solutions.</em></span>
+          </h1>
+
+          <p class="hero-sub">
+            I'm an MSc Data Science student at Chandigarh University, engineering end-to-end machine learning pipelines,
+            predictive modeling architectures, and explainable AI solutions. Passionate about transforming complex
+            datasets into
+            actionable intelligence and high-impact real-world systems.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn primary">
+              <span>View Projects</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href="resume/resume.pdf" class="btn ghost" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>View Resume</span>
+            </a>
+            <a href="https://www.raghavendragolla.com/" class="btn ghost" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+              <span>Main Hub</span>
+            </a>
+          </div>
+
+          <!-- Animated Metrics Strip -->
+          <div class="hero-strip">
+            <div class="stat-box">
+              <div class="num stat-number" data-count="2027">2027</div>
+              <div class="lbl">Graduation Year</div>
+            </div>
+            <div class="stat-box">
+              <div class="num stat-number" data-count="6" data-suffix="+">6+</div>
+              <div class="lbl">End-to-End Projects</div>
+            </div>
+            <div class="stat-box">
+              <div class="num stat-number" data-count="100" data-suffix="%">100%</div>
+              <div class="lbl">Open Source Code</div>
+            </div>
+            <div class="stat-box">
+              <div class="num stat-number" data-count="12" data-suffix="+">12+</div>
+              <div class="lbl">Tools &amp; Frameworks</div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ============ 2. ABOUT ============ -->
+        <section id="about">
+          <div class="section-head">
+            <span class="num-badge">02</span>
+            <h2>About Me</h2>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-content">
+              <p>
+                I'm currently pursuing an MSc in Data Science at Chandigarh University (2025–2027), where I'm developing
+                rigorous foundations in mathematical statistics, predictive modeling, machine learning, and big data
+                architectures.
+                My focus lies in building scalable, practical systems that turn unstructured data into high-value
+                decision intelligence.
+              </p>
+              <p>
+                My technical interests span Machine Learning, Computer Vision, Natural Language Processing, Explainable
+                AI (SHAP/LIME),
+                and Big Data engineering. Through active project development, I combine Python, SQL, PyTorch,
+                Scikit-Learn, Power BI,
+                and modern deployment frameworks to craft dependable data applications.
+              </p>
+              <div class="callout">
+                <span class="tag">Active Focus</span>
+                Strengthening end-to-end data analytics and interpretable machine learning pipelines, specifically
+                researching
+                Explainable AI for early clinical risk forecasting and decision support systems.
+              </div>
+            </div>
+
+            <!-- Quick Facts Card -->
+            <div class="profile-summary">
+              <h3>Quick Facts</h3>
+              <ul class="fact-list">
+                <li><span>Programme</span><span>MSc Data Science (2025&ndash;2027)</span></li>
+                <li><span>University</span><span>Chandigarh University</span></li>
+                <li><span>Undergraduate</span><span>BSc Mathematics (Krishna Univ)</span></li>
+                <li><span>Location</span><span>Guntur, Andhra Pradesh, India</span></li>
+                <li><span>Specialisation</span><span>Data Analytics &bull; Applied AI</span></li>
+                <li><span>Availability</span><span>Internships &bull; Full-Time</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ============ 3. SKILLS ============ -->
+        <section id="skills">
+          <div class="section-head">
+            <span class="num-badge">03</span>
+            <h2>Technical Skills</h2>
+          </div>
+
+          <div class="skill-groups">
+            <div class="skill-group">
+              <h3><i data-lucide="code-2"></i> Programming &amp; Databases</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Python: Pandas, NumPy, Scikit-Learn, PyTorch & Automation">🐍
+                  Python</span>
+                <span class="chip" data-info="SQL: Aggregations, joins, window functions & relational modeling">📊
+                  SQL</span>
+                <span class="chip" data-info="Git & GitHub: Version control, branching & open research">🐙 Git /
+                  GitHub</span>
+                <span class="chip" data-info="JavaScript: Front-end scripting & UI interactivity">⚡ JavaScript
+                  (Basic)</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="brain"></i> Machine Learning &amp; AI</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Scikit-Learn: Classification, regression & ensemble models">🤖
+                  scikit-learn</span>
+                <span class="chip" data-info="PyTorch: Deep learning CNNs, tensors & neural training">🔥 PyTorch</span>
+                <span class="chip" data-info="Supervised Learning: Random Forests, SVMs, Logistic Regression">🎯
+                  Supervised ML</span>
+                <span class="chip" data-info="Unsupervised Learning: K-Means, PCA & clustering">🧩 Unsupervised
+                  ML</span>
+                <span class="chip" data-info="Explainable AI: Model interpretability with SHAP & feature importance">🔬
+                  Explainable AI (SHAP)</span>
+                <span class="chip" data-info="Feature Engineering: Scaling, encoding, imputation & transformations">🛠️
+                  Feature Engineering</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="bar-chart-3"></i> Data Analysis &amp; Visualization</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Pandas: Data wrangling, cleaning & tabular operations">📈 Pandas</span>
+                <span class="chip" data-info="NumPy: High-performance multidimensional array math">🔢 NumPy</span>
+                <span class="chip" data-info="Power BI: Interactive dashboards & business intelligence">📊 Power
+                  BI</span>
+                <span class="chip" data-info="Matplotlib & Seaborn: Statistical plotting & heatmaps">📉 Matplotlib /
+                  Seaborn</span>
+                <span class="chip" data-info="Plotly: Interactive charts & web visualizations">✨ Plotly</span>
+                <span class="chip" data-info="Excel: Pivot tables, VLOOKUP & data analysis">📑 Advanced Excel</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="database"></i> Big Data &amp; Distributed Systems</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Hadoop: Distributed ecosystem & cluster architecture">🐘 Hadoop</span>
+                <span class="chip" data-info="Hive: Data warehousing & SQL on Hadoop">🐝 Apache Hive</span>
+                <span class="chip" data-info="Spark: Distributed in-memory data transformations">⚡ Apache Spark</span>
+                <span class="chip" data-info="Kafka: Real-time event streaming pipelines">📡 Apache Kafka</span>
+                <span class="chip" data-info="HDFS: Distributed file system storage">📁 HDFS</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="sigma"></i> Statistical Modeling</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Probability Distributions: Normal, Binomial & Poisson">🎲
+                  Probability</span>
+                <span class="chip" data-info="Hypothesis Testing: T-tests, ANOVA & Chi-Square tests">🧪 Hypothesis
+                  Testing</span>
+                <span class="chip" data-info="Regression: OLS, Ridge, Lasso & Logistic">📐 Regression Analysis</span>
+                <span class="chip" data-info="Inference: Confidence intervals & p-values">🔍 Statistical
+                  Inference</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="server"></i> Tools &amp; Deployment</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="Streamlit: Rapid interactive ML web application prototypes">🎈
+                  Streamlit</span>
+                <span class="chip" data-info="FastAPI: High-performance Python REST APIs & endpoints">⚡ FastAPI</span>
+                <span class="chip" data-info="MongoDB: Document-oriented NoSQL databases">🍃 MongoDB</span>
+                <span class="chip" data-info="Linux: Terminal operations, shell scripts & cron">🐧 Linux / Bash</span>
+                <span class="chip" data-info="VS Code: Development IDE, extensions & debugger">💻 VS Code</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <h3><i data-lucide="languages"></i> Human Languages</h3>
+              <div class="chip-row">
+                <span class="chip" data-info="English: Fluent professional working proficiency">🌐 English
+                  (Professional)</span>
+                <span class="chip" data-info="Telugu: Native speaker">🗣️ Telugu (Native)</span>
+                <span class="chip" data-info="German: Currently learning (A1/A2)">🇩🇪 German (Learning)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ============ 4. PROJECTS ============ -->
+        <section id="projects">
+          <div class="section-head">
+            <span class="num-badge">04</span>
+            <h2>Featured Projects</h2>
+          </div>
+
+          <!-- Project Filter Category Pills -->
+          <div class="project-filters">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="ml">Machine Learning</button>
+            <button class="filter-btn" data-filter="vision">Computer Vision</button>
+            <button class="filter-btn" data-filter="explainable">Explainable AI</button>
+            <button class="filter-btn" data-filter="analytics">Data Analytics</button>
+            <!-- Commented out inactive category filters
+            <button class="filter-btn" data-filter="nlp">NLP</button>
+            <button class="filter-btn" data-filter="fullstack">Full-Stack AI</button>
+            -->
+          </div>
+
+          <div class="projects-grid">
+
+            <!-- Project 1 -->
+            <div class="project-card" data-category="ml">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">01</span>
+                  <span class="project-category">Machine Learning &bull; Regression</span>
+                </div>
+                <h3 class="project-title">California House Price Predictor</h3>
+                <p class="project-desc">
+                  End-to-end regression pipeline on the California Housing dataset (20,640 records).
+                  Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
+                  Forest),
+                  and deployed an interactive geospatial web application.
+                </p>
+                <div class="stack-row">
+                  <span>scikit-learn</span>
+                  <span>Streamlit</span>
+                  <span>Gradient Boosting</span>
+                  <span>Pandas</span>
+                  <span>Altair</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Outcome</span>
+                  Achieved 84% R&sup2; accuracy ($46k RMSE) with real-time California district map inference and model
+                  analytics.
+                </div>
+                <div class="project-links">
+                  <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener">
+                    <i data-lucide="external-link"></i><span>Live App &rarr;</span>
+                  </a>
+                  <a href="https://github.com/raghavendrayadavgolla/house-price-prediction" target="_blank"
+                    rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card" data-category="vision ml">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">02</span>
+                  <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                </div>
+                <h3 class="project-title">Handwritten Digit Recognition</h3>
+                <p class="project-desc">
+                  Convolutional Neural Network (CNN) built with PyTorch trained on MNIST — 2 convolutional blocks
+                  (32&rarr;64 filters)
+                  with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
+                  drawing and inference.
+                </p>
+                <div class="stack-row">
+                  <span>PyTorch</span>
+                  <span>CNN</span>
+                  <span>Computer Vision</span>
+                  <span>Streamlit</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Outcome</span>
+                  Achieved ~99% test classification accuracy with live confidence distribution charts.
+                </div>
+                <div class="project-links">
+                  <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener">
+                    <i data-lucide="external-link"></i><span>Live App &rarr;</span>
+                  </a>
+                  <a href="https://github.com/raghavendrayadavgolla/handwritten-digit-recognition" target="_blank"
+                    rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 3 (Explainable ML for Heart Disease) -->
+            <div class="project-card" data-category="explainable ml">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">03</span>
+                  <span class="project-category">Explainable AI &bull; Healthcare</span>
+                </div>
+                <h3 class="project-title">Explainable ML for Heart Disease</h3>
+                <p class="project-desc">
+                  Academic research paper applying explainable machine learning techniques (SHAP &amp; LIME) to
+                  cardiovascular risk prediction.
+                  Focuses on global and local model interpretability to assist healthcare practitioners in clinical
+                  decision-making.
+                </p>
+                <div class="stack-row">
+                  <span>SHAP</span>
+                  <span>LIME</span>
+                  <span>scikit-learn</span>
+                  <span>Research Writing</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Outcome</span>
+                  Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project 4 (IBM Data Analyst Capstone) -->
+            <div class="project-card" data-category="analytics ml">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">04</span>
+                  <span class="project-category">Data Analytics &bull; Insights</span>
+                </div>
+                <h3 class="project-title">IBM Data Analyst Capstone</h3>
+                <p class="project-desc">
+                  End-to-end data analytics pipeline exploring the Stack Overflow Developer Survey — technology trends,
+                  database usage shifts, developer demographics, and salary insights synthesized into interactive
+                  dashboards.
+                </p>
+                <div class="stack-row">
+                  <span>Data Analysis</span>
+                  <span>Python</span>
+                  <span>Power BI</span>
+                  <span>Storytelling</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Outcome</span>
+                  Completed certification project with full analysis deck and reproducible data workflows.
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Commented out Project (Twitter Depression Classifier)
+            <div class="project-card" data-category="nlp ml">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">03</span>
+                  <span class="project-category">Natural Language Processing</span>
+                </div>
+                <h3 class="project-title">Twitter Depression Classifier</h3>
+                <p class="project-desc">
+                  Text classification pipeline using TF-IDF bigrams (10,000 features). Benchmarked Logistic Regression,
+                  Multinomial Naive Bayes, and Linear SVMs for identifying psychological distress patterns in social
+                  media posts.
+                </p>
+                <div class="stack-row">
+                  <span>NLP</span>
+                  <span>TF-IDF</span>
+                  <span>scikit-learn</span>
+                  <span>Text Mining</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Outcome</span>
+                  Multinomial Naive Bayes achieved peak performance with a 95.7% ROC-AUC score.
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            -->
+
+            <!-- Commented out 4th Project (PaisaWatch — AI Finance Hub)
+            <div class="project-card" data-category="fullstack">
+              <div>
+                <div class="project-top">
+                  <span class="project-number">04</span>
+                  <span class="project-category">Full-Stack AI &bull; Web App</span>
+                </div>
+                <h3 class="project-title">PaisaWatch &mdash; AI Finance Hub</h3>
+                <p class="project-desc">
+                  Intelligent personal finance tracker with LLM-powered expense categorization and spending verdicts.
+                  React frontend interacting with FastAPI backend, Supabase PostgreSQL, JWT security, and offline PWA
+                  support.
+                </p>
+                <div class="stack-row">
+                  <span>React</span>
+                  <span>FastAPI</span>
+                  <span>Supabase</span>
+                  <span>LLM Integration</span>
+                </div>
+              </div>
+              <div>
+                <div class="result">
+                  <span class="tag">Status</span>
+                  Interactive working prototype built; expanding analytics dashboards and automated categorization.
+                </div>
+                <div class="project-links">
+                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
+                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            -->
+
+          </div>
+        </section>
+
+
+        <!-- ============ 5. RESUME ============ -->
+        <section id="resume">
+          <div class="section-head">
+            <span class="num-badge">05</span>
+            <h2>Curriculum Vitae</h2>
+          </div>
+
+          <div class="resume-box">
+            <div class="left">
+              <h3>Raghavendra Golla</h3>
+              <p>MSc Data Science &bull; Chandigarh University (2025 &ndash; 2027)</p>
+            </div>
+            <a href="resume/resume.pdf" class="btn primary" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              <span>View Resume</span>
+            </a>
+          </div>
+
+          <ul class="timeline">
+            <li>
+              <div class="when">2025 &ndash; 2027</div>
+              <div class="what">
+                <strong>MSc in Data Science &mdash; Chandigarh University</strong>
+                <p>
+                  Specializing in Data Analytics, Machine Learning, Artificial Intelligence, Big Data Architectures,
+                  and Advanced Statistical Inference. Maintaining strong academic focus on practical implementations.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="when">2026 &ndash; Present</div>
+              <div class="what">
+                <strong>Machine Learning Intern &mdash; SmartED Innovations</strong>
+                <p>
+                  Engineering end-to-end ML workflows using Python, Pandas, and Scikit-Learn. Implementing data
+                  preprocessing,
+                  outlier detection, and hyperparameter-tuned supervised classification and regression pipelines.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="when">2017 &ndash; 2020</div>
+              <div class="what">
+                <strong>BSc in Mathematics &mdash; Krishna University</strong>
+                <p>
+                  Built rigorous foundational grounding in linear algebra, differential calculus, probability theory,
+                  and mathematical statistics that underpins data science and deep learning algorithms.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="when">Research Focus</div>
+              <div class="what">
+                <strong>Explainable ML for Early Cardiovascular Disease Risk</strong>
+                <p>
+                  Investigating interpretable machine learning models using SHAP (Shapley Additive exPlanations) and
+                  LIME to provide clinician-friendly transparency for predictive healthcare analytics.
+                </p>
+              </div>
+            </li>
+            <li>
+              <div class="when">Career Vision</div>
+              <div class="what">
+                <strong>Data Analyst &bull; Data Scientist &bull; ML Engineer</strong>
+                <p>
+                  Seeking high-impact opportunities and research collaborations in India and Germany to engineer
+                  data-driven solutions.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+
+        <!-- ============ 6. CERTIFICATIONS ============ -->
+        <section id="certifications">
+          <div class="section-head">
+            <span class="num-badge">06</span>
+            <h2>Certifications &amp; Credentials</h2>
+          </div>
+
+          <div class="cert-grid">
+
+            <!-- Card 1: IBM Data Analyst Professional Certificate -->
+            <div class="cert-card" data-cert-img="certificates/ibm-data-analyst.jpg"
+              data-cert-title="IBM Data Analyst Professional Certificate &bull; Golla Raghavendra"
+              data-cert-link="https://coursera.org/verify/professional-cert/KEDX396MPOYI">
+              <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
+                <img src="certificates/ibm-data-analyst.jpg"
+                  alt="IBM Data Analyst Professional Certificate — Golla Raghavendra" loading="lazy" class="cert-img">
+              </div>
+
+              <div class="cert-content">
+                <div class="cert-header">
+                  <div class="cert-issuer-badge">
+                    <span class="cert-icon">🏛️</span>
+                    <span>IBM Skills Network &bull; Coursera</span>
+                  </div>
+                  <span class="cert-verified-pill">✓ Verified Credential</span>
+                </div>
+
+                <h3 class="cert-title">IBM Data Analyst Professional Certificate</h3>
+                <p class="cert-issued">Issued to <strong>Golla Raghavendra</strong> &bull; Completed April 5, 2026</p>
+
+                <p class="cert-summary">
+                  Comprehensive 11-course specialization covering core principles of Data Analytics, hands-on data
+                  manipulation, relational databases &amp; SQL, statistical computing in Python, interactive dashboards
+                  in Cognos, and generative AI.
+                </p>
+
+                <div class="cert-skills-wrap">
+                  <span class="cert-skills-title">Specialization Competencies (11 Courses):</span>
+                  <div class="cert-tags">
+                    <span>Python for Data Science</span>
+                    <span>SQL &amp; Relational DBs</span>
+                    <span>Data Analysis</span>
+                    <span>Data Visualization</span>
+                    <span>IBM Cognos</span>
+                    <span>Excel Dashboards</span>
+                    <span>Generative AI</span>
+                    <span>Capstone Analysis</span>
+                  </div>
+                </div>
+
+                <div class="cert-actions">
+                  <button type="button" class="btn primary cert-preview-btn">
+                    <i data-lucide="eye"></i>
+                    <span>Preview Certificate</span>
+                  </button>
+                  <a href="https://coursera.org/verify/professional-cert/KEDX396MPOYI" target="_blank"
+                    rel="noopener noreferrer" class="btn ghost cert-verify-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Verify at Coursera</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: SmartED Machine Learning Internship Certificate -->
+            <div class="cert-card" data-cert-img="certificates/smarted-ml-internship.png"
+              data-cert-title="Machine Learning Internship Completion Certificate &bull; SmartED Innovations"
+              data-cert-link="https://elearn.smarted.pro/verify/ML1222">
+              <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
+                <img src="certificates/smarted-ml-internship.png"
+                  alt="SmartED Innovations Machine Learning Internship Certificate — Golla Raghavendra" loading="lazy"
+                  class="cert-img">
+              </div>
+
+              <div class="cert-content">
+                <div class="cert-header">
+                  <div class="cert-issuer-badge">
+                    <span class="cert-icon">🚀</span>
+                    <span>SmartED Innovations &bull; Skill India</span>
+                  </div>
+                  <span class="cert-verified-pill">✓ Internship Verified</span>
+                </div>
+
+                <h3 class="cert-title">Machine Learning Internship Certificate</h3>
+                <p class="cert-issued">Issued to <strong>Golla Raghavendra</strong> &bull; Completed March 28, 2026</p>
+
+                <p class="cert-summary">
+                  Successfully completed industry training and internship in Machine Learning at SmartED Innovations.
+                  Demonstrated practical engineering proficiency in end-to-end data preprocessing, feature engineering,
+                  and supervised ML pipelines.
+                </p>
+
+                <div class="cert-skills-wrap">
+                  <span class="cert-skills-title">Core Focus &amp; Technologies:</span>
+                  <div class="cert-tags">
+                    <span>Machine Learning</span>
+                    <span>Python &amp; Scikit-Learn</span>
+                    <span>Supervised Learning</span>
+                    <span>Feature Engineering</span>
+                    <span>Data Preprocessing</span>
+                    <span>Model Evaluation</span>
+                    <span>Student ID: ML1222</span>
+                  </div>
+                </div>
+
+                <div class="cert-actions">
+                  <button type="button" class="btn primary cert-preview-btn">
+                    <i data-lucide="eye"></i>
+                    <span>Preview Certificate</span>
+                  </button>
+                  <a href="https://elearn.smarted.pro/verify/ML1222" target="_blank" rel="noopener noreferrer"
+                    class="btn ghost cert-verify-link">
+                    <i data-lucide="external-link"></i>
+                    <span>Verify at SmartED</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+
+        <!-- ============ 7. CONTACT ============ -->
+        <section id="contact">
+          <div class="section-head">
+            <span class="num-badge">07</span>
+            <h2>Get in Touch</h2>
+          </div>
+
+          <p class="contact-intro">
+            I'm actively open to Data Analyst, Data Scientist, and Machine Learning internship and full-time
+            opportunities,
+            as well as applied research collaborations. Let's connect!
+          </p>
+
+          <div class="contact-grid">
+            <div class="contact-card" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email">
+              <span class="k"><i data-lucide="mail"></i> Email (Click to Copy)</span>
+              <span class="v"><a
+                  href="mailto:raghavendrayadavgolla@gmail.com">raghavendrayadavgolla@gmail.com</a></span>
+            </div>
+
+            <div class="contact-card">
+              <span class="k"><i data-lucide="github"></i> GitHub Profile</span>
+              <span class="v"><a href="https://github.com/raghavendrayadavgolla" target="_blank"
+                  rel="noopener">github.com/raghavendrayadavgolla &rarr;</a></span>
+            </div>
+
+            <div class="contact-card">
+              <span class="k"><i data-lucide="linkedin"></i> LinkedIn Profile</span>
+              <span class="v"><a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank"
+                  rel="noopener">linkedin.com/in/raghavendra-golla &rarr;</a></span>
+            </div>
+
+            <div class="contact-card">
+              <span class="k"><i data-lucide="map-pin"></i> Location &amp; Mobility</span>
+              <span class="v">Guntur, Andhra Pradesh, India &bull; Open to Remote &amp; Relocation (DE / IN)</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <p class="footer-copy">
+            &copy; <span id="year"></span> Raghavendra Golla. All Rights Reserved.
+          </p>
+          <div class="footer-links">
+            <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">raghavendragolla.com</a>
+          </div>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Certificate Lightbox Modal -->
+  <div id="certModal" class="cert-modal" aria-hidden="true" role="dialog" aria-label="Certificate Lightbox">
+    <div class="cert-modal-backdrop" id="closeCertBackdrop"></div>
+    <div class="cert-modal-dialog">
+      <button class="cert-modal-close" id="closeCertBtn" aria-label="Close certificate preview">&times;</button>
+      <div class="cert-modal-content">
+        <img id="certModalImg" src="certificates/ibm-data-analyst.jpg" alt="Certificate Full Preview"
+          class="cert-modal-img">
+      </div>
+      <div class="cert-modal-footer">
+        <span id="certModalTitle">IBM Data Analyst Professional Certificate &bull; Golla Raghavendra</span>
+        <a id="certModalVerify" href="https://coursera.org/verify/professional-cert/KEDX396MPOYI" target="_blank"
+          rel="noopener noreferrer" class="modal-verify-btn">
+          Verify Credential &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
