@@ -1,4 +1,4 @@
-const CACHE_NAME = 'raghavendra-portfolio-v4';
+const CACHE_NAME = 'raghavendra-portfolio-v5';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -12,8 +12,6 @@ const PRECACHE_ASSETS = [
   '/favicon/favicon.png',
   '/favicon/favicon-192x192.png',
   '/favicon/favicon-512x512.png',
-  '/favicon/favicon-maskable-192x192.png',
-  '/favicon/favicon-maskable-512x512.png',
   '/favicon/apple-touch-icon.png'
 ];
 

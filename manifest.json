@@ -1,51 +1,35 @@
 {
-  "id": "/",
   "name": "Raghavendra Golla — Data Science & Applied ML Portfolio",
   "short_name": "Raghavendra",
   "description": "MSc Data Science & Machine Learning Portfolio of Raghavendra Golla.",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "background_color": "#090514",
   "theme_color": "#090514",
   "orientation": "portrait-primary",
-  "categories": ["portfolio", "technology", "education"],
   "icons": [
     {
-      "src": "favicon/favicon.png",
+      "src": "/favicon/favicon.png",
       "sizes": "256x256",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "favicon/favicon-192x192.png",
+      "src": "/favicon/favicon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "favicon/favicon-512x512.png",
+      "src": "/favicon/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "favicon/favicon-maskable-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "favicon/favicon-maskable-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "favicon/apple-touch-icon.png",
+      "src": "/favicon/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }
   ]
 }
-
