@@ -164,7 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.updateCanvasTheme();
 
+        let isPageVisible = true;
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (isPageVisible) {
+                requestAnimationFrame(animateCanvas);
+            }
+        });
+
         function animateCanvas() {
+            if (!isPageVisible) return;
+
             ctx.clearRect(0, 0, width, height);
 
             for (let a = 0; a < particles.length; a++) {

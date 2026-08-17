@@ -280,8 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 ctx.strokeStyle = ribbon.color;
                 ctx.lineWidth = ribbon.width;
-                ctx.shadowColor = ribbon.glow;
-                ctx.shadowBlur = ribbon.blur;
+                if (!isMobile && ribbon.blur > 0) {
+                    ctx.shadowColor = ribbon.glow;
+                    ctx.shadowBlur = ribbon.blur;
+                }
 
                 for (let x = 0; x <= width; x += step) {
                     const dx = (x - pulseCenter) / pulseSpread;
@@ -313,7 +315,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        let isPageVisible = true;
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (isPageVisible) {
+                requestAnimationFrame(animateCanvas);
+            }
+        });
+
         function animateCanvas() {
+            if (!isPageVisible) return;
+
             ctx.clearRect(0, 0, width, height);
 
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';

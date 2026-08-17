@@ -71,7 +71,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   Background & Ambient Canvas Effects
+   Background & Ambient Canvas Effects (Hardware Accelerated)
 ========================================= */
 
 #neural-canvas {
@@ -83,6 +83,9 @@ h1, h2, h3, h4 {
     z-index: 0;
     pointer-events: none;
     opacity: 0.5;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: opacity;
     transition: opacity 0.4s ease;
 }
 
@@ -98,6 +101,8 @@ h1, h2, h3, h4 {
     height: 100vh;
     z-index: 0;
     pointer-events: none;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     background-image: 
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -113,6 +118,8 @@ h1, h2, h3, h4 {
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .ambient-glow-1 {

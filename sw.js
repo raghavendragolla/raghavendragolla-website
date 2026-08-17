@@ -1,4 +1,4 @@
-const CACHE_NAME = 'raghavendra-portfolio-v5';
+const CACHE_NAME = 'raghavendra-portfolio-v6';
 
 const PRECACHE_ASSETS = [
   '/',
