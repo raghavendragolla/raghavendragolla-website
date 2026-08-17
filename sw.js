@@ -1,4 +1,4 @@
-const CACHE_NAME = 'raghavendra-portfolio-v6';
+const CACHE_NAME = 'raghavendra-portfolio-v7';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -19,9 +19,13 @@ const PRECACHE_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS).catch((err) => {
-        console.warn('Pre-cache notice:', err);
-      });
+      return Promise.allSettled(
+        PRECACHE_ASSETS.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn('Pre-cache notice for asset:', url, err);
+          })
+        )
+      );
     }).then(() => self.skipWaiting())
   );
 });
