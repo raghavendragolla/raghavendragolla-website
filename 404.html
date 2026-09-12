@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Immediate Theme Initialization (Zero-FOUC) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found (404) | Raghavendra Golla</title>
+    <meta name="description" content="The page you requested could not be found. Explore Raghavendra Golla's Data Science portfolio or return to the main hub.">
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Mobile Browser Theme Color -->
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#090514" media="(prefers-color-scheme: dark)">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon/favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/favicon-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Root-Absolute CSS Stack -->
+    <link rel="stylesheet" href="/css/shared/tokens.css?v=21.0">
+    <link rel="stylesheet" href="/css/shared/components.css?v=21.0">
+    <link rel="stylesheet" href="/css/style.css?v=21.0">
+    <link rel="stylesheet" href="/css/responsive.css?v=21.0">
+
+    <!-- Shared JS & Page Scripts -->
+    <script src="/js/shared.js?v=21.0" defer></script>
+
+    <style>
+        .error-wrapper {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1.5rem;
+        }
+
+        .error-code {
+            font-family: var(--font-heading);
+            font-size: clamp(5rem, 15vw, 9rem);
+            font-weight: 700;
+            color: var(--teal);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .error-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--ink);
+            margin-bottom: 1.2rem;
+        }
+
+        .error-desc {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .error-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--teal);
+            color: #ffffff;
+            padding: 8px 16px;
+            z-index: 10000;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-decoration: none;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- Background Canvas & Grid -->
+    <canvas id="neural-canvas" aria-hidden="true"></canvas>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="ambient-glow" aria-hidden="true">
+        <div class="ambient-glow-1"></div>
+        <div class="ambient-glow-2"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="vitals-container">
+            <div class="vitals-status">
+                <span class="vitals-dot">●</span>
+                <span class="vitals-content">
+                    <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR OPPORTUNITIES</span>
+                    <span class="vitals-sep vitals-sep-opportunities">&bull;</span>
+                    <strong id="vitals-clock" class="vitals-clock">--:--:-- IST</strong>
+                    <span class="vitals-sep vitals-sep-clock">&bull;</span>
+                    <span class="vitals-location" title="Location"><span class="vitals-pin">📍</span> <strong>GUNTUR, IN</strong></span>
+                </span>
+            </div>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
+            <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+        </button>
+    </header>
+
+    <main id="main-content">
+        <div class="error-wrapper">
+            <div class="status-badge">
+                <span class="badge-sparkle">⚠️</span>
+                <span>RESOURCE NOT FOUND</span>
+            </div>
+
+            <h1 class="error-code">404</h1>
+            <h2 class="error-title">Page Not Found</h2>
+            <p class="error-desc">
+                The requested URL does not exist or has been moved. You can return to the main landing hub or check out the interactive Data Science portfolio.
+            </p>
+
+            <div class="error-actions">
+                <a href="/" class="enter" style="width: auto; height: auto; padding: 12px 24px; font-size: 16px;">
+                    <span>Return to Main Site</span>
+                </a>
+                <a href="/portfolio/" class="enter" style="width: auto; height: auto; padding: 12px 24px; font-size: 16px; background: var(--paper-raised); color: var(--ink);">
+                    <span>View Portfolio &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

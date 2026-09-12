@@ -64,6 +64,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 0;
     pointer-events: none;
     opacity: 0.55;
@@ -83,6 +84,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 0;
     pointer-events: none;
     transform: translateZ(0);
@@ -99,6 +101,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
@@ -1168,6 +1171,7 @@ body.drawer-open {
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 9999;
     display: none;
     opacity: 0;

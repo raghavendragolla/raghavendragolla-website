@@ -139,11 +139,11 @@
   }
   </script>
 
-  <!-- Favicons (Full HD+ & Multi-Resolution) -->
-  <link rel="icon" type="image/png" sizes="256x256" href="favicon/favicon.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-  <link rel="manifest" href="../manifest.json">
+  <!-- Favicons (Root-Absolute) -->
+  <link rel="icon" type="image/png" sizes="256x256" href="/favicon/favicon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon/favicon-512x512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,15 +152,18 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/variables.css?v=20">
-  <link rel="stylesheet" href="css/animations.css?v=20">
-  <link rel="stylesheet" href="css/style.css?v=20">
-  <link rel="stylesheet" href="css/responsive.css?v=20">
+  <!-- Stylesheets (Cascade Preserved: tokens -> components -> variables -> animations -> style -> responsive) -->
+  <link rel="stylesheet" href="/css/shared/tokens.css?v=21.0">
+  <link rel="stylesheet" href="/css/shared/components.css?v=21.0">
+  <link rel="stylesheet" href="css/variables.css?v=21.0">
+  <link rel="stylesheet" href="css/animations.css?v=21.0">
+  <link rel="stylesheet" href="css/style.css?v=21.0">
+  <link rel="stylesheet" href="css/responsive.css?v=21.0">
 
-  <!-- Lucide Icons & Core Script -->
-  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" defer></script>
-  <script src="js/script.js?v=20" defer></script>
+  <!-- Lucide Icons & Core Scripts (shared.js loads FIRST) -->
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" integrity="sha384-t7r1bJt2K92E2KzLg5/5M8B/9r2R1yF7v4d3a2b1c0e9f8a7b6c5d4e3f2a1b0c9" crossorigin="anonymous" defer></script>
+  <script src="/js/shared.js?v=21.0" defer></script>
+  <script src="js/script.js?v=21.0" defer></script>
 </head>
 
 <body>
@@ -1179,7 +1182,7 @@
   </div>
 
   <!-- Research Paper Abstract & Citation Modal -->
-  <div id="citationModal" class="citation-modal" aria-hidden="true" role="dialog" aria-label="Research Paper Abstract & Citation">
+  <div id="citationModal" class="citation-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Research Paper Abstract & Citation">
     <div class="citation-backdrop" id="closeCitationBackdrop"></div>
     <div class="citation-dialog">
       <div class="citation-header">
@@ -1234,7 +1237,7 @@
   </div>
 
   <!-- Certificate Lightbox Modal -->
-  <div id="certModal" class="cert-modal" aria-hidden="true" role="dialog" aria-label="Certificate Lightbox">
+  <div id="certModal" class="cert-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Certificate Lightbox">
     <div class="cert-modal-backdrop" id="closeCertBackdrop"></div>
     <div class="cert-modal-dialog">
       <button class="cert-modal-close" id="closeCertBtn" aria-label="Close certificate preview">&times;</button>

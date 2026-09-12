@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Raghavendra Golla - Shared Design Tokens & Theme Variables
+   ========================================================================== */
+
+:root {
+    color-scheme: light;
+
+    /* Core Palette Tokens */
+    --paper: #faf9f6;
+    --paper-card: rgba(255, 255, 255, 0.72);
+    --paper-raised: rgba(255, 255, 255, 0.88);
+    --ink: #0f172a;
+    --ink-soft: #334155;
+    --ink-muted: #64748b;
+    --muted: #64748b;
+    --line: rgba(15, 23, 42, 0.08);
+    --line-subtle: rgba(15, 23, 42, 0.05);
+    --glass-border: rgba(15, 23, 42, 0.08);
+    --glass-bg: rgba(250, 249, 246, 0.75);
+
+    /* Accent & Brand Colors */
+    --teal: #2f7d78;
+    --teal-glow: rgba(47, 125, 120, 0.25);
+    --teal-subtle: rgba(47, 125, 120, 0.08);
+    --orange: #e06d53;
+    --orange-glow: rgba(224, 109, 83, 0.22);
+    --purple: #8b5cf6;
+    --purple-glow: rgba(139, 92, 246, 0.25);
+    --lime: #10b981;
+    --cyan: #06b6d4;
+
+    /* Ambient Glow System Colors */
+    --glow-cyan: rgba(56, 189, 248, 0.22);
+    --glow-purple: rgba(168, 85, 247, 0.20);
+    --glow-orange: rgba(251, 146, 60, 0.22);
+    --glow-lime: rgba(52, 211, 153, 0.18);
+
+    /* Typography Stack */
+    --font-heading: 'Fraunces', Georgia, serif;
+    --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    /* Border Radius Scale */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+
+    /* Transitions & Physics */
+    --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+
+    /* Elevation & Shadows */
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+
+    --paper: #090514;
+    --paper-card: rgba(15, 23, 42, 0.65);
+    --paper-raised: rgba(30, 41, 59, 0.85);
+    --ink: #f8fafc;
+    --ink-soft: #cbd5e1;
+    --ink-muted: #94a3b8;
+    --muted: #94a3b8;
+    --line: rgba(255, 255, 255, 0.10);
+    --line-subtle: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-bg: rgba(9, 5, 20, 0.82);
+
+    --teal: #38bdf8;
+    --teal-glow: rgba(56, 189, 248, 0.35);
+    --teal-subtle: rgba(56, 189, 248, 0.12);
+    --orange: #fb923c;
+    --orange-glow: rgba(251, 146, 60, 0.30);
+    --purple: #c084fc;
+    --purple-glow: rgba(192, 132, 252, 0.35);
+    --lime: #34d399;
+    --cyan: #38bdf8;
+
+    --glow-cyan: rgba(56, 189, 248, 0.32);
+    --glow-purple: rgba(192, 132, 252, 0.28);
+    --glow-orange: rgba(251, 146, 60, 0.30);
+    --glow-lime: rgba(52, 211, 153, 0.25);
+
+    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}

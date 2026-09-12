@@ -633,7 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     // 10. My Thoughts & Intelligence Hub Controller
     // ====================================================
-    const thoughtsToggleBtn = document.getElementById('thoughts-toggle-btn');
     const thoughtsFooterBtn = document.getElementById('thoughts-footer-btn');
     const thoughtsDrawer = document.getElementById('thoughtsDrawer');
     const closeThoughtsBtn = document.getElementById('closeThoughtsBtn');
@@ -641,10 +640,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const hubTabs = document.querySelectorAll('.hub-tab');
     const hubPanes = document.querySelectorAll('.hub-pane');
 
+    let thoughtsModalCtrl = null;
+    if (thoughtsDrawer && window.setupAccessibleModal) {
+        thoughtsModalCtrl = window.setupAccessibleModal(
+            thoughtsDrawer,
+            thoughtsFooterBtn,
+            [closeThoughtsBtn, closeThoughtsBackdrop]
+        );
+    }
+
     function openThoughtsHub() {
         if (thoughtsDrawer) {
-            thoughtsDrawer.classList.add('active');
-            thoughtsDrawer.setAttribute('aria-hidden', 'false');
+            if (thoughtsModalCtrl) {
+                thoughtsModalCtrl.open();
+            } else {
+                thoughtsDrawer.classList.add('active');
+                thoughtsDrawer.setAttribute('aria-hidden', 'false');
+            }
             document.documentElement.classList.add('drawer-open');
             document.body.classList.add('drawer-open');
         }
@@ -652,16 +664,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeThoughtsHub() {
         if (thoughtsDrawer) {
-            thoughtsDrawer.classList.remove('active');
-            thoughtsDrawer.setAttribute('aria-hidden', 'true');
+            if (thoughtsModalCtrl) {
+                thoughtsModalCtrl.close();
+            } else {
+                thoughtsDrawer.classList.remove('active');
+                thoughtsDrawer.setAttribute('aria-hidden', 'true');
+            }
             document.documentElement.classList.remove('drawer-open');
             document.body.classList.remove('drawer-open');
         }
     }
 
-    if (thoughtsToggleBtn) {
-        thoughtsToggleBtn.addEventListener('click', openThoughtsHub);
-    }
     if (thoughtsFooterBtn) {
         thoughtsFooterBtn.addEventListener('click', openThoughtsHub);
     }
@@ -674,13 +687,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeThoughtsBackdrop.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
         closeThoughtsBackdrop.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
     }
-
-    // Keyboard ESC to close
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && thoughtsDrawer && thoughtsDrawer.classList.contains('active')) {
-            closeThoughtsHub();
-        }
-    });
 
     // Tab Switching Logic
     hubTabs.forEach(tab => {

@@ -579,22 +579,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCertBtn = document.getElementById('closeCertBtn');
     const closeCertBackdrop = document.getElementById('closeCertBackdrop');
 
+    let certModalCtrl = null;
+    if (certModal && window.setupAccessibleModal) {
+        certModalCtrl = window.setupAccessibleModal(certModal, null, [closeCertBtn, closeCertBackdrop]);
+    }
+
     function openCertLightbox(imgSrc, title, verifyLink) {
         if (certModal && certModalImg) {
             certModalImg.src = imgSrc;
             if (certModalTitle) certModalTitle.innerHTML = title;
             if (certModalVerify) certModalVerify.href = verifyLink;
-            certModal.classList.add('active');
-            certModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
+            if (certModalCtrl) {
+                certModalCtrl.open();
+            } else {
+                certModal.classList.add('active');
+                certModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
         }
     }
 
     function closeLightbox() {
         if (certModal) {
-            certModal.classList.remove('active');
-            certModal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            if (certModalCtrl) {
+                certModalCtrl.close();
+            } else {
+                certModal.classList.remove('active');
+                certModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
         }
     }
 
@@ -623,12 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeCertBtn) closeCertBtn.addEventListener('click', closeLightbox);
     if (closeCertBackdrop) closeCertBackdrop.addEventListener('click', closeLightbox);
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && certModal && certModal.classList.contains('active')) {
-            closeLightbox();
-        }
-    });
 
 
     // ====================================================
@@ -807,19 +814,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyBibtexBtn = document.getElementById('copyBibtexBtn');
     const bibtexCode = document.getElementById('bibtexCode');
 
+    let citationModalCtrl = null;
+    if (citationModal && window.setupAccessibleModal) {
+        citationModalCtrl = window.setupAccessibleModal(citationModal, openCitationBtn, [closeCitationBtn, closeCitationBackdrop]);
+    }
+
     function openCitation() {
         if (citationModal) {
-            citationModal.classList.add('active');
-            citationModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
+            if (citationModalCtrl) {
+                citationModalCtrl.open();
+            } else {
+                citationModal.classList.add('active');
+                citationModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
         }
     }
 
     function closeCitation() {
         if (citationModal) {
-            citationModal.classList.remove('active');
-            citationModal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            if (citationModalCtrl) {
+                citationModalCtrl.close();
+            } else {
+                citationModal.classList.remove('active');
+                citationModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
         }
     }
 
@@ -837,12 +857,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && citationModal && citationModal.classList.contains('active')) {
-            closeCitation();
-        }
-    });
 
     // ====================================================
     // 16. Service Worker Registration (PWA Install Support)

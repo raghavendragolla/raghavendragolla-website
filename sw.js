@@ -1,18 +1,26 @@
-const CACHE_NAME = 'raghavendra-portfolio-v9';
+const CACHE_NAME = 'raghavendra-portfolio-v10';
 
 const PRECACHE_ASSETS = [
-  './',
-  './index.html',
-  './css/variables.css?v=20.0',
-  './css/style.css?v=20.0',
-  './css/animations.css?v=20.0',
-  './css/responsive.css?v=20.0',
-  './js/script.js?v=20.0',
-  './manifest.json',
-  './favicon/favicon.png',
-  './favicon/favicon-192x192.png',
-  './favicon/favicon-512x512.png',
-  './favicon/apple-touch-icon.png'
+  '/',
+  '/index.html',
+  '/portfolio/',
+  '/portfolio/index.html',
+  '/404.html',
+  '/css/shared/tokens.css?v=21.0',
+  '/css/shared/components.css?v=21.0',
+  '/css/style.css?v=21.0',
+  '/css/animations.css?v=21.0',
+  '/css/responsive.css?v=21.0',
+  '/js/shared.js?v=21.0',
+  '/js/script.js?v=21.0',
+  '/portfolio/css/style.css?v=21.0',
+  '/portfolio/css/responsive.css?v=21.0',
+  '/portfolio/js/script.js?v=21.0',
+  '/manifest.json',
+  '/favicon/favicon.png',
+  '/favicon/favicon-192x192.png',
+  '/favicon/favicon-512x512.png',
+  '/favicon/apple-touch-icon.png'
 ];
 
 // Install event - Pre-cache critical app shell for instant launch
@@ -75,7 +83,13 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(async () => {
           const cachedResponse = await caches.match(event.request);
-          return cachedResponse || caches.match('./index.html') || caches.match('./');
+          if (cachedResponse) return cachedResponse;
+
+          if (url.pathname.startsWith('/portfolio')) {
+            return (await caches.match('/portfolio/index.html')) || (await caches.match('/portfolio/'));
+          }
+
+          return (await caches.match('/index.html')) || (await caches.match('/404.html')) || (await caches.match('/'));
         })
     );
     return;

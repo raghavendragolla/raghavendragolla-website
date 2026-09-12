@@ -119,11 +119,11 @@
 
     <title>Raghavendra Golla | Data Science &amp; ML Portfolio</title>
 
-    <!-- Favicons (Full HD+ & 4K Ultra-Crisp Support) -->
-    <link rel="icon" type="image/png" sizes="256x256" href="favicon/favicon.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicon/favicon-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon/favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/favicon-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -133,14 +133,17 @@
         href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/variables.css?v=20.0">
-    <link rel="stylesheet" href="css/style.css?v=20.0">
-    <link rel="stylesheet" href="css/animations.css?v=20.0">
-    <link rel="stylesheet" href="css/responsive.css?v=20.0">
+    <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
+    <link rel="stylesheet" href="/css/shared/tokens.css?v=21.0">
+    <link rel="stylesheet" href="/css/shared/components.css?v=21.0">
+    <link rel="stylesheet" href="/css/variables.css?v=21.0">
+    <link rel="stylesheet" href="/css/style.css?v=21.0">
+    <link rel="stylesheet" href="/css/animations.css?v=21.0">
+    <link rel="stylesheet" href="/css/responsive.css?v=21.0">
 
-    <!-- JavaScript -->
-    <script src="js/script.js?v=20.0" defer></script>
+    <!-- JavaScript Stack (shared.js loads FIRST) -->
+    <script src="/js/shared.js?v=21.0" defer></script>
+    <script src="/js/script.js?v=21.0" defer></script>
 
 </head>
 
@@ -411,7 +414,7 @@
     </footer>
 
     <!-- My Thoughts & Market Intelligence Slide-over Hub Drawer -->
-    <div id="thoughtsDrawer" class="thoughts-drawer" aria-hidden="true" role="dialog"
+    <div id="thoughtsDrawer" class="thoughts-drawer" aria-hidden="true" role="dialog" aria-modal="true"
         aria-label="My Thoughts and Market Intelligence Hub">
         <div class="thoughts-backdrop" id="closeThoughtsBackdrop"></div>
         <div class="thoughts-panel">
