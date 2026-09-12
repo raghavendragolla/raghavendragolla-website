@@ -11,6 +11,13 @@
     gtag('config', 'G-NQRWM60R9L');
   </script>
 
+  <!-- Trailing-slash URL Normalization (Prevents missing-slash CSS resolution failure) -->
+  <script>
+    if (window.location.pathname.endsWith('/portfolio')) {
+      window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+    }
+  </script>
+
   <!-- Immediate Theme Initialization (Zero-FOUC) -->
   <script>
     (function () {
@@ -174,14 +181,13 @@
       <div class="sidebar-top">
 
         <!-- Back to Main Website Hub Link -->
-        <a href="../index.html" class="back-hub" title="Return to Main Landing Hub">
+        <a href="../" class="back-hub" title="Return to Main Landing Hub">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
           </svg>
           <span>Main Site</span>
         </a>
-
         <!-- Profile Brand & Monogram -->
         <div class="brand-container">
           <div class="avatar-wrapper">
@@ -239,8 +245,8 @@
         <li><a href="#certifications"><i data-lucide="award"></i><span>Certifications</span></a></li>
         <li><a href="#contact"><i data-lucide="mail"></i><span>Get in Touch</span></a></li>
         <li style="margin-top: 1rem; border-top: 1px dashed var(--line-subtle); padding-top: 0.5rem;">
-          <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">
-            <i data-lucide="external-link"></i><span>raghavendragolla.com</span>
+          <a href="../">
+            <i data-lucide="external-link"></i><span>Main Landing Site</span>
           </a>
         </li>
       </ul>
@@ -1245,7 +1251,7 @@
     </svg>
   </button>
 
-  <!-- Mobile PWA Install Floating Banner -->
+  <!-- Mobile PWA Install Floating Banner (Commented out)
   <aside id="pwa-install-banner" class="pwa-install-banner" aria-label="Install Portfolio App" style="display: none;">
     <div class="pwa-banner-content">
       <img src="favicon/favicon-192x192.png" alt="Raghavendra App Icon" class="pwa-banner-icon" width="42" height="42">
@@ -1264,6 +1270,7 @@
       </button>
     </div>
   </aside>
+  -->
 
 </body>
 

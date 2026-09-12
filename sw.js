@@ -1,18 +1,18 @@
-const CACHE_NAME = 'raghavendra-portfolio-v7';
+const CACHE_NAME = 'raghavendra-portfolio-v8';
 
 const PRECACHE_ASSETS = [
-  '/',
-  '/index.html',
-  '/css/variables.css?v=20.0',
-  '/css/style.css?v=20.0',
-  '/css/animations.css?v=20.0',
-  '/css/responsive.css?v=20.0',
-  '/js/script.js?v=20.0',
-  '/manifest.json',
-  '/favicon/favicon.png',
-  '/favicon/favicon-192x192.png',
-  '/favicon/favicon-512x512.png',
-  '/favicon/apple-touch-icon.png'
+  './',
+  './index.html',
+  './css/variables.css?v=20.0',
+  './css/style.css?v=20.0',
+  './css/animations.css?v=20.0',
+  './css/responsive.css?v=20.0',
+  './js/script.js?v=20.0',
+  './manifest.json',
+  './favicon/favicon.png',
+  './favicon/favicon-192x192.png',
+  './favicon/favicon-512x512.png',
+  './favicon/apple-touch-icon.png'
 ];
 
 // Install event - Pre-cache critical app shell for instant launch
@@ -74,7 +74,7 @@ self.addEventListener('fetch', (event) => {
           })
           .catch(() => {
             if (event.request.mode === 'navigate') {
-              return cache.match('/index.html') || cache.match('/');
+              return cache.match('./index.html') || cache.match('./');
             }
             return cachedResponse;
           });
