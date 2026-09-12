@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://unpkg.com 'sha256-hqVjHKQ0RrQu5SaegW4ngbCDZP93hEAr5JSj0uGax0M='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://unpkg.com 'sha256-QxO8F08+C9PC+HPpqgl1aNzhGWuTDY9wbZ4ZnlbcBIE='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Trailing-slash URL Normalization (Prevents missing-slash CSS resolution failure) -->
@@ -145,18 +145,20 @@
   <!-- Stylesheets (Cascade Preserved: tokens -> components -> variables -> animations -> style -> responsive) -->
   <link rel="stylesheet" href="/css/shared/tokens.css?v=21.0">
   <link rel="stylesheet" href="/css/shared/components.css?v=21.0">
-  <link rel="stylesheet" href="css/variables.css?v=21.0">
-  <link rel="stylesheet" href="css/animations.css?v=21.0">
-  <link rel="stylesheet" href="css/style.css?v=21.0">
-  <link rel="stylesheet" href="css/responsive.css?v=21.0">
+  <link rel="stylesheet" href="/portfolio/css/variables.css?v=21.0">
+  <link rel="stylesheet" href="/portfolio/css/animations.css?v=21.0">
+  <link rel="stylesheet" href="/portfolio/css/style.css?v=21.0">
+  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=21.0">
 
   <!-- Lucide Icons & Core Scripts (shared.js loads FIRST) -->
   <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" integrity="sha384-tTkFttkBclaU1cloKwOi9xk3pbao3VZxTjLNBt8iFABWDBQibbAbWpVmO28zMuxq" crossorigin="anonymous" defer></script>
   <script src="/js/shared.js?v=21.0" defer></script>
-  <script src="js/script.js?v=21.0" defer></script>
+  <script src="/portfolio/js/script.js?v=21.0" defer></script>
 </head>
 
 <body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
 
   <!-- Neural Canvas Background & Ambient Glows -->
@@ -196,7 +198,7 @@
 
         <!-- Mobile Controls (Visible on Tablet/Mobile only via media queries) -->
         <div class="mobile-controls">
-          <button id="theme-toggle-mobile" class="mobile-theme-toggle" aria-label="Switch Theme" title="Toggle Theme">
+          <button id="theme-toggle-mobile" class="mobile-theme-toggle" type="button" aria-label="Switch Theme" title="Toggle Theme">
             <svg class="moon-icon" viewBox="0 0 24 24">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
@@ -212,7 +214,7 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
             </svg>
           </button>
-          <button class="mobile-toggle-btn" id="navToggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <button class="mobile-toggle-btn" id="navToggle" type="button" aria-label="Toggle Navigation Menu" aria-expanded="false">
             <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -238,7 +240,7 @@
         <li><a href="#resume"><i data-lucide="file-text" aria-hidden="true"></i><span>Resume</span></a></li>
         <li><a href="#certifications"><i data-lucide="award" aria-hidden="true"></i><span>Certifications</span></a></li>
         <li><a href="#contact"><i data-lucide="mail" aria-hidden="true"></i><span>Get in Touch</span></a></li>
-        <li style="margin-top: 1rem; border-top: 1px dashed var(--line-subtle); padding-top: 0.5rem;">
+        <li class="navlist-divider">
           <a href="../">
             <i data-lucide="external-link" aria-hidden="true"></i><span>Main Landing Site</span>
           </a>
@@ -247,7 +249,7 @@
 
       <!-- Sidebar Foot Controls & Status -->
       <div class="sidebar-foot">
-        <button id="theme-toggle-sidebar" class="theme-toggle-sidebar" aria-label="Toggle Dark/Light Mode">
+        <button id="theme-toggle-sidebar" class="theme-toggle-sidebar" type="button" aria-label="Toggle Dark/Light Mode">
           <span>Theme Mode</span>
           <svg class="moon-icon" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -1191,9 +1193,9 @@
           <h3 class="citation-title">Explainable Machine Learning for Early Cardiovascular Disease Risk Prediction</h3>
           <p class="citation-author">Golla Raghavendra &bull; MSc Data Science, Chandigarh University</p>
         </div>
-        <button class="citation-close-btn" id="closeCitationBtn" aria-label="Close modal">&times;</button>
+        <button class="citation-close-btn" id="closeCitationBtn" type="button" aria-label="Close modal">&times;</button>
       </div>
-      
+
       <div class="citation-body">
         <div class="citation-section">
           <h4>📄 Abstract</h4>
@@ -1227,7 +1229,7 @@
 }</code></pre>
         </div>
       </div>
-      
+
       <div class="citation-footer">
         <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener" class="btn primary">
           <i data-lucide="github" aria-hidden="true"></i><span>View Research Repository</span>
@@ -1240,7 +1242,7 @@
   <div id="certModal" class="cert-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Certificate Lightbox">
     <div class="cert-modal-backdrop" id="closeCertBackdrop"></div>
     <div class="cert-modal-dialog">
-      <button class="cert-modal-close" id="closeCertBtn" aria-label="Close certificate preview">&times;</button>
+      <button class="cert-modal-close" id="closeCertBtn" type="button" aria-label="Close certificate preview">&times;</button>
       <div class="cert-modal-content">
         <img id="certModalImg" src="/portfolio/certificates/ibm-data-analyst.jpg" alt="Certificate Full Preview"
           width="1024" height="791" loading="lazy" class="cert-modal-img">
@@ -1256,7 +1258,7 @@
   </div>
 
   <!-- Floating Back to Top Button (Mobile & Desktop) -->
-  <button id="backToTopBtn" class="back-to-top-btn" aria-label="Back to Top" title="Back to Top">
+  <button id="backToTopBtn" class="back-to-top-btn" type="button" aria-label="Back to Top" title="Back to Top">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15"></polyline>
     </svg>

@@ -336,6 +336,12 @@ nav.sidebar {
     color: var(--orange);
 }
 
+.navlist-divider {
+    margin-top: 1rem;
+    border-top: 1px dashed var(--line-subtle);
+    padding-top: 0.5rem;
+}
+
 /* Sidebar Bottom Footer */
 .sidebar-foot {
     font-family: var(--font-mono);
@@ -1534,12 +1540,13 @@ h1.hero-title em {
     padding: 1.5rem;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s var(--apple-ease), visibility 0.3s;
+    transition: opacity 0.3s var(--apple-ease), visibility 0s linear 0.3s;
 }
 
 .cert-modal.active {
     opacity: 1;
     visibility: visible;
+    transition: opacity 0.3s var(--apple-ease), visibility 0s linear 0s;
 }
 
 .cert-modal-backdrop {
@@ -2251,12 +2258,13 @@ h1.hero-title em {
     padding: 20px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s var(--apple-ease), visibility 0.3s ease;
+    transition: opacity 0.3s var(--apple-ease), visibility 0s linear 0.3s;
 }
 
 .citation-modal.active {
     opacity: 1;
     visibility: visible;
+    transition: opacity 0.3s var(--apple-ease), visibility 0s linear 0s;
 }
 
 .citation-backdrop {

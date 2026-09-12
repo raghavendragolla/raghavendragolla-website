@@ -1,0 +1,10 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "hidden-focusable": "off",
+    "no-implicit-button-type": "error",
+    "no-inline-style": "error",
+    "no-trailing-whitespace": "error",
+    "prefer-native-element": "warn"
+  }
+}

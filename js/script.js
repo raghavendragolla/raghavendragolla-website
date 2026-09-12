@@ -529,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     skillChips.forEach(chip => {
-        chip.addEventListener('click', (e) => {
+        chip.addEventListener('click', () => {
             const category = chip.getAttribute('data-category');
             const info = chip.getAttribute('data-info') || chip.textContent.trim();
             const isAlreadyActive = chip.classList.contains('active');

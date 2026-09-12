@@ -112,6 +112,18 @@
         .skip-link:focus {
             top: 16px;
         }
+
+        .error-btn {
+            width: auto;
+            height: auto;
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        .error-btn-secondary {
+            background: var(--paper-raised);
+            color: var(--ink);
+        }
     </style>
 </head>
 
@@ -141,7 +153,7 @@
                 </span>
             </div>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch Theme" title="Switch Theme">
             <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
         </button>
@@ -161,10 +173,10 @@
             </p>
 
             <div class="error-actions">
-                <a href="/" class="enter" style="width: auto; height: auto; padding: 12px 24px; font-size: 16px;">
+                <a href="/" class="enter error-btn">
                     <span>Return to Main Site</span>
                 </a>
-                <a href="/portfolio/" class="enter" style="width: auto; height: auto; padding: 12px 24px; font-size: 16px; background: var(--paper-raised); color: var(--ink);">
+                <a href="/portfolio/" class="enter error-btn error-btn-secondary">
                     <span>View Portfolio &rarr;</span>
                 </a>
             </div>

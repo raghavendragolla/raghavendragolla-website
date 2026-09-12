@@ -3,7 +3,7 @@
 
 <head>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-7iJ/McqohJIxbM+QcONfskCeHh5Tii0XvIkh6879iU4='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
@@ -142,6 +142,8 @@
 
 <body>
 
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
 
     <!-- Background Canvas, Ambient Grid & Glows -->
     <canvas id="neural-canvas" aria-hidden="true"></canvas>
@@ -225,7 +227,7 @@
                 </svg>
             </div>
         </div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch Theme" title="Switch Theme">
             <svg class="moon-icon" viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
@@ -400,7 +402,7 @@
                     GitHub
                 </a>
                 <a href="/privacy.html" class="footer-link">Privacy</a>
-                <button id="thoughts-footer-btn" class="footer-thoughts-btn"
+                <button id="thoughts-footer-btn" class="footer-thoughts-btn" type="button"
                     aria-label="Open My Thoughts and Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
                 <a href="portfolio/index.html#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
             </div>
@@ -422,7 +424,7 @@
                     <p class="thoughts-subtitle">Engineering notes, reading takeaways &amp; 2026 AI industry insights
                     </p>
                 </div>
-                <button class="thoughts-close-btn" id="closeThoughtsBtn" aria-label="Close Hub">
+                <button class="thoughts-close-btn" id="closeThoughtsBtn" type="button" aria-label="Close Hub">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2"
                         stroke-linecap="round" stroke-linejoin="round" fill="none">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -434,13 +436,13 @@
             <!-- Segmented Pill Tabs -->
             <div class="hub-tabs-container">
                 <div class="hub-tabs" role="tablist" aria-label="Hub Sections">
-                    <button id="tab-thoughts" class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true" aria-controls="pane-thoughts" tabindex="0">
+                    <button id="tab-thoughts" class="hub-tab active" data-tab="thoughts" type="button" role="tab" aria-selected="true" aria-controls="pane-thoughts" tabindex="0">
                         <span><span aria-hidden="true">💡</span> Thoughts &amp; Notes</span>
                     </button>
-                    <button id="tab-now" class="hub-tab" data-tab="now" role="tab" aria-selected="false" aria-controls="pane-now" tabindex="-1">
+                    <button id="tab-now" class="hub-tab" data-tab="now" type="button" role="tab" aria-selected="false" aria-controls="pane-now" tabindex="-1">
                         <span><span aria-hidden="true">⚡</span> Now Focus</span>
                     </button>
-                    <button id="tab-market" class="hub-tab" data-tab="market" role="tab" aria-selected="false" aria-controls="pane-market" tabindex="-1">
+                    <button id="tab-market" class="hub-tab" data-tab="market" type="button" role="tab" aria-selected="false" aria-controls="pane-market" tabindex="-1">
                         <span><span aria-hidden="true">📈</span> Market Intel</span>
                     </button>
                 </div>

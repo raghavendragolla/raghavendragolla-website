@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     function getSavedTheme() {
-        return localStorage.getItem('theme');
+        return (window.rgStorage && window.rgStorage.getItem('rg:theme')) || localStorage.getItem('theme');
     }
 
     function applyTheme(theme) {
@@ -37,12 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize Theme (Default to Dark Mode just like the main website)
+    // Initialize Theme
     const savedTheme = getSavedTheme();
     if (savedTheme) {
         applyTheme(savedTheme);
-    } else {
+    } else if (systemPrefersDark.matches) {
         applyTheme('dark');
+    } else {
+        applyTheme('light');
     }
 
     systemPrefersDark.addEventListener('change', (e) => {
@@ -54,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleTheme() {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (window.rgStorage) {
+            window.rgStorage.setItem('rg:theme', newTheme);
+        }
         localStorage.setItem('theme', newTheme);
         applyTheme(newTheme);
         showToast(newTheme === 'dark' ? 'Switched to Dark Mode 🌙' : 'Switched to Light Mode ☀️');
@@ -503,7 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Email click-to-copy handler
     const emailCards = document.querySelectorAll('.contact-card[data-copy], a[href^="mailto:"]');
     emailCards.forEach(card => {
-        card.addEventListener('click', (e) => {
+        card.addEventListener('click', () => {
             const email = 'raghavendrayadavgolla@gmail.com';
             navigator.clipboard.writeText(email).then(() => {
                 showToast('Copied email to clipboard! 📋');
@@ -690,11 +695,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = card.getAttribute('data-cert-title') || 'Certificate Preview';
         const link = card.getAttribute('data-cert-link') || '#';
 
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('a') && !e.target.closest('.cert-preview-btn')) return;
+            openCertLightbox(imgSrc, title, link);
+        });
+
         const media = card.querySelector('.cert-media');
         const btn = card.querySelector('.cert-preview-btn');
 
         if (media) {
-            media.addEventListener('click', () => openCertLightbox(imgSrc, title, link));
             media.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -704,7 +713,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (btn) {
-            btn.addEventListener('click', () => openCertLightbox(imgSrc, title, link));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openCertLightbox(imgSrc, title, link);
+            });
         }
     });
 
@@ -720,9 +732,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const nameInput = document.getElementById('senderName');
         const emailInput = document.getElementById('senderEmail');
         const phoneInput = document.getElementById('senderPhone');
-        const topicSelect = document.getElementById('senderTopic');
         const messageInput = document.getElementById('senderMessage');
-        const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
 
         const nameError = document.getElementById('nameError');
@@ -779,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Duplicate Submission Guard
-            const currentPayload = `${nameVal.toLowerCase()}|${emailVal.toLowerCase()}|${messageVal}`;
+            const currentPayload = `${nameVal.toLowerCase()}|${emailVal.toLowerCase()}|${phoneVal}|${messageVal}`;
             if (lastSubmissionPayload && lastSubmissionPayload === currentPayload) {
                 if (formStatus) {
                     formStatus.textContent = 'This message has already been submitted.';

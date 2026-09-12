@@ -9,4 +9,9 @@ ehthumbs_vista.db
 .DS_Store?
 ._*
 .Spotlight-V100
-.Trashes
+# Dependencies & Tooling Artifacts
+node_modules/
+test-results/
+playwright-report/
+.lighthouseci/
+*.log
