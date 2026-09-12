@@ -178,9 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let goldRgb = '184, 144, 47';
 
         window.updateCanvasTheme = function() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            tealRgb = isDark ? '66, 179, 171' : '47, 125, 120';
-            goldRgb = isDark ? '226, 179, 74' : '184, 144, 47';
+            const style = getComputedStyle(document.documentElement);
+            tealRgb = (style.getPropertyValue('--canvas-particle-teal') || '45, 212, 191').trim();
+            goldRgb = (style.getPropertyValue('--canvas-particle-gold') || '251, 191, 36').trim();
         };
 
         window.updateCanvasTheme();
@@ -670,10 +670,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (certModalVerify) certModalVerify.href = verifyLink;
             if (certModalCtrl) {
                 certModalCtrl.open();
+                setTimeout(() => {
+                    if (closeCertBtn) closeCertBtn.focus();
+                }, 50);
             } else {
                 certModal.classList.add('active');
                 certModal.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
+                if (closeCertBtn) closeCertBtn.focus();
             }
         }
     }

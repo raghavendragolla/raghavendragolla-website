@@ -160,33 +160,11 @@
             document.body.classList.add('scroll-locked');
 
             function focusFirst() {
-                console.log('FOCUS_FIRST_CALLED on modal:', modalElement.id, 'classes:', modalElement.className);
                 var focusables = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                console.log('FOCUS_FIRST focusables count:', focusables.length, focusables[0] ? focusables[0].id : 'none');
                 if (focusables.length > 0) {
                     try {
                         focusables[0].focus();
-                    } catch (err) {
-                        console.log('FOCUS_ERROR:', err);
-                    }
-                    var el = focusables[0];
-                    function checkRule(r) {
-                        if (r.cssRules) {
-                            for (var j = 0; j < r.cssRules.length; j++) checkRule(r.cssRules[j]);
-                        } else if (r.selectorText) {
-                            try {
-                                if (el.matches(r.selectorText)) {
-                                    console.log('MATCHED RULE FOR BTN:', r.selectorText, r.style.visibility || 'no-vis', r.parentRule ? r.parentRule.cssText.slice(0, 40) : 'top');
-                                }
-                            } catch (e) {}
-                        }
-                    }
-                    for (var s = 0; s < document.styleSheets.length; s++) {
-                        try {
-                            var sheet = document.styleSheets[s];
-                            for (var r = 0; r < sheet.cssRules.length; r++) checkRule(sheet.cssRules[r]);
-                        } catch (e) {}
-                    }
+                    } catch (err) {}
                 }
             }
 
@@ -204,7 +182,9 @@
             document.body.classList.remove('scroll-locked');
             document.removeEventListener('keydown', handleKeyDown);
 
-            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+            if (triggerElement && typeof triggerElement.focus === 'function') {
+                triggerElement.focus();
+            } else if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                 lastFocusedElement.focus();
             }
         }
@@ -324,8 +304,10 @@
             ctx.clearRect(0, 0, width, height);
 
             var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            var particleColor = isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(47, 125, 120, 0.35)';
-            var lineBaseColor = isDark ? '56, 189, 248' : '47, 125, 120';
+            var rootStyle = getComputedStyle(document.documentElement);
+            var particleTeal = (rootStyle.getPropertyValue('--canvas-particle-teal') || (isDark ? '45, 212, 191' : '27, 107, 102')).trim();
+            var particleColor = 'rgba(' + particleTeal + ', ' + (isDark ? '0.45' : '0.35') + ')';
+            var lineBaseColor = particleTeal;
 
             // Draw particles & links without expensive ctx.shadowBlur
             for (var a = 0; a < particles.length; a++) {

@@ -1,89 +1,250 @@
 /* ==========================================================================
-   Raghavendra Golla - Shared Design Tokens & Theme Variables
+   Raghavendra Golla - Unified Design Tokens & Theme Variables
+   Precision Instrument Aesthetics: Deep Technical Teal & Calibrated Ground
    ========================================================================== */
 
 :root {
     color-scheme: light;
 
-    /* Core Palette Tokens */
-    --paper: #faf9f6;
-    --paper-card: rgba(255, 255, 255, 0.72);
-    --paper-raised: rgba(255, 255, 255, 0.88);
-    --ink: #0f172a;
-    --ink-soft: #334155;
-    --ink-muted: #64748b;
-    --muted: #64748b;
-    --line: rgba(15, 23, 42, 0.08);
-    --line-subtle: rgba(15, 23, 42, 0.05);
-    --glass-border: rgba(15, 23, 42, 0.08);
-    --glass-bg: rgba(250, 249, 246, 0.75);
+    /* ---------- Brand & Accent System ---------- */
+    --primary: #1b6b66;
+    --primary-hover: #13524e;
+    --primary-subtle: rgba(27, 107, 102, 0.08);
+    --primary-glow: rgba(27, 107, 102, 0.20);
+    --text-on-primary: #ffffff;
+    --accent: #a16207;
+    --accent-hover: #854d0e;
+    --accent-subtle: rgba(161, 98, 7, 0.08);
 
-    /* Accent & Brand Colors */
-    --teal: #2f7d78;
-    --teal-glow: rgba(47, 125, 120, 0.25);
-    --teal-subtle: rgba(47, 125, 120, 0.08);
-    --orange: #e06d53;
-    --orange-glow: rgba(224, 109, 83, 0.22);
-    --purple: #8b5cf6;
-    --purple-glow: rgba(139, 92, 246, 0.25);
-    --lime: #10b981;
-    --cyan: #06b6d4;
+    /* ---------- Surfaces & Background ---------- */
+    --bg: #faf9f5;
+    --surface: #ffffff;
+    --surface-elevated: #f3f2ec;
+    --surface-hover: #ffffff;
 
-    /* Ambient Glow System Colors */
-    --glow-cyan: rgba(56, 189, 248, 0.22);
-    --glow-purple: rgba(168, 85, 247, 0.20);
-    --glow-orange: rgba(251, 146, 60, 0.22);
-    --glow-lime: rgba(52, 211, 153, 0.18);
+    /* ---------- Typography & Contrast Hierarchy ---------- */
+    --text: #111822;
+    --text-muted: #334155;
+    --text-faint: #64748b;
 
-    /* Typography Stack */
+    /* ---------- Borders & Hairlines ---------- */
+    --border: #e2e0d8;
+    --border-subtle: rgba(17, 24, 34, 0.07);
+    --border-strong: rgba(17, 24, 34, 0.18);
+    --focus: #1b6b66;
+
+    /* ---------- Feedback & Status ---------- */
+    --success: #166534;
+    --success-subtle: rgba(22, 101, 52, 0.10);
+    --error: #b91c1c;
+    --error-subtle: rgba(185, 28, 28, 0.10);
+    --warning: #b45309;
+    --warning-subtle: rgba(180, 83, 9, 0.10);
+
+    /* ---------- Atmospheric & Elevation System ---------- */
+    --shadow-sm: 0 1px 2px rgba(17, 24, 34, 0.04), 0 0 0 1px var(--border-subtle);
+    --shadow-md: 0 4px 16px -2px rgba(17, 24, 34, 0.06), 0 0 0 1px var(--border-subtle);
+    --shadow-lg: 0 12px 32px -4px rgba(17, 24, 34, 0.08), 0 0 0 1px var(--border-subtle);
+    --backdrop-overlay: rgba(17, 24, 34, 0.45);
+    --glow: rgba(27, 107, 102, 0.10);
+    --grid-line: rgba(17, 24, 34, 0.035);
+
+    /* ---------- Motion System ---------- */
+    --motion-micro: 150ms;
+    --motion-standard: 250ms;
+    --motion-large: 350ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+    /* ---------- Typography Tokens ---------- */
     --font-heading: 'Fraunces', Georgia, serif;
-    --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'IBM Plex Mono', monospace;
 
-    /* Border Radius Scale */
+    /* ---------- Border Radii ---------- */
     --radius-sm: 6px;
     --radius-md: 12px;
-    --radius-lg: 20px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
     --radius-full: 9999px;
 
-    /* Transitions & Physics */
-    --apple-ease: cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-theme: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    /* ---------- ECG Gradient & Vitals Tokens ---------- */
+    --ecg-length: 1400;
+    --ecg-stop-0: rgba(27, 107, 102, 0.25);
+    --ecg-stop-25: rgba(27, 107, 102, 0.75);
+    --ecg-stop-50: rgba(161, 98, 7, 0.85);
+    --ecg-stop-75: rgba(27, 107, 102, 0.75);
+    --ecg-stop-100: rgba(27, 107, 102, 0.25);
+    --ecg-track: rgba(17, 24, 34, 0.08);
 
-    /* Elevation & Shadows */
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    /* ---------- Canvas RGB Driving Tokens ---------- */
+    --canvas-particle-teal: 27, 107, 102;
+    --canvas-particle-gold: 161, 98, 7;
+    --canvas-wave-1: rgba(27, 107, 102, 0.20);
+    --canvas-wave-1-glow: rgba(27, 107, 102, 0.08);
+    --canvas-wave-2: rgba(27, 107, 102, 0.14);
+    --canvas-wave-2-glow: rgba(27, 107, 102, 0.05);
+    --canvas-wave-3: rgba(161, 98, 7, 0.12);
+    --canvas-wave-3-glow: rgba(161, 98, 7, 0.04);
+    --canvas-stardust-teal: rgba(27, 107, 102, 0.15);
+    --canvas-stardust-gold: rgba(161, 98, 7, 0.15);
+
+    /* ---------- Scrollbar Tokens ---------- */
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: rgba(17, 24, 34, 0.14);
+    --scrollbar-thumb-hover: rgba(27, 107, 102, 0.45);
+
+    /* ---------- Backward-Compatible Aliases ---------- */
+    --paper: var(--bg);
+    --paper-card: var(--surface);
+    --paper-raised: var(--surface-elevated);
+    --paper-card-hover: var(--surface-hover);
+    --sidebar-bg: var(--bg);
+    --ink: var(--text);
+    --ink-soft: var(--text-muted);
+    --ink-muted: var(--text-faint);
+    --muted: var(--text-muted);
+    --teal: var(--primary);
+    --teal-glow: var(--primary-glow);
+    --teal-subtle: var(--primary-subtle);
+    --gold: var(--accent);
+    --gold-glow: var(--accent-subtle);
+    --line: var(--border-subtle);
+    --line-subtle: var(--border-subtle);
+    --glass-border: var(--border-subtle);
+    --glass-bg: var(--surface);
+    --glass-shadow: var(--shadow-sm);
+    --card-shadow: var(--shadow-sm);
+    --card-hover-shadow: var(--shadow-md);
+    --border-button: var(--primary);
+    --hover-bg: var(--primary);
+    --hover-text: #ffffff;
+    --btn-primary-bg: var(--text);
+    --btn-primary-text: var(--bg);
+    --glow-primary: var(--glow);
+    --glow-secondary: var(--primary-subtle);
+    --glow-cyan: var(--primary-glow);
+    --glow-purple: var(--primary-subtle);
+    --glow-orange: var(--accent-subtle);
+    --glow-lime: var(--primary-subtle);
+    --orange: var(--accent);
+    --orange-soft: var(--accent-subtle);
+    --green: var(--success);
+    --green-soft: var(--success-subtle);
+    --badge-bg: var(--surface);
+    --apple-ease: var(--ease-out);
+    --transition-fast: var(--motion-micro) var(--ease-out);
 }
 
+/* ---------- Dark Theme (Technical Slate / Precision Instrument Ground) ---------- */
 [data-theme="dark"] {
     color-scheme: dark;
 
-    --paper: #090514;
-    --paper-card: rgba(15, 23, 42, 0.65);
-    --paper-raised: rgba(30, 41, 59, 0.85);
-    --ink: #f8fafc;
-    --ink-soft: #cbd5e1;
-    --ink-muted: #94a3b8;
-    --muted: #94a3b8;
-    --line: rgba(255, 255, 255, 0.10);
-    --line-subtle: rgba(255, 255, 255, 0.06);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --glass-bg: rgba(9, 5, 20, 0.82);
+    /* ---------- Brand & Accent System ---------- */
+    --primary: #2dd4bf;
+    --primary-hover: #5eead4;
+    --primary-subtle: rgba(45, 212, 191, 0.12);
+    --primary-glow: rgba(45, 212, 191, 0.25);
+    --text-on-primary: #0a0e14;
+    --accent: #fbbf24;
+    --accent-hover: #fde047;
+    --accent-subtle: rgba(251, 191, 36, 0.12);
 
-    --teal: #38bdf8;
-    --teal-glow: rgba(56, 189, 248, 0.35);
-    --teal-subtle: rgba(56, 189, 248, 0.12);
-    --orange: #fb923c;
-    --orange-glow: rgba(251, 146, 60, 0.30);
-    --purple: #c084fc;
-    --purple-glow: rgba(192, 132, 252, 0.35);
-    --lime: #34d399;
-    --cyan: #38bdf8;
+    /* ---------- Surfaces & Background ---------- */
+    --bg: #0a0e14;
+    --surface: #111620;
+    --surface-elevated: #171e2b;
+    --surface-hover: #1c2433;
 
-    --glow-cyan: rgba(56, 189, 248, 0.32);
-    --glow-purple: rgba(192, 132, 252, 0.28);
-    --glow-orange: rgba(251, 146, 60, 0.30);
-    --glow-lime: rgba(52, 211, 153, 0.25);
+    /* ---------- Typography & Contrast Hierarchy ---------- */
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-faint: #94a3b8;
 
-    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    /* ---------- Borders & Hairlines ---------- */
+    --border: #1e293b;
+    --border-subtle: rgba(241, 245, 249, 0.08);
+    --border-strong: rgba(241, 245, 249, 0.16);
+    --focus: #2dd4bf;
+
+    /* ---------- Feedback & Status ---------- */
+    --success: #34d399;
+    --success-subtle: rgba(52, 211, 153, 0.14);
+    --error: #f87171;
+    --error-subtle: rgba(248, 113, 113, 0.14);
+    --warning: #fbbf24;
+    --warning-subtle: rgba(251, 191, 36, 0.14);
+
+    /* ---------- Atmospheric & Elevation System ---------- */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-subtle);
+    --shadow-md: 0 6px 20px -2px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-subtle);
+    --shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-subtle);
+    --backdrop-overlay: rgba(0, 0, 0, 0.65);
+    --glow: rgba(45, 212, 191, 0.16);
+    --grid-line: rgba(241, 245, 249, 0.03);
+
+    /* ---------- ECG Gradient & Vitals Tokens ---------- */
+    --ecg-stop-0: rgba(45, 212, 191, 0.25);
+    --ecg-stop-25: rgba(45, 212, 191, 0.75);
+    --ecg-stop-50: rgba(251, 191, 36, 0.85);
+    --ecg-stop-75: rgba(45, 212, 191, 0.75);
+    --ecg-stop-100: rgba(45, 212, 191, 0.25);
+    --ecg-track: rgba(241, 245, 249, 0.08);
+
+    /* ---------- Canvas RGB Driving Tokens ---------- */
+    --canvas-particle-teal: 45, 212, 191;
+    --canvas-particle-gold: 251, 191, 36;
+    --canvas-wave-1: rgba(45, 212, 191, 0.22);
+    --canvas-wave-1-glow: rgba(45, 212, 191, 0.10);
+    --canvas-wave-2: rgba(45, 212, 191, 0.15);
+    --canvas-wave-2-glow: rgba(45, 212, 191, 0.06);
+    --canvas-wave-3: rgba(251, 191, 36, 0.14);
+    --canvas-wave-3-glow: rgba(251, 191, 36, 0.05);
+    --canvas-stardust-teal: rgba(45, 212, 191, 0.16);
+    --canvas-stardust-gold: rgba(251, 191, 36, 0.16);
+
+    /* ---------- Scrollbar Dark Mode ---------- */
+    --scrollbar-thumb: rgba(255, 255, 255, 0.14);
+    --scrollbar-thumb-hover: rgba(45, 212, 191, 0.45);
+
+    /* ---------- Backward-Compatible Aliases Dark ---------- */
+    --paper: var(--bg);
+    --paper-card: var(--surface);
+    --paper-raised: var(--surface-elevated);
+    --paper-card-hover: var(--surface-hover);
+    --sidebar-bg: var(--bg);
+    --ink: var(--text);
+    --ink-soft: var(--text-muted);
+    --ink-muted: var(--text-faint);
+    --muted: var(--text-muted);
+    --teal: var(--primary);
+    --teal-glow: var(--primary-glow);
+    --teal-subtle: var(--primary-subtle);
+    --gold: var(--accent);
+    --gold-glow: var(--accent-subtle);
+    --line: var(--border-subtle);
+    --line-subtle: var(--border-subtle);
+    --glass-border: var(--border-subtle);
+    --glass-bg: var(--surface);
+    --glass-shadow: var(--shadow-sm);
+    --card-shadow: var(--shadow-sm);
+    --card-hover-shadow: var(--shadow-md);
+    --border-button: var(--primary);
+    --hover-bg: var(--primary);
+    --hover-text: #0a0e14;
+    --btn-primary-bg: var(--text);
+    --btn-primary-text: var(--bg);
+    --glow-primary: var(--glow);
+    --glow-secondary: var(--primary-subtle);
+    --glow-cyan: var(--primary-glow);
+    --glow-purple: var(--primary-subtle);
+    --glow-orange: var(--accent-subtle);
+    --glow-lime: var(--primary-subtle);
+    --orange: var(--accent);
+    --orange-soft: var(--accent-subtle);
+    --green: var(--success);
+    --green-soft: var(--success-subtle);
+    --badge-bg: var(--surface);
 }

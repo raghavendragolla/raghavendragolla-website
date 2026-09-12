@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     function getSavedTheme() {
-        return localStorage.getItem('theme');
+        return (window.rgStorage && window.rgStorage.getItem('rg:theme')) || localStorage.getItem('theme');
     }
 
     function applyTheme(theme) {
@@ -49,6 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(savedTheme);
     } else if (systemPrefersDark.matches) {
         applyTheme('dark');
+    } else {
+        applyTheme('light');
     }
 
     systemPrefersDark.addEventListener('change', (e) => {
@@ -61,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
         themeToggleBtn.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            if (window.rgStorage) {
+                window.rgStorage.setItem('rg:theme', newTheme);
+            }
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
         });
@@ -172,11 +177,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let tealRgb = '47, 125, 120';
         let goldRgb = '184, 144, 47';
+        let wave1Rgb = '47, 125, 120';
+        let wave2Rgb = '47, 125, 120';
+        let wave3Rgb = '15, 118, 110';
 
         window.updateCanvasTheme = function() {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            tealRgb = isDark ? '66, 179, 171' : '47, 125, 120';
-            goldRgb = isDark ? '212, 167, 66' : '184, 144, 47';
+            const style = getComputedStyle(document.documentElement);
+            tealRgb = (style.getPropertyValue('--canvas-particle-teal') || '45, 212, 191').trim();
+            goldRgb = (style.getPropertyValue('--canvas-particle-gold') || '251, 191, 36').trim();
+            wave1Rgb = (style.getPropertyValue('--canvas-wave-1') || tealRgb).trim();
+            wave2Rgb = (style.getPropertyValue('--canvas-wave-2') || tealRgb).trim();
+            wave3Rgb = (style.getPropertyValue('--canvas-wave-3') || tealRgb).trim();
         };
 
         window.updateCanvasTheme();
@@ -206,86 +217,51 @@ document.addEventListener('DOMContentLoaded', () => {
                     for (let d = 0; d < dotCount; d++) {
                         const dotY = centerY - colHeight * 0.5 + d * 14;
                         const alpha = colEnv * (isDark ? 0.08 : 0.07) * (1 - d / dotCount);
-                        ctx.fillStyle = isDark 
-                            ? (i % 2 === 0 ? `rgba(0, 242, 254, ${alpha})` : `rgba(245, 158, 11, ${alpha})`)
-                            : (i % 2 === 0 ? `rgba(13, 148, 136, ${alpha})` : `rgba(217, 119, 6, ${alpha})`);
+                        ctx.fillStyle = (i % 2 === 0 
+                            ? `rgba(${tealRgb}, ${alpha})` 
+                            : `rgba(${goldRgb}, ${alpha * 0.85})`);
                         ctx.fillRect(colX - 1, dotY - 1, 2, 2);
                     }
                 }
             }
             ctx.restore();
 
-            // 2. The "Ghost" Multi-Harmonic Silk Wave Ribbons
-            const waveRibbons = isDark ? [
-                // Cyan Ghost Ribbon (Soft atmospheric depth)
+            // 2. Monochromatic Teal Harmonic Silk Wave Ribbons
+            const waveRibbons = [
+                // Ribbon 1: Primary Wave
                 {
-                    color: 'rgba(0, 242, 254, 0.18)',
-                    glow: 'rgba(0, 242, 254, 0.08)',
-                    blur: 8,
+                    color: `rgba(${wave1Rgb}, ${isDark ? 0.16 : 0.14})`,
+                    glow: `rgba(${wave1Rgb}, ${isDark ? 0.06 : 0.04})`,
+                    blur: isDark ? 6 : 5,
                     width: 1.4,
-                    peakAmp: isMobile ? 28 : 42,
-                    freq1: 0.008,
-                    freq2: 0.018,
-                    speed: 0.018,
-                    phase: 0
-                },
-                // Gold / Amber Ghost Ribbon
-                {
-                    color: 'rgba(251, 191, 36, 0.15)',
-                    glow: 'rgba(245, 158, 11, 0.07)',
-                    blur: 7,
-                    width: 1.2,
-                    peakAmp: isMobile ? 24 : 36,
-                    freq1: 0.007,
-                    freq2: 0.016,
-                    speed: -0.015,
-                    phase: 1.6
-                },
-                // Electric Violet Accent
-                {
-                    color: 'rgba(168, 85, 247, 0.12)',
-                    glow: 'rgba(168, 85, 247, 0.05)',
-                    blur: 6,
-                    width: 1.0,
-                    peakAmp: isMobile ? 18 : 26,
-                    freq1: 0.009,
-                    freq2: 0.022,
-                    speed: 0.012,
-                    phase: 3.2
-                }
-            ] : [
-                // Light Mode Pearlescent Watercolor Silk Waves (Zero Scribble / Zero Strikethrough)
-                {
-                    color: 'rgba(13, 148, 136, 0.16)',
-                    glow: 'rgba(13, 148, 136, 0.06)',
-                    blur: 6,
-                    width: 1.4,
-                    peakAmp: isMobile ? 24 : 36,
+                    peakAmp: isMobile ? 26 : 38,
                     freq1: 0.008,
                     freq2: 0.018,
                     speed: 0.016,
                     phase: 0
                 },
+                // Ribbon 2: Secondary Mid-Teal Wave
                 {
-                    color: 'rgba(217, 119, 6, 0.13)',
-                    glow: 'rgba(217, 119, 6, 0.05)',
-                    blur: 5,
+                    color: `rgba(${wave2Rgb}, ${isDark ? 0.12 : 0.10})`,
+                    glow: `rgba(${wave2Rgb}, ${isDark ? 0.04 : 0.03})`,
+                    blur: isDark ? 5 : 4,
                     width: 1.2,
-                    peakAmp: isMobile ? 20 : 30,
+                    peakAmp: isMobile ? 22 : 32,
                     freq1: 0.007,
                     freq2: 0.016,
                     speed: -0.014,
                     phase: 1.6
                 },
+                // Ribbon 3: Deep Subtle Teal Wave
                 {
-                    color: 'rgba(168, 85, 247, 0.11)',
-                    glow: 'rgba(168, 85, 247, 0.04)',
-                    blur: 4,
+                    color: `rgba(${wave3Rgb}, ${isDark ? 0.09 : 0.07})`,
+                    glow: `rgba(${wave3Rgb}, ${isDark ? 0.03 : 0.02})`,
+                    blur: isDark ? 4 : 3,
                     width: 1.0,
                     peakAmp: isMobile ? 16 : 24,
                     freq1: 0.009,
                     freq2: 0.022,
-                    speed: 0.010,
+                    speed: 0.011,
                     phase: 3.2
                 }
             ];
