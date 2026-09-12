@@ -89,13 +89,29 @@ document.addEventListener('DOMContentLoaded', () => {
             radius: isMobile ? 100 : 160
         };
 
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
         function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            // Clamp particle positions into new bounds after shrink
+            particles.forEach(p => {
+                if (p.x > width) p.x = Math.random() * width;
+                if (p.y > height) p.y = Math.random() * height;
+            });
         }
 
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 150);
+        });
+
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
 
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
             window.addEventListener('mousemove', (e) => {
@@ -178,6 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     cancelAnimationFrame(animFrameId);
                     animFrameId = null;
                 }
+            }
+        });
+
+        window.addEventListener('pagehide', () => {
+            isPageVisible = false;
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
             }
         });
 
@@ -362,14 +386,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
+    const filterStatusEl = document.getElementById('filterStatus');
 
-    // Compute project counts dynamically for each category
+    function applyProjectFilter(filterValue, isUserInteraction) {
+        let visibleCount = 0;
+
+        filterButtons.forEach(btn => {
+            const isActive = btn.getAttribute('data-filter') === filterValue;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        projectCards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category') || '';
+            const categories = cardCategory.trim().split(/\s+/);
+            const matches = filterValue === 'all' || categories.includes(filterValue);
+
+            if (matches) {
+                visibleCount++;
+                card.style.display = 'flex';
+                card.style.animation = 'fadeUp 0.35s var(--apple-ease)';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (filterStatusEl) {
+            filterStatusEl.textContent = `Showing ${visibleCount} of ${projectCards.length} projects`;
+        }
+
+        if (isUserInteraction) {
+            if (filterValue === 'all') {
+                if (window.location.hash.startsWith('#filter=')) {
+                    history.replaceState(null, '', window.location.pathname + window.location.search);
+                }
+            } else {
+                history.replaceState(null, '', '#filter=' + encodeURIComponent(filterValue));
+            }
+        }
+    }
+
+    // Compute project counts dynamically for each category (Single Source of Truth)
     filterButtons.forEach(btn => {
         const filterValue = btn.getAttribute('data-filter');
         let count = 0;
         projectCards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category') || '';
-            if (filterValue === 'all' || cardCategory.includes(filterValue)) {
+            const categories = (card.getAttribute('data-category') || '').trim().split(/\s+/);
+            if (filterValue === 'all' || categories.includes(filterValue)) {
                 count++;
             }
         });
@@ -377,26 +440,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (countSpan) {
             countSpan.textContent = count;
         }
-    });
 
-    filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            filterButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const filterValue = btn.getAttribute('data-filter');
-
-            projectCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category') || '';
-                if (filterValue === 'all' || cardCategory.includes(filterValue)) {
-                    card.style.display = 'flex';
-                    card.style.animation = 'fadeUp 0.35s var(--apple-ease)';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            applyProjectFilter(filterValue, true);
         });
     });
+
+    // Restore filter state from URL hash if present
+    if (window.location.hash && window.location.hash.startsWith('#filter=')) {
+        const hashFilter = decodeURIComponent(window.location.hash.replace('#filter=', ''));
+        const targetBtn = document.querySelector(`.filter-btn[data-filter="${hashFilter}"]`);
+        if (targetBtn) {
+            applyProjectFilter(hashFilter, false);
+        }
+    }
 
 
     // ====================================================
@@ -467,32 +524,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ====================================================
-    // 9. Scrollspy Active Section Highlighting
+    // 9. Scrollspy Active Section Highlighting (IntersectionObserver)
     // ====================================================
     const sections = document.querySelectorAll('main section[id]');
     const navLinks = document.querySelectorAll('.navlist a');
 
-    function setActiveLink() {
-        let currentSectionId = '';
-        const scrollPosition = window.scrollY + 160;
+    if ('IntersectionObserver' in window && sections.length > 0) {
+        const visibleSections = new Map();
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                currentSectionId = section.getAttribute('id');
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                visibleSections.set(entry.target.id, entry.isIntersecting);
+            });
+
+            // Find the highest visible section in DOM order
+            let activeId = '';
+            for (let i = 0; i < sections.length; i++) {
+                const id = sections[i].id;
+                if (visibleSections.get(id)) {
+                    activeId = id;
+                    break;
+                }
             }
+
+            if (activeId) {
+                navLinks.forEach(link => {
+                    const isActive = link.getAttribute('href') === `#${activeId}`;
+                    link.classList.toggle('active', isActive);
+                    if (isActive) {
+                        link.setAttribute('aria-current', 'page');
+                    } else {
+                        link.removeAttribute('aria-current');
+                    }
+                });
+            }
+        }, {
+            rootMargin: '-15% 0px -65% 0px',
+            threshold: 0
         });
 
-        if (currentSectionId) {
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
-            });
-        }
+        sections.forEach(section => sectionObserver.observe(section));
     }
-
-    window.addEventListener('scroll', setActiveLink, { passive: true });
-    setActiveLink();
 
 
     // ====================================================
@@ -587,7 +659,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function openCertLightbox(imgSrc, title, verifyLink) {
         if (certModal && certModalImg) {
             certModalImg.src = imgSrc;
-            if (certModalTitle) certModalTitle.innerHTML = title;
+            if (certModalTitle) {
+                certModalTitle.textContent = (title || 'Certificate Preview').replace(/&bull;/g, '•');
+            }
             if (certModalVerify) certModalVerify.href = verifyLink;
             if (certModalCtrl) {
                 certModalCtrl.open();
@@ -655,6 +729,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const emailError = document.getElementById('emailError');
         const messageError = document.getElementById('messageError');
 
+        let lastSubmissionTime = 0;
+        let lastSubmissionPayload = '';
+
         function clearErrors() {
             [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
                 if (input) input.classList.remove('is-invalid');
@@ -688,6 +765,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailVal = emailInput ? emailInput.value.trim() : '';
             const phoneVal = phoneInput ? phoneInput.value.trim() : '';
             const messageVal = messageInput ? messageInput.value.trim() : '';
+
+            // 1. Client-Side Throttle: 30s per session
+            const now = Date.now();
+            if (lastSubmissionTime && (now - lastSubmissionTime < 30000)) {
+                const waitSecs = Math.ceil((30000 - (now - lastSubmissionTime)) / 1000);
+                if (formStatus) {
+                    formStatus.textContent = `Please wait ${waitSecs}s before sending another message.`;
+                    formStatus.className = 'form-status is-error';
+                }
+                showToast(`Please wait ${waitSecs}s before submitting again.`);
+                return;
+            }
+
+            // 2. Duplicate Submission Guard
+            const currentPayload = `${nameVal.toLowerCase()}|${emailVal.toLowerCase()}|${messageVal}`;
+            if (lastSubmissionPayload && lastSubmissionPayload === currentPayload) {
+                if (formStatus) {
+                    formStatus.textContent = 'This message has already been submitted.';
+                    formStatus.className = 'form-status is-error';
+                }
+                showToast('Duplicate message detected.');
+                return;
+            }
+
             if (!nameVal || nameVal.length < 2) {
                 if (nameInput) nameInput.classList.add('is-invalid');
                 if (nameError) nameError.textContent = 'Please enter your name (at least 2 characters)';
@@ -745,6 +846,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json().catch(() => ({}));
 
                 if (response.ok && result.success === true) {
+                    lastSubmissionTime = Date.now();
+                    lastSubmissionPayload = currentPayload;
                     if (formStatus) {
                         formStatus.textContent = '✓ Message delivered directly to Raghavendra!';
                         formStatus.className = 'form-status is-success';
@@ -880,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayInstallBanner() {
         if (!pwaInstallBanner || isAppStandalone) return;
-        if (sessionStorage.getItem('pwa_prompt_dismissed') === 'true') return;
+        if (window.isPwaDismissed && window.isPwaDismissed()) return;
 
         pwaInstallBanner.style.display = 'flex';
         void pwaInstallBanner.offsetWidth;
@@ -929,7 +1032,11 @@ document.addEventListener('DOMContentLoaded', () => {
         pwaDismissBtn.addEventListener('click', () => {
             pwaInstallBanner.classList.remove('show');
             setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-            sessionStorage.setItem('pwa_prompt_dismissed', 'true');
+            if (window.dismissPwa) {
+                window.dismissPwa();
+            } else {
+                try { localStorage.setItem('rg:pwa_dismissed', Date.now().toString()); } catch (e) {}
+            }
         });
     }
 

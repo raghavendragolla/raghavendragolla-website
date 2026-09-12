@@ -85,13 +85,29 @@ document.addEventListener('DOMContentLoaded', () => {
             radius: isMobile ? 100 : 160
         };
 
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
         function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            // Clamp particle positions into new bounds after shrink
+            particles.forEach(p => {
+                if (p.x > width) p.x = Math.random() * width;
+                if (p.y > height) p.y = Math.random() * height;
+            });
         }
 
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 150);
+        });
+
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
 
         // Track fine pointer mouse position for node attraction
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -332,6 +348,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        window.addEventListener('pagehide', () => {
+            isPageVisible = false;
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+        });
+
         function animateCanvas() {
             if (!isPageVisible) {
                 animFrameId = null;
@@ -493,8 +517,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const skillChips = document.querySelectorAll('.skill-chip');
     let skillAutoResetTimeout;
+    let hasActiveSkill = false;
 
     function deselectAllSkills() {
+        if (!hasActiveSkill) return;
+        hasActiveSkill = false;
         skillChips.forEach(c => c.classList.remove('active'));
         highlightCards.forEach(card => card.classList.remove('active-highlight'));
         clearTimeout(skillAutoResetTimeout);
@@ -518,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Activate clicked chip
                 chip.classList.add('active');
+                hasActiveSkill = true;
 
                 // Pulse corresponding card
                 highlightCards.forEach(card => {
@@ -531,19 +559,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Auto-deselect back to normal after 2.5s
                 skillAutoResetTimeout = setTimeout(() => {
-                    skillChips.forEach(c => c.classList.remove('active'));
-                    highlightCards.forEach(card => card.classList.remove('active-highlight'));
+                    deselectAllSkills();
                 }, 2500);
             }
         });
     });
 
-    // Clicking anywhere on the screen (outside skill chips) immediately deselects
-    window.addEventListener('click', (e) => {
+    // Bubbling-phase document listener: returns immediately unless a skill is active
+    document.addEventListener('click', (e) => {
+        if (!hasActiveSkill) return;
+        if (e.target.closest('.thoughts-drawer, .pwa-install-banner, .toast')) return;
         if (!e.target.closest('.skill-chip')) {
             deselectAllSkills();
         }
-    }, true);
+    });
 
 
     // ====================================================
@@ -688,22 +717,48 @@ document.addEventListener('DOMContentLoaded', () => {
         closeThoughtsBackdrop.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
     }
 
-    // Tab Switching Logic
-    hubTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const targetTab = tab.getAttribute('data-tab');
-            hubTabs.forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
-            hubPanes.forEach(pane => pane.classList.remove('active'));
+    // Tab Switching Logic (WAI-ARIA Pattern: Roving Tabindex + Arrow Keys)
+    function switchTab(tab) {
+        const targetTab = tab.getAttribute('data-tab');
+        hubTabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+            t.setAttribute('tabindex', '-1');
+        });
+        hubPanes.forEach(pane => pane.classList.remove('active'));
 
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+        tab.focus();
 
-            const targetPane = document.getElementById(`pane-${targetTab}`);
-            if (targetPane) {
-                targetPane.classList.add('active');
+        const targetPane = document.getElementById(`pane-${targetTab}`);
+        if (targetPane) {
+            targetPane.classList.add('active');
+        }
+    }
+
+    hubTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => switchTab(tab));
+
+        tab.addEventListener('keydown', (e) => {
+            let targetIndex = null;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                targetIndex = (index + 1) % hubTabs.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                targetIndex = (index - 1 + hubTabs.length) % hubTabs.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                targetIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                targetIndex = hubTabs.length - 1;
+            }
+
+            if (targetIndex !== null) {
+                switchTab(hubTabs[targetIndex]);
             }
         });
     });
@@ -730,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayInstallBanner() {
         if (!pwaInstallBanner || isAppStandalone) return;
-        if (sessionStorage.getItem('pwa_prompt_dismissed') === 'true') return;
+        if (window.isPwaDismissed && window.isPwaDismissed()) return;
 
         pwaInstallBanner.style.display = 'flex';
         void pwaInstallBanner.offsetWidth;
@@ -781,7 +836,11 @@ document.addEventListener('DOMContentLoaded', () => {
         pwaDismissBtn.addEventListener('click', () => {
             pwaInstallBanner.classList.remove('show');
             setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-            sessionStorage.setItem('pwa_prompt_dismissed', 'true');
+            if (window.dismissPwa) {
+                window.dismissPwa();
+            } else {
+                try { localStorage.setItem('rg:pwa_dismissed', Date.now().toString()); } catch (e) {}
+            }
         });
     }
 

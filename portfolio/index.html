@@ -2,27 +2,17 @@
 <html lang="en">
 
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NQRWM60R9L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-NQRWM60R9L');
-  </script>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://unpkg.com 'sha256-hqVjHKQ0RrQu5SaegW4ngbCDZP93hEAr5JSj0uGax0M='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Trailing-slash URL Normalization (Prevents missing-slash CSS resolution failure) -->
   <script>
-    if (window.location.pathname.endsWith('/portfolio')) {
-      window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
-    }
-  </script>
-
-  <!-- Immediate Theme Initialization (Zero-FOUC) -->
-  <script>
     (function () {
+      if (window.location.pathname.endsWith('/portfolio')) {
+        window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+      }
       try {
-        var saved = localStorage.getItem('theme');
+        var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
         var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (saved === 'dark' || (!saved && prefersDark)) {
           document.documentElement.setAttribute('data-theme', 'dark');
@@ -149,7 +139,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
   <!-- Stylesheets (Cascade Preserved: tokens -> components -> variables -> animations -> style -> responsive) -->
@@ -161,7 +151,7 @@
   <link rel="stylesheet" href="css/responsive.css?v=21.0">
 
   <!-- Lucide Icons & Core Scripts (shared.js loads FIRST) -->
-  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" integrity="sha384-t7r1bJt2K92E2KzLg5/5M8B/9r2R1yF7v4d3a2b1c0e9f8a7b6c5d4e3f2a1b0c9" crossorigin="anonymous" defer></script>
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" integrity="sha384-tTkFttkBclaU1cloKwOi9xk3pbao3VZxTjLNBt8iFABWDBQibbAbWpVmO28zMuxq" crossorigin="anonymous" defer></script>
   <script src="/js/shared.js?v=21.0" defer></script>
   <script src="js/script.js?v=21.0" defer></script>
 </head>
@@ -195,8 +185,8 @@
         <!-- Profile Brand & Monogram -->
         <div class="brand-container">
           <div class="avatar-wrapper">
-            <img src="images/profile/My Photo.JPG" alt="Raghavendra Golla Photo"
-              onerror="this.src='favicon/favicon.png';">
+            <img src="/portfolio/images/profile/profile.jpg" alt="Raghavendra Golla Photo"
+              width="48" height="48" loading="eager" decoding="async">
           </div>
           <div class="brand">
             Raghavendra Golla
@@ -241,16 +231,16 @@
 
       <!-- Sidebar Navigation List -->
       <ul class="navlist" id="navlist">
-        <li><a href="#home"><i data-lucide="house"></i><span>Home</span></a></li>
-        <li><a href="#about"><i data-lucide="user"></i><span>About</span></a></li>
-        <li><a href="#skills"><i data-lucide="brain"></i><span>Skills</span></a></li>
-        <li><a href="#projects"><i data-lucide="folder-git-2"></i><span>Projects</span></a></li>
-        <li><a href="#resume"><i data-lucide="file-text"></i><span>Resume</span></a></li>
-        <li><a href="#certifications"><i data-lucide="award"></i><span>Certifications</span></a></li>
-        <li><a href="#contact"><i data-lucide="mail"></i><span>Get in Touch</span></a></li>
+        <li><a href="#home"><i data-lucide="house" aria-hidden="true"></i><span>Home</span></a></li>
+        <li><a href="#about"><i data-lucide="user" aria-hidden="true"></i><span>About</span></a></li>
+        <li><a href="#skills"><i data-lucide="brain" aria-hidden="true"></i><span>Skills</span></a></li>
+        <li><a href="#projects"><i data-lucide="folder-git-2" aria-hidden="true"></i><span>Projects</span></a></li>
+        <li><a href="#resume"><i data-lucide="file-text" aria-hidden="true"></i><span>Resume</span></a></li>
+        <li><a href="#certifications"><i data-lucide="award" aria-hidden="true"></i><span>Certifications</span></a></li>
+        <li><a href="#contact"><i data-lucide="mail" aria-hidden="true"></i><span>Get in Touch</span></a></li>
         <li style="margin-top: 1rem; border-top: 1px dashed var(--line-subtle); padding-top: 0.5rem;">
           <a href="../">
-            <i data-lucide="external-link"></i><span>Main Landing Site</span>
+            <i data-lucide="external-link" aria-hidden="true"></i><span>Main Landing Site</span>
           </a>
         </li>
       </ul>
@@ -492,7 +482,7 @@
 
           <div class="skill-groups">
             <div class="skill-group">
-              <h3><i data-lucide="code-2"></i> Programming &amp; Databases</h3>
+              <h3><i data-lucide="code-2" aria-hidden="true"></i> Programming &amp; Databases</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Python: Pandas, NumPy, Scikit-Learn, PyTorch & Automation">🐍
                   Python</span>
@@ -506,7 +496,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="brain"></i> Machine Learning &amp; AI</h3>
+              <h3><i data-lucide="brain" aria-hidden="true"></i> Machine Learning &amp; AI</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Scikit-Learn: Classification, regression & ensemble models">🤖
                   scikit-learn</span>
@@ -523,7 +513,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="bar-chart-3"></i> Data Analysis &amp; Visualization</h3>
+              <h3><i data-lucide="bar-chart-3" aria-hidden="true"></i> Data Analysis &amp; Visualization</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Pandas: Data wrangling, cleaning & tabular operations">📈 Pandas</span>
                 <span class="chip" data-info="NumPy: High-performance multidimensional array math">🔢 NumPy</span>
@@ -537,7 +527,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="database"></i> Big Data &amp; Distributed Systems</h3>
+              <h3><i data-lucide="database" aria-hidden="true"></i> Big Data &amp; Distributed Systems</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Hadoop: Distributed ecosystem & cluster architecture">🐘 Hadoop</span>
                 <span class="chip" data-info="Hive: Data warehousing & SQL on Hadoop">🐝 Apache Hive</span>
@@ -548,7 +538,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="sigma"></i> Statistical Modeling</h3>
+              <h3><i data-lucide="sigma" aria-hidden="true"></i> Statistical Modeling</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Probability Distributions: Normal, Binomial & Poisson">🎲
                   Probability</span>
@@ -561,7 +551,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="server"></i> Tools &amp; Deployment</h3>
+              <h3><i data-lucide="server" aria-hidden="true"></i> Tools &amp; Deployment</h3>
               <div class="chip-row">
                 <span class="chip" data-info="Streamlit: Rapid interactive ML web application prototypes">🎈
                   Streamlit</span>
@@ -573,7 +563,7 @@
             </div>
 
             <div class="skill-group">
-              <h3><i data-lucide="languages"></i> Human Languages</h3>
+              <h3><i data-lucide="languages" aria-hidden="true"></i> Human Languages</h3>
               <div class="chip-row">
                 <span class="chip" data-info="English: Fluent professional working proficiency">🌐 English
                   (Professional)</span>
@@ -593,13 +583,14 @@
           </div>
 
           <!-- Project Filter Category Pills -->
-          <div class="project-filters">
-            <button class="filter-btn active" data-filter="all"><span>All</span> <span class="filter-count">4</span></button>
-            <button class="filter-btn" data-filter="ml"><span>Machine Learning</span> <span class="filter-count">3</span></button>
-            <button class="filter-btn" data-filter="vision"><span>Computer Vision</span> <span class="filter-count">1</span></button>
-            <button class="filter-btn" data-filter="explainable"><span>Explainable AI</span> <span class="filter-count">1</span></button>
-            <button class="filter-btn" data-filter="analytics"><span>Data Analytics</span> <span class="filter-count">1</span></button>
+          <div class="project-filters" role="group" aria-label="Filter projects by category">
+            <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true"><span>All</span> <span class="filter-count">4</span></button>
+            <button type="button" class="filter-btn" data-filter="ml" aria-pressed="false"><span>Machine Learning</span> <span class="filter-count">3</span></button>
+            <button type="button" class="filter-btn" data-filter="vision" aria-pressed="false"><span>Computer Vision</span> <span class="filter-count">1</span></button>
+            <button type="button" class="filter-btn" data-filter="explainable" aria-pressed="false"><span>Explainable AI</span> <span class="filter-count">1</span></button>
+            <button type="button" class="filter-btn" data-filter="analytics" aria-pressed="false"><span>Data Analytics</span> <span class="filter-count">1</span></button>
           </div>
+          <div id="filterStatus" class="sr-only" role="status" aria-live="polite">Showing all 4 projects</div>
 
           <div class="projects-grid">
 
@@ -636,11 +627,11 @@
                 </div>
                 <div class="project-links">
                   <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener">
-                    <i data-lucide="external-link"></i><span>Live App &rarr;</span>
+                    <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
                   </a>
                   <a href="https://github.com/raghavendrayadavgolla/house-price-prediction" target="_blank"
                     rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
                   </a>
                 </div>
               </div>
@@ -677,11 +668,11 @@
                 </div>
                 <div class="project-links">
                   <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener">
-                    <i data-lucide="external-link"></i><span>Live App &rarr;</span>
+                    <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
                   </a>
                   <a href="https://github.com/raghavendrayadavgolla/handwritten-digit-recognition" target="_blank"
                     rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
                   </a>
                 </div>
               </div>
@@ -718,10 +709,10 @@
                 </div>
                 <div class="project-links">
                   <button type="button" class="btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
-                    <i data-lucide="book-open"></i><span>Abstract &amp; BibTeX</span>
+                    <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
                   </button>
                   <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
                   </a>
                 </div>
               </div>
@@ -757,7 +748,7 @@
                 </div>
                 <div class="project-links">
                   <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
+                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
                   </a>
                 </div>
               </div>
@@ -926,18 +917,22 @@
           <div class="cert-grid">
 
             <!-- Card 1: IBM Data Analyst Professional Certificate -->
-            <div class="cert-card" data-cert-img="certificates/ibm-data-analyst.jpg"
-              data-cert-title="IBM Data Analyst Professional Certificate &bull; Golla Raghavendra"
+            <div class="cert-card" data-cert-img="/portfolio/certificates/ibm-data-analyst.jpg"
+              data-cert-title="IBM Data Analyst Professional Certificate • Golla Raghavendra"
               data-cert-link="https://coursera.org/verify/professional-cert/KEDX396MPOYI">
               <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
-                <img src="certificates/ibm-data-analyst.jpg"
-                  alt="IBM Data Analyst Professional Certificate — Golla Raghavendra" loading="lazy" class="cert-img">
+                <picture>
+                  <source srcset="/portfolio/certificates/ibm-data-analyst-thumb.webp" type="image/webp">
+                  <img src="/portfolio/certificates/ibm-data-analyst.jpg"
+                    alt="IBM Data Analyst Professional Certificate — Golla Raghavendra"
+                    width="640" height="494" loading="lazy" decoding="async" class="cert-img">
+                </picture>
               </div>
 
               <div class="cert-content">
                 <div class="cert-header">
                   <div class="cert-issuer-badge">
-                    <span class="cert-icon">🏛️</span>
+                    <span class="cert-icon" aria-hidden="true">🏛️</span>
                     <span>IBM Skills Network &bull; Coursera</span>
                   </div>
                   <span class="cert-verified-pill">✓ Verified Credential</span>
@@ -968,12 +963,12 @@
 
                 <div class="cert-actions">
                   <button type="button" class="btn primary cert-preview-btn">
-                    <i data-lucide="eye"></i>
+                    <i data-lucide="eye" aria-hidden="true"></i>
                     <span>Preview Certificate</span>
                   </button>
                   <a href="https://coursera.org/verify/professional-cert/KEDX396MPOYI" target="_blank"
                     rel="noopener noreferrer" class="btn ghost cert-verify-link">
-                    <i data-lucide="external-link"></i>
+                    <i data-lucide="external-link" aria-hidden="true"></i>
                     <span>Verify at Coursera</span>
                   </a>
                 </div>
@@ -981,19 +976,22 @@
             </div>
 
             <!-- Card 2: SmartED Machine Learning Internship Certificate -->
-            <div class="cert-card" data-cert-img="certificates/smarted-ml-internship.png"
-              data-cert-title="Machine Learning Internship Completion Certificate &bull; SmartED Innovations"
+            <div class="cert-card" data-cert-img="/portfolio/certificates/smarted-ml-internship.png"
+              data-cert-title="Machine Learning Internship Completion Certificate • SmartED Innovations"
               data-cert-link="https://elearn.smarted.pro/verify/ML1222">
               <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
-                <img src="certificates/smarted-ml-internship.png"
-                  alt="SmartED Innovations Machine Learning Internship Certificate — Golla Raghavendra" loading="lazy"
-                  class="cert-img">
+                <picture>
+                  <source srcset="/portfolio/certificates/smarted-ml-internship-thumb.webp" type="image/webp">
+                  <img src="/portfolio/certificates/smarted-ml-internship.png"
+                    alt="SmartED Innovations Machine Learning Internship Certificate — Golla Raghavendra"
+                    width="640" height="452" loading="lazy" decoding="async" class="cert-img">
+                </picture>
               </div>
 
               <div class="cert-content">
                 <div class="cert-header">
                   <div class="cert-issuer-badge">
-                    <span class="cert-icon">🚀</span>
+                    <span class="cert-icon" aria-hidden="true">🚀</span>
                     <span>SmartED Innovations &bull; Skill India</span>
                   </div>
                   <span class="cert-verified-pill">✓ Internship Verified</span>
@@ -1023,12 +1021,12 @@
 
                 <div class="cert-actions">
                   <button type="button" class="btn primary cert-preview-btn">
-                    <i data-lucide="eye"></i>
+                    <i data-lucide="eye" aria-hidden="true"></i>
                     <span>Preview Certificate</span>
                   </button>
                   <a href="https://elearn.smarted.pro/verify/ML1222" target="_blank" rel="noopener noreferrer"
                     class="btn ghost cert-verify-link">
-                    <i data-lucide="external-link"></i>
+                    <i data-lucide="external-link" aria-hidden="true"></i>
                     <span>Verify at SmartED</span>
                   </a>
                 </div>
@@ -1057,25 +1055,25 @@
             <!-- Left Column: Direct Channels & Information -->
             <div class="contact-channels">
               <div class="contact-card" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email">
-                <span class="k"><i data-lucide="mail"></i> Email (Click to Copy)</span>
+                <span class="k"><i data-lucide="mail" aria-hidden="true"></i> Email (Click to Copy)</span>
                 <span class="v"><a
                     href="mailto:raghavendrayadavgolla@gmail.com">raghavendrayadavgolla@gmail.com</a></span>
               </div>
 
               <div class="contact-card">
-                <span class="k"><i data-lucide="linkedin"></i> LinkedIn Profile</span>
+                <span class="k"><i data-lucide="linkedin" aria-hidden="true"></i> LinkedIn Profile</span>
                 <span class="v"><a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank"
                     rel="noopener">linkedin.com/in/raghavendra-golla &rarr;</a></span>
               </div>
 
               <div class="contact-card">
-                <span class="k"><i data-lucide="github"></i> GitHub Profile</span>
+                <span class="k"><i data-lucide="github" aria-hidden="true"></i> GitHub Profile</span>
                 <span class="v"><a href="https://github.com/raghavendrayadavgolla" target="_blank"
                     rel="noopener">github.com/raghavendrayadavgolla &rarr;</a></span>
               </div>
 
               <div class="contact-card">
-                <span class="k"><i data-lucide="map-pin"></i> Location &amp; Mobility</span>
+                <span class="k"><i data-lucide="map-pin" aria-hidden="true"></i> Location &amp; Mobility</span>
                 <span class="v">Guntur, Andhra Pradesh, India &bull; Open to Remote &amp; Relocation (DE / IN)</span>
               </div>
 
@@ -1091,7 +1089,7 @@
             <!-- Right Column: Interactive Direct Message Form -->
             <div class="contact-form-container">
               <div class="form-header">
-                <h3 class="form-title"><i data-lucide="send"></i> Send a Direct Message</h3>
+                <h3 class="form-title"><i data-lucide="send" aria-hidden="true"></i> Send a Direct Message</h3>
                 <p class="form-subtitle">Drop a note directly to my inbox without opening an external mail client.</p>
               </div>
 
@@ -1107,7 +1105,7 @@
                   <div class="form-group">
                     <label for="senderName" class="form-label">Your Name <span class="req">*</span></label>
                     <div class="input-wrapper">
-                      <i data-lucide="user" class="input-icon"></i>
+                      <i data-lucide="user" class="input-icon" aria-hidden="true"></i>
                       <input type="text" id="senderName" name="name" class="form-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
                     </div>
                     <span class="form-error" id="nameError"></span>
@@ -1116,7 +1114,7 @@
                   <div class="form-group">
                     <label for="senderEmail" class="form-label">Your Email <span class="req">*</span></label>
                     <div class="input-wrapper">
-                      <i data-lucide="mail" class="input-icon"></i>
+                      <i data-lucide="mail" class="input-icon" aria-hidden="true"></i>
                       <input type="email" id="senderEmail" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="email">
                     </div>
                     <span class="form-error" id="emailError"></span>
@@ -1127,7 +1125,7 @@
                   <div class="form-group">
                     <label for="senderPhone" class="form-label">Phone Number <span class="opt">(Optional)</span></label>
                     <div class="input-wrapper">
-                      <i data-lucide="phone" class="input-icon"></i>
+                      <i data-lucide="phone" class="input-icon" aria-hidden="true"></i>
                       <input type="tel" id="senderPhone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" autocomplete="tel">
                     </div>
                   </div>
@@ -1135,7 +1133,7 @@
                   <div class="form-group">
                     <label for="senderTopic" class="form-label">Subject / Purpose</label>
                     <div class="input-wrapper">
-                      <i data-lucide="tag" class="input-icon"></i>
+                      <i data-lucide="tag" class="input-icon" aria-hidden="true"></i>
                       <select id="senderTopic" name="topic" class="form-input form-select">
                         <option value="Internship / Full-time Opportunity">💼 Internship / Full-time Opportunity</option>
                         <option value="Research & ML Collaboration">🔬 Research &amp; ML Collaboration</option>
@@ -1157,7 +1155,7 @@
                 <div class="form-actions">
                   <button type="submit" id="submitBtn" class="btn primary btn-submit">
                     <span class="btn-text">Send Message</span>
-                    <i data-lucide="send" class="btn-icon"></i>
+                    <i data-lucide="send" class="btn-icon" aria-hidden="true"></i>
                     <span class="btn-spinner" aria-hidden="true"></span>
                   </button>
                   <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
@@ -1174,6 +1172,8 @@
           </p>
           <div class="footer-links">
             <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">raghavendragolla.com</a>
+            <span>&bull;</span>
+            <a href="/privacy.html">Privacy Notice</a>
           </div>
         </footer>
 
@@ -1215,7 +1215,7 @@
           <div class="citation-code-header">
             <h4>📋 BibTeX Citation</h4>
             <button type="button" class="btn-copy-bibtex" id="copyBibtexBtn">
-              <i data-lucide="copy"></i><span>Copy BibTeX</span>
+              <i data-lucide="copy" aria-hidden="true"></i><span>Copy BibTeX</span>
             </button>
           </div>
           <pre class="citation-code-block"><code id="bibtexCode">@article{golla2026explainable,
@@ -1230,7 +1230,7 @@
       
       <div class="citation-footer">
         <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener" class="btn primary">
-          <i data-lucide="github"></i><span>View Research Repository</span>
+          <i data-lucide="github" aria-hidden="true"></i><span>View Research Repository</span>
         </a>
       </div>
     </div>
@@ -1242,8 +1242,8 @@
     <div class="cert-modal-dialog">
       <button class="cert-modal-close" id="closeCertBtn" aria-label="Close certificate preview">&times;</button>
       <div class="cert-modal-content">
-        <img id="certModalImg" src="certificates/ibm-data-analyst.jpg" alt="Certificate Full Preview"
-          class="cert-modal-img">
+        <img id="certModalImg" src="/portfolio/certificates/ibm-data-analyst.jpg" alt="Certificate Full Preview"
+          width="1024" height="791" loading="lazy" class="cert-modal-img">
       </div>
       <div class="cert-modal-footer">
         <span id="certModalTitle">IBM Data Analyst Professional Certificate &bull; Golla Raghavendra</span>

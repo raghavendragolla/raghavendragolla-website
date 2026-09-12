@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Notice — Raghavendra Golla</title>
+    <meta name="description" content="Privacy notice for the personal portfolio website of Raghavendra Golla. Plain-language explanation of data collection and processing.">
+    <meta name="author" content="Raghavendra Golla">
+    <meta name="robots" content="index, follow">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <link rel="canonical" href="https://www.raghavendragolla.com/privacy.html">
+
+    <!-- Favicons (Root-Absolute) -->
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon/favicon.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/favicon-512x512.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets (Shared Architecture) -->
+    <link rel="stylesheet" href="/css/shared/tokens.css">
+    <link rel="stylesheet" href="/css/shared/components.css">
+
+    <!-- Immediate Theme Initialization (Zero-FOUC) -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
+                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (saved === 'dark' || (!saved && prefersDark)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <style>
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--font-body);
+            line-height: 1.7;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            transition: var(--transition-theme);
+        }
+
+        .privacy-header {
+            border-bottom: 1px solid var(--line);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .privacy-nav-title {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--ink);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .privacy-nav-links {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .privacy-nav-links a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .privacy-nav-links a:hover {
+            color: var(--teal);
+        }
+
+        .privacy-container {
+            flex: 1;
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3.5rem 1.5rem 5rem;
+            box-sizing: border-box;
+        }
+
+        .privacy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: var(--radius-full);
+            background: var(--teal-subtle);
+            color: var(--teal);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin: 0 0 1rem 0;
+            color: var(--ink);
+        }
+
+        .privacy-last-updated {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .privacy-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .privacy-section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin: 0 0 0.75rem 0;
+        }
+
+        p, ul {
+            font-size: 0.98rem;
+            color: var(--ink-soft);
+            margin: 0 0 1rem 0;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        strong {
+            color: var(--ink);
+        }
+
+        a.privacy-inline-link {
+            color: var(--teal);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .privacy-footer {
+            border-top: 1px solid var(--line);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            font-size: 0.88rem;
+            color: var(--ink-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="privacy-header" role="banner">
+        <a href="/" class="privacy-nav-title">
+            <span>Raghavendra Golla</span>
+        </a>
+        <nav class="privacy-nav-links" aria-label="Page Navigation">
+            <a href="/">&larr; Home</a>
+            <a href="/portfolio/">Portfolio &rarr;</a>
+        </nav>
+    </header>
+
+    <main id="main-content" class="privacy-container">
+        <div class="privacy-badge">🔒 Transparency &amp; Data Protection</div>
+        <h1>Privacy Notice</h1>
+        <div class="privacy-last-updated">Last Updated: September 2026</div>
+
+        <section class="privacy-section">
+            <h2>1. Overview &amp; Tracking-Free Architecture</h2>
+            <p>
+                Welcome to <strong>raghavendragolla.com</strong>, the personal portfolio and academic website of Raghavendra Golla.
+                This website is statically served and does not use analytics tracking cookies, advertising beacons, or behavioral user profiling.
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>2. Information Collected via the Contact Form</h2>
+            <p>
+                If you choose to send an inquiry through the interactive message form on the portfolio page, the following details are collected:
+            </p>
+            <ul>
+                <li><strong>Name:</strong> To address you properly in email correspondence.</li>
+                <li><strong>Email Address:</strong> To deliver a reply back to your inbox.</li>
+                <li><strong>Phone Number (Optional):</strong> If provided by you for direct voice communication.</li>
+                <li><strong>Topic &amp; Message Text:</strong> The subject and content of your message.</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2>3. Third-Party Form Transmission (Web3Forms)</h2>
+            <p>
+                Form submissions are securely transmitted via HTTPS to <strong>Web3Forms</strong> (operated by Web3Forms LLC, United States), which functions as a form-to-email transit service.
+                Web3Forms processes the submission exclusively to forward the message directly to Raghavendra's private email inbox.
+                Submitted data is not sold, rented, or shared with advertisers.
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>4. Hosting &amp; Server Infrastructure</h2>
+            <p>
+                This website is hosted statically on <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA).
+                When your browser connects to GitHub Pages, standard technical access logs (such as your IP address, browser type, and timestamp) may be recorded by GitHub for operational security, DDOS mitigation, and content delivery purposes.
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>5. Local Browser Storage</h2>
+            <p>
+                To provide a seamless visual experience, this site stores two non-tracking preference keys in your browser's local storage:
+            </p>
+            <ul>
+                <li><code>rg:theme</code>: Remembers whether you selected Light Mode or Dark Mode.</li>
+                <li><code>rg:pwa-dismissed</code>: Remembers if you dismissed the mobile install notification, preventing recurring popups for 30 days.</li>
+            </ul>
+            <p>These keys contain zero personal information and remain solely on your local device.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>6. Data Deletion &amp; Inquiries</h2>
+            <p>
+                You have full right to request deletion of any messages or contact records sent to Raghavendra Golla.
+                To request deletion or ask any questions regarding your data, send an email directly to:
+            </p>
+            <p>
+                <a href="mailto:raghavendrayadavgolla@gmail.com" class="privacy-inline-link">raghavendrayadavgolla@gmail.com</a>
+            </p>
+        </section>
+    </main>
+
+    <footer class="privacy-footer">
+        <p>&copy; 2026 Raghavendra Golla. All rights reserved. &bull; <a href="/" class="privacy-inline-link">Home</a> &bull; <a href="/portfolio/" class="privacy-inline-link">Portfolio</a></p>
+    </footer>
+
+    <script src="/js/shared.js" defer></script>
+</body>
+
+</html>

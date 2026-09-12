@@ -3,21 +3,14 @@
 
 <head>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NQRWM60R9L"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-NQRWM60R9L');
-    </script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-7iJ/McqohJIxbM+QcONfskCeHh5Tii0XvIkh6879iU4='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
     <script>
         (function () {
             try {
-                var saved = localStorage.getItem('theme');
+                var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
                 var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (saved === 'dark' || (!saved && prefersDark)) {
                     document.documentElement.setAttribute('data-theme', 'dark');
@@ -130,7 +123,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
@@ -253,7 +246,7 @@
     <main id="main-content">
 
         <div class="status-badge">
-            <span class="badge-sparkle">✨</span>
+            <span class="badge-sparkle" aria-hidden="true">✨</span>
             <span>AI &amp; Data Science Portfolio</span>
         </div>
 
@@ -406,6 +399,7 @@
                     </svg>
                     GitHub
                 </a>
+                <a href="/privacy.html" class="footer-link">Privacy</a>
                 <button id="thoughts-footer-btn" class="footer-thoughts-btn"
                     aria-label="Open My Thoughts and Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
                 <a href="portfolio/index.html#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
@@ -439,15 +433,15 @@
 
             <!-- Segmented Pill Tabs -->
             <div class="hub-tabs-container">
-                <div class="hub-tabs" role="tablist">
-                    <button class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true">
-                        <span>💡 Thoughts &amp; Notes</span>
+                <div class="hub-tabs" role="tablist" aria-label="Hub Sections">
+                    <button id="tab-thoughts" class="hub-tab active" data-tab="thoughts" role="tab" aria-selected="true" aria-controls="pane-thoughts" tabindex="0">
+                        <span><span aria-hidden="true">💡</span> Thoughts &amp; Notes</span>
                     </button>
-                    <button class="hub-tab" data-tab="now" role="tab" aria-selected="false">
-                        <span>⚡ Now Focus</span>
+                    <button id="tab-now" class="hub-tab" data-tab="now" role="tab" aria-selected="false" aria-controls="pane-now" tabindex="-1">
+                        <span><span aria-hidden="true">⚡</span> Now Focus</span>
                     </button>
-                    <button class="hub-tab" data-tab="market" role="tab" aria-selected="false">
-                        <span>📈 Market Intel</span>
+                    <button id="tab-market" class="hub-tab" data-tab="market" role="tab" aria-selected="false" aria-controls="pane-market" tabindex="-1">
+                        <span><span aria-hidden="true">📈</span> Market Intel</span>
                     </button>
                 </div>
             </div>
@@ -456,7 +450,7 @@
             <div class="hub-content">
 
                 <!-- 1. My Thoughts & Book Notes Pane -->
-                <div id="pane-thoughts" class="hub-pane active" role="tabpanel">
+                <div id="pane-thoughts" class="hub-pane active" role="tabpanel" aria-labelledby="tab-thoughts" tabindex="0">
                     <div class="thoughts-grid">
                         <article class="thought-card">
                             <div class="thought-tag-row">
@@ -529,7 +523,7 @@
                 </div>
 
                 <!-- 2. Now & Journey Pane (Derek Sivers Style) -->
-                <div id="pane-now" class="hub-pane" role="tabpanel">
+                <div id="pane-now" class="hub-pane" role="tabpanel" aria-labelledby="tab-now" tabindex="0">
                     <div class="now-container">
                         <div class="now-intro-banner">
                             <span class="now-pin">📍 Guntur, Andhra Pradesh, India</span>
@@ -538,7 +532,7 @@
 
                         <div class="now-timeline">
                             <div class="now-item">
-                                <div class="now-icon">🔭</div>
+                                <div class="now-icon" aria-hidden="true">🔭</div>
                                 <div class="now-body">
                                     <h4>Active Research: Explainable AI</h4>
                                     <p>Investigating tree-based ensemble interpretability and SHAP feature importance
@@ -547,7 +541,7 @@
                             </div>
 
                             <div class="now-item">
-                                <div class="now-icon">📖</div>
+                                <div class="now-icon" aria-hidden="true">📖</div>
                                 <div class="now-body">
                                     <h4>Reading &amp; Literature</h4>
                                     <p><em>Atomic Habits</em> by James Clear, along with research papers on Transformer
@@ -556,7 +550,7 @@
                             </div>
 
                             <div class="now-item">
-                                <div class="now-icon">🛠️</div>
+                                <div class="now-icon" aria-hidden="true">🛠️</div>
                                 <div class="now-body">
                                     <h4>Engineering &amp; Building</h4>
                                     <p>Constructing end-to-end reproducible machine learning pipelines with Python,
@@ -565,7 +559,7 @@
                             </div>
 
                             <div class="now-item">
-                                <div class="now-icon">🎓</div>
+                                <div class="now-icon" aria-hidden="true">🎓</div>
                                 <div class="now-body">
                                     <h4>Academic Pathway</h4>
                                     <p>Pursuing Master of Science in Data Science at Chandigarh University (2025–2027),
@@ -575,7 +569,7 @@
                             </div>
 
                             <div class="now-item">
-                                <div class="now-icon">💼</div>
+                                <div class="now-icon" aria-hidden="true">💼</div>
                                 <div class="now-body">
                                     <h4>Target Milestones</h4>
                                     <p>Actively open to Data Scientist, ML Engineer, and Data Analyst internship and
@@ -587,11 +581,11 @@
                 </div>
 
                 <!-- 3. Live AI & Job Market Intelligence Pane -->
-                <div id="pane-market" class="hub-pane" role="tabpanel">
+                <div id="pane-market" class="hub-pane" role="tabpanel" aria-labelledby="tab-market" tabindex="0">
                     <div class="market-container">
                         <!-- Top Signal Bar -->
                         <div class="market-pulse-bar">
-                            <span class="live-blink-dot">●</span>
+                            <span class="live-blink-dot" aria-hidden="true">●</span>
                             <span class="market-headline">2026 Data Science &amp; AI Job Market Signal: <strong>High
                                     Demand for Applied &amp; Explainable AI Practitioners</strong></span>
                         </div>
@@ -599,7 +593,7 @@
                         <div class="market-grid">
                             <!-- In-Demand Skill Stack Card -->
                             <div class="market-card">
-                                <h4><span class="card-icon">🔥</span> Top In-Demand Skills (2026)</h4>
+                                <h4><span class="card-icon" aria-hidden="true">🔥</span> Top In-Demand Skills (2026)</h4>
                                 <ul class="market-list">
                                     <li>
                                         <strong>1. Python &amp; PyTorch:</strong> Core tensor programming, fine-tuning,
@@ -626,7 +620,7 @@
 
                             <!-- Key Industry Trends Card -->
                             <div class="market-card">
-                                <h4><span class="card-icon">🚀</span> Key Industry AI Trends</h4>
+                                <h4><span class="card-icon" aria-hidden="true">🚀</span> Key Industry AI Trends</h4>
                                 <ul class="market-list">
                                     <li>
                                         <strong>Agentic AI Workflows:</strong> Transition from simple prompt-response

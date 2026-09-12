@@ -29,14 +29,47 @@
         }
     };
 
-    // Migrate legacy 'theme' storage key to 'rg:theme'
+    // Migrate legacy 'theme' storage key to 'rg:theme' and clean obsolete keys
     try {
         var legacyTheme = localStorage.getItem('theme');
         if (legacyTheme) {
             window.rgStorage.setItem('rg:theme', legacyTheme);
             localStorage.removeItem('theme');
         }
+        localStorage.removeItem('cached_visits');
+        sessionStorage.removeItem('visited_session');
+        var legacyPwa = sessionStorage.getItem('pwa_prompt_dismissed');
+        if (legacyPwa) {
+            window.rgStorage.setItem('rg:pwa_dismissed', Date.now().toString());
+            sessionStorage.removeItem('pwa_prompt_dismissed');
+        }
     } catch (e) { }
+
+    window.isPwaDismissed = function () {
+        try {
+            var val = window.rgStorage.getItem('rg:pwa_dismissed');
+            if (!val) {
+                if (sessionStorage.getItem('pwa_prompt_dismissed') === 'true') return true;
+                return false;
+            }
+            var dismissedAt = parseInt(val, 10);
+            if (isNaN(dismissedAt)) return false;
+            if (Date.now() - dismissedAt < 14 * 24 * 60 * 60 * 1000) {
+                return true;
+            }
+            window.rgStorage.removeItem('rg:pwa_dismissed');
+            return false;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    window.dismissPwa = function () {
+        try {
+            window.rgStorage.setItem('rg:pwa_dismissed', Date.now().toString());
+            sessionStorage.removeItem('pwa_prompt_dismissed');
+        } catch (e) { }
+    };
 
     // ====================================================
     // 2. Unified Theme System (Follows OS Preference)
@@ -433,7 +466,6 @@
 
     // DOMContentLoaded Initialization
     document.addEventListener('DOMContentLoaded', function () {
-        window.initNeuralCanvas();
         window.initISTClock();
         window.initPWA();
     });
