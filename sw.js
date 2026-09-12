@@ -1,4 +1,4 @@
-const CACHE_NAME = 'raghavendra-portfolio-v8';
+const CACHE_NAME = 'raghavendra-portfolio-v9';
 
 const PRECACHE_ASSETS = [
   './',
@@ -45,7 +45,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - Stale-While-Revalidate for 0ms instant loading
+// Fetch event - Network-First for navigations, Stale-While-Revalidate for static assets
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith('http')) return;
@@ -60,29 +60,44 @@ self.addEventListener('fetch', (event) => {
   const isSameOrigin = url.origin === self.location.origin;
   const isGoogleFont = url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com');
 
-  if (isSameOrigin || isGoogleFont) {
+  if (!isSameOrigin && !isGoogleFont) return;
+
+  // 1. Navigation strategy: Network-First with cache fallback
+  if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        const cachedResponse = await cache.match(event.request);
-
-        const fetchPromise = fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-              cache.put(event.request, networkResponse.clone());
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            if (event.request.mode === 'navigate') {
-              return cache.match('./index.html') || cache.match('./');
-            }
-            return cachedResponse;
-          });
-
-        // Serve instantly from cache if available, silently update in background
-        return cachedResponse || fetchPromise;
-      })
+      fetch(event.request)
+        .then(async (networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        })
+        .catch(async () => {
+          const cachedResponse = await caches.match(event.request);
+          return cachedResponse || caches.match('./index.html') || caches.match('./');
+        })
     );
+    return;
   }
+
+  // 2. Asset strategy: Stale-While-Revalidate
+  event.respondWith(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cachedResponse = await cache.match(event.request);
+
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
+    })
+  );
 });
+
 

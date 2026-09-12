@@ -316,15 +316,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let isPageVisible = true;
+        let animFrameId = null;
+
         document.addEventListener('visibilitychange', () => {
             isPageVisible = !document.hidden;
             if (isPageVisible) {
-                requestAnimationFrame(animateCanvas);
+                if (!animFrameId) {
+                    animFrameId = requestAnimationFrame(animateCanvas);
+                }
+            } else {
+                if (animFrameId) {
+                    cancelAnimationFrame(animFrameId);
+                    animFrameId = null;
+                }
             }
         });
 
         function animateCanvas() {
-            if (!isPageVisible) return;
+            if (!isPageVisible) {
+                animFrameId = null;
+                return;
+            }
 
             ctx.clearRect(0, 0, width, height);
 
@@ -359,10 +371,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.draw(tealRgb, goldRgb);
             });
 
-            requestAnimationFrame(animateCanvas);
+            animFrameId = requestAnimationFrame(animateCanvas);
         }
 
-        animateCanvas();
+        animFrameId = requestAnimationFrame(animateCanvas);
     }
 
 
@@ -616,63 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
         footerYearEl.textContent = new Date().getFullYear();
     }
 
-    // ====================================================
-    // 9. Real-Time Global Cloud Visitor Counter
-    // ====================================================
-    const visitorCountEl = document.getElementById('visitor-count');
-    if (visitorCountEl) {
-        const namespace = 'raghavendragolla_com';
-        const key = 'visits';
-        const baseOffset = 1420; // Base launch visits
 
-        function animateCount(start, end) {
-            const duration = 1500;
-            const startTime = performance.now();
-            function update(now) {
-                const elapsed = now - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(start + (end - start) * easeOut);
-                visitorCountEl.textContent = current.toLocaleString();
-                if (progress < 1) {
-                    requestAnimationFrame(update);
-                } else {
-                    visitorCountEl.textContent = end.toLocaleString();
-                }
-            }
-            requestAnimationFrame(update);
-        }
-
-        // Prevent spamming the counter within the same session
-        const hasCountedSession = sessionStorage.getItem('visited_session');
-        const apiAction = hasCountedSession ? '' : '/up';
-
-        // Connect to Real Global Cloud Counter API
-        fetch(`https://api.counterapi.dev/v1/${namespace}/${key}${apiAction}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data && typeof data.count === 'number') {
-                    if (!hasCountedSession) {
-                        sessionStorage.setItem('visited_session', 'true');
-                    }
-                    const totalRealVisits = baseOffset + data.count;
-                    localStorage.setItem('cached_visits', totalRealVisits.toString());
-                    animateCount(Math.max(1000, totalRealVisits - 35), totalRealVisits);
-                } else {
-                    throw new Error('Invalid counter response');
-                }
-            })
-            .catch(() => {
-                // Graceful fallback from cache or baseline
-                let cached = parseInt(localStorage.getItem('cached_visits') || '1420', 10);
-                if (!hasCountedSession) {
-                    cached += 1;
-                    localStorage.setItem('cached_visits', cached.toString());
-                    sessionStorage.setItem('visited_session', 'true');
-                }
-                animateCount(Math.max(1000, cached - 25), cached);
-            });
-    }
 
     // ====================================================
     // 10. My Thoughts & Intelligence Hub Controller

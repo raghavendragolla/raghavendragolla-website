@@ -146,6 +146,7 @@
 
 <body>
 
+
     <!-- Background Canvas, Ambient Grid & Glows -->
     <canvas id="neural-canvas" aria-hidden="true"></canvas>
     <div class="bg-grid" aria-hidden="true"></div>
@@ -159,9 +160,20 @@
 
     <header>
         <div class="vitals-container">
-            <div class="vitals" aria-hidden="true">
-                <!-- Desktop Clean ECG Path with Smooth Flowing Chromatic Wave -->
-                <svg class="vitals-svg-desktop" viewBox="0 0 1400 64" preserveAspectRatio="none">
+            <div class="vitals-status">
+                <span class="vitals-dot">●</span>
+                <span class="vitals-content">
+                    <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR OPPORTUNITIES</span>
+                    <span class="vitals-sep vitals-sep-opportunities">&bull;</span>
+                    <strong id="vitals-clock" class="vitals-clock">--:--:-- IST</strong>
+                    <span class="vitals-sep vitals-sep-clock">&bull;</span>
+                    <span class="vitals-location" title="Location"><span class="vitals-pin">📍</span>
+                        <strong>GUNTUR, IN</strong></span>
+                </span>
+            </div>
+            <div class="vitals-wave" aria-hidden="true">
+                <!-- Desktop ECG Path (0 to 1200) - Baseline touches status pill from x=0, pulse spikes start after GUNTUR, IN -->
+                <svg class="vitals-svg-desktop" viewBox="0 0 1200 64" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="ecgBeamDesktop" x1="-60%" y1="0%" x2="40%" y2="0%">
                             <stop offset="0%" stop-color="#2f7d78" stop-opacity="0.25" />
@@ -174,22 +186,22 @@
                         </linearGradient>
                     </defs>
                     <!-- Base subtle track -->
-                    <path class="ecg-base-track" d="M0,32 L520,32" />
+                    <path class="ecg-base-track" d="M0,32 L460,32" />
                     <g class="heartbeat-pulse-zone">
-                        <path class="ecg-base-track" d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
+                        <path class="ecg-base-track" d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
                     </g>
-                    <path class="ecg-base-track" d="M668,32 L1400,32" />
+                    <path class="ecg-base-track" d="M575,32 L1200,32" />
 
                     <!-- Flowing Chromatic Pulse Beam -->
-                    <path class="ecg-flowing-beam" d="M0,32 L520,32" />
+                    <path class="ecg-flowing-beam" d="M0,32 L460,32" />
                     <g class="heartbeat-pulse-zone">
-                        <path class="ecg-flowing-beam" d="M520,32 L545,12 L565,52 L585,32 L610,32 L630,16 L650,46 L668,32" />
+                        <path class="ecg-flowing-beam" d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
                     </g>
-                    <path class="ecg-flowing-beam" d="M668,32 L1400,32" />
+                    <path class="ecg-flowing-beam" d="M575,32 L1200,32" />
                 </svg>
 
-                <!-- Mobile Clean ECG Path with Smooth Flowing Chromatic Wave -->
-                <svg class="vitals-svg-mobile" viewBox="0 0 1400 64" preserveAspectRatio="none">
+                <!-- Mobile ECG Path (0 to 600) - Baseline touches status pill from x=0, pulse spikes start at x=280 -->
+                <svg class="vitals-svg-mobile" viewBox="0 0 600 64" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="ecgBeamMobile" x1="-60%" y1="0%" x2="40%" y2="0%">
                             <stop offset="0%" stop-color="#2f7d78" stop-opacity="0.25" />
@@ -197,36 +209,24 @@
                             <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.8" />
                             <stop offset="75%" stop-color="#10b981" stop-opacity="0.75" />
                             <stop offset="100%" stop-color="#2f7d78" stop-opacity="0.25" />
-                            <animate attributeName="x1" from="-60%" to="100%" dur="4s" repeatCount="indefinite" />
+                            <animate attributeName="x1" from="-60%" to="100%" dur="4.5s" repeatCount="indefinite" />
                             <animate attributeName="x2" from="40%" to="200%" dur="4.5s" repeatCount="indefinite" />
                         </linearGradient>
                     </defs>
                     <!-- Base subtle track -->
-                    <path class="ecg-base-track" d="M0,32 L1060,32" />
+                    <path class="ecg-base-track" d="M0,32 L280,32" />
                     <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
-                        <path class="ecg-base-track" d="M1060,32 L1080,12 L1096,52 L1112,32 L1128,32 L1144,16 L1160,46 L1174,32" />
+                        <path class="ecg-base-track" d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
                     </g>
-                    <path class="ecg-base-track" d="M1174,32 L1400,32" />
+                    <path class="ecg-base-track" d="M395,32 L600,32" />
 
                     <!-- Flowing Chromatic Pulse Beam -->
-                    <path class="ecg-flowing-beam-mobile" d="M0,32 L1060,32" />
+                    <path class="ecg-flowing-beam-mobile" d="M0,32 L280,32" />
                     <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
-                        <path class="ecg-flowing-beam-mobile"
-                            d="M1060,32 L1080,12 L1096,52 L1112,32 L1128,32 L1144,16 L1160,46 L1174,32" />
+                        <path class="ecg-flowing-beam-mobile" d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
                     </g>
-                    <path class="ecg-flowing-beam-mobile" d="M1174,32 L1400,32" />
+                    <path class="ecg-flowing-beam-mobile" d="M395,32 L600,32" />
                 </svg>
-            </div>
-            <div class="vitals-status">
-                <span class="vitals-dot">●</span>
-                <span class="vitals-content">
-                    <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR OPPORTUNITIES</span>
-                    <span class="vitals-sep">&bull;</span>
-                    <strong id="vitals-clock" class="vitals-clock">--:--:-- IST</strong>
-                    <span class="vitals-sep">&bull;</span>
-                    <span class="vitals-views" title="Total Page Visits"><span class="vitals-eye">👁️</span>
-                        <strong id="visitor-count">1,420</strong></span>
-                </span>
             </div>
         </div>
         <button id="theme-toggle" class="theme-toggle" aria-label="Switch Theme" title="Switch Theme">
@@ -247,7 +247,7 @@
         </button>
     </header>
 
-    <main>
+    <main id="main-content">
 
         <div class="status-badge">
             <span class="badge-sparkle">✨</span>

@@ -389,7 +389,7 @@
     .vitals-status {
         right: 12px;
         left: auto;
-        font-size: 0.65rem;
+        font-size: 0.68rem;
         padding: 3px 9px;
     }
 
@@ -408,7 +408,6 @@
    5. Phablets & Mobile Landscape (< 768px)
    ========================================= */
 @media (max-width: 768px) {
-    /* Horizontal scrollable category filter pills */
     .project-filters {
         display: flex;
         flex-wrap: nowrap;

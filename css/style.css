@@ -276,11 +276,17 @@ header {
 .vitals-container {
     position: relative;
     width: 100%;
+    height: 64px;
+    box-sizing: border-box;
 }
 
-.vitals {
+.vitals-wave {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: 64px;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .vitals-svg-desktop {
@@ -295,7 +301,7 @@ header {
     display: none;
 }
 
-.vitals path {
+.vitals-wave path {
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -327,13 +333,13 @@ header {
 
 /* Only the heartbeat spikes physically beat and pump up & down */
 .heartbeat-pulse-zone {
-    transform-origin: 594px 32px;
+    transform-origin: 518px 32px;
     animation: realHeartbeatPump 1.8s ease-in-out infinite;
     will-change: transform;
 }
 
 .heartbeat-mobile-zone {
-    transform-origin: 1117px 32px !important;
+    transform-origin: 338px 32px !important;
 }
 
 .vitals-status {
@@ -357,6 +363,7 @@ header {
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    white-space: nowrap;
     transition: var(--transition-theme);
 }
 
@@ -1875,4 +1882,12 @@ body.drawer-open {
     color: var(--ink);
     background: var(--line-subtle);
     border-color: var(--muted);
-}
+}
+
+/* Accessibility & Focus Indicators */
+:focus-visible {
+    outline: 2px solid var(--teal, #2f7d78);
+    outline-offset: 3px;
+}
+
+

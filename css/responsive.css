@@ -7,6 +7,12 @@
    1. Ultra-Wide & 4K Displays (1600px+)
    ========================================= */
 @media (min-width: 1600px) {
+    .vitals-container {
+        padding-left: 32px;
+        padding-right: 80px;
+        gap: 28px;
+    }
+
     .ambient-glow-1 {
         width: 700px;
         height: 700px;
@@ -68,6 +74,15 @@
 }
 
 @media (max-width: 1200px) {
+    .vitals-text-desktop,
+    .vitals-sep-opportunities {
+        display: none;
+    }
+
+    .vitals-container {
+        gap: 20px;
+    }
+
     main {
         padding: 32px 24px;
     }
@@ -103,6 +118,12 @@
    3. Tablets & Small Laptops (769px - 1024px)
    ========================================= */
 @media (max-width: 1024px) {
+    .vitals-container {
+        padding-left: 20px;
+        padding-right: 64px;
+        gap: 18px;
+    }
+
     h1 {
         font-size: clamp(2.8rem, 6vw, 3.6rem);
         line-height: 1.08;
@@ -179,6 +200,11 @@
         padding-bottom: 0 !important;
     }
 
+    .vitals-clock,
+    .vitals-sep-clock {
+        display: none !important;
+    }
+
     .vitals-svg-desktop {
         display: none !important;
     }
@@ -240,9 +266,10 @@
     }
 
     .vitals-status {
-        left: 10px;
+        left: 14px;
         font-size: 9.5px;
-        padding: 3px 8px;
+        padding: 3px 9px;
+        gap: 5px;
     }
 
     main {
@@ -412,19 +439,22 @@
         transform: translateY(-50%) scale(1.08) !important;
     }
 
-    .vitals-status {
-        left: 8px;
-        font-size: 9px;
-        padding: 2.5px 7px;
-        gap: 4px;
-    }
-
-    .vitals-text-desktop {
+    .vitals-clock,
+    .vitals-sep-clock {
         display: none;
     }
 
-    .vitals-text-mobile {
-        display: inline;
+    .vitals-container {
+        padding-left: 10px;
+        padding-right: 48px;
+        gap: 12px;
+    }
+
+    .vitals-status {
+        left: 10px;
+        font-size: 9px;
+        padding: 2.5px 7px;
+        gap: 4px;
     }
 
     main {
@@ -568,10 +598,6 @@
         line-height: 1.4;
     }
 
-    .vitals-text-desktop {
-        display: none;
-    }
-
     footer {
         font-size: 10px;
         padding: 18px 12px max(24px, env(safe-area-inset-bottom)) !important;
@@ -582,8 +608,14 @@
    6. Small & Compact Phones (320px - 375px)
    ========================================= */
 @media (max-width: 375px) {
+    .vitals-container {
+        padding-left: 8px;
+        padding-right: 42px;
+        gap: 10px;
+    }
+
     .vitals-status {
-        left: 6px;
+        left: 8px;
         font-size: 8.5px;
         padding: 2px 6px;
         gap: 3px;

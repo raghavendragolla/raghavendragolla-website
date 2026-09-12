@@ -2569,3 +2569,9 @@ h1.hero-title em {
     background: var(--line-subtle);
     border-color: var(--ink-muted);
 }
+
+/* Accessibility & Focus Indicators */
+:focus-visible {
+    outline: 2px solid var(--teal, #2f7d78);
+    outline-offset: 3px;
+}

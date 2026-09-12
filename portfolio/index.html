@@ -159,11 +159,12 @@
   <link rel="stylesheet" href="css/responsive.css?v=20">
 
   <!-- Lucide Icons & Core Script -->
-  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" defer></script>
   <script src="js/script.js?v=20" defer></script>
 </head>
 
 <body>
+
 
   <!-- Neural Canvas Background & Ambient Glows -->
   <canvas id="neural-canvas" aria-hidden="true"></canvas>
@@ -348,12 +349,19 @@
           </div>
           <div class="vitals-status">
             <span class="vitals-dot">●</span>
-            <span>AVAILABLE &bull; <strong id="vitals-clock">--:--:-- IST</strong></span>
+            <span class="vitals-content">
+              <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR OPPORTUNITIES</span>
+              <span class="vitals-sep vitals-sep-opportunities">&bull;</span>
+              <strong id="vitals-clock" class="vitals-clock">--:--:-- IST</strong>
+              <span class="vitals-sep vitals-sep-clock">&bull;</span>
+              <span class="vitals-location" title="Location"><span class="vitals-pin">📍</span>
+                <strong>GUNTUR, IN</strong></span>
+            </span>
           </div>
         </div>
       </header>
 
-      <main>
+      <main id="main-content">
 
         <!-- ============ 1. HOME / HERO ============ -->
         <section id="home">

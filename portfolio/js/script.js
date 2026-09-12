@@ -165,15 +165,27 @@ document.addEventListener('DOMContentLoaded', () => {
         window.updateCanvasTheme();
 
         let isPageVisible = true;
+        let animFrameId = null;
+
         document.addEventListener('visibilitychange', () => {
             isPageVisible = !document.hidden;
             if (isPageVisible) {
-                requestAnimationFrame(animateCanvas);
+                if (!animFrameId) {
+                    animFrameId = requestAnimationFrame(animateCanvas);
+                }
+            } else {
+                if (animFrameId) {
+                    cancelAnimationFrame(animFrameId);
+                    animFrameId = null;
+                }
             }
         });
 
         function animateCanvas() {
-            if (!isPageVisible) return;
+            if (!isPageVisible) {
+                animFrameId = null;
+                return;
+            }
 
             ctx.clearRect(0, 0, width, height);
 
@@ -200,10 +212,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.draw(tealRgb, goldRgb);
             });
 
-            requestAnimationFrame(animateCanvas);
+            animFrameId = requestAnimationFrame(animateCanvas);
         }
 
-        animateCanvas();
+        animFrameId = requestAnimationFrame(animateCanvas);
     }
 
 
@@ -669,8 +681,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailVal = emailInput ? emailInput.value.trim() : '';
             const phoneVal = phoneInput ? phoneInput.value.trim() : '';
             const messageVal = messageInput ? messageInput.value.trim() : '';
-            const topicVal = topicSelect ? topicSelect.value : 'General Inquiry';
-
             if (!nameVal || nameVal.length < 2) {
                 if (nameInput) nameInput.classList.add('is-invalid');
                 if (nameError) nameError.textContent = 'Please enter your name (at least 2 characters)';
@@ -692,20 +702,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isValid) return;
 
-            // Loading state
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const formStatus = document.getElementById('formStatus');
+
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('is-loading');
                 const btnText = submitBtn.querySelector('.btn-text');
                 if (btnText) btnText.textContent = 'Sending...';
             }
+
             if (formStatus) {
                 formStatus.textContent = 'Transmitting message...';
                 formStatus.className = 'form-status';
             }
 
+            // Create AbortController with 10-second timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+
             try {
-                // Submit to Web3Forms API endpoint
                 const formData = new FormData(contactForm);
 
                 const response = await fetch('https://api.web3forms.com/submit', {
@@ -713,12 +729,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Accept': 'application/json'
                     },
-                    body: formData
+                    body: formData,
+                    signal: controller.signal
                 });
+
+                clearTimeout(timeoutId);
 
                 const result = await response.json().catch(() => ({}));
 
-                if (response.ok && result.success !== false) {
+                if (response.ok && result.success === true) {
                     if (formStatus) {
                         formStatus.textContent = '✓ Message delivered directly to Raghavendra!';
                         formStatus.className = 'form-status is-success';
@@ -726,28 +745,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     showToast('✓ Message sent successfully! 🚀');
                     contactForm.reset();
                 } else {
-                    // Graceful fallback to mail client with prefilled values
+                    // Genuine Failure Handling - Do NOT reset form, do NOT force mailto redirect
+                    const errorMsg = result.message || 'Submission failed. Please try again.';
                     if (formStatus) {
-                        formStatus.textContent = '✓ Note saved! Opening your mail client as backup...';
-                        formStatus.className = 'form-status is-success';
+                        formStatus.innerHTML = `✕ ${errorMsg} You can also email directly: <a href="mailto:raghavendrayadavgolla@gmail.com" style="color: var(--teal); text-decoration: underline;">raghavendrayadavgolla@gmail.com</a>`;
+                        formStatus.className = 'form-status is-error';
                     }
-                    showToast('Opening email backup...');
-                    const phoneText = phoneVal ? `\nPhone: ${phoneVal}` : '';
-                    const subject = encodeURIComponent(`[Portfolio Contact] ${topicVal} - from ${nameVal}`);
-                    const body = encodeURIComponent(`Name: ${nameVal}\nEmail: ${emailVal}${phoneText}\nTopic: ${topicVal}\n\nMessage:\n${messageVal}`);
-                    window.location.href = `mailto:raghavendrayadavgolla@gmail.com?subject=${subject}&body=${body}`;
-                    contactForm.reset();
+                    showToast('✕ Unable to send message. Please try again.');
                 }
             } catch (err) {
-                console.warn('Network submit fallback:', err);
+                clearTimeout(timeoutId);
+                const isTimeout = err.name === 'AbortError';
+                const failureText = isTimeout 
+                    ? 'Request timed out after 10 seconds.' 
+                    : 'Network error occurred while sending.';
+
                 if (formStatus) {
-                    formStatus.textContent = 'Opening your mail client...';
-                    formStatus.className = 'form-status is-success';
+                    formStatus.innerHTML = `✕ ${failureText} You can email directly: <a href="mailto:raghavendrayadavgolla@gmail.com" style="color: var(--teal); text-decoration: underline;">raghavendrayadavgolla@gmail.com</a>`;
+                    formStatus.className = 'form-status is-error';
                 }
-                const phoneText = phoneVal ? `\nPhone: ${phoneVal}` : '';
-                const subject = encodeURIComponent(`[Portfolio Contact] ${topicVal} - from ${nameVal}`);
-                const body = encodeURIComponent(`Name: ${nameVal}\nEmail: ${emailVal}${phoneText}\nTopic: ${topicVal}\n\nMessage:\n${messageVal}`);
-                window.location.href = `mailto:raghavendrayadavgolla@gmail.com?subject=${subject}&body=${body}`;
+                showToast(isTimeout ? '✕ Request timed out.' : '✕ Network failure.');
             } finally {
                 if (submitBtn) {
                     submitBtn.disabled = false;
