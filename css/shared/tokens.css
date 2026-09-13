@@ -12,9 +12,9 @@
     --primary-subtle: rgba(27, 107, 102, 0.08);
     --primary-glow: rgba(27, 107, 102, 0.20);
     --text-on-primary: #ffffff;
-    --accent: #a16207;
-    --accent-hover: #854d0e;
-    --accent-subtle: rgba(161, 98, 7, 0.08);
+    --accent: #854d0e;
+    --accent-hover: #713f12;
+    --accent-subtle: rgba(133, 77, 14, 0.08);
 
     /* ---------- Surfaces & Background ---------- */
     --bg: #faf9f5;
@@ -25,7 +25,7 @@
     /* ---------- Typography & Contrast Hierarchy ---------- */
     --text: #111822;
     --text-muted: #334155;
-    --text-faint: #64748b;
+    --text-faint: #55637a;
 
     /* ---------- Borders & Hairlines ---------- */
     --border: #e2e0d8;
@@ -41,13 +41,41 @@
     --warning: #b45309;
     --warning-subtle: rgba(180, 83, 9, 0.10);
 
-    /* ---------- Atmospheric & Elevation System ---------- */
-    --shadow-sm: 0 1px 2px rgba(17, 24, 34, 0.04), 0 0 0 1px var(--border-subtle);
-    --shadow-md: 0 4px 16px -2px rgba(17, 24, 34, 0.06), 0 0 0 1px var(--border-subtle);
-    --shadow-lg: 0 12px 32px -4px rgba(17, 24, 34, 0.08), 0 0 0 1px var(--border-subtle);
+    /* ---------- Atmospheric & Elevation System (layered: contact + mid + ambient) ---------- */
+    --shadow-sm: 0 1px 2px rgba(17, 24, 34, 0.05), 0 2px 5px rgba(17, 24, 34, 0.04), 0 0 0 1px var(--border-subtle);
+    --shadow-md: 0 1px 2px rgba(17, 24, 34, 0.04), 0 6px 14px rgba(17, 24, 34, 0.05), 0 16px 32px -8px rgba(17, 24, 34, 0.09), 0 0 0 1px var(--border-subtle);
+    --shadow-lg: 0 2px 4px rgba(17, 24, 34, 0.05), 0 10px 24px rgba(17, 24, 34, 0.06), 0 28px 56px -12px rgba(17, 24, 34, 0.12), 0 0 0 1px var(--border-subtle);
     --backdrop-overlay: rgba(17, 24, 34, 0.45);
     --glow: rgba(27, 107, 102, 0.10);
     --grid-line: rgba(17, 24, 34, 0.035);
+
+    /* ---------- Apple-Material Glass Recipe (chrome surfaces only: sidebar, vitals bar, modals, toast, PWA banner, floating controls) ---------- */
+    --glass-saturation: saturate(180%);
+    --glass-blur-sm: blur(12px);
+    --glass-blur-md: blur(20px);
+    --glass-blur-lg: blur(28px);
+    --glass-fill: rgba(255, 255, 255, 0.72);
+    --glass-fill-strong: rgba(255, 255, 255, 0.85);
+    --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+    /* ---------- Fluid Spacing Scale ---------- */
+    --space-2xs: clamp(0.25rem, 0.22rem + 0.15vw, 0.375rem);
+    --space-xs: clamp(0.5rem, 0.44rem + 0.3vw, 0.75rem);
+    --space-sm: clamp(0.75rem, 0.66rem + 0.4vw, 1rem);
+    --space-md: clamp(1rem, 0.85rem + 0.7vw, 1.5rem);
+    --space-lg: clamp(1.5rem, 1.2rem + 1.3vw, 2.25rem);
+    --space-xl: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    --space-2xl: clamp(2.75rem, 2rem + 3vw, 4.5rem);
+
+    /* ---------- Fluid Type Scale ---------- */
+    --text-xs: clamp(0.7rem, 0.67rem + 0.15vw, 0.78rem);
+    --text-sm: clamp(0.82rem, 0.78rem + 0.2vw, 0.92rem);
+    --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1.05rem);
+    --text-lg: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+    --text-xl: clamp(1.35rem, 1.2rem + 0.9vw, 1.7rem);
+    --text-2xl: clamp(1.7rem, 1.4rem + 1.6vw, 2.3rem);
+    --text-3xl: clamp(2.2rem, 1.7rem + 2.6vw, 3.2rem);
+    --text-hero: clamp(2.4rem, 1.7rem + 4vw, 4.4rem);
 
     /* ---------- Motion System ---------- */
     --motion-micro: 150ms;
@@ -74,22 +102,22 @@
     --ecg-length: 1400;
     --ecg-stop-0: rgba(27, 107, 102, 0.25);
     --ecg-stop-25: rgba(27, 107, 102, 0.75);
-    --ecg-stop-50: rgba(161, 98, 7, 0.85);
+    --ecg-stop-50: rgba(133, 77, 14, 0.85);
     --ecg-stop-75: rgba(27, 107, 102, 0.75);
     --ecg-stop-100: rgba(27, 107, 102, 0.25);
     --ecg-track: rgba(17, 24, 34, 0.08);
 
     /* ---------- Canvas RGB Driving Tokens ---------- */
     --canvas-particle-teal: 27, 107, 102;
-    --canvas-particle-gold: 161, 98, 7;
+    --canvas-particle-gold: 133, 77, 14;
     --canvas-wave-1: rgba(27, 107, 102, 0.20);
     --canvas-wave-1-glow: rgba(27, 107, 102, 0.08);
     --canvas-wave-2: rgba(27, 107, 102, 0.14);
     --canvas-wave-2-glow: rgba(27, 107, 102, 0.05);
-    --canvas-wave-3: rgba(161, 98, 7, 0.12);
-    --canvas-wave-3-glow: rgba(161, 98, 7, 0.04);
+    --canvas-wave-3: rgba(133, 77, 14, 0.12);
+    --canvas-wave-3-glow: rgba(133, 77, 14, 0.04);
     --canvas-stardust-teal: rgba(27, 107, 102, 0.15);
-    --canvas-stardust-gold: rgba(161, 98, 7, 0.15);
+    --canvas-stardust-gold: rgba(133, 77, 14, 0.15);
 
     /* ---------- Scrollbar Tokens ---------- */
     --scrollbar-track: transparent;
@@ -177,13 +205,18 @@
     --warning: #fbbf24;
     --warning-subtle: rgba(251, 191, 36, 0.14);
 
-    /* ---------- Atmospheric & Elevation System ---------- */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-subtle);
-    --shadow-md: 0 6px 20px -2px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-subtle);
-    --shadow-lg: 0 16px 40px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-subtle);
+    /* ---------- Atmospheric & Elevation System (layered: contact + mid + ambient) ---------- */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-subtle);
+    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.3), 0 20px 40px -10px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-subtle);
+    --shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.4), 0 14px 30px rgba(0, 0, 0, 0.35), 0 34px 64px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-subtle);
     --backdrop-overlay: rgba(0, 0, 0, 0.65);
     --glow: rgba(45, 212, 191, 0.16);
     --grid-line: rgba(241, 245, 249, 0.03);
+
+    /* ---------- Apple-Material Glass Recipe (dark) ---------- */
+    --glass-fill: rgba(17, 22, 32, 0.62);
+    --glass-fill-strong: rgba(17, 22, 32, 0.78);
+    --glass-specular: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
     /* ---------- ECG Gradient & Vitals Tokens ---------- */
     --ecg-stop-0: rgba(45, 212, 191, 0.25);

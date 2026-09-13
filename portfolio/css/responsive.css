@@ -4,9 +4,25 @@
    ========================================================================== */
 
 /* =========================================
-   1. Ultra-Wide & 4K Displays (1600px+)
+   Unified Breakpoint Ladder (shared with landing /):
+   >=2560 ultrawide cap  |  >=1920 large desktop  |  base = 1441+ desktop
+   <=1440 <=1280 <=1024 <=768 <=640 <=480 <=360
    ========================================= */
-@media (min-width: 1600px) {
+
+/* =========================================
+   1a. Ultrawide Displays (2560px+) - cap content width, do not stretch
+   ========================================= */
+@media (min-width: 2560px) {
+    .shell {
+        max-width: 1900px;
+        margin: 0 auto;
+    }
+}
+
+/* =========================================
+   1b. Large Desktop Displays (1920px+)
+   ========================================= */
+@media (min-width: 1920px) {
     .shell {
         grid-template-columns: 320px minmax(0, 1fr);
     }
@@ -20,9 +36,9 @@
 }
 
 /* =========================================
-   2. Desktop / Standard Laptops (1200px - 1400px)
+   2. Desktop (<=1440px)
    ========================================= */
-@media (max-width: 1400px) {
+@media (max-width: 1440px) {
     .shell {
         grid-template-columns: 270px minmax(0, 1fr);
     }
@@ -36,9 +52,9 @@
 }
 
 /* =========================================
-   3. Compact Laptop & Large Tablet (993px - 1199px)
+   3. Laptop (<=1280px)
    ========================================= */
-@media (max-width: 1199px) {
+@media (max-width: 1280px) {
     .about-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -52,9 +68,9 @@
 }
 
 /* =========================================
-   4. Tablet & Mobile Navigation (< 992px)
+   4. Tablet Landscape / Small Laptop - Mobile Nav Transform (<=1024px)
    ========================================= */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
     .shell {
         grid-template-columns: 1fr;
         display: block;
@@ -66,7 +82,6 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 60px;
         padding: 0 1rem;
         display: flex;
         flex-direction: row;
@@ -77,8 +92,16 @@
         background: var(--sidebar-bg);
         z-index: 1000;
         overflow: visible;
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
+        padding-top: env(safe-area-inset-top);
+        height: calc(60px + env(safe-area-inset-top));
+    }
+
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+        nav.sidebar {
+            background: var(--glass-fill-strong);
+            backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+            -webkit-backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+        }
     }
 
     .sidebar-top {
@@ -138,11 +161,21 @@
         transition: transform 0.2s var(--apple-ease), border-color 0.2s ease, color 0.2s ease;
     }
 
+    .back-hub:active {
+        border-color: var(--teal);
+        color: var(--teal);
+    }
+}
+
+@media (max-width: 1024px) and (hover: hover) and (pointer: fine) {
     .back-hub:hover {
         border-color: var(--teal);
         color: var(--teal);
         transform: scale(1.05);
     }
+}
+
+@media (max-width: 1024px) {
 
     .back-hub span {
         display: none !important;
@@ -160,12 +193,17 @@
         position: fixed;
         inset: 0;
         background: var(--backdrop-overlay);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
         z-index: 998;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease;
+    }
+
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+        .mobile-backdrop {
+            backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+            -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        }
     }
 
     .mobile-backdrop.show {
@@ -185,7 +223,7 @@
         background: var(--paper-raised);
         border: 1px solid var(--glass-border);
         border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-lg);
+        box-shadow: var(--shadow-lg), var(--glass-specular);
         padding: 0.85rem 0.75rem;
         flex-direction: column;
         gap: 0.35rem;
@@ -195,14 +233,18 @@
         pointer-events: none;
         transform-origin: top right;
         transition: transform 0.28s var(--apple-ease), opacity 0.28s ease;
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
+    }
+
+    @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+        .navlist {
+            background: var(--glass-fill-strong);
+            backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+            -webkit-backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+        }
     }
 
     [data-theme="dark"] .navlist {
-        background: var(--surface-elevated);
         border-color: var(--border-subtle);
-        box-shadow: var(--shadow-lg);
     }
 
     .navlist.open {
@@ -225,7 +267,6 @@
         transition: all 0.2s ease;
     }
 
-    .navlist a:hover,
     .navlist a.active {
         background: var(--paper-card);
         color: var(--ink);
@@ -240,12 +281,27 @@
         color: var(--ink-muted);
     }
 
-    .navlist a:hover svg,
-    .navlist a:hover i,
     .navlist a.active svg,
     .navlist a.active i {
         color: var(--teal);
     }
+}
+
+@media (max-width: 1024px) and (hover: hover) and (pointer: fine) {
+    .navlist a:hover {
+        background: var(--paper-card);
+        color: var(--ink);
+        border-left-color: var(--teal);
+        padding-left: 1.1rem;
+    }
+
+    .navlist a:hover svg,
+    .navlist a:hover i {
+        color: var(--teal);
+    }
+}
+
+@media (max-width: 1024px) {
 
     .sidebar-foot {
         display: none;
@@ -277,11 +333,6 @@
         transition: transform 0.2s var(--apple-ease), border-color 0.2s ease;
     }
 
-    .mobile-theme-toggle:hover {
-        border-color: var(--teal);
-        transform: scale(1.05);
-    }
-
     .mobile-theme-toggle svg {
         width: 17px;
         height: 17px;
@@ -293,10 +344,6 @@
 
     .mobile-theme-toggle .moon-icon {
         transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .mobile-theme-toggle:hover .moon-icon {
-        transform: rotate(360deg);
     }
 
     .mobile-theme-toggle .sun-icon {
@@ -329,11 +376,6 @@
         transition: transform 0.2s var(--apple-ease), border-color 0.2s ease, background-color 0.2s ease;
     }
 
-    .mobile-toggle-btn:hover {
-        border-color: var(--teal);
-        transform: scale(1.05);
-    }
-
     .mobile-toggle-btn svg {
         width: 18px;
         height: 18px;
@@ -357,16 +399,34 @@
         color: var(--text-on-primary);
         border-color: var(--teal);
     }
+}
 
-    /* Offset for Top Sticky Bar */
+@media (max-width: 1024px) and (hover: hover) and (pointer: fine) {
+    .mobile-theme-toggle:hover {
+        border-color: var(--teal);
+        transform: scale(1.05);
+    }
+
+    .mobile-theme-toggle:hover .moon-icon {
+        transform: rotate(360deg);
+    }
+
+    .mobile-toggle-btn:hover {
+        border-color: var(--teal);
+        transform: scale(1.05);
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Offset for Top Sticky Bar (safe-area aware) */
     .main-content {
-        margin-top: 60px;
+        margin-top: calc(60px + env(safe-area-inset-top));
         width: 100%;
     }
 
     header.top-vitals {
         position: sticky;
-        top: 60px;
+        top: calc(60px + env(safe-area-inset-top));
         z-index: 900;
         height: 44px;
         padding: 0;
@@ -704,5 +764,89 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* =========================================
+   10. Safe-Area Insets for Fixed Floating Controls (notched devices)
+   ========================================= */
+.back-to-top-btn {
+    bottom: max(28px, calc(env(safe-area-inset-bottom) + 14px));
+    right: max(28px, calc(env(safe-area-inset-right) + 14px));
+}
+
+.toast {
+    bottom: max(28px, calc(env(safe-area-inset-bottom) + 12px));
+}
+
+.pwa-install-banner {
+    bottom: max(20px, calc(env(safe-area-inset-bottom) + 8px));
+}
+
+@media (max-width: 768px) {
+    .back-to-top-btn {
+        bottom: max(20px, calc(env(safe-area-inset-bottom) + 10px));
+        right: max(20px, calc(env(safe-area-inset-right) + 10px));
+    }
+}
+
+/* =========================================
+   11. Touch Target Sizing (coarse pointer only - keeps mouse UI compact)
+   ========================================= */
+@media (pointer: coarse) {
+
+    .filter-btn,
+    .chip {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .mobile-theme-toggle,
+    .mobile-toggle-btn,
+    .cert-modal-close,
+    .citation-close-btn,
+    .back-hub,
+    .back-to-top-btn,
+    .pwa-dismiss-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* =========================================
+   12. Disable Expensive Glass Below 640px (mobile GPUs render it poorly)
+   ========================================= */
+@media (max-width: 640px) {
+
+    .vitals-status,
+    .toast,
+    .back-to-top-btn,
+    .pwa-install-banner,
+    .mobile-backdrop,
+    .navlist {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .vitals-status,
+    .toast,
+    .back-to-top-btn,
+    .pwa-install-banner {
+        background: var(--paper-card) !important;
+    }
+
+    nav.sidebar {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: var(--sidebar-bg) !important;
+    }
+
+    .mobile-backdrop {
+        background: var(--backdrop-overlay) !important;
+    }
+
+    .navlist {
+        background: var(--paper-raised) !important;
     }
 }

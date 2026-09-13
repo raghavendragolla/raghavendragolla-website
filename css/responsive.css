@@ -4,9 +4,40 @@
    ========================================================================== */
 
 /* =========================================
-   1. Ultra-Wide & 4K Displays (1600px+)
+   Unified Breakpoint Ladder (shared with /portfolio):
+   >=2560 ultrawide cap  |  >=1920 large desktop  |  base = 1441+ desktop
+   <=1440 <=1280 <=1024 <=768 <=640 <=480 <=360
    ========================================= */
-@media (min-width: 1600px) {
+
+/* =========================================
+   0. Safe-Area Insets (notched devices - requires viewport-fit=cover)
+   ========================================= */
+.toast {
+    bottom: max(30px, calc(env(safe-area-inset-bottom) + 12px));
+}
+
+.pwa-install-banner {
+    bottom: max(20px, calc(env(safe-area-inset-bottom) + 8px));
+}
+
+.thoughts-panel {
+    padding-right: env(safe-area-inset-right);
+}
+
+/* =========================================
+   1a. Ultrawide Displays (2560px+) - cap content width, do not stretch
+   ========================================= */
+@media (min-width: 2560px) {
+    main {
+        max-width: 1800px;
+        margin: 0 auto;
+    }
+}
+
+/* =========================================
+   1b. Large Desktop Displays (1920px+)
+   ========================================= */
+@media (min-width: 1920px) {
     .vitals-container {
         padding-left: 32px;
         padding-right: 80px;
@@ -65,7 +96,7 @@
 }
 
 /* =========================================
-   2. Desktop / Standard Laptops (1200px - 1440px)
+   2. Desktop (<=1440px)
    ========================================= */
 @media (max-width: 1440px) {
     h1 {
@@ -73,7 +104,7 @@
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
     .vitals-text-desktop,
     .vitals-sep-opportunities {
         display: none;
@@ -115,7 +146,7 @@
 }
 
 /* =========================================
-   3. Tablets & Small Laptops (769px - 1024px)
+   3. Tablet Landscape / Small Laptop (<=1024px)
    ========================================= */
 @media (max-width: 1024px) {
     .vitals-container {
@@ -130,6 +161,7 @@
     }
 
     .highlights-grid {
+        grid-template-columns: repeat(3, 1fr);
         max-width: 760px;
         gap: 14px;
     }
@@ -158,9 +190,11 @@
     }
 }
 
+/* Narrower slice of the tablet-landscape tier (<=900px, still >768px):
+   the 3-column highlight grid needs to tighten further before it
+   collapses to 1-column at the 768px tier. */
 @media (max-width: 900px) {
     .highlights-grid {
-        grid-template-columns: repeat(3, 1fr);
         max-width: 700px;
         gap: 12px;
     }
@@ -193,7 +227,7 @@
 }
 
 /* =========================================
-   4. Phablets & Mobile Landscape (600px - 768px)
+   4. Tablet Portrait (<=768px)
    ========================================= */
 @media (max-width: 768px) {
     body {
@@ -220,11 +254,15 @@
         width: 36px;
         height: 36px;
     }
+}
 
+@media (max-width: 768px) and (hover: hover) and (pointer: fine) {
     .theme-toggle:hover {
         transform: translateY(-50%) scale(1.08) !important;
     }
+}
 
+@media (max-width: 768px) {
     .thoughts-floating-btn {
         bottom: 18px;
         right: 16px;
@@ -424,7 +462,24 @@
 }
 
 /* =========================================
-   5. Standard Smartphones (376px - 480px)
+   4b. Large Phone (<=640px) - bridges tablet portrait and phone tiers
+   ========================================= */
+@media (max-width: 640px) {
+    .highlights-grid {
+        gap: 12px;
+    }
+
+    .specs-bar {
+        padding: 17px 19px;
+    }
+
+    .skills-section {
+        gap: 8px;
+    }
+}
+
+/* =========================================
+   5. Phone (<=480px)
    ========================================= */
 @media (max-width: 480px) {
     .theme-toggle {
@@ -433,10 +488,6 @@
         right: 10px;
         width: 34px;
         height: 34px;
-    }
-
-    .theme-toggle:hover {
-        transform: translateY(-50%) scale(1.08) !important;
     }
 
     .vitals-clock,
@@ -604,10 +655,16 @@
     }
 }
 
+@media (max-width: 480px) and (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover {
+        transform: translateY(-50%) scale(1.08) !important;
+    }
+}
+
 /* =========================================
-   6. Small & Compact Phones (320px - 375px)
+   6. Small Phone / Folded Devices (<=360px) - floor tested down to 320px
    ========================================= */
-@media (max-width: 375px) {
+@media (max-width: 360px) {
     .vitals-container {
         padding-left: 8px;
         padding-right: 42px;
@@ -628,11 +685,15 @@
         width: 32px;
         height: 32px;
     }
+}
 
+@media (max-width: 360px) and (hover: hover) and (pointer: fine) {
     .theme-toggle:hover {
         transform: translateY(-50%) scale(1.08) !important;
     }
+}
 
+@media (max-width: 360px) {
     .thoughts-floating-btn {
         bottom: 14px;
         right: 12px;
@@ -792,5 +853,68 @@
     .ambient-glow-1,
     .ambient-glow-2 {
         animation: none !important;
+    }
+}
+
+/* =========================================
+   9. Touch Target Sizing (coarse pointer only - keeps mouse UI compact)
+   ========================================= */
+@media (pointer: coarse) {
+    .skill-chip {
+        min-height: 44px;
+        padding-top: 0;
+        padding-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .theme-toggle,
+    .social-link,
+    .thoughts-close-btn,
+    .pwa-dismiss-btn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .footer-thoughts-btn,
+    .footer-link {
+        min-height: 44px;
+    }
+}
+
+/* =========================================
+   10. Disable Expensive Glass Below 640px (mobile GPUs render it poorly)
+   ========================================= */
+@media (max-width: 640px) {
+
+    .theme-toggle,
+    .social-link,
+    .vitals-status,
+    .pwa-install-banner {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: var(--paper-card) !important;
+    }
+}
+
+/* =========================================
+   11. High-Contrast / Forced-Colors Mode
+   ========================================= */
+@media (forced-colors: active) {
+
+    .highlight-card,
+    .specs-bar,
+    footer,
+    .enter,
+    .theme-toggle,
+    .social-link {
+        border: 1px solid CanvasText;
+        forced-color-adjust: none;
+        background: Canvas;
+        color: CanvasText;
+    }
+
+    :focus-visible {
+        outline: 2px solid Highlight;
     }
 }

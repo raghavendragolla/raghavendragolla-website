@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
-        const isMobile = window.innerWidth <= 768;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const particleCount = isMobile ? 32 : 65;
         const maxDistance = isMobile ? 95 : 140;
 
@@ -757,7 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
 
     const isAppStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches;
 
     function displayInstallBanner() {
         if (!pwaInstallBanner || isAppStandalone) return;

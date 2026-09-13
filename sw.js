@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v11.0';
+const ASSET_VERSION = 'v12.0';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const PRECACHE_ASSETS = [

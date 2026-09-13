@@ -178,12 +178,19 @@ nav.sidebar {
     flex-direction: column;
     justify-content: space-between;
     background: var(--sidebar-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     border-right: 1px solid var(--line);
+    box-shadow: var(--glass-specular);
     transition: var(--transition-theme);
     z-index: 20;
     overflow-y: auto;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    nav.sidebar {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+    }
 }
 
 .sidebar-top {
@@ -208,11 +215,18 @@ nav.sidebar {
     transition: all 0.25s var(--apple-ease);
 }
 
-.back-hub:hover {
+@media (hover: hover) and (pointer: fine) {
+    .back-hub:hover {
+        background: var(--teal);
+        color: var(--text-on-primary);
+        transform: translateX(-3px);
+        box-shadow: 0 4px 12px var(--teal-glow);
+    }
+}
+
+.back-hub:active {
     background: var(--teal);
     color: var(--text-on-primary);
-    transform: translateX(-3px);
-    box-shadow: 0 4px 12px var(--teal-glow);
 }
 
 .back-hub svg {
@@ -310,17 +324,25 @@ nav.sidebar {
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.navlist a:hover {
+@media (hover: hover) and (pointer: fine) {
+    .navlist a:hover {
+        color: var(--ink);
+        background: var(--paper-card);
+        border-left-color: var(--teal);
+        padding-left: 0.9rem;
+    }
+
+    .navlist a:hover svg,
+    .navlist a:hover i {
+        color: var(--teal);
+        transform: scale(1.1);
+    }
+}
+
+.navlist a:active {
     color: var(--ink);
     background: var(--paper-card);
     border-left-color: var(--teal);
-    padding-left: 0.9rem;
-}
-
-.navlist a:hover svg,
-.navlist a:hover i {
-    color: var(--teal);
-    transform: scale(1.1);
 }
 
 .navlist a.active {
@@ -414,10 +436,16 @@ nav.sidebar {
     transition: all 0.25s var(--apple-ease);
 }
 
-.theme-toggle-sidebar:hover {
-    border-color: var(--teal);
-    box-shadow: 0 4px 14px var(--teal-glow);
-    transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+    .theme-toggle-sidebar:hover {
+        border-color: var(--teal);
+        box-shadow: 0 4px 14px var(--teal-glow);
+        transform: translateY(-1px);
+    }
+
+    .theme-toggle-sidebar:hover .moon-icon {
+        transform: rotate(360deg);
+    }
 }
 
 .theme-toggle-sidebar svg {
@@ -434,10 +462,6 @@ nav.sidebar {
     animation: moonColorBlinkCycle 8s ease-in-out infinite;
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     will-change: stroke, filter, opacity, transform;
-}
-
-.theme-toggle-sidebar:hover .moon-icon {
-    transform: rotate(360deg);
 }
 
 .theme-toggle-sidebar .sun-icon {
@@ -478,14 +502,21 @@ header.top-vitals {
     z-index: 15;
     width: 100%;
     background: var(--sidebar-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
+    box-shadow: var(--glass-specular);
     display: flex;
     align-items: center;
     height: 48px;
     padding: 0;
     transition: var(--transition-theme);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    header.top-vitals {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+    }
 }
 
 .vitals-container {
@@ -572,10 +603,16 @@ header.top-vitals {
     padding: 3.5px 12px;
     border-radius: var(--radius-full);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--card-shadow), var(--glass-specular);
     white-space: nowrap;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .vitals-status {
+        background: var(--glass-fill);
+        backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+    }
 }
 
 .vitals-dot {
@@ -659,15 +696,15 @@ section:last-of-type {
     font-weight: 500;
     color: var(--teal);
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     margin-bottom: 1.2rem;
     transition: var(--transition-fast);
 }
 
-.status-badge:hover {
-    border-color: var(--teal);
-    box-shadow: 0 4px 16px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .status-badge:hover {
+        border-color: var(--teal);
+        box-shadow: 0 4px 16px var(--teal-glow);
+    }
 }
 
 .badge-sparkle {
@@ -762,12 +799,14 @@ h1.hero-title em {
     border-color: var(--btn-primary-bg);
 }
 
-.btn.primary:hover {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: var(--text-on-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .btn.primary:hover {
+        background: var(--teal);
+        border-color: var(--teal);
+        color: var(--text-on-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px var(--teal-glow);
+    }
 }
 
 .btn:active {
@@ -778,15 +817,15 @@ h1.hero-title em {
     background: var(--paper-card);
     color: var(--ink);
     border: 1px solid var(--line);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
 }
 
-.btn.ghost:hover {
-    border-color: var(--orange);
-    color: var(--orange);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px var(--orange-soft);
+@media (hover: hover) and (pointer: fine) {
+    .btn.ghost:hover {
+        border-color: var(--orange);
+        color: var(--orange);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px var(--orange-soft);
+    }
 }
 
 /* Hero Stats Strip */
@@ -802,16 +841,16 @@ h1.hero-title em {
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
     padding: 1.2rem 1.3rem;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     box-shadow: var(--card-shadow);
     transition: all 0.25s var(--apple-ease);
 }
 
-.stat-box:hover {
-    border-color: var(--teal);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .stat-box:hover {
+        border-color: var(--teal);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px var(--teal-glow);
+    }
 }
 
 .stat-box .num {
@@ -860,7 +899,6 @@ h1.hero-title em {
     margin: 1.8rem 0;
     border-radius: 0 var(--radius-md) var(--radius-md) 0;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(8px);
     text-align: justify;
     text-justify: inter-word;
 }
@@ -883,14 +921,14 @@ h1.hero-title em {
     padding: 1.6rem;
     border-radius: var(--radius-lg);
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     transition: all 0.3s var(--apple-ease);
 }
 
-.profile-summary:hover {
-    border-color: var(--teal);
-    box-shadow: var(--card-hover-shadow);
+@media (hover: hover) and (pointer: fine) {
+    .profile-summary:hover {
+        border-color: var(--teal);
+        box-shadow: var(--card-hover-shadow);
+    }
 }
 
 .profile-summary h3 {
@@ -949,15 +987,15 @@ h1.hero-title em {
     padding: 1.5rem;
     border-radius: var(--radius-lg);
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     transition: all 0.3s var(--apple-ease);
 }
 
-.skill-group:hover {
-    border-color: var(--teal);
-    transform: translateY(-4px);
-    box-shadow: var(--card-hover-shadow);
+@media (hover: hover) and (pointer: fine) {
+    .skill-group:hover {
+        border-color: var(--teal);
+        transform: translateY(-4px);
+        box-shadow: var(--card-hover-shadow);
+    }
 }
 
 .skill-group h3 {
@@ -994,12 +1032,20 @@ h1.hero-title em {
     gap: 0.4rem;
 }
 
-.chip:hover {
+@media (hover: hover) and (pointer: fine) {
+    .chip:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+        background: var(--teal-subtle);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--teal-glow);
+    }
+}
+
+.chip:active {
     border-color: var(--teal);
     color: var(--teal);
     background: var(--teal-subtle);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--teal-glow);
 }
 
 .chip.active {
@@ -1031,8 +1077,6 @@ h1.hero-title em {
     background: var(--paper-card);
     color: var(--ink-soft);
     cursor: pointer;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     transition: all 0.22s var(--apple-ease);
     display: inline-flex;
     align-items: center;
@@ -1054,10 +1098,12 @@ h1.hero-title em {
     transition: all 0.2s ease;
 }
 
-.filter-btn:hover {
-    color: var(--ink);
-    border-color: var(--teal);
-    transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+    .filter-btn:hover {
+        color: var(--ink);
+        border-color: var(--teal);
+        transform: translateY(-1px);
+    }
 }
 
 .filter-btn:active {
@@ -1094,16 +1140,16 @@ h1.hero-title em {
     justify-content: space-between;
     gap: 1.2rem;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     transition: transform 0.3s var(--apple-ease), box-shadow 0.3s var(--apple-ease), border-color 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-.project-card:hover {
-    border-color: var(--teal);
-    box-shadow: var(--card-hover-shadow);
+@media (hover: hover) and (pointer: fine) {
+    .project-card:hover {
+        border-color: var(--teal);
+        box-shadow: var(--card-hover-shadow);
+    }
 }
 
 .project-top {
@@ -1211,6 +1257,7 @@ h1.hero-title em {
     color: var(--ink-soft);
     text-align: justify;
     text-justify: inter-word;
+    overflow-wrap: anywhere;
 }
 
 /* Stack Row */
@@ -1275,9 +1322,11 @@ h1.hero-title em {
     text-underline-offset: 4px;
 }
 
-.project-links a:hover {
-    color: var(--orange);
-    text-decoration-color: var(--orange);
+@media (hover: hover) and (pointer: fine) {
+    .project-links a:hover {
+        color: var(--orange);
+        text-decoration-color: var(--orange);
+    }
 }
 
 /* =========================================
@@ -1295,14 +1344,14 @@ h1.hero-title em {
     gap: 1.5rem;
     flex-wrap: wrap;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     transition: all 0.3s var(--apple-ease);
 }
 
-.resume-box:hover {
-    border-color: var(--teal);
-    box-shadow: var(--card-hover-shadow);
+@media (hover: hover) and (pointer: fine) {
+    .resume-box:hover {
+        border-color: var(--teal);
+        box-shadow: var(--card-hover-shadow);
+    }
 }
 
 .resume-box .left h3 {
@@ -1335,15 +1384,15 @@ h1.hero-title em {
     grid-template-columns: 140px 1fr;
     gap: 1.5rem;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     transition: all 0.25s var(--apple-ease);
 }
 
-.timeline li:hover {
-    border-color: var(--teal);
-    transform: translateX(4px);
-    box-shadow: 0 6px 20px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .timeline li:hover {
+        border-color: var(--teal);
+        transform: translateX(4px);
+        box-shadow: 0 6px 20px var(--teal-glow);
+    }
 }
 
 .timeline .when {
@@ -1388,16 +1437,16 @@ h1.hero-title em {
     display: flex;
     flex-direction: column;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     transform: none !important;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.cert-card:hover {
-    border-color: var(--teal);
-    box-shadow: 0 8px 24px var(--teal-glow);
-    transform: none !important;
+@media (hover: hover) and (pointer: fine) {
+    .cert-card:hover {
+        border-color: var(--teal);
+        box-shadow: 0 8px 24px var(--teal-glow);
+        transform: none !important;
+    }
 }
 
 /* Certificate Media Frame (Clean static frame, 100% visible, no crop, no movement) */
@@ -1522,10 +1571,12 @@ h1.hero-title em {
     transition: all 0.2s ease;
 }
 
-.cert-tags span:hover {
-    border-color: var(--teal);
-    color: var(--teal);
-    background: var(--paper-card);
+@media (hover: hover) and (pointer: fine) {
+    .cert-tags span:hover {
+        border-color: var(--teal);
+        color: var(--teal);
+        background: var(--paper-card);
+    }
 }
 
 .cert-actions {
@@ -1566,9 +1617,14 @@ h1.hero-title em {
     position: absolute;
     inset: 0;
     background: var(--backdrop-overlay);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     cursor: pointer;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .cert-modal-backdrop {
+        backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+    }
 }
 
 .cert-modal-dialog {
@@ -1612,10 +1668,17 @@ h1.hero-title em {
     transition: all 0.2s var(--apple-ease);
 }
 
-.cert-modal-close:hover {
+@media (hover: hover) and (pointer: fine) {
+    .cert-modal-close:hover {
+        background: var(--teal);
+        color: var(--text-on-primary);
+        transform: rotate(90deg);
+    }
+}
+
+.cert-modal-close:active {
     background: var(--teal);
     color: var(--text-on-primary);
-    transform: rotate(90deg);
 }
 
 .cert-modal-content {
@@ -1656,9 +1719,11 @@ h1.hero-title em {
     transition: color 0.2s ease;
 }
 
-.modal-verify-btn:hover {
-    color: var(--teal-hover);
-    text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+    .modal-verify-btn:hover {
+        color: var(--teal-hover);
+        text-decoration: underline;
+    }
 }
 
 /* =========================================
@@ -1697,16 +1762,20 @@ h1.hero-title em {
     flex-direction: column;
     gap: 0.4rem;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     transition: all 0.25s var(--apple-ease);
     cursor: pointer;
 }
 
-.contact-card:hover {
+@media (hover: hover) and (pointer: fine) {
+    .contact-card:hover {
+        border-color: var(--teal);
+        transform: translateY(-3px);
+        box-shadow: var(--card-hover-shadow);
+    }
+}
+
+.contact-card:active {
     border-color: var(--teal);
-    transform: translateY(-3px);
-    box-shadow: var(--card-hover-shadow);
 }
 
 .contact-card .k {
@@ -1730,6 +1799,7 @@ h1.hero-title em {
     font-size: 0.94rem;
     color: var(--ink);
     word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .contact-card .v a {
@@ -1739,9 +1809,11 @@ h1.hero-title em {
     transition: color 0.2s ease;
 }
 
-.contact-card .v a:hover {
-    color: var(--orange);
-    text-decoration-color: var(--orange);
+@media (hover: hover) and (pointer: fine) {
+    .contact-card .v a:hover {
+        color: var(--orange);
+        text-decoration-color: var(--orange);
+    }
 }
 
 /* Fast Response Status Card */
@@ -1753,8 +1825,6 @@ h1.hero-title em {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
 }
 
 .status-pulse-dot {
@@ -1807,8 +1877,6 @@ h1.hero-title em {
     border-radius: var(--radius-lg);
     padding: 2rem 2.2rem;
     box-shadow: var(--card-shadow);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1929,8 +1997,10 @@ h1.hero-title em {
     font-size: 0.88rem;
 }
 
-.form-input:hover {
-    border-color: var(--border);
+@media (hover: hover) and (pointer: fine) {
+    .form-input:hover {
+        border-color: var(--border);
+    }
 }
 
 .form-input:focus {
@@ -2010,10 +2080,16 @@ h1.hero-title em {
     transition: all 0.25s var(--apple-ease);
 }
 
-.btn-submit:hover:not(:disabled) {
-    background: var(--primary-hover);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+    .btn-submit:hover:not(:disabled) {
+        background: var(--primary-hover);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .btn-submit:hover .btn-icon {
+        transform: translateX(2px) translateY(-2px);
+    }
 }
 
 .btn-submit:active:not(:disabled) {
@@ -2029,10 +2105,6 @@ h1.hero-title em {
     width: 16px;
     height: 16px;
     transition: transform 0.2s ease;
-}
-
-.btn-submit:hover .btn-icon {
-    transform: translateX(2px) translateY(-2px);
 }
 
 .btn-spinner {
@@ -2091,8 +2163,6 @@ h1.hero-title em {
     text-align: center;
     gap: 0.8rem;
     background: var(--sidebar-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
 }
 
 .footer-copy {
@@ -2114,9 +2184,11 @@ h1.hero-title em {
     transition: color 0.2s ease;
 }
 
-.footer-links a:hover {
-    color: var(--orange);
-    text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+    .footer-links a:hover {
+        color: var(--orange);
+        text-decoration: underline;
+    }
 }
 
 /* =========================================
@@ -2140,13 +2212,19 @@ h1.hero-title em {
     font-weight: 500;
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-full);
-    box-shadow: var(--shadow-md);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-md), var(--glass-specular);
     pointer-events: auto;
     cursor: pointer;
     opacity: 0;
     transition: all 0.3s var(--apple-ease);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .toast {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+    }
 }
 
 .toast.show {
@@ -2187,10 +2265,8 @@ h1.hero-title em {
     height: 44px;
     border-radius: 50%;
     background: var(--paper-card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--line);
-    box-shadow: var(--card-shadow);
+    box-shadow: var(--card-shadow), var(--glass-specular);
     color: var(--ink);
     display: flex;
     align-items: center;
@@ -2203,18 +2279,34 @@ h1.hero-title em {
     transition: all 0.28s var(--apple-ease);
 }
 
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .back-to-top-btn {
+        background: var(--glass-fill);
+        backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+    }
+}
+
 .back-to-top-btn.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
 }
 
-.back-to-top-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+    .back-to-top-btn:hover {
+        background: var(--teal);
+        color: var(--text-on-primary);
+        border-color: var(--teal);
+        transform: translateY(-3px) scale(1.06);
+        box-shadow: 0 10px 24px var(--teal-glow);
+    }
+}
+
+.back-to-top-btn:active {
     background: var(--teal);
     color: var(--text-on-primary);
     border-color: var(--teal);
-    transform: translateY(-3px) scale(1.06);
-    box-shadow: 0 10px 24px var(--teal-glow);
 }
 
 @media (max-width: 768px) {
@@ -2245,12 +2337,14 @@ h1.hero-title em {
     transition: all 0.22s var(--apple-ease);
 }
 
-.btn-paper-cite:hover {
-    background: var(--teal);
-    color: var(--text-on-primary);
-    border-color: var(--teal);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .btn-paper-cite:hover {
+        background: var(--teal);
+        color: var(--text-on-primary);
+        border-color: var(--teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px var(--teal-glow);
+    }
 }
 
 .btn-paper-cite:active {
@@ -2291,8 +2385,13 @@ h1.hero-title em {
     width: 100%;
     height: 100%;
     background: var(--backdrop-overlay);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .citation-backdrop {
+        backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-sm) var(--glass-saturation);
+    }
 }
 
 .citation-dialog {
@@ -2305,12 +2404,18 @@ h1.hero-title em {
     background: var(--paper-card-hover);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    box-shadow: var(--shadow-lg), var(--glass-specular);
     padding: 2rem;
     transform: scale(0.95) translateY(16px);
     transition: transform 0.35s var(--apple-ease);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .citation-dialog {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+    }
 }
 
 .citation-modal.active .citation-dialog {
@@ -2368,10 +2473,17 @@ h1.hero-title em {
     flex-shrink: 0;
 }
 
-.citation-close-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+    .citation-close-btn:hover {
+        background: var(--hover-bg);
+        color: var(--hover-text);
+        transform: rotate(90deg);
+    }
+}
+
+.citation-close-btn:active {
     background: var(--hover-bg);
     color: var(--hover-text);
-    transform: rotate(90deg);
 }
 
 .citation-body {
@@ -2443,9 +2555,11 @@ h1.hero-title em {
     transition: all 0.2s ease;
 }
 
-.btn-copy-bibtex:hover {
-    background: var(--teal);
-    color: var(--text-on-primary);
+@media (hover: hover) and (pointer: fine) {
+    .btn-copy-bibtex:hover {
+        background: var(--teal);
+        color: var(--text-on-primary);
+    }
 }
 
 .btn-copy-bibtex:active {
@@ -2463,6 +2577,7 @@ h1.hero-title em {
     border-radius: var(--radius-md);
     padding: 1rem;
     overflow-x: auto;
+    overflow-wrap: anywhere;
     font-family: var(--font-mono);
     font-size: 0.78rem;
     line-height: 1.6;
@@ -2487,10 +2602,8 @@ h1.hero-title em {
     width: calc(100% - 32px);
     max-width: 440px;
     background: var(--paper-card);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
     border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg), var(--glass-specular);
     border-radius: var(--radius-lg);
     padding: 12px 16px;
     display: flex;
@@ -2501,6 +2614,14 @@ h1.hero-title em {
     transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     opacity: 0;
     pointer-events: none;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .pwa-install-banner {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+    }
 }
 
 .pwa-install-banner.show {
@@ -2576,10 +2697,12 @@ h1.hero-title em {
     transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pwa-install-btn:hover {
-    background: var(--primary-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px var(--teal-glow);
+@media (hover: hover) and (pointer: fine) {
+    .pwa-install-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px var(--teal-glow);
+    }
 }
 
 .pwa-install-btn:active {
@@ -2600,10 +2723,16 @@ h1.hero-title em {
     transition: all 0.2s ease;
 }
 
-.pwa-dismiss-btn:hover {
-    color: var(--ink);
-    background: var(--line-subtle);
-    border-color: var(--ink-muted);
+@media (hover: hover) and (pointer: fine) {
+    .pwa-dismiss-btn:hover {
+        color: var(--ink);
+        background: var(--line-subtle);
+        border-color: var(--ink-muted);
+    }
+}
+
+.pwa-dismiss-btn:active {
+    transform: scale(0.94);
 }
 
 /* Accessibility & Focus Indicators */

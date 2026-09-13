@@ -13,6 +13,7 @@ test.describe('Accessibility Scans & Keyboard Audits (@axe-core/playwright)', ()
     test(`${pageInfo.name} has no detectable a11y violations in Light Mode`, async ({ page }) => {
       await page.goto(pageInfo.url);
       await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
+      await page.waitForTimeout(600);
 
       const accessibilityScanResults = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -24,6 +25,7 @@ test.describe('Accessibility Scans & Keyboard Audits (@axe-core/playwright)', ()
     test(`${pageInfo.name} has no detectable a11y violations in Dark Mode`, async ({ page }) => {
       await page.goto(pageInfo.url);
       await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+      await page.waitForTimeout(600);
 
       const accessibilityScanResults = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

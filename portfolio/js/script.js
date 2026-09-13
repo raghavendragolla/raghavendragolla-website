@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let width, height;
         let particles = [];
-        const isMobile = window.innerWidth <= 768;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const particleCount = isMobile ? 30 : 60;
         const maxDistance = isMobile ? 90 : 135;
 
@@ -624,9 +624,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close when resizing back to desktop screen
+        // Close when resizing back to desktop screen (matches the sidebar
+        // breakpoint in portfolio/css/responsive.css: max-width: 1024px)
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 992) {
+            if (!window.matchMedia('(max-width: 1024px)').matches) {
                 closeMenu();
             }
         });
@@ -993,7 +994,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
 
     const isAppStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches;
 
     function displayInstallBanner() {
         if (!pwaInstallBanner || isAppStandalone) return;
