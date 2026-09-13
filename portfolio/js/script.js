@@ -1336,4 +1336,154 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateValuation();
     })();
 
+
+    // ====================================================
+    // IBM Data Analyst Capstone - Interactive Tech Comparator Engine
+    // ====================================================
+    (function initCapstoneComparator() {
+        const expInput = document.getElementById('capstoneExpInput');
+        const expDisplay = document.getElementById('capstoneExpDisplay');
+        const presetBtns = document.querySelectorAll('#capstoneTechPresets .preset-pill');
+
+        const devShareDisplay = document.getElementById('capstoneDevShare');
+        const devCountDisplay = document.getElementById('capstoneDevCount');
+        const jobCountDisplay = document.getElementById('capstoneJobCount');
+        const jobShareDisplay = document.getElementById('capstoneJobShare');
+        const salaryValDisplay = document.getElementById('capstoneSalaryVal');
+        const salarySubDisplay = document.getElementById('capstoneSalarySub');
+        const momentumValDisplay = document.getElementById('capstoneMomentumVal');
+        const categoryValDisplay = document.getElementById('capstoneCategoryVal');
+        const insightTextDisplay = document.getElementById('capstoneInsightText');
+
+        if (!expInput || !presetBtns.length || !devShareDisplay) return;
+
+        let activeTech = 'python';
+
+        const techData = {
+            python: {
+                name: 'Python',
+                devShare: '39.9%',
+                devCount: '4,548 respondents',
+                jobCount: '1,171',
+                jobShare: '4.3% of postings',
+                baseSalary: 72000,
+                expCoeff: 5800,
+                momentum: '+46.0%',
+                category: 'Growth Leader',
+                insight: '<strong>Strategic Growth Driver:</strong> Python demonstrates the highest net desire expansion (+46.0%) across all general-purpose languages. Critical anchor competency across Data Analytics, Machine Learning, and backend architectures.'
+            },
+            sql: {
+                name: 'SQL',
+                devShare: '62.3%',
+                devCount: '7,106 respondents',
+                jobCount: '2,216',
+                jobShare: '8.2% of postings',
+                baseSalary: 66000,
+                expCoeff: 4900,
+                momentum: '0.96x Ratio',
+                category: 'Enterprise Core',
+                insight: '<strong>Universal Data Foundation:</strong> Required across 62.3% of survey respondents and 8.2% of all mined job postings. Consistent enterprise salary stability across both transactional and warehouse analytics.'
+            },
+            javascript: {
+                name: 'JavaScript',
+                devShare: '76.2%',
+                devCount: '8,687 respondents',
+                jobCount: '2,246',
+                jobShare: '8.3% of postings',
+                baseSalary: 68000,
+                expCoeff: 5200,
+                momentum: '0.84x Saturation',
+                category: 'Fullstack Standard',
+                insight: '<strong>Ubiquitous Baseline:</strong> Most widely adopted language across respondents (76.2%). Unmatched frontend ubiquity with consistent enterprise hiring velocity and steady mid-career compensation scaling.'
+            },
+            postgres: {
+                name: 'PostgreSQL',
+                devShare: '35.9%',
+                devCount: '4,092 respondents',
+                jobCount: '1,048',
+                jobShare: '3.9% of postings',
+                baseSalary: 74000,
+                expCoeff: 5700,
+                momentum: '+6.0% (#1 Desired)',
+                category: '#1 Desired Database',
+                insight: '<strong>Modern Database Standard:</strong> Ranked as the #1 most desired database in the developer survey (38.0% desire), overtaking legacy relational engines as the primary cloud database architecture.'
+            },
+            go: {
+                name: 'Go',
+                devShare: '9.8%',
+                devCount: '1,117 respondents',
+                jobCount: '842',
+                jobShare: '3.1% of postings',
+                baseSalary: 82000,
+                expCoeff: 6200,
+                momentum: '+88.0% Momentum',
+                category: 'High-Demand Cloud',
+                insight: '<strong>Elite Growth Momentum:</strong> Demonstrates high salary scaling ($121k+ average in senior cohorts) and an +88% growth trajectory driven by Kubernetes, microservices, and high-concurrency cloud engineering.'
+            },
+            docker: {
+                name: 'Docker',
+                devShare: '42.5%',
+                devCount: '4,844 respondents',
+                jobCount: '1,874',
+                jobShare: '6.9% of postings',
+                baseSalary: 76000,
+                expCoeff: 5600,
+                momentum: '+36.5% Net Gain',
+                category: 'DevOps Standard',
+                insight: '<strong>Containerization Standard:</strong> Dominates developer container infrastructure. High correlation with senior engineering pay grades and modern MLOps / Cloud Data deployment pipelines.'
+            }
+        };
+
+        function updateComparator() {
+            const expYears = parseInt(expInput.value, 10);
+            const data = techData[activeTech] || techData.python;
+
+            // Update Experience Label
+            let tierText = 'Junior';
+            if (expYears >= 15) tierText = 'Principal / Lead';
+            else if (expYears >= 8) tierText = 'Senior Specialist';
+            else if (expYears >= 4) tierText = 'Mid-Level';
+
+            if (expDisplay) {
+                expDisplay.textContent = `${expYears} ${expYears === 1 ? 'Year' : 'Years'} (${tierText})`;
+            }
+
+            // Calculate Projected Salary
+            const projectedSalary = data.baseSalary + (expYears * data.expCoeff);
+            if (salaryValDisplay) {
+                salaryValDisplay.textContent = '$' + projectedSalary.toLocaleString();
+            }
+            if (salarySubDisplay) {
+                salarySubDisplay.textContent = `${tierText} Benchmark`;
+            }
+
+            // Update Static Tech Stats
+            if (devShareDisplay) devShareDisplay.textContent = data.devShare;
+            if (devCountDisplay) devCountDisplay.textContent = data.devCount;
+            if (jobCountDisplay) jobCountDisplay.textContent = data.jobCount;
+            if (jobShareDisplay) jobShareDisplay.textContent = data.jobShare;
+            if (momentumValDisplay) momentumValDisplay.textContent = data.momentum;
+            if (categoryValDisplay) categoryValDisplay.textContent = data.category;
+            if (insightTextDisplay) insightTextDisplay.innerHTML = data.insight;
+        }
+
+        expInput.addEventListener('input', updateComparator);
+
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                presetBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                activeTech = btn.getAttribute('data-tech') || 'python';
+                updateComparator();
+            });
+        });
+
+        updateComparator();
+    })();
+
 });
