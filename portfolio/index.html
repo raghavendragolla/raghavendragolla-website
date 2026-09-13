@@ -109,6 +109,15 @@
       },
       {
         "@type": "SoftwareApplication",
+        "name": "IBM Data Analyst Capstone & Market Intelligence",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://ibm-capstone.streamlit.app/",
+        "author": { "@id": "https://www.raghavendragolla.com/#person" },
+        "description": "End-to-end data analytics and market intelligence pipeline synthesizing 11,398 developer responses and 27,005 job postings with 10 SQL models and interactive dashboards."
+      },
+      {
+        "@type": "SoftwareApplication",
         "name": "California House Price Predictor",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
@@ -124,15 +133,6 @@
         "url": "https://handwritten-digit-recognition.streamlit.app",
         "author": { "@id": "https://www.raghavendragolla.com/#person" },
         "description": "PyTorch CNN trained on MNIST with live interactive canvas digit drawing and real-time inference."
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "IBM Data Analyst Capstone & Market Intelligence",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web",
-        "url": "https://ibm-capstone.streamlit.app/",
-        "author": { "@id": "https://www.raghavendragolla.com/#person" },
-        "description": "End-to-end data analytics and market intelligence pipeline synthesizing 11,398 developer responses and 27,005 job postings with 10 SQL models and interactive dashboards."
       }
     ]
   }
@@ -1317,441 +1317,32 @@
                 <span class="hud-label">DAG WORKFLOW CANVAS // 4 COMPUTATIONAL PIPELINES</span>
               </div>
               <div class="hud-meta-tags">
-                <span class="hud-tag"><i data-lucide="cpu" aria-hidden="true"></i> PYTORCH CNN</span>
-                <span class="hud-tag"><i data-lucide="activity" aria-hidden="true"></i> SCIKIT REGRESSION</span>
-                <span class="hud-tag"><i data-lucide="microscope" aria-hidden="true"></i> SHAP XAI</span>
                 <span class="hud-tag"><i data-lucide="database" aria-hidden="true"></i> SQL &amp; BI</span>
+                <span class="hud-tag"><i data-lucide="activity" aria-hidden="true"></i> SCIKIT REGRESSION</span>
+                <span class="hud-tag"><i data-lucide="cpu" aria-hidden="true"></i> PYTORCH CNN</span>
+                <span class="hud-tag"><i data-lucide="microscope" aria-hidden="true"></i> SHAP XAI</span>
               </div>
             </div>
 
             <!-- Visual Inter-Node Bus / Flow Splines -->
             <div class="dag-circuit-track" aria-hidden="true">
-              <div class="circuit-step step-1"><span class="circuit-pin"></span><span class="circuit-title">01 / REGRESSION</span></div>
+              <div class="circuit-step step-1"><span class="circuit-pin"></span><span class="circuit-title">01 / ANALYTICS ETL</span></div>
               <div class="circuit-line line-1"><span class="circuit-flow-particle"></span></div>
-              <div class="circuit-step step-2"><span class="circuit-pin"></span><span class="circuit-title">02 / VISION CNN</span></div>
+              <div class="circuit-step step-2"><span class="circuit-pin"></span><span class="circuit-title">02 / REGRESSION</span></div>
               <div class="circuit-line line-2"><span class="circuit-flow-particle"></span></div>
-              <div class="circuit-step step-3"><span class="circuit-pin"></span><span class="circuit-title">03 / MEDICAL XAI</span></div>
+              <div class="circuit-step step-3"><span class="circuit-pin"></span><span class="circuit-title">03 / VISION CNN</span></div>
               <div class="circuit-line line-3"><span class="circuit-flow-particle"></span></div>
-              <div class="circuit-step step-4"><span class="circuit-pin"></span><span class="circuit-title">04 / ANALYTICS ETL</span></div>
+              <div class="circuit-step step-4"><span class="circuit-pin"></span><span class="circuit-title">04 / MEDICAL XAI</span></div>
             </div>
 
             <div class="projects-editorial-grid pipeline-dag-nodes">
 
-              <!-- Node 01: California House Price Predictor (Regression Estimator) -->
-              <article class="project-card project-showcase-featured pipeline-node node-regression" data-category="ml">
-                <!-- Node Header Dock -->
-                <div class="node-header-dock">
-                  <div class="node-identity-block">
-                    <span class="node-id-chip"><i data-lucide="binary" aria-hidden="true"></i> NODE 01 // REGRESSION_ESTIMATOR</span>
-                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Streamlit</span>
-                  </div>
-                  <div class="node-port-indicators">
-                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 8 Census Features</span>
-                    <span class="node-port-pill out" title="Prediction Output Port">OUT: R&sup2; = 0.84 <span class="port-socket-dot out-dot"></span></span>
-                  </div>
-                </div>
-
-                <div class="node-body-content">
-                  <div class="project-top">
-                    <div class="project-meta-wrap">
-                      <span class="project-number">01</span>
-                      <span class="project-flagship-pill">FLAGSHIP ML PIPELINE</span>
-                      <span class="project-category">Machine Learning &bull; Regression</span>
-                    </div>
-                  </div>
-                  <h3 class="project-title">California House Price Predictor</h3>
-                  <p class="project-desc">
-                    End-to-end regression pipeline on the California Housing dataset (20,640 records).
-                    Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
-                    Forest), and deployed an interactive geospatial web application.
-                  </p>
-                  <div class="stack-row">
-                    <span class="stack-pill">scikit-learn</span>
-                    <span class="stack-pill">Streamlit</span>
-                    <span class="stack-pill">Gradient Boosting</span>
-                    <span class="stack-pill">Pandas</span>
-                    <span class="stack-pill">Altair</span>
-                  </div>
-
-                  <!-- Authentic Model Comparison Horizontal Bar Chart -->
-                  <div class="project-chart-widget">
-                    <span class="widget-kicker">MODEL EVALUATION BENCHMARK (R&sup2; TEST ACCURACY)</span>
-                    <div class="project-barchart-container">
-                      <div class="chart-bar-row">
-                        <span class="chart-bar-label">Hist Gradient Boosting (Best)</span>
-                        <div class="chart-bar-track"><div class="chart-bar-fill fill-accent fill-pct-84"></div></div>
-                        <strong class="chart-bar-val">0.84 R&sup2;</strong>
-                      </div>
-                      <div class="chart-bar-row">
-                        <span class="chart-bar-label">Random Forest Regressor</span>
-                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-81"></div></div>
-                        <strong class="chart-bar-val">0.81 R&sup2;</strong>
-                      </div>
-                      <div class="chart-bar-row">
-                        <span class="chart-bar-label">Ridge Linear Baseline</span>
-                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-61"></div></div>
-                        <strong class="chart-bar-val">0.61 R&sup2;</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="showcase-metrics-bar">
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">84%</strong>
-                      <span class="stat-sub">R&sup2; Accuracy</span>
-                    </div>
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">$46k</strong>
-                      <span class="stat-sub">RMSE Loss</span>
-                    </div>
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">20.6k</strong>
-                      <span class="stat-sub">Census Records</span>
-                    </div>
-                  </div>
-
-                  <!-- Embedded Interactive Model Predictor Studio -->
-                  <div class="calif-demo-studio" id="califDemoStudio">
-                    <div class="demo-studio-header">
-                      <div class="demo-studio-badge">
-                        <span class="pulse-live-dot" aria-hidden="true"></span>
-                        <strong class="studio-title">INTERACTIVE MODEL ESTIMATOR</strong>
-                      </div>
-                      <span class="studio-latency-tag"><i data-lucide="zap" aria-hidden="true"></i> &lt;4ms Inference</span>
-                    </div>
-
-                    <!-- Location / District Presets -->
-                    <div class="demo-presets-row">
-                      <span class="demo-presets-label">District Preset:</span>
-                      <div class="preset-buttons">
-                        <button type="button" class="preset-pill active" data-inc="8.5" data-age="28" data-rooms="6.5" data-loc="sf" aria-pressed="true">SF Bay Area</button>
-                        <button type="button" class="preset-pill" data-inc="5.8" data-age="34" data-rooms="5.4" data-loc="la" aria-pressed="false">Coastal LA</button>
-                        <button type="button" class="preset-pill" data-inc="4.8" data-age="22" data-rooms="5.6" data-loc="sd" aria-pressed="false">San Diego</button>
-                        <button type="button" class="preset-pill" data-inc="2.8" data-age="16" data-rooms="4.8" data-loc="valley" aria-pressed="false">Central Valley</button>
-                      </div>
-                    </div>
-
-                    <!-- Slider Controls -->
-                    <div class="demo-sliders-container">
-                      <!-- Median Income -->
-                      <div class="demo-slider-block">
-                        <div class="slider-meta-row">
-                          <label for="califIncomeInput" class="slider-field-name">Median Income</label>
-                          <span class="slider-current-val" id="califIncomeDisplay">$85,000 / yr</span>
-                        </div>
-                        <input type="range" id="califIncomeInput" min="1.5" max="15.0" step="0.1" value="8.5" class="demo-styled-range" aria-label="Median household income in tens of thousands">
-                        <div class="slider-bounds-labels">
-                          <span>$15k</span>
-                          <span>$75k</span>
-                          <span>$150k</span>
-                        </div>
-                      </div>
-
-                      <!-- House Age -->
-                      <div class="demo-slider-block">
-                        <div class="slider-meta-row">
-                          <label for="califAgeInput" class="slider-field-name">Median House Age</label>
-                          <span class="slider-current-val" id="califAgeDisplay">28 years</span>
-                        </div>
-                        <input type="range" id="califAgeInput" min="1" max="52" step="1" value="28" class="demo-styled-range" aria-label="Median house age in years">
-                        <div class="slider-bounds-labels">
-                          <span>1 yr (New)</span>
-                          <span>26 yrs</span>
-                          <span>52 yrs (Historic)</span>
-                        </div>
-                      </div>
-
-                      <!-- Average Rooms -->
-                      <div class="demo-slider-block">
-                        <div class="slider-meta-row">
-                          <label for="califRoomsInput" class="slider-field-name">Average Rooms</label>
-                          <span class="slider-current-val" id="califRoomsDisplay">6.5 rooms</span>
-                        </div>
-                        <input type="range" id="califRoomsInput" min="2.0" max="10.0" step="0.1" value="6.5" class="demo-styled-range" aria-label="Average rooms per home">
-                        <div class="slider-bounds-labels">
-                          <span>2.0 rms</span>
-                          <span>6.0 rms</span>
-                          <span>10.0 rms</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Prediction Result Console -->
-                    <div class="demo-prediction-console">
-                      <div class="pred-left-box">
-                        <span class="pred-kicker">ESTIMATED MEDIAN PROPERTY VALUE</span>
-                        <div class="pred-price-hero" id="califPriceValue">$472,500</div>
-                        <div class="pred-error-interval">
-                          <span>95% Confidence Interval:</span>
-                          <strong id="califPriceRange">$426,500 &ndash; $518,500</strong>
-                          <span class="pred-rmse-tag">(&plusmn;$46k RMSE)</span>
-                        </div>
-                      </div>
-                      <div class="pred-right-gauge">
-                        <div class="gauge-tier-heading">
-                          <span class="gauge-tier-label">Market Tier:</span>
-                          <span class="tier-pill-badge" id="califTierBadge">Executive Coastal</span>
-                        </div>
-                        <div class="gauge-bar-track">
-                          <div class="gauge-bar-fill" id="califGaugeFill"></div>
-                        </div>
-                        <div class="gauge-scale-legend">
-                          <span>Entry</span>
-                          <span>Mid</span>
-                          <span>Prime</span>
-                          <span>Luxury</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="result">
-                    <span class="tag">Benchmark Outcome</span>
-                    Achieved 84% R&sup2; accuracy ($46k RMSE) with real-time California district map inference and model
-                    analytics.
-                  </div>
-                </div>
-
-                <!-- Node Bottom Dock -->
-                <div class="node-bottom-dock">
-                  <div class="node-status-log">
-                    <i data-lucide="terminal" aria-hidden="true"></i>
-                    <span>STATUS: LIVE_INTERACTIVE // MODEL ESTIMATOR ACTIVE</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://github.com/raghavendragolla/house-price-prediction" target="_blank"
-                      rel="noopener" class="btn primary btn-project-repo">
-                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Source Code &rarr;</span>
-                    </a>
-                    <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener" class="btn ghost btn-project-cta" title="Open external Streamlit Cloud version if desired">
-                      <i data-lucide="external-link" aria-hidden="true"></i><span>Streamlit Cloud &nearr;</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Node 02: Handwritten Digit Recognition (Deep Learning Vision) -->
-              <article class="project-card project-compact-interactive pipeline-node node-vision" data-category="vision ml">
-                <!-- Node Header Dock -->
-                <div class="node-header-dock">
-                  <div class="node-identity-block">
-                    <span class="node-id-chip"><i data-lucide="eye" aria-hidden="true"></i> NODE 02 // CONVNET_VISION</span>
-                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Canvas</span>
-                  </div>
-                  <div class="node-port-indicators">
-                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 28&times;28 Pixels</span>
-                    <span class="node-port-pill out" title="Prediction Output Port">OUT: 10-Class Softmax <span class="port-socket-dot out-dot"></span></span>
-                  </div>
-                </div>
-
-                <div class="node-body-content">
-                  <div class="project-top">
-                    <div class="project-meta-wrap">
-                      <span class="project-number">02</span>
-                      <span class="project-category">Deep Learning &bull; Computer Vision</span>
-                    </div>
-                  </div>
-                  <h3 class="project-title">Handwritten Digit Recognition</h3>
-                  <p class="project-desc">
-                    Convolutional Neural Network (CNN) built with PyTorch trained on MNIST &mdash; 2 convolutional blocks
-                    (32&rarr;64 filters) with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
-                    drawing and inference.
-                  </p>
-
-                  <!-- Model Metrics Bar -->
-                  <div class="showcase-metrics-bar">
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">99.6%</strong>
-                      <span class="stat-sub">Test Accuracy</span>
-                    </div>
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">10k</strong>
-                      <span class="stat-sub">MNIST Test Set</span>
-                    </div>
-                    <div class="metric-chip-stat">
-                      <strong class="stat-big">&lt;5ms</strong>
-                      <span class="stat-sub">Model Latency</span>
-                    </div>
-                  </div>
-
-                  <!-- Neural Architecture Pipeline -->
-                  <div class="research-scientific-pipeline">
-                    <span class="pipeline-kicker">CNN ARCHITECTURAL PIPELINE</span>
-                    <div class="pipeline-dag-flow" tabindex="0" aria-label="CNN neural network pipeline">
-                      <div class="dag-step">
-                        <span class="dag-num">01</span>
-                        <strong class="dag-name">Canvas Input</strong>
-                        <span class="dag-meta">28&times;28 Grayscale</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">02</span>
-                        <strong class="dag-name">Conv2D Block 1</strong>
-                        <span class="dag-meta">32 Filters &bull; ReLU</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">03</span>
-                        <strong class="dag-name">Conv2D Block 2</strong>
-                        <span class="dag-meta">64 Filters &bull; MaxPool</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step dag-step-highlight">
-                        <span class="dag-num">04</span>
-                        <strong class="dag-name">Softmax Output</strong>
-                        <span class="dag-meta">10-Class Confidence</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="stack-row">
-                    <span class="stack-pill">PyTorch</span>
-                    <span class="stack-pill">CNN</span>
-                    <span class="stack-pill">Computer Vision</span>
-                    <span class="stack-pill">Streamlit</span>
-                  </div>
-                  <div class="result">
-                    <span class="tag">Classification Performance</span>
-                    Achieved ~99.6% test classification accuracy with live confidence distribution charts.
-                  </div>
-                </div>
-
-                <!-- Node Bottom Dock -->
-                <div class="node-bottom-dock">
-                  <div class="node-status-log">
-                    <i data-lucide="terminal" aria-hidden="true"></i>
-                    <span>STATUS: INFERENCE_OPTIMIZED // ACC 99.6%</span>
-                  </div>
-                  <div class="project-links">
-                    <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener" class="btn primary">
-                      <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
-                    </a>
-                    <a href="https://github.com/raghavendragolla/handwritten-digit-recognition" target="_blank"
-                      rel="noopener" class="btn ghost">
-                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Node 03: Explainable ML for Heart Disease (Healthcare XAI) -->
-              <article class="project-card project-research-document pipeline-node node-xai" data-category="explainable ml">
-                <!-- Node Header Dock -->
-                <div class="node-header-dock">
-                  <div class="node-identity-block">
-                    <span class="node-id-chip"><i data-lucide="heart-pulse" aria-hidden="true"></i> NODE 03 // CLINICAL_XAI</span>
-                    <span class="node-exec-badge paper"><i data-lucide="file-check" aria-hidden="true"></i> Preprint Study</span>
-                  </div>
-                  <div class="node-port-indicators">
-                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 13 Biomarkers</span>
-                    <span class="node-port-pill out" title="Prediction Output Port">OUT: SHAP Force Vectors <span class="port-socket-dot out-dot"></span></span>
-                  </div>
-                </div>
-
-                <div class="node-body-content">
-                  <div class="doc-header-strip">
-                    <div class="doc-pub-tag">
-                      <span class="doc-icon" aria-hidden="true">🔬</span>
-                      <span>ACADEMIC STUDY &bull; EXPLAINABLE AI IN HEALTHCARE</span>
-                    </div>
-                  </div>
-
-                  <h3 class="project-title research-paper-heading">Explainable ML for Heart Disease</h3>
-                  <p class="research-author-affil">Department of Data Science &bull; Chandigarh University &bull; IEEE Formatting</p>
-
-                  <p class="project-desc research-paper-abstract">
-                    Academic research study applying explainable machine learning techniques (SHAP &amp; LIME) to
-                    cardiovascular risk prediction. Focuses on global and local model interpretability to assist healthcare practitioners in clinical
-                    decision-making.
-                  </p>
-
-                  <!-- Scientific Pipeline Methodology Flow Diagram (DAG) -->
-                  <div class="research-scientific-pipeline">
-                    <span class="pipeline-kicker">SCIENTIFIC METHODOLOGY &bull; ARCHITECTURAL FLOW</span>
-                    <div class="pipeline-dag-flow" tabindex="0" aria-label="Scientific methodology pipeline flowchart">
-                      <div class="dag-step">
-                        <span class="dag-num">01</span>
-                        <strong class="dag-name">Clinical Cohort</strong>
-                        <span class="dag-meta">Cleveland 303 pts &bull; 13 Biomarkers</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">02</span>
-                        <strong class="dag-name">Preprocessing</strong>
-                        <span class="dag-meta">Imputation &bull; Scaling &bull; Encoders</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">03</span>
-                        <strong class="dag-name">Ensemble ML</strong>
-                        <span class="dag-meta">RF &bull; XGBoost &bull; Gradient Boost</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">04</span>
-                        <strong class="dag-name">Inference</strong>
-                        <span class="dag-meta">Risk Probability Score</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step dag-step-highlight">
-                        <span class="dag-num">05</span>
-                        <strong class="dag-name">SHAP &amp; LIME</strong>
-                        <span class="dag-meta">Game-Theoretic Attributions</span>
-                      </div>
-                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
-                      <div class="dag-step">
-                        <span class="dag-num">06</span>
-                        <strong class="dag-name">Clinician Insight</strong>
-                        <span class="dag-meta">Actionable Decision Support</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="research-key-contributions">
-                    <span class="contrib-title">Core Methodological Contributions:</span>
-                    <ol class="contrib-list">
-                      <li><strong class="contrib-strong">Biomarker Quantification:</strong> Translating non-linear gradient boosting feature interactions into clinical impact scores.</li>
-                      <li><strong class="contrib-strong">Local Interpretability:</strong> Patient-specific SHAP waterfall plots explaining individualized risk factor attributions.</li>
-                      <li><strong class="contrib-strong">Model Transparency:</strong> Auditable decision-support pipelines designed for clinician validation.</li>
-                    </ol>
-                  </div>
-
-                  <div class="stack-row">
-                    <span class="stack-pill">SHAP</span>
-                    <span class="stack-pill">LIME</span>
-                    <span class="stack-pill">scikit-learn</span>
-                    <span class="stack-pill">Research Writing</span>
-                  </div>
-
-                  <div class="result research-result">
-                    <span class="tag">Research Milestone</span>
-                    Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
-                  </div>
-                </div>
-
-                <!-- Node Bottom Dock -->
-                <div class="node-bottom-dock">
-                  <div class="node-status-log">
-                    <i data-lucide="terminal" aria-hidden="true"></i>
-                    <span>STATUS: VALIDATED // ROC-AUC 87.4%</span>
-                  </div>
-                  <div class="project-links research-links">
-                    <button type="button" class="btn primary btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
-                      <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
-                    </button>
-                    <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener" class="btn ghost">
-                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-
-              <!-- Node 04: IBM Data Analyst Capstone (Data Intelligence & Labor Analytics) -->
+              <!-- Node 01: IBM Data Analyst Capstone (Data Intelligence & Labor Analytics) -->
               <article class="project-card project-analytical-dossier pipeline-node node-analytics" data-category="analytics ml">
                 <!-- Node Header Dock -->
                 <div class="node-header-dock">
                   <div class="node-identity-block">
-                    <span class="node-id-chip"><i data-lucide="database" aria-hidden="true"></i> NODE 04 // DATA_INTELLIGENCE</span>
+                    <span class="node-id-chip"><i data-lucide="database" aria-hidden="true"></i> NODE 01 // DATA_INTELLIGENCE</span>
                     <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Streamlit</span>
                   </div>
                   <div class="node-port-indicators">
@@ -1763,7 +1354,7 @@
                 <div class="node-body-content">
                   <div class="project-top">
                     <div class="project-meta-wrap">
-                      <span class="project-number">04</span>
+                      <span class="project-number">01</span>
                       <span class="project-flagship-pill pill-analytics">FLAGSHIP DATA ANALYTICS</span>
                       <span class="project-category">Data Intelligence &bull; Labor Analytics</span>
                     </div>
@@ -1960,6 +1551,415 @@
                     <a href="https://ibm-capstone.streamlit.app/" target="_blank"
                       rel="noopener" class="btn ghost btn-project-cta" title="Open external Streamlit Cloud version if desired">
                       <i data-lucide="external-link" aria-hidden="true"></i><span>Streamlit Cloud &nearr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 02: California House Price Predictor (Regression Estimator) -->
+              <article class="project-card project-showcase-featured pipeline-node node-regression" data-category="ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="binary" aria-hidden="true"></i> NODE 02 // REGRESSION_ESTIMATOR</span>
+                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Streamlit</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 8 Census Features</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: R&sup2; = 0.84 <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="project-top">
+                    <div class="project-meta-wrap">
+                      <span class="project-number">02</span>
+                      <span class="project-flagship-pill">FLAGSHIP ML PIPELINE</span>
+                      <span class="project-category">Machine Learning &bull; Regression</span>
+                    </div>
+                  </div>
+                  <h3 class="project-title">California House Price Predictor</h3>
+                  <p class="project-desc">
+                    End-to-end regression pipeline on the California Housing dataset (20,640 records).
+                    Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
+                    Forest), and deployed an interactive geospatial web application.
+                  </p>
+                  <div class="stack-row">
+                    <span class="stack-pill">scikit-learn</span>
+                    <span class="stack-pill">Streamlit</span>
+                    <span class="stack-pill">Gradient Boosting</span>
+                    <span class="stack-pill">Pandas</span>
+                    <span class="stack-pill">Altair</span>
+                  </div>
+
+                  <!-- Authentic Model Comparison Horizontal Bar Chart -->
+                  <div class="project-chart-widget">
+                    <span class="widget-kicker">MODEL EVALUATION BENCHMARK (R&sup2; TEST ACCURACY)</span>
+                    <div class="project-barchart-container">
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Hist Gradient Boosting (Best)</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-accent fill-pct-84"></div></div>
+                        <strong class="chart-bar-val">0.84 R&sup2;</strong>
+                      </div>
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Random Forest Regressor</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-81"></div></div>
+                        <strong class="chart-bar-val">0.81 R&sup2;</strong>
+                      </div>
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Ridge Linear Baseline</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-61"></div></div>
+                        <strong class="chart-bar-val">0.61 R&sup2;</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="showcase-metrics-bar">
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">84%</strong>
+                      <span class="stat-sub">R&sup2; Accuracy</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">$46k</strong>
+                      <span class="stat-sub">RMSE Loss</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">20.6k</strong>
+                      <span class="stat-sub">Census Records</span>
+                    </div>
+                  </div>
+
+                  <!-- Embedded Interactive Model Predictor Studio -->
+                  <div class="calif-demo-studio" id="califDemoStudio">
+                    <div class="demo-studio-header">
+                      <div class="demo-studio-badge">
+                        <span class="pulse-live-dot" aria-hidden="true"></span>
+                        <strong class="studio-title">INTERACTIVE MODEL ESTIMATOR</strong>
+                      </div>
+                      <span class="studio-latency-tag"><i data-lucide="zap" aria-hidden="true"></i> &lt;4ms Inference</span>
+                    </div>
+
+                    <!-- Location / District Presets -->
+                    <div class="demo-presets-row">
+                      <span class="demo-presets-label">District Preset:</span>
+                      <div class="preset-buttons">
+                        <button type="button" class="preset-pill active" data-inc="8.5" data-age="28" data-rooms="6.5" data-loc="sf" aria-pressed="true">SF Bay Area</button>
+                        <button type="button" class="preset-pill" data-inc="5.8" data-age="34" data-rooms="5.4" data-loc="la" aria-pressed="false">Coastal LA</button>
+                        <button type="button" class="preset-pill" data-inc="4.8" data-age="22" data-rooms="5.6" data-loc="sd" aria-pressed="false">San Diego</button>
+                        <button type="button" class="preset-pill" data-inc="2.8" data-age="16" data-rooms="4.8" data-loc="valley" aria-pressed="false">Central Valley</button>
+                      </div>
+                    </div>
+
+                    <!-- Slider Controls -->
+                    <div class="demo-sliders-container">
+                      <!-- Median Income -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califIncomeInput" class="slider-field-name">Median Income</label>
+                          <span class="slider-current-val" id="califIncomeDisplay">$85,000 / yr</span>
+                        </div>
+                        <input type="range" id="califIncomeInput" min="1.5" max="15.0" step="0.1" value="8.5" class="demo-styled-range" aria-label="Median household income in tens of thousands">
+                        <div class="slider-bounds-labels">
+                          <span>$15k</span>
+                          <span>$75k</span>
+                          <span>$150k</span>
+                        </div>
+                      </div>
+
+                      <!-- House Age -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califAgeInput" class="slider-field-name">Median House Age</label>
+                          <span class="slider-current-val" id="califAgeDisplay">28 years</span>
+                        </div>
+                        <input type="range" id="califAgeInput" min="1" max="52" step="1" value="28" class="demo-styled-range" aria-label="Median house age in years">
+                        <div class="slider-bounds-labels">
+                          <span>1 yr (New)</span>
+                          <span>26 yrs</span>
+                          <span>52 yrs (Historic)</span>
+                        </div>
+                      </div>
+
+                      <!-- Average Rooms -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califRoomsInput" class="slider-field-name">Average Rooms</label>
+                          <span class="slider-current-val" id="califRoomsDisplay">6.5 rooms</span>
+                        </div>
+                        <input type="range" id="califRoomsInput" min="2.0" max="10.0" step="0.1" value="6.5" class="demo-styled-range" aria-label="Average rooms per home">
+                        <div class="slider-bounds-labels">
+                          <span>2.0 rms</span>
+                          <span>6.0 rms</span>
+                          <span>10.0 rms</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Prediction Result Console -->
+                    <div class="demo-prediction-console">
+                      <div class="pred-left-box">
+                        <span class="pred-kicker">ESTIMATED MEDIAN PROPERTY VALUE</span>
+                        <div class="pred-price-hero" id="califPriceValue">$472,500</div>
+                        <div class="pred-error-interval">
+                          <span>95% Confidence Interval:</span>
+                          <strong id="califPriceRange">$426,500 &ndash; $518,500</strong>
+                          <span class="pred-rmse-tag">(&plusmn;$46k RMSE)</span>
+                        </div>
+                      </div>
+                      <div class="pred-right-gauge">
+                        <div class="gauge-tier-heading">
+                          <span class="gauge-tier-label">Market Tier:</span>
+                          <span class="tier-pill-badge" id="califTierBadge">Executive Coastal</span>
+                        </div>
+                        <div class="gauge-bar-track">
+                          <div class="gauge-bar-fill" id="califGaugeFill"></div>
+                        </div>
+                        <div class="gauge-scale-legend">
+                          <span>Entry</span>
+                          <span>Mid</span>
+                          <span>Prime</span>
+                          <span>Luxury</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="result">
+                    <span class="tag">Benchmark Outcome</span>
+                    Achieved 84% R&sup2; accuracy ($46k RMSE) with real-time California district map inference and model
+                    analytics.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: LIVE_INTERACTIVE // MODEL ESTIMATOR ACTIVE</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/raghavendragolla/house-price-prediction" target="_blank"
+                      rel="noopener" class="btn primary btn-project-repo">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Source Code &rarr;</span>
+                    </a>
+                    <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener" class="btn ghost btn-project-cta" title="Open external Streamlit Cloud version if desired">
+                      <i data-lucide="external-link" aria-hidden="true"></i><span>Streamlit Cloud &nearr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 03: Handwritten Digit Recognition (Deep Learning Vision) -->
+              <article class="project-card project-compact-interactive pipeline-node node-vision" data-category="vision ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="eye" aria-hidden="true"></i> NODE 03 // CONVNET_VISION</span>
+                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Canvas</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 28&times;28 Pixels</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: 10-Class Softmax <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="project-top">
+                    <div class="project-meta-wrap">
+                      <span class="project-number">03</span>
+                      <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                    </div>
+                  </div>
+                  <h3 class="project-title">Handwritten Digit Recognition</h3>
+                  <p class="project-desc">
+                    Convolutional Neural Network (CNN) built with PyTorch trained on MNIST &mdash; 2 convolutional blocks
+                    (32&rarr;64 filters) with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
+                    drawing and inference.
+                  </p>
+
+                  <!-- Model Metrics Bar -->
+                  <div class="showcase-metrics-bar">
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">99.6%</strong>
+                      <span class="stat-sub">Test Accuracy</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">10k</strong>
+                      <span class="stat-sub">MNIST Test Set</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">&lt;5ms</strong>
+                      <span class="stat-sub">Model Latency</span>
+                    </div>
+                  </div>
+
+                  <!-- Neural Architecture Pipeline -->
+                  <div class="research-scientific-pipeline">
+                    <span class="pipeline-kicker">CNN ARCHITECTURAL PIPELINE</span>
+                    <div class="pipeline-dag-flow" tabindex="0" aria-label="CNN neural network pipeline">
+                      <div class="dag-step">
+                        <span class="dag-num">01</span>
+                        <strong class="dag-name">Canvas Input</strong>
+                        <span class="dag-meta">28&times;28 Grayscale</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">02</span>
+                        <strong class="dag-name">Conv2D Block 1</strong>
+                        <span class="dag-meta">32 Filters &bull; ReLU</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">03</span>
+                        <strong class="dag-name">Conv2D Block 2</strong>
+                        <span class="dag-meta">64 Filters &bull; MaxPool</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step dag-step-highlight">
+                        <span class="dag-num">04</span>
+                        <strong class="dag-name">Softmax Output</strong>
+                        <span class="dag-meta">10-Class Confidence</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="stack-row">
+                    <span class="stack-pill">PyTorch</span>
+                    <span class="stack-pill">CNN</span>
+                    <span class="stack-pill">Computer Vision</span>
+                    <span class="stack-pill">Streamlit</span>
+                  </div>
+                  <div class="result">
+                    <span class="tag">Classification Performance</span>
+                    Achieved ~99.6% test classification accuracy with live confidence distribution charts.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: INFERENCE_OPTIMIZED // ACC 99.6%</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener" class="btn primary">
+                      <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
+                    </a>
+                    <a href="https://github.com/raghavendragolla/handwritten-digit-recognition" target="_blank"
+                      rel="noopener" class="btn ghost">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 04: Explainable ML for Heart Disease (Healthcare XAI) -->
+              <article class="project-card project-research-document pipeline-node node-xai" data-category="explainable ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="heart-pulse" aria-hidden="true"></i> NODE 04 // CLINICAL_XAI</span>
+                    <span class="node-exec-badge paper"><i data-lucide="file-check" aria-hidden="true"></i> Preprint Study</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 13 Biomarkers</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: SHAP Force Vectors <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="doc-header-strip">
+                    <div class="doc-pub-tag">
+                      <span class="doc-icon" aria-hidden="true">🔬</span>
+                      <span>ACADEMIC STUDY &bull; EXPLAINABLE AI IN HEALTHCARE</span>
+                    </div>
+                  </div>
+
+                  <h3 class="project-title research-paper-heading">Explainable ML for Heart Disease</h3>
+                  <p class="research-author-affil">Department of Data Science &bull; Chandigarh University &bull; IEEE Formatting</p>
+
+                  <p class="project-desc research-paper-abstract">
+                    Academic research study applying explainable machine learning techniques (SHAP &amp; LIME) to
+                    cardiovascular risk prediction. Focuses on global and local model interpretability to assist healthcare practitioners in clinical
+                    decision-making.
+                  </p>
+
+                  <!-- Scientific Pipeline Methodology Flow Diagram (DAG) -->
+                  <div class="research-scientific-pipeline">
+                    <span class="pipeline-kicker">SCIENTIFIC METHODOLOGY &bull; ARCHITECTURAL FLOW</span>
+                    <div class="pipeline-dag-flow" tabindex="0" aria-label="Scientific methodology pipeline flowchart">
+                      <div class="dag-step">
+                        <span class="dag-num">01</span>
+                        <strong class="dag-name">Clinical Cohort</strong>
+                        <span class="dag-meta">Cleveland 303 pts &bull; 13 Biomarkers</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">02</span>
+                        <strong class="dag-name">Preprocessing</strong>
+                        <span class="dag-meta">Imputation &bull; Scaling &bull; Encoders</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">03</span>
+                        <strong class="dag-name">Ensemble ML</strong>
+                        <span class="dag-meta">RF &bull; XGBoost &bull; Gradient Boost</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">04</span>
+                        <strong class="dag-name">Inference</strong>
+                        <span class="dag-meta">Risk Probability Score</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step dag-step-highlight">
+                        <span class="dag-num">05</span>
+                        <strong class="dag-name">SHAP &amp; LIME</strong>
+                        <span class="dag-meta">Game-Theoretic Attributions</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">06</span>
+                        <strong class="dag-name">Clinician Insight</strong>
+                        <span class="dag-meta">Actionable Decision Support</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="research-key-contributions">
+                    <span class="contrib-title">Core Methodological Contributions:</span>
+                    <ol class="contrib-list">
+                      <li><strong class="contrib-strong">Biomarker Quantification:</strong> Translating non-linear gradient boosting feature interactions into clinical impact scores.</li>
+                      <li><strong class="contrib-strong">Local Interpretability:</strong> Patient-specific SHAP waterfall plots explaining individualized risk factor attributions.</li>
+                      <li><strong class="contrib-strong">Model Transparency:</strong> Auditable decision-support pipelines designed for clinician validation.</li>
+                    </ol>
+                  </div>
+
+                  <div class="stack-row">
+                    <span class="stack-pill">SHAP</span>
+                    <span class="stack-pill">LIME</span>
+                    <span class="stack-pill">scikit-learn</span>
+                    <span class="stack-pill">Research Writing</span>
+                  </div>
+
+                  <div class="result research-result">
+                    <span class="tag">Research Milestone</span>
+                    Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: VALIDATED // ROC-AUC 87.4%</span>
+                  </div>
+                  <div class="project-links research-links">
+                    <button type="button" class="btn primary btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
+                      <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
+                    </button>
+                    <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener" class="btn ghost">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
                     </a>
                   </div>
                 </div>
