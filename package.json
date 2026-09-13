@@ -4,6 +4,7 @@
   "private": true,
   "description": "Personal data science portfolio of Raghavendra Golla",
   "scripts": {
+    "start": "node scripts/test-server.js",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
