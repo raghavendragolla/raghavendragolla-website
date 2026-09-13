@@ -160,6 +160,7 @@
             document.body.classList.add('scroll-locked');
 
             function focusFirst() {
+                if (modalElement.contains(document.activeElement)) return;
                 var focusables = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
                 if (focusables.length > 0) {
                     try {

@@ -76,11 +76,13 @@ test.describe('Landing Page (/index.html)', () => {
     await expect(tabThoughts).toHaveAttribute('tabindex', '-1');
 
     // ArrowRight moves focus to Market tab
+    await tabNow.focus();
     await page.keyboard.press('ArrowRight');
     await expect(tabMarket).toBeFocused();
     await expect(tabMarket).toHaveAttribute('aria-selected', 'true');
 
     // ArrowRight wraps around to first tab (Thoughts)
+    await tabMarket.focus();
     await page.keyboard.press('ArrowRight');
     await expect(tabThoughts).toBeFocused();
     await expect(tabThoughts).toHaveAttribute('aria-selected', 'true');

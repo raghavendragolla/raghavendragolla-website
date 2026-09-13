@@ -6,32 +6,39 @@
 :root {
     color-scheme: light;
 
-    /* ---------- Brand & Accent System ---------- */
-    --primary: #1b6b66;
-    --primary-hover: #13524e;
-    --primary-subtle: rgba(27, 107, 102, 0.08);
-    --primary-glow: rgba(27, 107, 102, 0.20);
+    /* ---------- Brand & Accent System (Editorial Swiss-Tech Palette) ---------- */
+    --primary: #B83D20;
+    --primary-hover: #9e3218;
+    --primary-subtle: rgba(184, 61, 32, 0.08);
+    --primary-glow: rgba(184, 61, 32, 0.20);
     --text-on-primary: #ffffff;
-    --accent: #854d0e;
-    --accent-hover: #713f12;
-    --accent-subtle: rgba(133, 77, 14, 0.08);
+    --accent: #B83D20;
+    --accent-hover: #9e3218;
+    --accent-subtle: rgba(184, 61, 32, 0.08);
+    --brand-orange: #E85D3F;
+    --secondary-accent: #3355E6;
+    --secondary-accent-hover: #2645c7;
+    --secondary-accent-subtle: rgba(51, 85, 230, 0.08);
+    --secondary-accent-glow: rgba(51, 85, 230, 0.20);
 
     /* ---------- Surfaces & Background ---------- */
-    --bg: #faf9f5;
+    --bg: #F7F6F2;
     --surface: #ffffff;
-    --surface-elevated: #f3f2ec;
+    --surface-elevated: #E7E5DF;
     --surface-hover: #ffffff;
+    --dark-section-bg: #111111;
+    --dark-section-text: #F7F6F2;
 
     /* ---------- Typography & Contrast Hierarchy ---------- */
-    --text: #111822;
-    --text-muted: #334155;
-    --text-faint: #55637a;
+    --text: #111111;
+    --text-muted: #5F6368;
+    --text-faint: #5F6368;
 
     /* ---------- Borders & Hairlines ---------- */
-    --border: #e2e0d8;
-    --border-subtle: rgba(17, 24, 34, 0.07);
-    --border-strong: rgba(17, 24, 34, 0.18);
-    --focus: #1b6b66;
+    --border: #E7E5DF;
+    --border-subtle: rgba(17, 17, 17, 0.10);
+    --border-strong: rgba(17, 17, 17, 0.22);
+    --focus: #E85D3F;
 
     /* ---------- Feedback & Status ---------- */
     --success: #166534;
@@ -41,13 +48,35 @@
     --warning: #b45309;
     --warning-subtle: rgba(180, 83, 9, 0.10);
 
-    /* ---------- Atmospheric & Elevation System (layered: contact + mid + ambient) ---------- */
-    --shadow-sm: 0 1px 2px rgba(17, 24, 34, 0.05), 0 2px 5px rgba(17, 24, 34, 0.04), 0 0 0 1px var(--border-subtle);
-    --shadow-md: 0 1px 2px rgba(17, 24, 34, 0.04), 0 6px 14px rgba(17, 24, 34, 0.05), 0 16px 32px -8px rgba(17, 24, 34, 0.09), 0 0 0 1px var(--border-subtle);
-    --shadow-lg: 0 2px 4px rgba(17, 24, 34, 0.05), 0 10px 24px rgba(17, 24, 34, 0.06), 0 28px 56px -12px rgba(17, 24, 34, 0.12), 0 0 0 1px var(--border-subtle);
-    --backdrop-overlay: rgba(17, 24, 34, 0.45);
-    --glow: rgba(27, 107, 102, 0.10);
-    --grid-line: rgba(17, 24, 34, 0.035);
+    /* ---------- Neuronpedia-Inspired Tactile Palette (Light Mode) ---------- */
+    --tint-clay-bg: #e5e4df;
+    --tint-clay-border: rgba(102, 102, 99, 0.35);
+    --tint-clay-ink: #383835;
+    --tint-clay-badge: rgba(102, 102, 99, 0.18);
+    --tint-rose-bg: #f5e4e8;
+    --tint-rose-border: rgba(176, 74, 91, 0.35);
+    --tint-rose-ink: #8f293b;
+    --tint-rose-badge: rgba(176, 74, 91, 0.16);
+    --tint-sky-bg: #e2f1f8;
+    --tint-sky-border: rgba(3, 105, 161, 0.35);
+    --tint-sky-ink: #0369a1;
+    --tint-sky-badge: rgba(3, 105, 161, 0.16);
+    --tint-amber-bg: #fdf3e2;
+    --tint-amber-border: rgba(217, 119, 6, 0.35);
+    --tint-amber-ink: #92400e;
+    --tint-amber-badge: rgba(217, 119, 6, 0.16);
+    --tint-emerald-bg: #e1f5ec;
+    --tint-emerald-border: rgba(16, 149, 106, 0.35);
+    --tint-emerald-ink: #065f46;
+    --tint-emerald-badge: rgba(16, 149, 106, 0.16);
+
+    /* ---------- Atmospheric & Elevation System ---------- */
+    --shadow-sm: 0 1px 2px rgba(17, 17, 17, 0.04), 0 2px 5px rgba(17, 17, 17, 0.03), 0 0 0 1px var(--border-subtle);
+    --shadow-md: 0 1px 2px rgba(17, 17, 17, 0.04), 0 6px 16px rgba(17, 17, 17, 0.05), 0 16px 32px -8px rgba(17, 17, 17, 0.08), 0 0 0 1px var(--border-subtle);
+    --shadow-lg: 0 2px 4px rgba(17, 17, 17, 0.05), 0 10px 24px rgba(17, 17, 17, 0.06), 0 28px 56px -12px rgba(17, 17, 17, 0.10), 0 0 0 1px var(--border-subtle);
+    --backdrop-overlay: rgba(17, 17, 17, 0.50);
+    --glow: rgba(232, 93, 63, 0.10);
+    --grid-line: rgba(17, 17, 17, 0.035);
 
     /* ---------- Apple-Material Glass Recipe (chrome surfaces only: sidebar, vitals bar, modals, toast, PWA banner, floating controls) ---------- */
     --glass-saturation: saturate(180%);
@@ -171,14 +200,18 @@
     color-scheme: dark;
 
     /* ---------- Brand & Accent System ---------- */
-    --primary: #2dd4bf;
-    --primary-hover: #5eead4;
-    --primary-subtle: rgba(45, 212, 191, 0.12);
-    --primary-glow: rgba(45, 212, 191, 0.25);
+    --primary: #ff6b4a;
+    --primary-hover: #ff856b;
+    --primary-subtle: rgba(255, 107, 74, 0.15);
+    --primary-glow: rgba(255, 107, 74, 0.28);
     --text-on-primary: #0a0e14;
-    --accent: #fbbf24;
-    --accent-hover: #fde047;
-    --accent-subtle: rgba(251, 191, 36, 0.12);
+    --accent: #ff6b4a;
+    --accent-hover: #ff856b;
+    --accent-subtle: rgba(255, 107, 74, 0.15);
+    --secondary-accent: #6b85ff;
+    --secondary-accent-hover: #8ba0ff;
+    --secondary-accent-subtle: rgba(107, 133, 255, 0.15);
+    --secondary-accent-glow: rgba(107, 133, 255, 0.28);
 
     /* ---------- Surfaces & Background ---------- */
     --bg: #0a0e14;
@@ -204,6 +237,28 @@
     --error-subtle: rgba(248, 113, 113, 0.14);
     --warning: #fbbf24;
     --warning-subtle: rgba(251, 191, 36, 0.14);
+
+    /* ---------- Neuronpedia-Inspired Tactile Palette (Dark Mode: Radiant Obsidian) ---------- */
+    --tint-clay-bg: #141720;
+    --tint-clay-border: rgba(148, 163, 184, 0.25);
+    --tint-clay-ink: #f1f5f9;
+    --tint-clay-badge: rgba(255, 255, 255, 0.08);
+    --tint-rose-bg: #1d1318;
+    --tint-rose-border: rgba(244, 63, 94, 0.32);
+    --tint-rose-ink: #fda4af;
+    --tint-rose-badge: rgba(244, 63, 94, 0.20);
+    --tint-sky-bg: #0f1929;
+    --tint-sky-border: rgba(56, 189, 248, 0.32);
+    --tint-sky-ink: #7dd3fc;
+    --tint-sky-badge: rgba(56, 189, 248, 0.20);
+    --tint-amber-bg: #1c160e;
+    --tint-amber-border: rgba(251, 191, 36, 0.32);
+    --tint-amber-ink: #fcd34d;
+    --tint-amber-badge: rgba(251, 191, 36, 0.20);
+    --tint-emerald-bg: #0c1c17;
+    --tint-emerald-border: rgba(52, 211, 153, 0.32);
+    --tint-emerald-ink: #6ee7b7;
+    --tint-emerald-badge: rgba(52, 211, 153, 0.20);
 
     /* ---------- Atmospheric & Elevation System (layered: contact + mid + ambient) ---------- */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-subtle);

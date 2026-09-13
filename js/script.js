@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ====================================================
-    // 5. 3D Magnetic Tilt & Specular Sheen for Highlight Cards
+    // 5. Specular Sheen & Ambient Glow (3D Tilt Removed)
     // ====================================================
     const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const highlightCards = document.querySelectorAll('.highlight-card');
@@ -461,28 +461,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (glow2) glow2.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
         });
 
-        // 3D Tilt for Highlight Cards
+        // Card spotlight coordinates for specular lighting without 3D tilt
         highlightCards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                // Card spotlight coordinates
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
-
-                // 3D Rotation Angles
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -7;
-                const rotateY = ((x - centerX) / centerX) * 7;
-
-                card.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)`;
             });
         });
     }
