@@ -4925,10 +4925,10 @@ h1.hero-title em {
     border: 2px solid var(--paper-card);
 }
 
-.step-1 .circuit-pin { background: #ea580c; box-shadow: 0 0 8px #ea580c; }
-.step-2 .circuit-pin { background: #0284c7; box-shadow: 0 0 8px #0284c7; }
-.step-3 .circuit-pin { background: #7c3aed; box-shadow: 0 0 8px #7c3aed; }
-.step-4 .circuit-pin { background: #059669; box-shadow: 0 0 8px #059669; }
+.step-1 .circuit-pin { background: #059669; box-shadow: 0 0 8px #059669; }
+.step-2 .circuit-pin { background: #ea580c; box-shadow: 0 0 8px #ea580c; }
+.step-3 .circuit-pin { background: #0284c7; box-shadow: 0 0 8px #0284c7; }
+.step-4 .circuit-pin { background: #7c3aed; box-shadow: 0 0 8px #7c3aed; }
 
 .circuit-line {
     flex: 1;
@@ -4949,9 +4949,9 @@ h1.hero-title em {
     animation: circuitFlow 3s infinite linear;
 }
 
-.line-1 .circuit-flow-particle { background: #ea580c; box-shadow: 0 0 6px #ea580c; }
-.line-2 .circuit-flow-particle { background: #0284c7; box-shadow: 0 0 6px #0284c7; }
-.line-3 .circuit-flow-particle { background: #7c3aed; box-shadow: 0 0 6px #7c3aed; }
+.line-1 .circuit-flow-particle { background: #059669; box-shadow: 0 0 6px #059669; }
+.line-2 .circuit-flow-particle { background: #ea580c; box-shadow: 0 0 6px #ea580c; }
+.line-3 .circuit-flow-particle { background: #0284c7; box-shadow: 0 0 6px #0284c7; }
 
 @keyframes circuitFlow {
     0% { left: 0; opacity: 0; }
