@@ -5667,8 +5667,9 @@ h1.hero-title em {
 }
 
 .dag-step:hover {
+    transform: none !important;
     border-color: var(--ink-soft);
-    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
 }
 
 .dag-step-highlight {
