@@ -98,9 +98,9 @@
 
     @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
         nav.sidebar {
-            background: var(--glass-fill-strong);
-            backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
-            -webkit-backdrop-filter: var(--glass-blur-lg) var(--glass-saturation);
+            background: var(--sidebar-bg);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
         }
     }
 
@@ -268,10 +268,20 @@
     }
 
     .navlist a.active {
-        background: var(--paper-card);
-        color: var(--ink);
-        border-left-color: var(--teal);
-        padding-left: 1.1rem;
+        color: #7c2d12;
+        background: rgba(234, 88, 12, 0.12);
+        border: 1px solid rgba(234, 88, 12, 0.35);
+        border-left: 3.5px solid var(--orange);
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.12);
+    }
+
+    [data-theme="dark"] .navlist a.active {
+        color: #ffffff;
+        background: rgba(234, 88, 12, 0.12);
+        border: 1px solid rgba(234, 88, 12, 0.35);
+        border-left: 3.5px solid var(--orange);
+        box-shadow: 0 4px 16px rgba(234, 88, 12, 0.15);
     }
 
     .navlist a svg,
@@ -283,21 +293,27 @@
 
     .navlist a.active svg,
     .navlist a.active i {
-        color: var(--teal);
+        color: var(--orange);
     }
 }
 
 @media (max-width: 1024px) and (hover: hover) and (pointer: fine) {
-    .navlist a:hover {
-        background: var(--paper-card);
+    .navlist a:hover:not(.active) {
+        background: rgba(15, 23, 42, 0.08);
         color: var(--ink);
-        border-left-color: var(--teal);
-        padding-left: 1.1rem;
+        border-left-color: transparent;
+        transform: translateX(4px);
     }
 
-    .navlist a:hover svg,
-    .navlist a:hover i {
-        color: var(--teal);
+    [data-theme="dark"] .navlist a:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.05);
+        color: #f1f5f9;
+        border-left-color: transparent;
+    }
+
+    .navlist a:hover:not(.active) svg,
+    .navlist a:hover:not(.active) i {
+        color: var(--ink);
     }
 }
 
@@ -850,3 +866,768 @@
         background: var(--paper-raised) !important;
     }
 }
+
+/* =========================================
+   13. Dashboard Responsive Layouts
+   ========================================= */
+@media (max-width: 1200px) {
+    .dashboard-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .dashboard-charts-row,
+    .dashboard-dual-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .donut-chart-layout {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-head-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .donut-chart-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .donut-legend-list {
+        width: 100%;
+    }
+
+    .comp-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .bar-chart-container {
+        padding-left: 1.25rem;
+    }
+
+    .bar-fill-track {
+        width: 18px;
+    }
+
+    .repo-stats-row {
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+}
+
+/* ==========================================================================
+   Editorial Art Direction Responsive Rules
+   Comprehensive coverage for: 1440px, 1280px, 1024px, 900px, 768px, 640px, 480px, 360px
+   ========================================================================== */
+
+/* 1. Standard Desktop (<= 1440px) */
+@media (max-width: 1440px) {
+    .brand span {
+        max-width: 165px;
+    }
+
+    .hero-editorial {
+        padding: clamp(3rem, 5vw, 4.5rem) clamp(1.8rem, 4vw, 3.5rem);
+    }
+
+    .hero-analytics-backdrop {
+        width: 52vw;
+        max-width: 720px;
+        right: -3%;
+    }
+
+    .about-editorial-split {
+        gap: 2.8rem;
+    }
+}
+
+/* 2. Laptop / Compact Desktop (<= 1280px) */
+@media (max-width: 1280px) {
+    .hero-editorial {
+        min-height: auto;
+        padding: 3.5rem 2.5rem;
+    }
+
+    .hero-analytics-backdrop {
+        width: 56vw;
+        max-width: 650px;
+        top: 0;
+        right: -5%;
+        opacity: 0.22;
+    }
+
+    [data-theme="dark"] .hero-analytics-backdrop {
+        opacity: 0.30;
+    }
+
+    .about-editorial-split {
+        grid-template-columns: 1.25fr 1fr;
+        gap: 2.2rem;
+    }
+
+    .skills-editorial-board {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .credential-plaque-object {
+        grid-template-columns: 260px 1fr;
+        gap: 1.8rem;
+    }
+
+    .projects-editorial-grid {
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.5rem;
+    }
+
+    .project-showcase-featured,
+    .project-compact-interactive,
+    .project-research-document,
+    .project-analytical-dossier {
+        grid-column: span 6;
+    }
+}
+
+/* 3. Small Laptop / Large Tablet (<= 1024px) */
+@media (max-width: 1024px) {
+    .hero-editorial {
+        padding: 3.8rem 2rem 3rem;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: clamp(2.2rem, 5vw, 3.4rem);
+        max-width: 100%;
+    }
+
+    .hero-sub {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .hero-analytics-backdrop {
+        position: absolute;
+        width: 68vw;
+        max-width: 620px;
+        top: 2%;
+        right: -8%;
+        opacity: 0.20;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    [data-theme="dark"] .hero-analytics-backdrop {
+        opacity: 0.26;
+    }
+
+    .about-editorial-split {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .skills-editorial-board {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .projects-editorial-grid {
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.5rem;
+    }
+
+    .pipeline-node,
+    .project-showcase-featured,
+    .project-compact-interactive,
+    .project-research-document,
+    .project-analytical-dossier {
+        grid-column: span 12;
+    }
+
+    .pipeline-dag-canvas {
+        padding: 1.25rem;
+        border-radius: 18px;
+    }
+
+    .credential-plaque-object {
+        grid-template-columns: 240px 1fr;
+        gap: 1.5rem;
+    }
+
+    .contact-editorial-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+/* 4. Medium Tablet (<= 900px) */
+@media (max-width: 900px) {
+    .about-editorial-split {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+    }
+
+    .contact-editorial-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .skills-editorial-board {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* 5. Phablets / Tablet Portrait (<= 768px) */
+@media (max-width: 768px) {
+    .hero-editorial {
+        padding: 3.5rem 1.4rem 2.5rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.95rem, 6vw, 2.6rem);
+        line-height: 1.16;
+    }
+
+    .hero-sub {
+        font-size: 0.96rem;
+        line-height: 1.68;
+        text-align: left;
+        text-justify: auto;
+    }
+
+    .hero-lead-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .hero-lead-actions .btn {
+        flex: 1 1 auto;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    .hero-analytics-backdrop {
+        position: absolute;
+        top: 2%;
+        right: -20%;
+        width: 110vw;
+        max-width: 540px;
+        margin: 0;
+        opacity: 0.14;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    [data-theme="dark"] .hero-analytics-backdrop {
+        opacity: 0.20;
+    }
+
+    .hero-metrics-editorial {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .metric-divider {
+        display: none;
+    }
+
+    .credential-plaque-object {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        padding: 1.4rem;
+    }
+
+    .cert-plaque-media {
+        height: 190px;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .career-timeline-wrapper {
+        padding-left: 2rem;
+    }
+
+    .timeline-node-marker {
+        left: -2rem;
+    }
+
+    .timeline-continuous-track {
+        left: 9px;
+    }
+
+    .timeline-editorial-entry {
+        padding: 1.25rem 1rem;
+    }
+}
+
+/* 6. Smartphones (<= 640px) */
+@media (max-width: 640px) {
+    .hero-editorial {
+        padding: 3.25rem 1.15rem 2.25rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 7.5vw, 2.3rem);
+    }
+
+    .hero-lead-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-lead-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-metrics-editorial {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem 0.85rem;
+    }
+
+    .editorial-stat-block .stat-num {
+        font-size: 1.75rem;
+    }
+
+    .editorial-stat-block .stat-label {
+        font-size: 0.72rem;
+    }
+
+    .skills-editorial-board {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .skill-group-editorial {
+        padding: 1.4rem 1.1rem;
+    }
+
+    .skill-pill-editorial {
+        font-size: 0.74rem;
+        padding: 0.32rem 0.62rem;
+    }
+
+    .project-card-editorial {
+        padding: 1.4rem 1.1rem;
+    }
+
+    .project-showcase-visual {
+        min-height: 180px;
+    }
+
+    .showcase-metrics-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .form-row-minimal {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .circular-submit-btn {
+        width: 100%;
+        border-radius: var(--radius-md);
+        height: 48px;
+        justify-content: center;
+    }
+
+    .dossier-card-editorial {
+        padding: 1.25rem 1rem;
+    }
+
+    .dossier-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+}
+
+/* 7. Small Smartphones / iPhone SE (<= 480px) */
+@media (max-width: 480px) {
+    .hero-editorial {
+        padding: 3rem 0.9rem 2rem;
+    }
+
+    .hero-analytics-backdrop {
+        top: 4%;
+        right: -32%;
+        width: 135vw;
+        opacity: 0.10;
+    }
+
+    [data-theme="dark"] .hero-analytics-backdrop {
+        opacity: 0.15;
+    }
+
+    .hero-title {
+        font-size: clamp(1.65rem, 6.8vw, 1.95rem);
+    }
+
+    .hero-sub {
+        font-size: 0.92rem;
+        line-height: 1.62;
+    }
+
+    .hero-metrics-editorial {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 0.6rem;
+    }
+
+    .editorial-stat-block .stat-num {
+        font-size: 1.55rem;
+    }
+
+    .project-card-editorial {
+        padding: 1.15rem 0.85rem;
+    }
+
+    .credential-plaque-object {
+        padding: 1.15rem 0.85rem;
+    }
+
+    .career-timeline-wrapper {
+        padding-left: 1.5rem;
+    }
+
+    .timeline-node-marker {
+        left: -1.5rem;
+        width: 18px;
+        height: 18px;
+    }
+
+    .timeline-continuous-track {
+        left: 8px;
+    }
+
+    /* iOS Safari zoom prevention on input focus */
+    .contact-input,
+    .contact-textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* 8. Ultra-Narrow Devices (<= 360px) */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 1.48rem;
+        line-height: 1.2;
+    }
+
+    .hero-metrics-editorial {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .brand {
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        font-size: 0.78rem;
+        padding: 0.65rem 1rem;
+    }
+}
+
+/* ==========================================================================
+   9. Visual Transformation Metaphors Responsive Hierarchy
+   ========================================================================== */
+
+/* Tablet Landscape & Medium Displays (<= 1024px) */
+@media (max-width: 1024px) {
+    .about-magazine-spread {
+        grid-template-columns: 1fr;
+        gap: 2.25rem;
+    }
+
+    .about-masthead-col {
+        display: none;
+    }
+
+    .about-monument-col {
+        padding-left: 0;
+        border-left: none;
+        border-top: none;
+        padding-top: 0;
+        position: static;
+        display: block;
+    }
+
+    .about-profile-dossier {
+        margin-top: 0.5rem;
+    }
+
+    .projects-editorial-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .pipeline-node,
+    .project-showcase-featured,
+    .project-compact-interactive,
+    .project-research-document,
+    .project-analytical-dossier {
+        grid-column: span 1 !important;
+    }
+
+    .pipeline-dag-canvas {
+        padding: 1rem 0.75rem;
+        border-radius: 16px;
+    }
+
+    .dag-canvas-header-hud {
+        padding: 0.65rem 0.85rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .dag-circuit-track {
+        display: none;
+    }
+
+    .node-header-dock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .node-bottom-dock {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .node-bottom-dock .project-links {
+        width: 100%;
+    }
+
+    .node-bottom-dock .project-links .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .contact-editorial-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
+/* Tablets Portrait & Large Mobile (<= 768px) */
+@media (max-width: 768px) {
+    .constellation-clusters-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .milestones-journey-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .academic-milestone-item {
+        padding: 1.5rem;
+    }
+
+    .credential-plaque-object {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .editorial-intel-index {
+        padding: 1.5rem;
+    }
+
+    .intel-index-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .index-tag {
+        align-self: flex-start;
+    }
+
+    .chart-bar-row {
+        grid-template-columns: 140px 1fr 50px;
+        gap: 0.5rem;
+    }
+
+    .chart-bar-label {
+        font-size: 0.72rem;
+    }
+}
+
+/* Mobile & Small Screens (<= 640px) */
+@media (max-width: 640px) {
+    .form-row-minimal {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .roadmap-nodes-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+    }
+
+    .roadmap-connector {
+        display: none;
+    }
+
+    .roadmap-step {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .about-monument-col {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .chart-bar-row {
+        grid-template-columns: 110px 1fr 45px;
+        gap: 0.4rem;
+    }
+
+    .academic-milestone-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .milestone-year-hero {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.85rem;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        padding-right: 0;
+        padding-bottom: 0.75rem;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .year-status-tag {
+        margin-top: 0;
+    }
+
+    .showcase-metrics-bar {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .circular-buttons-row {
+        flex-wrap: wrap;
+    }
+
+    .footer-primary-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+
+    .footer-bottom-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    /* n8n Cosmic Footer & Components Mobile Adaptations */
+    .footer-top-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-brand-col {
+        grid-column: span 1;
+    }
+
+    .footer-bottom-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .footer-meta-links {
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+    }
+
+    .ecosystem-tray-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dual-banner-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .dual-ui-flow {
+        padding: 1.25rem;
+    }
+}
+
+/* Tablet (<= 1024px) adaptations for n8n components */
+@media (max-width: 1024px) {
+    .footer-top-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem 1.5rem;
+    }
+
+    .footer-brand-col {
+        grid-column: span 2;
+    }
+}
+
+/* Tablet Portrait (<= 768px) adaptations for n8n components */
+@media (max-width: 768px) {
+    .ecosystem-tray-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ecosystem-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .dual-banner-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-n8n-cosmic {
+        padding-top: 5rem;
+    }
+
+    .footer-horizon-title {
+        font-size: 1.5rem;
+    }
+
+    .footer-chassis {
+        padding: 2.5rem 1.5rem 1.5rem;
+        border-radius: 20px 20px 0 0;
+    }
+}
+
+
+

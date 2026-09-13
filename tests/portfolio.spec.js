@@ -99,25 +99,6 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     await expect(citeModal).toHaveClass(/active/);
 
     const closeBtn = page.locator('#closeCitationBtn');
-    const client = await page.context().newCDPSession(page);
-    await client.send('DOM.enable');
-    await client.send('CSS.enable');
-    const doc = await client.send('DOM.getDocument');
-    const node = await client.send('DOM.querySelector', { nodeId: doc.root.nodeId, selector: '#closeCitationBtn' });
-    const res = await page.evaluate(() => {
-      const btn = document.getElementById('closeCitationBtn');
-      btn.focus();
-      return {
-        activeId: document.activeElement ? document.activeElement.id : 'null',
-        btnMatchesFocus: btn.matches(':focus'),
-        btnTabindex: btn.tabIndex,
-        btnDisabled: btn.disabled,
-        isConnected: btn.isConnected,
-        offsetParent: btn.offsetParent !== null
-      };
-    });
-    console.log('MANUAL FOCUS EVALUATION:', res);
-
     await expect(closeBtn).toBeFocused();
 
     // Press Escape to close
@@ -126,5 +107,46 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // Focus must return to trigger
     await expect(citeTrigger).toBeFocused();
+  });
+
+  test.skip('Developer & Analytics Dashboard renders properly with interactive controls (commented out)', async ({ page }) => {
+    await page.goto('/portfolio/');
+
+    const dashboardSection = page.locator('#dashboard');
+    await expect(dashboardSection).toBeVisible();
+
+    // Verify 4 KPI cards exist
+    const kpiCards = page.locator('.dash-kpi-card');
+    expect(await kpiCards.count()).toBe(4);
+
+    // Verify Timeframe toggle works
+    const allRangeBtn = page.locator('.dash-range-btn[data-range="all"]');
+    const recentRangeBtn = page.locator('.dash-range-btn[data-range="current"]');
+    const repoCount = page.locator('#kpi-repo-count');
+
+    await expect(allRangeBtn).toHaveClass(/active/);
+    await expect(repoCount).toContainText('6+');
+
+    await recentRangeBtn.click();
+    await expect(recentRangeBtn).toHaveClass(/active/);
+    await expect(repoCount).toContainText('4+');
+
+    // Switch back
+    await allRangeBtn.click();
+    await expect(repoCount).toContainText('6+');
+
+    // Verify Donut Chart & Legend
+    const donutSvg = page.locator('.donut-chart-svg');
+    await expect(donutSvg).toBeVisible();
+    const legendPills = page.locator('.donut-legend-pill');
+    expect(await legendPills.count()).toBe(4);
+
+    // Verify Activity Bar Chart
+    const barCols = page.locator('.activity-bar-col');
+    expect(await barCols.count()).toBe(6);
+
+    // Verify GitHub Live Sync card & LinkedIn Impact card
+    await expect(page.locator('.github-sync-card')).toBeVisible();
+    await expect(page.locator('.linkedin-impact-card')).toBeVisible();
   });
 });

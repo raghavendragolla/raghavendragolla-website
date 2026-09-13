@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://unpkg.com 'sha256-QxO8F08+C9PC+HPpqgl1aNzhGWuTDY9wbZ4ZnlbcBIE='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://unpkg.com 'sha256-QxO8F08+C9PC+HPpqgl1aNzhGWuTDY9wbZ4ZnlbcBIE='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://avatars.githubusercontent.com; connect-src 'self' https://api.web3forms.com https://api.github.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Trailing-slash URL Normalization (Prevents missing-slash CSS resolution failure) -->
@@ -28,10 +28,10 @@
 
   <title>Raghavendra Golla — Data Science &amp; Applied ML Portfolio</title>
   <meta name="description"
-    content="Portfolio of Raghavendra Golla — MSc Data Science, Chandigarh University. Machine learning, statistical modeling, computer vision, NLP, and healthcare AI projects.">
+    content="Portfolio of Raghavendra Golla — MSc Data Science, Chandigarh University. Data analytics, SQL, Power BI dashboards, statistical analysis, and machine learning projects.">
   <meta name="author" content="Raghavendra Golla">
   <meta name="keywords"
-    content="Raghavendra Golla, Data Science, Machine Learning, Python, PyTorch, Scikit-Learn, SQL, Portfolio, Chandigarh University, AI, Explainable AI">
+    content="Raghavendra Golla, Data Analytics, SQL, Power BI, Data Science, Machine Learning, Python, Excel, Portfolio, Chandigarh University">
   <meta name="robots" content="noindex, follow">
   <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0a0e14" media="(prefers-color-scheme: dark)">
@@ -104,7 +104,7 @@
         ],
         "sameAs": [
           "https://www.linkedin.com/in/raghavendra-golla-a25334192",
-          "https://github.com/raghavendrayadavgolla"
+          "https://github.com/raghavendragolla"
         ]
       },
       {
@@ -192,7 +192,7 @@
           </div>
           <div class="brand">
             Raghavendra Golla
-            <span>DATA SCIENCE • AI</span>
+            <span>DATA ANALYTICS • DATA SCIENCE</span>
           </div>
         </div>
 
@@ -233,9 +233,10 @@
 
       <!-- Sidebar Navigation List -->
       <ul class="navlist" id="navlist">
-        <li><a href="#home"><i data-lucide="house" aria-hidden="true"></i><span>Home</span></a></li>
+        <li><a href="#home"><i data-lucide="home" aria-hidden="true"></i><span>Home</span></a></li>
         <li><a href="#about"><i data-lucide="user" aria-hidden="true"></i><span>About</span></a></li>
         <li><a href="#skills"><i data-lucide="brain" aria-hidden="true"></i><span>Skills</span></a></li>
+        <!-- <li><a href="#dashboard"><i data-lucide="layout-dashboard" aria-hidden="true"></i><span>Dashboard</span></a></li> -->
         <li><a href="#projects"><i data-lucide="folder-git-2" aria-hidden="true"></i><span>Projects</span></a></li>
         <li><a href="#resume"><i data-lucide="file-text" aria-hidden="true"></i><span>Resume</span></a></li>
         <li><a href="#certifications"><i data-lucide="award" aria-hidden="true"></i><span>Certifications</span></a></li>
@@ -359,228 +360,898 @@
       <main id="main-content">
 
         <!-- ============ 1. HOME / HERO ============ -->
-        <section id="home">
-          <div class="status-badge">
-            <span class="badge-sparkle">✨</span>
-            <span>MSc Data Science &bull; Applied AI &amp; ML</span>
+        <section id="home" class="hero-editorial">
+          <!-- Data Analytics & Statistical Intelligence Visualizer (Ambient Responsive Backdrop) -->
+          <div class="hero-analytics-backdrop" aria-hidden="true">
+            <svg class="analytics-visualizer-svg" viewBox="0 0 880 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Flowing Trendline Chromatic Beam Gradient -->
+                <linearGradient id="analyticsBeam" x1="-30%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#E85D3F" stop-opacity="0.3" />
+                  <stop offset="35%" stop-color="#E85D3F" stop-opacity="0.95" />
+                  <stop offset="70%" stop-color="#4D6BFE" stop-opacity="0.9" />
+                  <stop offset="100%" stop-color="#4D6BFE" stop-opacity="0.3" />
+                  <animate attributeName="x1" from="-50%" to="100%" dur="5s" repeatCount="indefinite" />
+                  <animate attributeName="x2" from="50%" to="200%" dur="5s" repeatCount="indefinite" />
+                </linearGradient>
+
+                <linearGradient id="distGrad" x1="200" y1="120" x2="780" y2="560" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#E85D3F" stop-opacity="0.85" />
+                  <stop offset="50%" stop-color="#885DF5" stop-opacity="0.75" />
+                  <stop offset="100%" stop-color="#4D6BFE" stop-opacity="0.85" />
+                </linearGradient>
+
+                <linearGradient id="ciFillGrad" x1="0" y1="0" x2="0" y2="100%">
+                  <stop offset="0%" stop-color="#4D6BFE" stop-opacity="0.12" />
+                  <stop offset="100%" stop-color="#4D6BFE" stop-opacity="0.01" />
+                </linearGradient>
+
+                <radialGradient id="analyticsBasin" cx="540" cy="340" r="160" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#E85D3F" stop-opacity="0.14" />
+                  <stop offset="100%" stop-color="#E85D3F" stop-opacity="0" />
+                </radialGradient>
+
+                <marker id="analyticsArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <polygon points="0 0, 6 3, 0 6" fill="#E85D3F" />
+                </marker>
+              </defs>
+
+              <!-- Analytics Metric Grid & Coordinate Frame -->
+              <g class="analytics-grid-lines" opacity="0.35">
+                <line x1="220" y1="520" x2="840" y2="520" stroke="currentColor" stroke-width="1" />
+                <line x1="220" y1="360" x2="840" y2="360" stroke="currentColor" stroke-dasharray="3 4" stroke-width="0.8" />
+                <line x1="220" y1="200" x2="840" y2="200" stroke="currentColor" stroke-dasharray="3 4" stroke-width="0.8" />
+                <line x1="420" y1="120" x2="420" y2="540" stroke="currentColor" stroke-dasharray="3 4" stroke-width="0.8" />
+                <line x1="640" y1="120" x2="640" y2="540" stroke="currentColor" stroke-dasharray="3 4" stroke-width="0.8" />
+                <text x="820" y="512" class="analytics-axis-label">t (Timeline)</text>
+                <text x="228" y="140" class="analytics-axis-label">f(x) Distribution</text>
+              </g>
+
+              <!-- Discrete Frequency Histogram Bars (Data Profiling) -->
+              <g class="analytics-histogram-bars" opacity="0.22">
+                <rect x="280" y="470" width="22" height="50" rx="2" fill="currentColor" />
+                <rect x="312" y="430" width="22" height="90" rx="2" fill="currentColor" />
+                <rect x="344" y="380" width="22" height="140" rx="2" fill="currentColor" />
+                <rect x="376" y="320" width="22" height="200" rx="2" fill="currentColor" />
+                <rect x="408" y="270" width="22" height="250" rx="2" fill="#E85D3F" />
+                <rect x="440" y="310" width="22" height="210" rx="2" fill="currentColor" />
+                <rect x="472" y="370" width="22" height="150" rx="2" fill="currentColor" />
+                <rect x="504" y="420" width="22" height="100" rx="2" fill="currentColor" />
+                <rect x="536" y="460" width="22" height="60" rx="2" fill="currentColor" />
+                <rect x="568" y="485" width="22" height="35" rx="2" fill="currentColor" />
+              </g>
+
+              <!-- Central Analytics Basin Glow -->
+              <circle cx="540" cy="340" r="160" fill="url(#analyticsBasin)" />
+
+              <!-- Confidence Interval Shaded Area (95% CI) -->
+              <path class="analytics-ci-band"
+                d="M260,420 Q410,180 540,240 T820,380 L820,460 Q680,480 540,410 T260,490 Z"
+                fill="url(#ciFillGrad)" opacity="0.8" />
+
+              <!-- Flowing Trendline with Animated Pulse Beam -->
+              <path class="analytics-trend-glow"
+                d="M240,450 C340,380 430,220 540,260 C640,300 720,210 820,320"
+                stroke="url(#analyticsBeam)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+
+              <!-- Primary Gaussian Distribution Curve N(μ, σ²) -->
+              <path class="analytics-bell-curve"
+                d="M230,520 C290,520 340,510 380,440 C410,380 420,220 440,190 C460,220 480,400 520,480 C560,515 620,520 700,520"
+                stroke="url(#distGrad)" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.75" />
+              <text x="448" y="180" class="analytics-metric-label">μ (Target Mean)</text>
+
+              <!-- Pareto / Cumulative Density Curve -->
+              <path class="analytics-cumulative-curve"
+                d="M240,510 C360,480 440,390 520,300 C600,210 700,160 820,150"
+                stroke="var(--line)" stroke-width="1.2" stroke-dasharray="4 4" fill="none" opacity="0.6" />
+              <text x="760" y="142" class="analytics-metric-label">Pareto 80/20</text>
+
+              <!-- Hypothesis Testing Critical Region Indicator -->
+              <g class="analytics-hypothesis-flag" transform="translate(680, 240)">
+                <line x1="0" y1="0" x2="35" y2="-25" stroke="#E85D3F" stroke-width="1.5" marker-end="url(#analyticsArrow)" />
+                <rect x="42" y="-38" width="165" height="24" rx="4" class="analytics-tag-box" />
+                <text x="48" y="-22" class="analytics-tag-text">p-value &lt; 0.001 (Sig.)</text>
+              </g>
+
+              <!-- Key Data Analytics Competency Nodes (Upper & Right Perimeter) -->
+              <!-- Node 1: SQL & Data Pipeline Engine -->
+              <g class="analytics-node" transform="translate(620, 160)">
+                <circle cx="0" cy="0" r="14" class="node-pulse-ring" fill="#4D6BFE" fill-opacity="0.18" />
+                <circle cx="0" cy="0" r="5" fill="#4D6BFE" />
+                <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+                <rect x="12" y="-12" width="176" height="24" rx="4" class="analytics-tag-box" />
+                <text x="18" y="4" class="analytics-tag-text">SQL • Aggregation Pipeline</text>
+              </g>
+
+              <!-- Node 2: Power BI / Executive Dashboard Synthetics -->
+              <g class="analytics-node" transform="translate(680, 360)">
+                <circle cx="0" cy="0" r="14" class="node-pulse-ring" fill="#F59E0B" fill-opacity="0.18" />
+                <circle cx="0" cy="0" r="5" fill="#F59E0B" />
+                <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+                <rect x="12" y="-12" width="172" height="24" rx="4" class="analytics-tag-box" />
+                <text x="18" y="4" class="analytics-tag-text">Power BI • KPI Dashboards</text>
+              </g>
+
+              <!-- Node 3: Statistical Inference & Variance Modeling -->
+              <g class="analytics-node" transform="translate(560, 460)">
+                <circle cx="0" cy="0" r="14" class="node-pulse-ring" fill="#10B981" fill-opacity="0.18" />
+                <circle cx="0" cy="0" r="5" fill="#10B981" />
+                <circle cx="0" cy="0" r="2" fill="#FFFFFF" />
+                <rect x="12" y="-12" width="180" height="24" rx="4" class="analytics-tag-box" />
+                <text x="18" y="4" class="analytics-tag-text">Variance • σ² Model Fitting</text>
+              </g>
+
+              <!-- Rotating Analytics Reticle (Focal Point) -->
+              <g class="analytics-reticle" transform="translate(540, 260)">
+                <circle cx="0" cy="0" r="24" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.4" class="reticle-spin" />
+                <circle cx="0" cy="0" r="6" fill="#E85D3F" />
+                <text x="32" y="4" class="analytics-metric-label label-accent">Optimal Decision Minima</text>
+              </g>
+
+              <!-- Analytics HUD Metadata Stamp (Top Right) -->
+              <g class="analytics-hud-card" transform="translate(580, 35)">
+                <rect x="0" y="0" width="270" height="52" rx="4" class="hud-box" />
+                <text x="12" y="18" class="hud-kicker">DATA ANALYTICS INTELLIGENCE</text>
+                <text x="12" y="32" class="hud-meta">STACK: SQL • POWER BI • PYTHON</text>
+                <text x="12" y="44" class="hud-meta">INFERENCE: GAUSSIAN CI 95% // ETL</text>
+              </g>
+            </svg>
           </div>
 
-          <h1 class="hero-title">
-            Building toward <span class="dynamic-wrapper"><em id="dynamic-text">intelligent, data-driven
-                solutions.</em></span>
-          </h1>
+          <div class="hero-editorial-inner">
+            <h1 class="hero-title">
+              Turning data into <span class="dynamic-wrapper"><em id="dynamic-text">intelligent solutions.</em></span>
+            </h1>
 
-          <p class="hero-sub">
-            I'm an MSc Data Science student at Chandigarh University, engineering end-to-end machine learning pipelines,
-            predictive modeling architectures, and explainable AI solutions. Passionate about transforming complex
-            datasets into
-            actionable intelligence and high-impact real-world systems.
-          </p>
+            <p class="hero-sub">
+              MSc Data Science candidate at Chandigarh University specializing in Data Analytics, predictive modeling architectures, and business intelligence. Grounded in mathematical statistics and dedicated to turning complex data into dependable decision intelligence.
+            </p>
 
-          <div class="hero-actions">
-            <a href="#projects" class="btn primary">
-              <span>View Projects</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-            <a href="resume/resume.pdf" class="btn ghost" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
-                <polyline points="10 9 9 9 8 9"></polyline>
-              </svg>
-              <span>View Resume</span>
-            </a>
-            <a href="https://www.raghavendragolla.com/" class="btn ghost" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              <span>Main Hub</span>
-            </a>
-          </div>
+            <div class="hero-actions">
+              <a href="#projects" class="btn primary">
+                <span>Explore Projects</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <a href="resume/resume.pdf" class="btn ghost" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <span>Curriculum Vitae</span>
+              </a>
+              <a href="https://www.raghavendragolla.com/" class="btn ghost" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>Main Hub</span>
+              </a>
+            </div>
 
-          <!-- Animated Metrics Strip -->
-          <div class="hero-strip">
-            <div class="stat-box">
-              <div class="num stat-number" data-count="2027">2027</div>
-              <div class="lbl">Graduation Year</div>
-            </div>
-            <div class="stat-box">
-              <div class="num stat-number" data-count="6" data-suffix="+">6+</div>
-              <div class="lbl">End-to-End Projects</div>
-            </div>
-            <div class="stat-box">
-              <div class="num stat-number" data-count="100" data-suffix="%">100%</div>
-              <div class="lbl">Open Source Code</div>
-            </div>
-            <div class="stat-box">
-              <div class="num stat-number" data-count="12" data-suffix="+">12+</div>
-              <div class="lbl">Tools &amp; Frameworks</div>
+            <!-- Typographic Metrics Composition (Oversized Typography + Hairline Dividers) -->
+            <div class="hero-metrics-editorial">
+              <div class="metric-block">
+                <div class="metric-val-row">
+                  <span class="metric-num stat-number" data-count="2027">2027</span>
+                </div>
+                <span class="metric-label">MSc Graduation</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="metric-block">
+                <div class="metric-val-row">
+                  <span class="metric-num stat-number" data-count="6" data-suffix="+">6+</span>
+                </div>
+                <span class="metric-label">Practice Pipelines</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="metric-block">
+                <div class="metric-val-row">
+                  <span class="metric-num stat-number" data-count="100" data-suffix="%">100%</span>
+                </div>
+                <span class="metric-label">Open Source Git</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="metric-block">
+                <div class="metric-val-row">
+                  <span class="metric-num stat-number" data-count="12" data-suffix="+">12+</span>
+                </div>
+                <span class="metric-label">Tools &amp; Frameworks</span>
+              </div>
             </div>
           </div>
         </section>
 
 
-        <!-- ============ 2. ABOUT ============ -->
-        <section id="about">
-          <div class="section-head">
-            <span class="num-badge">02</span>
-            <h2>About Me</h2>
-          </div>
+        <!-- ============ 2. ABOUT (EDITORIAL MAGAZINE SPREAD) ============ -->
+        <section id="about" class="about-magazine-section">
+          <div class="about-magazine-spread">
+            <!-- LEFT: Giant Vertical Editorial Typography -->
+            <div class="about-masthead-col" aria-hidden="true">
+              <span class="giant-wordmark">ABOUT</span>
+              <span class="col-kicker">02 &bull; DOSSIER</span>
+            </div>
 
-          <div class="about-grid">
-            <div class="about-content">
-              <p>
-                I'm currently pursuing an MSc in Data Science at Chandigarh University (2025–2027), where I'm developing
-                rigorous foundations in mathematical statistics, predictive modeling, machine learning, and big data
-                architectures.
-                My focus lies in building scalable, practical systems that turn unstructured data into high-value
-                decision intelligence.
+            <!-- CENTER: Narrative Column with Dropcap, Pullquote & Career Roadmap -->
+            <div class="about-narrative-col">
+              <div class="section-head-inline">
+                <span class="num-badge">02</span>
+                <h2>Data Philosophy &amp; Candidate Overview</h2>
+              </div>
+              <p class="editorial-lead-dropcap">
+                <span class="dropcap">I</span>'m currently pursuing an MSc in Data Science at Chandigarh University (2025&ndash;2027), where I'm building rigorous foundations in mathematical statistics, predictive modeling architectures, and business intelligence. My core focus is translating raw, unstructured data into clear, decision-ready insights that drive measurable outcomes.
               </p>
-              <p>
-                My technical interests span Machine Learning, Computer Vision, Natural Language Processing, Explainable
-                AI (SHAP/LIME),
-                and Big Data engineering. Through active project development, I combine Python, SQL, PyTorch,
-                Scikit-Learn, Power BI,
-                and modern deployment frameworks to craft dependable data applications.
+              <p class="editorial-narrative-body">
+                I work across the full analytics lifecycle &mdash; extracting and aggregating records via complex SQL queries, transforming and modeling in Python (Pandas, NumPy, Scikit-Learn), and crafting stakeholder-ready dashboards in Power BI. Every predictive algorithm is built with clinical, statistical, and business interpretability at its core.
               </p>
-              <div class="callout">
-                <span class="tag">Active Focus</span>
-                Strengthening end-to-end data analytics and interpretable machine learning pipelines, specifically
-                researching
-                Explainable AI for early clinical risk forecasting and decision support systems.
+              <blockquote class="editorial-pullquote">
+                &ldquo;Data analytics creates lasting enterprise value only when mathematical precision translates into transparent, actionable human decisions.&rdquo;
+              </blockquote>
+
+              <!-- Career Trajectory Roadmap (Connected Progression Nodes) -->
+              <div class="career-roadmap-block">
+                <span class="roadmap-kicker">STRATEGIC CAREER ROADMAP &bull; TRAJECTORY</span>
+                <div class="roadmap-nodes-row">
+                  <div class="roadmap-step">
+                    <span class="step-dot"></span>
+                    <strong class="step-role">Data Analyst</strong>
+                    <span class="step-desc">SQL &bull; Power BI &bull; EDA</span>
+                  </div>
+                  <div class="roadmap-connector" aria-hidden="true">&rarr;</div>
+                  <div class="roadmap-step active-step">
+                    <span class="step-dot active-dot"></span>
+                    <strong class="step-role">Data Science (MSc)</strong>
+                    <span class="step-desc">Statistics &bull; Predictive ML</span>
+                  </div>
+                  <div class="roadmap-connector" aria-hidden="true">&rarr;</div>
+                  <div class="roadmap-step">
+                    <span class="step-dot"></span>
+                    <strong class="step-role">Applied AI</strong>
+                    <span class="step-desc">Deep Learning &bull; PyTorch</span>
+                  </div>
+                  <div class="roadmap-connector" aria-hidden="true">&rarr;</div>
+                  <div class="roadmap-step">
+                    <span class="step-dot"></span>
+                    <strong class="step-role">Explainable ML</strong>
+                    <span class="step-desc">Auditable Decision Systems</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Quick Facts Card -->
-            <div class="profile-summary">
-              <h3>Quick Facts</h3>
-              <ul class="fact-list">
-                <li><span>Programme</span><span>MSc Data Science (2025&ndash;2027)</span></li>
-                <li><span>University</span><span>Chandigarh University</span></li>
-                <li><span>Undergraduate</span><span>BSc Mathematics (Krishna Univ)</span></li>
-                <li><span>Location</span><span>Guntur, Andhra Pradesh, India</span></li>
-                <li><span>Specialisation</span><span>Data Analytics &bull; Applied AI</span></li>
-                <li><span>Availability</span><span>Internships &bull; Full-Time</span></li>
-              </ul>
+            <!-- RIGHT: Candidate Analytical Profile Dossier (Sticky, Balanced Layout) -->
+            <div class="about-monument-col">
+              <div class="about-profile-dossier">
+                <div class="dossier-head">
+                  <span class="dossier-kicker">CANDIDATE DOSSIER &bull; OVERVIEW</span>
+                  <span class="dossier-live-pill"><span class="pulse-live-dot" aria-hidden="true"></span> Available</span>
+                </div>
+
+                <div class="monument-block">
+                  <span class="monument-number">2027</span>
+                  <span class="monument-label">MSc Data Science &bull; Chandigarh Univ</span>
+                  <p class="monument-detail">Statistical inference, predictive machine learning pipelines, and advanced analytics.</p>
+                </div>
+
+                <div class="hairline-divider"></div>
+
+                <div class="monument-block">
+                  <span class="monument-number">BSc</span>
+                  <span class="monument-label">Mathematics Core &bull; Krishna Univ</span>
+                  <p class="monument-detail">Mathematical grounding across linear algebra, calculus, and probability distributions.</p>
+                </div>
+
+                <div class="hairline-divider"></div>
+
+                <div class="dossier-competencies-block">
+                  <span class="dossier-sub-heading">Primary Competencies:</span>
+                  <div class="dossier-pills-wrap">
+                    <span class="dossier-pill"><i data-lucide="database" aria-hidden="true"></i> SQL &amp; Data Warehousing</span>
+                    <span class="dossier-pill"><i data-lucide="bar-chart-2" aria-hidden="true"></i> Power BI Dashboards</span>
+                    <span class="dossier-pill"><i data-lucide="binary" aria-hidden="true"></i> Python (Pandas, NumPy)</span>
+                    <span class="dossier-pill"><i data-lucide="cpu" aria-hidden="true"></i> Machine Learning (Scikit-Learn)</span>
+                    <span class="dossier-pill"><i data-lucide="search" aria-hidden="true"></i> Explainable AI (SHAP &amp; LIME)</span>
+                  </div>
+                </div>
+
+                <div class="hairline-divider"></div>
+
+                <div class="monument-status-flag">
+                  <i data-lucide="map-pin" aria-hidden="true"></i>
+                  <span>Guntur, AP, India &bull; Open to Relocation (IN | DE)</span>
+                </div>
+
+                <div class="dossier-quick-actions">
+                  <a href="resume/resume.pdf" class="btn primary btn-sm" target="_blank" rel="noopener noreferrer">
+                    <i data-lucide="file-text" aria-hidden="true"></i>
+                    <span>View CV (PDF)</span>
+                  </a>
+                  <a href="#projects" class="btn ghost btn-sm">
+                    <i data-lucide="folder-git-2" aria-hidden="true"></i>
+                    <span>Explore Projects</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
 
-        <!-- ============ 3. SKILLS ============ -->
-        <section id="skills">
+        <!-- ============ 3. SKILLS (CONSTELLATION & KNOWLEDGE MAP) ============ -->
+        <section id="skills" class="skills-constellation-section">
           <div class="section-head">
             <span class="num-badge">03</span>
-            <h2>Technical Skills</h2>
+            <h2>Technical Skill Constellation</h2>
+          </div>
+          <p class="section-lead">
+            Integrated knowledge ecosystem spanning statistical computing, machine learning architectures, distributed pipelines, and business intelligence.
+          </p>
+
+          <div class="skill-constellation-map">
+            <!-- Constellation Category Planetary Clusters -->
+            <div class="constellation-clusters-grid">
+
+              <!-- Cluster 1: Programming & Databases -->
+              <div class="constellation-cluster cluster-programming">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Programming &amp; Relational Databases</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Python</span>
+                  <span class="skill-pill-node pill-dominant">SQL (PostgreSQL &bull; MySQL)</span>
+                  <span class="skill-pill-node pill-standard">Git / GitHub</span>
+                  <span class="skill-pill-node pill-minor">JavaScript (Core UI)</span>
+                  <span class="skill-pill-node pill-minor">Relational Schema Design</span>
+                </div>
+              </div>
+
+              <!-- Cluster 2: Machine Learning & Explainable AI -->
+              <div class="constellation-cluster cluster-ml">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Machine Learning &amp; Explainable AI</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Scikit-Learn</span>
+                  <span class="skill-pill-node pill-dominant">PyTorch (CNNs)</span>
+                  <span class="skill-pill-node pill-highlight">Explainable AI (SHAP &bull; LIME)</span>
+                  <span class="skill-pill-node pill-standard">Supervised Learning (RF &bull; GBM &bull; SVM)</span>
+                  <span class="skill-pill-node pill-standard">Feature Engineering &amp; Scaling</span>
+                  <span class="skill-pill-node pill-minor">Unsupervised Learning (PCA &bull; K-Means)</span>
+                </div>
+              </div>
+
+              <!-- Cluster 3: Data Analysis & Visualization -->
+              <div class="constellation-cluster cluster-analytics">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Data Analytics &amp; Visualization</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Pandas</span>
+                  <span class="skill-pill-node pill-dominant">NumPy</span>
+                  <span class="skill-pill-node pill-highlight">Power BI (DAX &bull; Visual Analytics)</span>
+                  <span class="skill-pill-node pill-standard">Matplotlib &bull; Seaborn</span>
+                  <span class="skill-pill-node pill-standard">Plotly (Interactive)</span>
+                  <span class="skill-pill-node pill-minor">Advanced Excel (Pivot &bull; VLOOKUP)</span>
+                </div>
+              </div>
+
+              <!-- Cluster 4: Big Data & Distributed Architectures -->
+              <div class="constellation-cluster cluster-bigdata">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Big Data &amp; Distributed Systems</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Apache Spark (PySpark)</span>
+                  <span class="skill-pill-node pill-standard">Hadoop Ecosystem</span>
+                  <span class="skill-pill-node pill-standard">Apache Hive</span>
+                  <span class="skill-pill-node pill-minor">Apache Kafka</span>
+                  <span class="skill-pill-node pill-minor">HDFS Storage</span>
+                </div>
+              </div>
+
+              <!-- Cluster 5: Statistical Modeling & Mathematics -->
+              <div class="constellation-cluster cluster-stats">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Statistical Inference &amp; Mathematics</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Hypothesis Testing (ANOVA &bull; t-test)</span>
+                  <span class="skill-pill-node pill-standard">Regression Modeling (OLS &bull; Ridge &bull; Lasso)</span>
+                  <span class="skill-pill-node pill-standard">Probability Distributions</span>
+                  <span class="skill-pill-node pill-minor">Linear Algebra &bull; Calculus</span>
+                </div>
+              </div>
+
+              <!-- Cluster 6: Deployment & Developer Tools -->
+              <div class="constellation-cluster cluster-tools">
+                <div class="cluster-orbit-header">
+                  <span class="cluster-node-dot" aria-hidden="true"></span>
+                  <h3 class="cluster-title">Application Delivery &amp; Environments</h3>
+                </div>
+                <div class="cluster-pills-field">
+                  <span class="skill-pill-node pill-dominant">Streamlit Applications</span>
+                  <span class="skill-pill-node pill-standard">FastAPI Endpoints</span>
+                  <span class="skill-pill-node pill-standard">MongoDB NoSQL</span>
+                  <span class="skill-pill-node pill-minor">Linux Bash / Terminal</span>
+                  <span class="skill-pill-node pill-minor">VS Code Debugging</span>
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          <div class="skill-groups">
-            <div class="skill-group">
-              <h3><i data-lucide="code-2" aria-hidden="true"></i> Programming &amp; Databases</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Python: Pandas, NumPy, Scikit-Learn, PyTorch & Automation">🐍
-                  Python</span>
-                <span class="chip" data-info="SQL: Aggregations, joins, window functions & relational modeling">📊
-                  SQL</span>
-                <span class="chip" data-info="Git & GitHub: Version control, branching & open research">🐙 Git /
-                  GitHub</span>
-                <span class="chip" data-info="JavaScript: Front-end scripting & UI interactivity">⚡ JavaScript
-                  (Basic)</span>
-              </div>
+          <!-- n8n-Inspired Toolchain & Ecosystem Connectivity Tray -->
+          <div class="ecosystem-connectivity-block">
+            <div class="ecosystem-header">
+              <span class="ecosystem-kicker">ECOSYSTEM INTEROPERABILITY</span>
+              <h3 class="ecosystem-title">Plug intelligence into your data stack &amp; pipeline architecture</h3>
+              <p class="ecosystem-sub">End-to-end integration across statistical computing runtimes, distributed clusters, relational databases, and enterprise BI dashboards.</p>
             </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="brain" aria-hidden="true"></i> Machine Learning &amp; AI</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Scikit-Learn: Classification, regression & ensemble models">🤖
-                  scikit-learn</span>
-                <span class="chip" data-info="PyTorch: Deep learning CNNs, tensors & neural training">🔥 PyTorch</span>
-                <span class="chip" data-info="Supervised Learning: Random Forests, SVMs, Logistic Regression">🎯
-                  Supervised ML</span>
-                <span class="chip" data-info="Unsupervised Learning: K-Means, PCA & clustering">🧩 Unsupervised
-                  ML</span>
-                <span class="chip" data-info="Explainable AI: Model interpretability with SHAP & feature importance">🔬
-                  Explainable AI (SHAP)</span>
-                <span class="chip" data-info="Feature Engineering: Scaling, encoding, imputation & transformations">🛠️
-                  Feature Engineering</span>
+            <div class="ecosystem-tray-grid">
+              <div class="ecosystem-squircle-chip" title="Python 3.11+ • Scientific computing &amp; machine learning">
+                <span class="chip-icon-box">🐍</span>
+                <div class="chip-meta"><strong class="chip-name">Python</strong><span class="chip-category">Core Scripts</span></div>
               </div>
-            </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="bar-chart-3" aria-hidden="true"></i> Data Analysis &amp; Visualization</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Pandas: Data wrangling, cleaning & tabular operations">📈 Pandas</span>
-                <span class="chip" data-info="NumPy: High-performance multidimensional array math">🔢 NumPy</span>
-                <span class="chip" data-info="Power BI: Interactive dashboards & business intelligence">📊 Power
-                  BI</span>
-                <span class="chip" data-info="Matplotlib & Seaborn: Statistical plotting & heatmaps">📉 Matplotlib /
-                  Seaborn</span>
-                <span class="chip" data-info="Plotly: Interactive charts & web visualizations">✨ Plotly</span>
-                <span class="chip" data-info="Excel: Pivot tables, VLOOKUP & data analysis">📑 Advanced Excel</span>
+              <div class="ecosystem-squircle-chip" title="PostgreSQL / SQL • Relational schema design &amp; window aggregations">
+                <span class="chip-icon-box">🐘</span>
+                <div class="chip-meta"><strong class="chip-name">PostgreSQL</strong><span class="chip-category">Relational DB</span></div>
               </div>
-            </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="database" aria-hidden="true"></i> Big Data &amp; Distributed Systems</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Hadoop: Distributed ecosystem & cluster architecture">🐘 Hadoop</span>
-                <span class="chip" data-info="Hive: Data warehousing & SQL on Hadoop">🐝 Apache Hive</span>
-                <span class="chip" data-info="Spark: Distributed in-memory data transformations">⚡ Apache Spark</span>
-                <span class="chip" data-info="Kafka: Real-time event streaming pipelines">📡 Apache Kafka</span>
-                <span class="chip" data-info="HDFS: Distributed file system storage">📁 HDFS</span>
+              <div class="ecosystem-squircle-chip" title="Power BI • Executive DAX modeling &amp; visual analytics">
+                <span class="chip-icon-box">📊</span>
+                <div class="chip-meta"><strong class="chip-name">Power BI</strong><span class="chip-category">Business Intel</span></div>
               </div>
-            </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="sigma" aria-hidden="true"></i> Statistical Modeling</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Probability Distributions: Normal, Binomial & Poisson">🎲
-                  Probability</span>
-                <span class="chip" data-info="Hypothesis Testing: T-tests, ANOVA & Chi-Square tests">🧪 Hypothesis
-                  Testing</span>
-                <span class="chip" data-info="Regression: OLS, Ridge, Lasso & Logistic">📐 Regression Analysis</span>
-                <span class="chip" data-info="Inference: Confidence intervals & p-values">🔍 Statistical
-                  Inference</span>
+              <div class="ecosystem-squircle-chip" title="PyTorch • Deep learning CNNs &amp; neural architectures">
+                <span class="chip-icon-box">🔥</span>
+                <div class="chip-meta"><strong class="chip-name">PyTorch</strong><span class="chip-category">Deep Learning</span></div>
               </div>
-            </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="server" aria-hidden="true"></i> Tools &amp; Deployment</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="Streamlit: Rapid interactive ML web application prototypes">🎈
-                  Streamlit</span>
-                <span class="chip" data-info="FastAPI: High-performance Python REST APIs & endpoints">⚡ FastAPI</span>
-                <span class="chip" data-info="MongoDB: Document-oriented NoSQL databases">🍃 MongoDB</span>
-                <span class="chip" data-info="Linux: Terminal operations, shell scripts & cron">🐧 Linux / Bash</span>
-                <span class="chip" data-info="VS Code: Development IDE, extensions & debugger">💻 VS Code</span>
+              <div class="ecosystem-squircle-chip" title="Apache Spark • PySpark distributed cluster computing">
+                <span class="chip-icon-box">⚡</span>
+                <div class="chip-meta"><strong class="chip-name">Apache Spark</strong><span class="chip-category">Distributed Data</span></div>
               </div>
-            </div>
-
-            <div class="skill-group">
-              <h3><i data-lucide="languages" aria-hidden="true"></i> Human Languages</h3>
-              <div class="chip-row">
-                <span class="chip" data-info="English: Fluent professional working proficiency">🌐 English
-                  (Professional)</span>
-                <span class="chip" data-info="Telugu: Native speaker">🗣️ Telugu (Native)</span>
-                <span class="chip" data-info="German: Currently learning (A1/A2)">🇩🇪 German (Learning)</span>
+              <div class="ecosystem-squircle-chip" title="Scikit-Learn • Supervised learning &amp; pipeline automation">
+                <span class="chip-icon-box">⚙️</span>
+                <div class="chip-meta"><strong class="chip-name">Scikit-Learn</strong><span class="chip-category">ML Algorithms</span></div>
+              </div>
+              <div class="ecosystem-squircle-chip" title="Pandas &amp; NumPy • High-speed feature transformation">
+                <span class="chip-icon-box">🐼</span>
+                <div class="chip-meta"><strong class="chip-name">Pandas / NumPy</strong><span class="chip-category">Data Wrangling</span></div>
+              </div>
+              <div class="ecosystem-squircle-chip" title="Explainable AI • SHAP game-theoretic attributions &amp; LIME">
+                <span class="chip-icon-box">🔬</span>
+                <div class="chip-meta"><strong class="chip-name">SHAP &amp; LIME</strong><span class="chip-category">Explainable AI</span></div>
+              </div>
+              <div class="ecosystem-squircle-chip" title="Streamlit • Real-time web application deployment">
+                <span class="chip-icon-box">🚀</span>
+                <div class="chip-meta"><strong class="chip-name">Streamlit</strong><span class="chip-category">App Delivery</span></div>
+              </div>
+              <div class="ecosystem-squircle-chip" title="Git &amp; GitHub • Continuous delivery &amp; reproducible research">
+                <span class="chip-icon-box">🐙</span>
+                <div class="chip-meta"><strong class="chip-name">Git / GitHub</strong><span class="chip-category">Version Control</span></div>
               </div>
             </div>
           </div>
         </section>
 
 
-        <!-- ============ 4. PROJECTS ============ -->
+        <!-- ============ 4. LIVE DASHBOARD (COMMENTED OUT) ============
+[-- ============ 4. LIVE DASHBOARD ============ --]
+        <section id="dashboard" class="dashboard-section">
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="num-badge">04</span>
+              <h2>Developer &amp; Analytics Hub</h2>
+            </div>
+            <div class="dashboard-head-actions">
+              <div class="dashboard-live-indicator" title="Live telemetry and metrics active">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span class="live-text">LIVE METRICS</span>
+              </div>
+              <div class="dash-controls" role="group" aria-label="Metric timeframe selection">
+                <button type="button" class="dash-range-btn active" data-range="all" aria-pressed="true">All Time</button>
+                <button type="button" class="dash-range-btn" data-range="current" aria-pressed="false">2026 Focus</button>
+              </div>
+            </div>
+          </div>
+
+          <p class="section-lead">
+            Real-time telemetry across repository velocity, machine learning benchmarks, language distribution, and professional presence.
+          </p>
+
+          [-- Top Metric KPI Cards --]
+          <div class="dashboard-kpi-grid">
+            <div class="dash-kpi-card" data-metric="repos">
+              <div class="kpi-card-header">
+                <div class="kpi-icon-wrap kpi-icon-github">
+                  <i data-lucide="folder-git-2" aria-hidden="true"></i>
+                </div>
+                <span class="kpi-badge kpi-badge-teal">GitHub Repos</span>
+              </div>
+              <div class="kpi-value-wrap">
+                <strong class="kpi-value" id="kpi-repo-count">6+</strong>
+                <span class="kpi-unit">Core Pipelines</span>
+              </div>
+              <p class="kpi-desc">Open-source machine learning pipelines, exploratory data analytics &amp; interactive web apps on GitHub.</p>
+              <div class="kpi-footer">
+                <span class="kpi-trend"><i data-lucide="trending-up" aria-hidden="true"></i> @raghavendragolla</span>
+                <span class="kpi-meta" id="kpi-repo-meta">Active Repositories</span>
+              </div>
+            </div>
+
+            <div class="dash-kpi-card" data-metric="commits">
+              <div class="kpi-card-header">
+                <div class="kpi-icon-wrap kpi-icon-commits">
+                  <i data-lucide="git-commit" aria-hidden="true"></i>
+                </div>
+                <span class="kpi-badge kpi-badge-indigo">+24% Velocity</span>
+              </div>
+              <div class="kpi-value-wrap">
+                <strong class="kpi-value" id="kpi-commit-count">280+</strong>
+                <span class="kpi-unit">Commits Logged</span>
+              </div>
+              <p class="kpi-desc">Structured Git revisions spanning model training, feature transformations &amp; web apps.</p>
+              <div class="kpi-footer">
+                <span class="kpi-trend"><i data-lucide="sparkles" aria-hidden="true"></i> Continuous Delivery</span>
+                <span class="kpi-meta">Last 12 Months</span>
+              </div>
+            </div>
+
+            <div class="dash-kpi-card" data-metric="accuracy">
+              <div class="kpi-card-header">
+                <div class="kpi-icon-wrap kpi-icon-ai">
+                  <i data-lucide="cpu" aria-hidden="true"></i>
+                </div>
+                <span class="kpi-badge kpi-badge-amber">Top Accuracy</span>
+              </div>
+              <div class="kpi-value-wrap">
+                <strong class="kpi-value" id="kpi-accuracy-count">99.6%</strong>
+                <span class="kpi-unit">Test Accuracy</span>
+              </div>
+              <p class="kpi-desc">Peak test classification score achieved on PyTorch CNN (MNIST benchmark) with live canvas inference.</p>
+              <div class="kpi-footer">
+                <span class="kpi-trend"><i data-lucide="check-circle-2" aria-hidden="true"></i> R&sup2; = 0.84</span>
+                <span class="kpi-meta">California Housing</span>
+              </div>
+            </div>
+
+            <div class="dash-kpi-card" data-metric="network">
+              <div class="kpi-card-header">
+                <div class="kpi-icon-wrap kpi-icon-linkedin">
+                  <i data-lucide="graduation-cap" aria-hidden="true"></i>
+                </div>
+                <span class="kpi-badge kpi-badge-blue">Academic Focus</span>
+              </div>
+              <div class="kpi-value-wrap">
+                <strong class="kpi-value" id="kpi-network-count">MSc '27</strong>
+                <span class="kpi-unit">Data Science</span>
+              </div>
+              <p class="kpi-desc">Rigorous MSc Data Science curriculum at Chandigarh University; BSc in Mathematics from Krishna University.</p>
+              <div class="kpi-footer">
+                <span class="kpi-trend"><i data-lucide="award" aria-hidden="true"></i> Chandigarh Univ</span>
+                <span class="kpi-meta">BSc Mathematics Core</span>
+              </div>
+            </div>
+          </div>
+
+          [-- Codebase & Pipeline Composition (Horizontal Stacked Bar) --]
+          <div class="dashboard-composition-card">
+            <div class="composition-card-head">
+              <div class="comp-title-block">
+                <h3>Pipeline &amp; Code Architecture</h3>
+                <span class="comp-sub">Distribution across production deployments, deep learning models, and analytics</span>
+              </div>
+              <span class="comp-source-tag">VIA GITHUB &amp; REPOSITORIES</span>
+            </div>
+
+            <div class="comp-bar-track">
+              <div class="comp-segment comp-segment-prod" data-tooltip="Production ML &amp; Web Apps: 65%"></div>
+              <div class="comp-segment comp-segment-research" data-tooltip="Research &amp; Deep Learning: 25%"></div>
+              <div class="comp-segment comp-segment-eda" data-tooltip="Exploratory Data Analysis: 10%"></div>
+            </div>
+
+            <div class="comp-legend">
+              <div class="comp-legend-item">
+                <span class="comp-dot comp-dot-prod" aria-hidden="true"></span>
+                <span class="comp-label">Production ML &amp; Web Apps</span>
+                <strong class="comp-val">65%</strong>
+              </div>
+              <div class="comp-legend-item">
+                <span class="comp-dot comp-dot-research" aria-hidden="true"></span>
+                <span class="comp-label">Research &amp; Deep Learning</span>
+                <strong class="comp-val">25%</strong>
+              </div>
+              <div class="comp-legend-item">
+                <span class="comp-dot comp-dot-eda" aria-hidden="true"></span>
+                <span class="comp-label">Exploratory Data Analysis</span>
+                <strong class="comp-val">10%</strong>
+              </div>
+            </div>
+          </div>
+
+          [-- 2-Column Analytics Charts Row (Pie / Donut Chart + Activity Bar Chart) --]
+          <div class="dashboard-charts-row">
+            [-- Left: Interactive Tech Stack Pie/Donut Chart --]
+            <div class="dash-chart-card">
+              <div class="chart-card-header">
+                <div>
+                  <h3 class="chart-title">Tech Stack &amp; Language Distribution</h3>
+                  <span class="chart-sub">Volume of codebase logic &amp; model scripts</span>
+                </div>
+                <span class="chart-badge">Interactive</span>
+              </div>
+
+              <div class="donut-chart-layout">
+                <div class="donut-chart-wrapper">
+                  <svg class="donut-chart-svg" viewBox="0 0 200 200" role="img" aria-label="Tech Stack Donut Chart showing Python 48%, SQL 24%, PyTorch &amp; ML 18%, Web &amp; Streamlit 10%">
+                    <circle class="donut-bg-ring" cx="100" cy="100" r="75"></circle>
+                    <circle class="donut-slice slice-python" cx="100" cy="100" r="75" stroke-dasharray="226.2 471.24" stroke-dashoffset="0" data-lang="Python" data-pct="48%" data-info="Pandas, NumPy, Scikit-Learn &amp; Core Scripts"></circle>
+                    <circle class="donut-slice slice-sql" cx="100" cy="100" r="75" stroke-dasharray="113.1 471.24" stroke-dashoffset="-226.2" data-lang="SQL &amp; Data" data-pct="24%" data-info="Relational Modeling, Aggregations &amp; Queries"></circle>
+                    <circle class="donut-slice slice-pytorch" cx="100" cy="100" r="75" stroke-dasharray="84.8 471.24" stroke-dashoffset="-339.3" data-lang="PyTorch &amp; ML" data-pct="18%" data-info="Neural Networks, CNNs, XAI &amp; Training Pipelines"></circle>
+                    <circle class="donut-slice slice-web" cx="100" cy="100" r="75" stroke-dasharray="47.1 471.24" stroke-dashoffset="-424.1" data-lang="Web &amp; Dashboards" data-pct="10%" data-info="Streamlit Apps, FastAPI &amp; JavaScript"></circle>
+                  </svg>
+                  <div class="donut-center-readout" aria-live="polite">
+                    <strong class="donut-center-pct" id="donutPct">48%</strong>
+                    <span class="donut-center-label" id="donutLabel">Python</span>
+                    <span class="donut-center-sub" id="donutSub">Core ML &amp; Data</span>
+                  </div>
+                </div>
+
+                <ul class="donut-legend-list">
+                  <li class="donut-legend-pill active" data-target="slice-python" tabindex="0">
+                    <span class="legend-color-dot color-python" aria-hidden="true"></span>
+                    <div class="legend-info">
+                      <span class="legend-name">Python</span>
+                      <span class="legend-desc">Pandas, Scikit-Learn</span>
+                    </div>
+                    <strong class="legend-percent">48%</strong>
+                  </li>
+                  <li class="donut-legend-pill" data-target="slice-sql" tabindex="0">
+                    <span class="legend-color-dot color-sql" aria-hidden="true"></span>
+                    <div class="legend-info">
+                      <span class="legend-name">SQL &amp; Databases</span>
+                      <span class="legend-desc">Relational &amp; Queries</span>
+                    </div>
+                    <strong class="legend-percent">24%</strong>
+                  </li>
+                  <li class="donut-legend-pill" data-target="slice-pytorch" tabindex="0">
+                    <span class="legend-color-dot color-pytorch" aria-hidden="true"></span>
+                    <div class="legend-info">
+                      <span class="legend-name">PyTorch &amp; ML</span>
+                      <span class="legend-desc">Neural Nets &amp; XAI</span>
+                    </div>
+                    <strong class="legend-percent">18%</strong>
+                  </li>
+                  <li class="donut-legend-pill" data-target="slice-web" tabindex="0">
+                    <span class="legend-color-dot color-web" aria-hidden="true"></span>
+                    <div class="legend-info">
+                      <span class="legend-name">Web &amp; APIs</span>
+                      <span class="legend-desc">Streamlit, FastAPI</span>
+                    </div>
+                    <strong class="legend-percent">10%</strong>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            [-- Right: Interactive Monthly Activity & Commits Bar Chart --]
+            <div class="dash-chart-card">
+              <div class="chart-card-header">
+                <div>
+                  <h3 class="chart-title">Development Activity &amp; Milestones</h3>
+                  <span class="chart-sub">Revisions, research experiments &amp; deliveries</span>
+                </div>
+                <div class="activity-total-badge">
+                  <strong id="barChartTotal">+280</strong>
+                  <span>Commits</span>
+                </div>
+              </div>
+
+              <div class="bar-chart-container">
+                <div class="chart-grid-lines" aria-hidden="true">
+                  <div class="grid-line"><span class="grid-label">60</span></div>
+                  <div class="grid-line"><span class="grid-label">40</span></div>
+                  <div class="grid-line"><span class="grid-label">20</span></div>
+                  <div class="grid-line"><span class="grid-label">0</span></div>
+                </div>
+
+                <div class="bars-flex-wrap">
+                  <div class="activity-bar-col" tabindex="0" data-month="Oct" data-commits="34" data-note="Data preprocessing &amp; EDA baseline pipelines">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-oct"></div>
+                    </div>
+                    <span class="bar-col-label">Oct</span>
+                  </div>
+                  <div class="activity-bar-col" tabindex="0" data-month="Nov" data-commits="48" data-note="Implemented California Housing regression models">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-nov"></div>
+                    </div>
+                    <span class="bar-col-label">Nov</span>
+                  </div>
+                  <div class="activity-bar-col" tabindex="0" data-month="Dec" data-commits="38" data-note="Streamlit interactive web dashboard deployment">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-dec"></div>
+                    </div>
+                    <span class="bar-col-label">Dec</span>
+                  </div>
+                  <div class="activity-bar-col" tabindex="0" data-month="Jan" data-commits="52" data-note="Deep learning CNN architecture research &amp; training">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-jan"></div>
+                    </div>
+                    <span class="bar-col-label">Jan</span>
+                  </div>
+                  <div class="activity-bar-col active-month" tabindex="0" data-month="Feb" data-commits="60" data-note="Cardiovascular XAI research paper &amp; SHAP integration">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-feb"></div>
+                    </div>
+                    <span class="bar-col-label">Feb</span>
+                  </div>
+                  <div class="activity-bar-col" tabindex="0" data-month="Mar" data-commits="48" data-note="Portfolio telemetry, live APIs &amp; PWA enhancements">
+                    <div class="bar-fill-track">
+                      <div class="bar-fill bar-fill-mar"></div>
+                    </div>
+                    <span class="bar-col-label">Mar</span>
+                  </div>
+                </div>
+
+                [-- Floating Interactive Bar Tooltip --]
+                <div class="bar-hover-tooltip" id="barTooltip" role="tooltip" aria-hidden="true">
+                  <strong class="tooltip-month-title">February 2026</strong>
+                  <span class="tooltip-commits-val">60 commits logged</span>
+                  <span class="tooltip-milestone">Cardiovascular XAI research &amp; SHAP explainer</span>
+                </div>
+              </div>
+
+              <div class="bar-chart-footer">
+                <span class="bar-footer-item"><span class="accent-dot" aria-hidden="true"></span> Peak velocity in Feb (60 commits)</span>
+                <span class="bar-footer-item"><i data-lucide="git-branch" aria-hidden="true"></i> Continuous Delivery</span>
+              </div>
+            </div>
+          </div>
+
+          [-- Live GitHub Feed & LinkedIn Professional Presence Cards --]
+          <div class="dashboard-dual-cards">
+            [-- Card 1: Live GitHub Repository Sync --]
+            <div class="dash-surface-card github-sync-card">
+              <div class="surface-card-head">
+                <div class="surface-title-group">
+                  <div class="surface-icon surface-icon-gh">
+                    <i data-lucide="github" aria-hidden="true"></i>
+                  </div>
+                  <div>
+                    <h3 class="surface-title">Open-Source Codebases &amp; Labs</h3>
+                    <span class="surface-sub">Deliberate practice repositories on GitHub</span>
+                  </div>
+                </div>
+                <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener noreferrer" class="surface-link-btn" aria-label="Visit Raghavendra's GitHub profile">
+                  <span>@raghavendragolla</span>
+                  <i data-lucide="external-link" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <div class="github-repo-list" id="githubRepoList">
+                [-- Dynamically populated or rendered fallback --]
+                <div class="repo-item-card">
+                  <div class="repo-main">
+                    <div class="repo-title-row">
+                      <i data-lucide="book-marked" aria-hidden="true" class="repo-icon"></i>
+                      <a href="https://github.com/raghavendragolla/house-price-prediction" target="_blank" rel="noopener noreferrer" class="repo-name">house-price-prediction</a>
+                      <span class="repo-tag">ML Pipeline</span>
+                    </div>
+                    <p class="repo-description">Machine learning regression pipeline on California Housing dataset with Streamlit web inference and interactive analytics.</p>
+                  </div>
+                  <div class="repo-stats-row">
+                    <span class="repo-lang"><span class="lang-dot color-python" aria-hidden="true"></span> Python</span>
+                    <span class="repo-stat"><i data-lucide="activity" aria-hidden="true"></i> <span class="repo-stars">R&sup2; = 0.84</span></span>
+                    <span class="repo-stat"><i data-lucide="git-fork" aria-hidden="true"></i> <span class="repo-forks">Public</span></span>
+                  </div>
+                </div>
+
+                <div class="repo-item-card">
+                  <div class="repo-main">
+                    <div class="repo-title-row">
+                      <i data-lucide="book-marked" aria-hidden="true" class="repo-icon"></i>
+                      <a href="https://github.com/raghavendragolla/handwritten-digit-recognition" target="_blank" rel="noopener noreferrer" class="repo-name">handwritten-digit-recognition</a>
+                      <span class="repo-tag">Deep Learning</span>
+                    </div>
+                    <p class="repo-description">PyTorch CNN trained on MNIST achieving ~99.6% accuracy, with interactive Streamlit canvas drawing and confidence distribution charts.</p>
+                  </div>
+                  <div class="repo-stats-row">
+                    <span class="repo-lang"><span class="lang-dot color-pytorch" aria-hidden="true"></span> PyTorch</span>
+                    <span class="repo-stat"><i data-lucide="award" aria-hidden="true"></i> <span class="repo-stars">99.6% Acc</span></span>
+                    <span class="repo-stat"><i data-lucide="check" aria-hidden="true"></i> <span class="repo-forks">Live App</span></span>
+                  </div>
+                </div>
+
+                <div class="repo-item-card">
+                  <div class="repo-main">
+                    <div class="repo-title-row">
+                      <i data-lucide="book-marked" aria-hidden="true" class="repo-icon"></i>
+                      <a href="https://github.com/raghavendragolla/Project7-House_Sales" target="_blank" rel="noopener noreferrer" class="repo-name">Project7-House_Sales</a>
+                      <span class="repo-tag">Data Analytics</span>
+                    </div>
+                    <p class="repo-description">Exploratory data analytics and predictive regression analysis on housing sales dataset with feature engineering and visualizations.</p>
+                  </div>
+                  <div class="repo-stats-row">
+                    <span class="repo-lang"><span class="lang-dot color-web" aria-hidden="true"></span> Python / EDA</span>
+                    <span class="repo-stat"><i data-lucide="bar-chart-2" aria-hidden="true"></i> <span class="repo-stars">Analytics</span></span>
+                    <span class="repo-stat"><i data-lucide="git-fork" aria-hidden="true"></i> <span class="repo-forks">Public</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            [-- Card 2: LinkedIn Professional Impact & Academic Verification --]
+            <div class="dash-surface-card linkedin-impact-card">
+              <div class="surface-card-head">
+                <div class="surface-title-group">
+                  <div class="surface-icon surface-icon-in">
+                    <i data-lucide="linkedin" aria-hidden="true"></i>
+                  </div>
+                  <div>
+                    <h3 class="surface-title">Academic Focus &amp; Qualifications</h3>
+                    <span class="surface-sub">Degree curriculum, verified competencies &amp; professional profile</span>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank" rel="noopener noreferrer" class="surface-link-btn" aria-label="Visit Raghavendra's LinkedIn profile">
+                  <span>View Profile</span>
+                  <i data-lucide="external-link" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <div class="linkedin-content-wrap">
+                <div class="linkedin-highlight-box">
+                  <div class="li-box-header">
+                    <span class="li-academic-badge">MSc Data Science (2025&ndash;2027)</span>
+                    <span class="li-verified"><i data-lucide="check-circle" aria-hidden="true"></i> Enrolled Candidate</span>
+                  </div>
+                  <strong class="li-univ-name">Chandigarh University &bull; MSc Data Science</strong>
+                  <p class="li-univ-desc">Specializing in Applied Machine Learning, Mathematical Statistics, Deep Learning &amp; Predictive Modeling.</p>
+                  <div class="li-box-divider"></div>
+                  <strong class="li-univ-name">Krishna University &bull; BSc Core Mathematics</strong>
+                  <p class="li-univ-desc">Undergraduate foundation in Linear Algebra, Differential Calculus, and Probability Theory.</p>
+                </div>
+
+                <div class="linkedin-skills-endorsements">
+                  <span class="endorse-title">Core Endorsements &amp; Competencies:</span>
+                  <div class="endorse-chips">
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> Machine Learning</span>
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> Python Data Science</span>
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> PyTorch Deep Learning</span>
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> Scikit-Learn</span>
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> SQL &amp; Query Optimization</span>
+                    <span class="endorse-chip"><i data-lucide="check" aria-hidden="true"></i> Explainable AI (SHAP)</span>
+                  </div>
+                </div>
+
+                <div class="linkedin-cta-row">
+                  <a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank" rel="noopener noreferrer" class="btn-linkedin-connect">
+                    <i data-lucide="linkedin" aria-hidden="true"></i>
+                    <span>Connect on LinkedIn</span>
+                  </a>
+                  <span class="li-response-time">&bull; Typically responds within 24h</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+============= END COMMENTED OUT DASHBOARD ============= -->
+
+
+        <!-- ============ 5. PROJECTS ============ -->
         <section id="projects">
           <div class="section-head">
-            <span class="num-badge">04</span>
+            <span class="num-badge">05</span>
             <h2>Featured Projects</h2>
           </div>
 
@@ -594,253 +1265,644 @@
           </div>
           <div id="filterStatus" class="sr-only" role="status" aria-live="polite">Showing all 4 projects</div>
 
-          <div class="projects-grid">
-
-            <!-- Project 1 -->
-            <div class="project-card" data-category="ml">
-              <div>
-                <div class="project-top">
-                  <div class="project-meta-wrap">
-                    <span class="project-number">01</span>
-                    <span class="project-category">Machine Learning &bull; Regression</span>
+          <!-- n8n-Inspired Dual-World Banner: Code when you need it, UI when you don't -->
+          <div class="code-ui-dual-banner">
+            <div class="dual-banner-glow" aria-hidden="true"></div>
+            <div class="dual-banner-content">
+              <div class="dual-text-side">
+                <span class="dual-kicker">ENGINEERING PHILOSOPHY</span>
+                <h3 class="dual-heading">Code when you need it, UI when you don't</h3>
+                <p class="dual-lead">Traditional portfolios force a choice between raw code repositories or static screenshots. My practice pipelines deliver the best of both worlds:</p>
+                <ul class="dual-bullets-list">
+                  <li><span class="code-tag-icon">&lt;/&gt;</span> <div><strong>Write reproducible Python &amp; SQL:</strong> Vectorized transformations, custom estimators, and clean pipelines engineered for scale.</div></li>
+                  <li><span class="code-tag-icon">&lt;/&gt;</span> <div><strong>See real-time outputs side-by-side:</strong> Interactive parameters, confidence intervals, and loss distributions directly next to the model logic.</div></li>
+                  <li><span class="code-tag-icon">&lt;/&gt;</span> <div><strong>Test with authentic benchmarks:</strong> Cross-validated R&sup2; metrics, RMSE evaluation, and SHAP attributions validating real predictive reliability.</div></li>
+                </ul>
+              </div>
+              <div class="dual-visual-side" aria-hidden="true">
+                <div class="dual-nodes-display">
+                  <div class="mini-node node-input">
+                    <div class="mini-node-header"><span class="mini-node-dot"></span><span>Clean Feature Matrix</span></div>
+                    <span class="mini-node-code">df[['med_inc', 'rooms']]</span>
                   </div>
-                  <span class="project-live-badge"><span class="pulse-live-dot"></span>Live App</span>
-                </div>
-                <h3 class="project-title">California House Price Predictor</h3>
-                <p class="project-desc">
-                  End-to-end regression pipeline on the California Housing dataset (20,640 records).
-                  Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
-                  Forest),
-                  and deployed an interactive geospatial web application.
-                </p>
-                <div class="stack-row">
-                  <span>scikit-learn</span>
-                  <span>Streamlit</span>
-                  <span>Gradient Boosting</span>
-                  <span>Pandas</span>
-                  <span>Altair</span>
-                </div>
-              </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Outcome</span>
-                  Achieved 84% R&sup2; accuracy ($46k RMSE) with real-time California district map inference and model
-                  analytics.
-                </div>
-                <div class="project-links">
-                  <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener">
-                    <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
-                  </a>
-                  <a href="https://github.com/raghavendrayadavgolla/house-price-prediction" target="_blank"
-                    rel="noopener">
-                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="project-card" data-category="vision ml">
-              <div>
-                <div class="project-top">
-                  <div class="project-meta-wrap">
-                    <span class="project-number">02</span>
-                    <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                  <div class="mini-node-spline">&rarr;</div>
+                  <div class="mini-node node-model">
+                    <div class="mini-node-header"><span class="mini-node-dot dot-accent"></span><span>HistGradientBoosting</span></div>
+                    <span class="mini-node-code">R&sup2; = 0.84 &bull; RMSE $46k</span>
                   </div>
-                  <span class="project-live-badge"><span class="pulse-live-dot"></span>Live App</span>
-                </div>
-                <h3 class="project-title">Handwritten Digit Recognition</h3>
-                <p class="project-desc">
-                  Convolutional Neural Network (CNN) built with PyTorch trained on MNIST — 2 convolutional blocks
-                  (32&rarr;64 filters)
-                  with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
-                  drawing and inference.
-                </p>
-                <div class="stack-row">
-                  <span>PyTorch</span>
-                  <span>CNN</span>
-                  <span>Computer Vision</span>
-                  <span>Streamlit</span>
-                </div>
-              </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Outcome</span>
-                  Achieved ~99% test classification accuracy with live confidence distribution charts.
-                </div>
-                <div class="project-links">
-                  <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener">
-                    <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
-                  </a>
-                  <a href="https://github.com/raghavendrayadavgolla/handwritten-digit-recognition" target="_blank"
-                    rel="noopener">
-                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Project 3 (Explainable ML for Heart Disease) -->
-            <div class="project-card" data-category="explainable ml">
-              <div>
-                <div class="project-top">
-                  <div class="project-meta-wrap">
-                    <span class="project-number">03</span>
-                    <span class="project-category">Explainable AI &bull; Healthcare</span>
+                  <div class="mini-node-spline">&rarr;</div>
+                  <div class="mini-node node-output">
+                    <div class="mini-node-header"><span class="mini-node-dot dot-green"></span><span>Streamlit App UI</span></div>
+                    <span class="mini-node-code">Live District Heatmap</span>
                   </div>
-                  <span class="project-paper-badge">🔬 Research Paper</span>
-                </div>
-                <h3 class="project-title">Explainable ML for Heart Disease</h3>
-                <p class="project-desc">
-                  Academic research paper applying explainable machine learning techniques (SHAP &amp; LIME) to
-                  cardiovascular risk prediction.
-                  Focuses on global and local model interpretability to assist healthcare practitioners in clinical
-                  decision-making.
-                </p>
-                <div class="stack-row">
-                  <span>SHAP</span>
-                  <span>LIME</span>
-                  <span>scikit-learn</span>
-                  <span>Research Writing</span>
-                </div>
-              </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Outcome</span>
-                  Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
-                </div>
-                <div class="project-links">
-                  <button type="button" class="btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
-                    <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
-                  </button>
-                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                  </a>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Project 4 (IBM Data Analyst Capstone) -->
-            <div class="project-card" data-category="analytics ml">
-              <div>
-                <div class="project-top">
-                  <div class="project-meta-wrap">
-                    <span class="project-number">04</span>
-                    <span class="project-category">Data Analytics &bull; Insights</span>
+          <!-- n8n & ComfyUI-Inspired Computational Node Pipeline Canvas -->
+          <div class="pipeline-dag-canvas">
+            <div class="dag-canvas-header-hud">
+              <div class="hud-status-badge">
+                <span class="hud-dot" aria-hidden="true"></span>
+                <span class="hud-label">DAG WORKFLOW CANVAS // 4 COMPUTATIONAL PIPELINES</span>
+              </div>
+              <div class="hud-meta-tags">
+                <span class="hud-tag"><i data-lucide="cpu" aria-hidden="true"></i> PYTORCH CNN</span>
+                <span class="hud-tag"><i data-lucide="activity" aria-hidden="true"></i> SCIKIT REGRESSION</span>
+                <span class="hud-tag"><i data-lucide="microscope" aria-hidden="true"></i> SHAP XAI</span>
+                <span class="hud-tag"><i data-lucide="database" aria-hidden="true"></i> SQL &amp; BI</span>
+              </div>
+            </div>
+
+            <!-- Visual Inter-Node Bus / Flow Splines -->
+            <div class="dag-circuit-track" aria-hidden="true">
+              <div class="circuit-step step-1"><span class="circuit-pin"></span><span class="circuit-title">01 / REGRESSION</span></div>
+              <div class="circuit-line line-1"><span class="circuit-flow-particle"></span></div>
+              <div class="circuit-step step-2"><span class="circuit-pin"></span><span class="circuit-title">02 / VISION CNN</span></div>
+              <div class="circuit-line line-2"><span class="circuit-flow-particle"></span></div>
+              <div class="circuit-step step-3"><span class="circuit-pin"></span><span class="circuit-title">03 / MEDICAL XAI</span></div>
+              <div class="circuit-line line-3"><span class="circuit-flow-particle"></span></div>
+              <div class="circuit-step step-4"><span class="circuit-pin"></span><span class="circuit-title">04 / ANALYTICS ETL</span></div>
+            </div>
+
+            <div class="projects-editorial-grid pipeline-dag-nodes">
+
+              <!-- Node 01: California House Price Predictor (Regression Estimator) -->
+              <article class="project-card project-showcase-featured pipeline-node node-regression" data-category="ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="binary" aria-hidden="true"></i> NODE 01 // REGRESSION_ESTIMATOR</span>
+                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Streamlit</span>
                   </div>
-                  <span class="project-cert-badge">🏛️ IBM Capstone</span>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 8 Census Features</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: R&sup2; = 0.84 <span class="port-socket-dot out-dot"></span></span>
+                  </div>
                 </div>
-                <h3 class="project-title">IBM Data Analyst Capstone</h3>
-                <p class="project-desc">
-                  End-to-end data analytics pipeline exploring the Stack Overflow Developer Survey — technology trends,
-                  database usage shifts, developer demographics, and salary insights synthesized into interactive
-                  dashboards.
-                </p>
-                <div class="stack-row">
-                  <span>Data Analysis</span>
-                  <span>Python</span>
-                  <span>Power BI</span>
-                  <span>Storytelling</span>
+
+                <div class="node-body-content">
+                  <div class="project-top">
+                    <div class="project-meta-wrap">
+                      <span class="project-number">01</span>
+                      <span class="project-flagship-pill">FLAGSHIP ML PIPELINE</span>
+                      <span class="project-category">Machine Learning &bull; Regression</span>
+                    </div>
+                  </div>
+                  <h3 class="project-title">California House Price Predictor</h3>
+                  <p class="project-desc">
+                    End-to-end regression pipeline on the California Housing dataset (20,640 records).
+                    Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
+                    Forest), and deployed an interactive geospatial web application.
+                  </p>
+                  <div class="stack-row">
+                    <span class="stack-pill">scikit-learn</span>
+                    <span class="stack-pill">Streamlit</span>
+                    <span class="stack-pill">Gradient Boosting</span>
+                    <span class="stack-pill">Pandas</span>
+                    <span class="stack-pill">Altair</span>
+                  </div>
+
+                  <!-- Authentic Model Comparison Horizontal Bar Chart -->
+                  <div class="project-chart-widget">
+                    <span class="widget-kicker">MODEL EVALUATION BENCHMARK (R&sup2; TEST ACCURACY)</span>
+                    <div class="project-barchart-container">
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Hist Gradient Boosting (Best)</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-accent fill-pct-84"></div></div>
+                        <strong class="chart-bar-val">0.84 R&sup2;</strong>
+                      </div>
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Random Forest Regressor</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-81"></div></div>
+                        <strong class="chart-bar-val">0.81 R&sup2;</strong>
+                      </div>
+                      <div class="chart-bar-row">
+                        <span class="chart-bar-label">Ridge Linear Baseline</span>
+                        <div class="chart-bar-track"><div class="chart-bar-fill fill-pct-61"></div></div>
+                        <strong class="chart-bar-val">0.61 R&sup2;</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="showcase-metrics-bar">
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">84%</strong>
+                      <span class="stat-sub">R&sup2; Accuracy</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">$46k</strong>
+                      <span class="stat-sub">RMSE Loss</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">20.6k</strong>
+                      <span class="stat-sub">Census Records</span>
+                    </div>
+                  </div>
+
+                  <!-- Embedded Interactive Model Predictor Studio -->
+                  <div class="calif-demo-studio" id="califDemoStudio">
+                    <div class="demo-studio-header">
+                      <div class="demo-studio-badge">
+                        <span class="pulse-live-dot" aria-hidden="true"></span>
+                        <strong class="studio-title">INTERACTIVE MODEL ESTIMATOR</strong>
+                      </div>
+                      <span class="studio-latency-tag"><i data-lucide="zap" aria-hidden="true"></i> &lt;4ms Inference</span>
+                    </div>
+
+                    <!-- Location / District Presets -->
+                    <div class="demo-presets-row">
+                      <span class="demo-presets-label">District Preset:</span>
+                      <div class="preset-buttons">
+                        <button type="button" class="preset-pill active" data-inc="8.5" data-age="28" data-rooms="6.5" data-loc="sf" aria-pressed="true">SF Bay Area</button>
+                        <button type="button" class="preset-pill" data-inc="5.8" data-age="34" data-rooms="5.4" data-loc="la" aria-pressed="false">Coastal LA</button>
+                        <button type="button" class="preset-pill" data-inc="4.8" data-age="22" data-rooms="5.6" data-loc="sd" aria-pressed="false">San Diego</button>
+                        <button type="button" class="preset-pill" data-inc="2.8" data-age="16" data-rooms="4.8" data-loc="valley" aria-pressed="false">Central Valley</button>
+                      </div>
+                    </div>
+
+                    <!-- Slider Controls -->
+                    <div class="demo-sliders-container">
+                      <!-- Median Income -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califIncomeInput" class="slider-field-name">Median Income</label>
+                          <span class="slider-current-val" id="califIncomeDisplay">$85,000 / yr</span>
+                        </div>
+                        <input type="range" id="califIncomeInput" min="1.5" max="15.0" step="0.1" value="8.5" class="demo-styled-range" aria-label="Median household income in tens of thousands">
+                        <div class="slider-bounds-labels">
+                          <span>$15k</span>
+                          <span>$75k</span>
+                          <span>$150k</span>
+                        </div>
+                      </div>
+
+                      <!-- House Age -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califAgeInput" class="slider-field-name">Median House Age</label>
+                          <span class="slider-current-val" id="califAgeDisplay">28 years</span>
+                        </div>
+                        <input type="range" id="califAgeInput" min="1" max="52" step="1" value="28" class="demo-styled-range" aria-label="Median house age in years">
+                        <div class="slider-bounds-labels">
+                          <span>1 yr (New)</span>
+                          <span>26 yrs</span>
+                          <span>52 yrs (Historic)</span>
+                        </div>
+                      </div>
+
+                      <!-- Average Rooms -->
+                      <div class="demo-slider-block">
+                        <div class="slider-meta-row">
+                          <label for="califRoomsInput" class="slider-field-name">Average Rooms</label>
+                          <span class="slider-current-val" id="califRoomsDisplay">6.5 rooms</span>
+                        </div>
+                        <input type="range" id="califRoomsInput" min="2.0" max="10.0" step="0.1" value="6.5" class="demo-styled-range" aria-label="Average rooms per home">
+                        <div class="slider-bounds-labels">
+                          <span>2.0 rms</span>
+                          <span>6.0 rms</span>
+                          <span>10.0 rms</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Prediction Result Console -->
+                    <div class="demo-prediction-console">
+                      <div class="pred-left-box">
+                        <span class="pred-kicker">ESTIMATED MEDIAN PROPERTY VALUE</span>
+                        <div class="pred-price-hero" id="califPriceValue">$472,500</div>
+                        <div class="pred-error-interval">
+                          <span>95% Confidence Interval:</span>
+                          <strong id="califPriceRange">$426,500 &ndash; $518,500</strong>
+                          <span class="pred-rmse-tag">(&plusmn;$46k RMSE)</span>
+                        </div>
+                      </div>
+                      <div class="pred-right-gauge">
+                        <div class="gauge-tier-heading">
+                          <span class="gauge-tier-label">Market Tier:</span>
+                          <span class="tier-pill-badge" id="califTierBadge">Executive Coastal</span>
+                        </div>
+                        <div class="gauge-bar-track">
+                          <div class="gauge-bar-fill" id="califGaugeFill"></div>
+                        </div>
+                        <div class="gauge-scale-legend">
+                          <span>Entry</span>
+                          <span>Mid</span>
+                          <span>Prime</span>
+                          <span>Luxury</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="result">
+                    <span class="tag">Benchmark Outcome</span>
+                    Achieved 84% R&sup2; accuracy ($46k RMSE) with real-time California district map inference and model
+                    analytics.
+                  </div>
                 </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: LIVE_INTERACTIVE // MODEL ESTIMATOR ACTIVE</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/raghavendragolla/house-price-prediction" target="_blank"
+                      rel="noopener" class="btn primary btn-project-repo">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Source Code &rarr;</span>
+                    </a>
+                    <a href="https://house-price-prediction-raghav.streamlit.app" target="_blank" rel="noopener" class="btn ghost btn-project-cta" title="Open external Streamlit Cloud version if desired">
+                      <i data-lucide="external-link" aria-hidden="true"></i><span>Streamlit Cloud &nearr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 02: Handwritten Digit Recognition (Deep Learning Vision) -->
+              <article class="project-card project-compact-interactive pipeline-node node-vision" data-category="vision ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="eye" aria-hidden="true"></i> NODE 02 // CONVNET_VISION</span>
+                    <span class="node-exec-badge live"><span class="pulse-live-dot" aria-hidden="true"></span>Live Canvas</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 28&times;28 Pixels</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: 10-Class Softmax <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="project-top">
+                    <div class="project-meta-wrap">
+                      <span class="project-number">02</span>
+                      <span class="project-category">Deep Learning &bull; Computer Vision</span>
+                    </div>
+                  </div>
+                  <h3 class="project-title">Handwritten Digit Recognition</h3>
+                  <p class="project-desc">
+                    Convolutional Neural Network (CNN) built with PyTorch trained on MNIST &mdash; 2 convolutional blocks
+                    (32&rarr;64 filters) with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
+                    drawing and inference.
+                  </p>
+
+                  <!-- Model Metrics Bar -->
+                  <div class="showcase-metrics-bar">
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">99.6%</strong>
+                      <span class="stat-sub">Test Accuracy</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">10k</strong>
+                      <span class="stat-sub">MNIST Test Set</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">&lt;5ms</strong>
+                      <span class="stat-sub">Model Latency</span>
+                    </div>
+                  </div>
+
+                  <!-- Neural Architecture Pipeline -->
+                  <div class="research-scientific-pipeline">
+                    <span class="pipeline-kicker">CNN ARCHITECTURAL PIPELINE</span>
+                    <div class="pipeline-dag-flow" tabindex="0" aria-label="CNN neural network pipeline">
+                      <div class="dag-step">
+                        <span class="dag-num">01</span>
+                        <strong class="dag-name">Canvas Input</strong>
+                        <span class="dag-meta">28&times;28 Grayscale</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">02</span>
+                        <strong class="dag-name">Conv2D Block 1</strong>
+                        <span class="dag-meta">32 Filters &bull; ReLU</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">03</span>
+                        <strong class="dag-name">Conv2D Block 2</strong>
+                        <span class="dag-meta">64 Filters &bull; MaxPool</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step dag-step-highlight">
+                        <span class="dag-num">04</span>
+                        <strong class="dag-name">Softmax Output</strong>
+                        <span class="dag-meta">10-Class Confidence</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="stack-row">
+                    <span class="stack-pill">PyTorch</span>
+                    <span class="stack-pill">CNN</span>
+                    <span class="stack-pill">Computer Vision</span>
+                    <span class="stack-pill">Streamlit</span>
+                  </div>
+                  <div class="result">
+                    <span class="tag">Classification Performance</span>
+                    Achieved ~99.6% test classification accuracy with live confidence distribution charts.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: INFERENCE_OPTIMIZED // ACC 99.6%</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://handwritten-digit-recognition.streamlit.app" target="_blank" rel="noopener" class="btn primary">
+                      <i data-lucide="external-link" aria-hidden="true"></i><span>Live App &rarr;</span>
+                    </a>
+                    <a href="https://github.com/raghavendragolla/handwritten-digit-recognition" target="_blank"
+                      rel="noopener" class="btn ghost">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 03: Explainable ML for Heart Disease (Healthcare XAI) -->
+              <article class="project-card project-research-document pipeline-node node-xai" data-category="explainable ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="heart-pulse" aria-hidden="true"></i> NODE 03 // CLINICAL_XAI</span>
+                    <span class="node-exec-badge paper"><i data-lucide="file-check" aria-hidden="true"></i> Preprint Study</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 13 Biomarkers</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: SHAP Force Vectors <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="doc-header-strip">
+                    <div class="doc-pub-tag">
+                      <span class="doc-icon" aria-hidden="true">🔬</span>
+                      <span>ACADEMIC STUDY &bull; EXPLAINABLE AI IN HEALTHCARE</span>
+                    </div>
+                  </div>
+
+                  <h3 class="project-title research-paper-heading">Explainable ML for Heart Disease</h3>
+                  <p class="research-author-affil">Department of Data Science &bull; Chandigarh University &bull; IEEE Formatting</p>
+
+                  <p class="project-desc research-paper-abstract">
+                    Academic research study applying explainable machine learning techniques (SHAP &amp; LIME) to
+                    cardiovascular risk prediction. Focuses on global and local model interpretability to assist healthcare practitioners in clinical
+                    decision-making.
+                  </p>
+
+                  <!-- Scientific Pipeline Methodology Flow Diagram (DAG) -->
+                  <div class="research-scientific-pipeline">
+                    <span class="pipeline-kicker">SCIENTIFIC METHODOLOGY &bull; ARCHITECTURAL FLOW</span>
+                    <div class="pipeline-dag-flow" tabindex="0" aria-label="Scientific methodology pipeline flowchart">
+                      <div class="dag-step">
+                        <span class="dag-num">01</span>
+                        <strong class="dag-name">Clinical Cohort</strong>
+                        <span class="dag-meta">Cleveland 303 pts &bull; 13 Biomarkers</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">02</span>
+                        <strong class="dag-name">Preprocessing</strong>
+                        <span class="dag-meta">Imputation &bull; Scaling &bull; Encoders</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">03</span>
+                        <strong class="dag-name">Ensemble ML</strong>
+                        <span class="dag-meta">RF &bull; XGBoost &bull; Gradient Boost</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">04</span>
+                        <strong class="dag-name">Inference</strong>
+                        <span class="dag-meta">Risk Probability Score</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step dag-step-highlight">
+                        <span class="dag-num">05</span>
+                        <strong class="dag-name">SHAP &amp; LIME</strong>
+                        <span class="dag-meta">Game-Theoretic Attributions</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">06</span>
+                        <strong class="dag-name">Clinician Insight</strong>
+                        <span class="dag-meta">Actionable Decision Support</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="research-key-contributions">
+                    <span class="contrib-title">Core Methodological Contributions:</span>
+                    <ol class="contrib-list">
+                      <li><strong class="contrib-strong">Biomarker Quantification:</strong> Translating non-linear gradient boosting feature interactions into clinical impact scores.</li>
+                      <li><strong class="contrib-strong">Local Interpretability:</strong> Patient-specific SHAP waterfall plots explaining individualized risk factor attributions.</li>
+                      <li><strong class="contrib-strong">Model Transparency:</strong> Auditable decision-support pipelines designed for clinician validation.</li>
+                    </ol>
+                  </div>
+
+                  <div class="stack-row">
+                    <span class="stack-pill">SHAP</span>
+                    <span class="stack-pill">LIME</span>
+                    <span class="stack-pill">scikit-learn</span>
+                    <span class="stack-pill">Research Writing</span>
+                  </div>
+
+                  <div class="result research-result">
+                    <span class="tag">Research Milestone</span>
+                    Drafted comprehensive IEEE-format research study demonstrating interpretable risk factors.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: VALIDATED // ROC-AUC 87.4%</span>
+                  </div>
+                  <div class="project-links research-links">
+                    <button type="button" class="btn primary btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
+                      <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
+                    </button>
+                    <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener" class="btn ghost">
+                      <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Node 04: IBM Data Analyst Capstone (Analytics ETL) -->
+              <article class="project-card project-analytical-dossier pipeline-node node-analytics" data-category="analytics ml">
+                <!-- Node Header Dock -->
+                <div class="node-header-dock">
+                  <div class="node-identity-block">
+                    <span class="node-id-chip"><i data-lucide="database" aria-hidden="true"></i> NODE 04 // ANALYTICS_ETL</span>
+                    <span class="node-exec-badge cert"><i data-lucide="award" aria-hidden="true"></i> IBM Verified</span>
+                  </div>
+                  <div class="node-port-indicators">
+                    <span class="node-port-pill in" title="Data Input Port"><span class="port-socket-dot in-dot"></span> IN: 80k+ Survey Records</span>
+                    <span class="node-port-pill out" title="Prediction Output Port">OUT: SQL Models &amp; Dashboards <span class="port-socket-dot out-dot"></span></span>
+                  </div>
+                </div>
+
+                <div class="node-body-content">
+                  <div class="project-top">
+                    <div class="project-meta-wrap">
+                      <span class="project-number">04</span>
+                      <span class="project-category">Data Analytics &bull; Insights</span>
+                    </div>
+                  </div>
+                  <h3 class="project-title">IBM Data Analyst Capstone</h3>
+                  <p class="project-desc">
+                    End-to-end data analytics pipeline exploring the Stack Overflow Developer Survey &mdash; technology trends,
+                    compensation distribution, demographic profiles, and language popularity across 80,000+ respondents.
+                  </p>
+
+                  <!-- Capstone Metrics Bar -->
+                  <div class="showcase-metrics-bar">
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">80k+</strong>
+                      <span class="stat-sub">Survey Records</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">35+</strong>
+                      <span class="stat-sub">SQL Queries</span>
+                    </div>
+                    <div class="metric-chip-stat">
+                      <strong class="stat-big">100%</strong>
+                      <span class="stat-sub">Verified Capstone</span>
+                    </div>
+                  </div>
+
+                  <!-- Analytics Pipeline DAG Flow -->
+                  <div class="research-scientific-pipeline">
+                    <span class="pipeline-kicker">ANALYTICAL PIPELINE FLOW</span>
+                    <div class="pipeline-dag-flow" tabindex="0" aria-label="Data analytics pipeline flowchart">
+                      <div class="dag-step">
+                        <span class="dag-num">01</span>
+                        <strong class="dag-name">Survey Extraction</strong>
+                        <span class="dag-meta">80k+ Developers</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">02</span>
+                        <strong class="dag-name">SQL Aggregation</strong>
+                        <span class="dag-meta">Window Queries</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step">
+                        <span class="dag-num">03</span>
+                        <strong class="dag-name">Data Wrangling</strong>
+                        <span class="dag-meta">Python &bull; Pandas</span>
+                      </div>
+                      <div class="dag-arrow" aria-hidden="true">&rarr;</div>
+                      <div class="dag-step dag-step-highlight">
+                        <span class="dag-num">04</span>
+                        <strong class="dag-name">KPI Dashboards</strong>
+                        <span class="dag-meta">Power BI &bull; Cognos</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="research-key-contributions">
+                    <span class="contrib-title">Core Analytical Deliverables:</span>
+                    <ol class="contrib-list">
+                      <li><strong class="contrib-strong">Demographic Stratification:</strong> Segmented compensation percentiles across geographic regions and developer experience tiers.</li>
+                      <li><strong class="contrib-strong">Language Migration Velocity:</strong> Quantified multi-year technology adoption curves across Python, TypeScript, and SQL.</li>
+                      <li><strong class="contrib-strong">Executive Dashboards:</strong> Synthesized multi-attribute survey findings into stakeholder-ready visual reports.</li>
+                    </ol>
+                  </div>
+
+                  <div class="stack-row">
+                    <span class="stack-pill">Python</span>
+                    <span class="stack-pill">Pandas</span>
+                    <span class="stack-pill">SQL</span>
+                    <span class="stack-pill">Power BI</span>
+                    <span class="stack-pill">IBM Cognos</span>
+                    <span class="stack-pill">EDA</span>
+                  </div>
+                  <div class="result">
+                    <span class="tag">Capstone Result</span>
+                    Delivered interactive dashboards, statistical summary presentations, and comprehensive survey trend findings.
+                  </div>
+                </div>
+
+                <!-- Node Bottom Dock -->
+                <div class="node-bottom-dock">
+                  <div class="node-status-log">
+                    <i data-lucide="terminal" aria-hidden="true"></i>
+                    <span>STATUS: EXECUTED_COMPLETE // 100% SCORE</span>
+                  </div>
+                  <div class="project-links">
+                    <a href="https://github.com/raghavendragolla" target="_blank"
+                      rel="noopener" class="btn primary">
+                      <i data-lucide="github" aria-hidden="true"></i><span>Capstone Repo &rarr;</span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <!-- Intellectual Inquiry & Editorial Research Index (Magazine Content Index Metaphor) -->
+          <div class="editorial-intel-index">
+            <div class="intel-index-header">
+              <span class="index-kicker">INTELLECTUAL INQUIRY &bull; EDITORIAL INDEX</span>
+              <h3 class="index-heading">Research Themes &amp; Methodological Agenda</h3>
+            </div>
+            <div class="intel-index-list">
+              <div class="intel-index-row">
+                <span class="index-num">01</span>
+                <div class="index-content">
+                  <strong class="index-title">Explainable Machine Learning in High-Stakes Healthcare</strong>
+                  <span class="index-desc">Translating non-linear gradient boosting ensembles into clinician-validated SHAP attribution plots.</span>
+                </div>
+                <span class="index-tag">Clinical AI</span>
               </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Outcome</span>
-                  Completed certification project with full analysis deck and reproducible data workflows.
+              <div class="intel-index-divider" aria-hidden="true"></div>
+              <div class="intel-index-row">
+                <span class="index-num">02</span>
+                <div class="index-content">
+                  <strong class="index-title">Mathematical Foundations of Predictive Analytics</strong>
+                  <span class="index-desc">Rigorous grounding in linear algebra, Gaussian probability spaces, and loss function optimization.</span>
                 </div>
-                <div class="project-links">
-                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github" aria-hidden="true"></i><span>GitHub Repo &rarr;</span>
-                  </a>
+                <span class="index-tag">Mathematics</span>
+              </div>
+              <div class="intel-index-divider" aria-hidden="true"></div>
+              <div class="intel-index-row">
+                <span class="index-num">03</span>
+                <div class="index-content">
+                  <strong class="index-title">End-to-End Business Intelligence &amp; Analytical Pipelines</strong>
+                  <span class="index-desc">Designing robust SQL aggregation layers, automated ETL routines, and executive Power BI dashboards.</span>
                 </div>
+                <span class="index-tag">Data Analytics</span>
               </div>
             </div>
-
-            <!-- Commented out Project (Twitter Depression Classifier)
-            <div class="project-card" data-category="nlp ml">
-              <div>
-                <div class="project-top">
-                  <span class="project-number">03</span>
-                  <span class="project-category">Natural Language Processing</span>
-                </div>
-                <h3 class="project-title">Twitter Depression Classifier</h3>
-                <p class="project-desc">
-                  Text classification pipeline using TF-IDF bigrams (10,000 features). Benchmarked Logistic Regression,
-                  Multinomial Naive Bayes, and Linear SVMs for identifying psychological distress patterns in social
-                  media posts.
-                </p>
-                <div class="stack-row">
-                  <span>NLP</span>
-                  <span>TF-IDF</span>
-                  <span>scikit-learn</span>
-                  <span>Text Mining</span>
-                </div>
-              </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Outcome</span>
-                  Multinomial Naive Bayes achieved peak performance with a 95.7% ROC-AUC score.
-                </div>
-                <div class="project-links">
-                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            -->
-
-            <!-- Commented out 4th Project (PaisaWatch — AI Finance Hub)
-            <div class="project-card" data-category="fullstack">
-              <div>
-                <div class="project-top">
-                  <span class="project-number">04</span>
-                  <span class="project-category">Full-Stack AI &bull; Web App</span>
-                </div>
-                <h3 class="project-title">PaisaWatch &mdash; AI Finance Hub</h3>
-                <p class="project-desc">
-                  Intelligent personal finance tracker with LLM-powered expense categorization and spending verdicts.
-                  React frontend interacting with FastAPI backend, Supabase PostgreSQL, JWT security, and offline PWA
-                  support.
-                </p>
-                <div class="stack-row">
-                  <span>React</span>
-                  <span>FastAPI</span>
-                  <span>Supabase</span>
-                  <span>LLM Integration</span>
-                </div>
-              </div>
-              <div>
-                <div class="result">
-                  <span class="tag">Status</span>
-                  Interactive working prototype built; expanding analytics dashboards and automated categorization.
-                </div>
-                <div class="project-links">
-                  <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener">
-                    <i data-lucide="github"></i><span>GitHub Repo &rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            -->
-
           </div>
         </section>
 
 
-        <!-- ============ 5. RESUME ============ -->
-        <section id="resume">
+        <!-- ============ 6. RESUME ============ -->
+        <section id="resume" class="resume-editorial">
           <div class="section-head">
-            <span class="num-badge">05</span>
-            <h2>Curriculum Vitae</h2>
+            <span class="num-badge">06</span>
+            <h2>Career &amp; Academic Journey</h2>
           </div>
 
-          <div class="resume-box">
-            <div class="left">
-              <h3>Raghavendra Golla</h3>
-              <p>MSc Data Science &bull; Chandigarh University (2025 &ndash; 2027)</p>
+          <div class="resume-header-bar">
+            <div class="resume-title-block">
+              <span class="resume-kicker">CURRICULUM VITAE &bull; 2026 ARCHIVE</span>
+              <h3 class="resume-name">Raghavendra Golla</h3>
+              <p class="resume-sub">MSc Data Science Candidate &bull; Chandigarh University &bull; Guntur, India</p>
             </div>
-            <a href="resume/resume.pdf" class="btn primary" target="_blank" rel="noopener noreferrer">
+            <a href="resume/resume.pdf" class="btn primary btn-resume-dl" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -853,117 +1915,186 @@
             </a>
           </div>
 
-          <ul class="timeline">
-            <li>
-              <div class="when">2025 &ndash; 2027</div>
-              <div class="what">
-                <strong>MSc in Data Science &mdash; Chandigarh University</strong>
-                <p>
-                  Specializing in Data Analytics, Machine Learning, Artificial Intelligence, Big Data Architectures,
-                  and Advanced Statistical Inference. Maintaining strong academic focus on practical implementations.
-                </p>
+          <!-- 1. Industry Experience Vertical Rail Timeline -->
+          <div class="career-pathway-block">
+            <span class="pathway-kicker">INDUSTRY EXPERIENCE &bull; CONTINUOUS CHRONOLOGY</span>
+            <div class="career-timeline-wrapper">
+              <div class="timeline-continuous-track" aria-hidden="true"></div>
+
+              <ol class="timeline-nodes-list">
+                <!-- Node 1: SmartED Internship -->
+                <li class="timeline-node-item active-node">
+                  <div class="timeline-node-marker" aria-hidden="true">
+                    <span class="node-ring"></span>
+                    <span class="node-core"></span>
+                  </div>
+                  <div class="timeline-node-content">
+                    <div class="node-time-badge">2026 &ndash; Present</div>
+                    <h4 class="node-role">Machine Learning Intern</h4>
+                    <div class="node-company">SmartED Innovations &bull; Industry Practice</div>
+                    <p class="node-desc">
+                      Engineering end-to-end ML workflows using Python, Pandas, and Scikit-Learn. Implementing data
+                      preprocessing, outlier detection, and hyperparameter-tuned supervised classification and regression pipelines.
+                    </p>
+                  </div>
+                </li>
+
+                <!-- Node 2: Applied ML & Analytics Practice -->
+                <li class="timeline-node-item">
+                  <div class="timeline-node-marker" aria-hidden="true">
+                    <span class="node-ring"></span>
+                    <span class="node-core"></span>
+                  </div>
+                  <div class="timeline-node-content">
+                    <div class="node-time-badge">2024 &ndash; 2025</div>
+                    <h4 class="node-role">Data Analytics &amp; Machine Learning Engineering</h4>
+                    <div class="node-company">Independent Practice &bull; Open Source Research</div>
+                    <p class="node-desc">
+                      Developed full-lifecycle data pipelines, geospatial regression modeling (California Housing),
+                      interactive CNN vision applications (PyTorch MNIST), and large-scale survey analytics (Stack Overflow Capstone).
+                    </p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- 2. Academic Milestones Journey (Monumental Typography & Connecting Milestones) -->
+          <div class="academic-milestones-block">
+            <span class="pathway-kicker">ACADEMIC JOURNEY &bull; DEGREE MILESTONES</span>
+            <div class="milestones-journey-grid">
+
+              <!-- Milestone 1: MSc Data Science -->
+              <div class="academic-milestone-item">
+                <div class="milestone-year-hero">
+                  <span class="year-giant">2027</span>
+                  <span class="year-status-tag">In Progress</span>
+                </div>
+                <div class="milestone-detail-body">
+                  <div class="milestone-degree-row">
+                    <span class="milestone-icon" aria-hidden="true">🎓</span>
+                    <h4 class="milestone-degree">MSc in Data Science</h4>
+                  </div>
+                  <span class="milestone-institution">Chandigarh University &bull; Postgraduate</span>
+                  <p class="milestone-focus">
+                    Specializing in Data Analytics, Machine Learning architectures, Big Data systems (Spark, Hadoop),
+                    and Advanced Statistical Inference. Dedicated to explainable healthcare AI.
+                  </p>
+                </div>
               </div>
-            </li>
-            <li>
-              <div class="when">2026 &ndash; Present</div>
-              <div class="what">
-                <strong>Machine Learning Intern &mdash; SmartED Innovations</strong>
-                <p>
-                  Engineering end-to-end ML workflows using Python, Pandas, and Scikit-Learn. Implementing data
-                  preprocessing,
-                  outlier detection, and hyperparameter-tuned supervised classification and regression pipelines.
-                </p>
+
+              <!-- Milestone 2: BSc Mathematics -->
+              <div class="academic-milestone-item">
+                <div class="milestone-year-hero">
+                  <span class="year-giant">2020</span>
+                  <span class="year-status-tag">Completed</span>
+                </div>
+                <div class="milestone-detail-body">
+                  <div class="milestone-degree-row">
+                    <span class="milestone-icon" aria-hidden="true">📐</span>
+                    <h4 class="milestone-degree">BSc in Mathematics</h4>
+                  </div>
+                  <span class="milestone-institution">Krishna University &bull; Undergraduate</span>
+                  <p class="milestone-focus">
+                    Built rigorous foundational grounding in linear algebra, differential equations, probability theory,
+                    and mathematical statistics underpinning modern machine learning algorithms.
+                  </p>
+                </div>
               </div>
-            </li>
-            <li>
-              <div class="when">2017 &ndash; 2020</div>
-              <div class="what">
-                <strong>BSc in Mathematics &mdash; Krishna University</strong>
-                <p>
-                  Built rigorous foundational grounding in linear algebra, differential calculus, probability theory,
-                  and mathematical statistics that underpins data science and deep learning algorithms.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="when">Research Focus</div>
-              <div class="what">
-                <strong>Explainable ML for Early Cardiovascular Disease Risk</strong>
-                <p>
-                  Investigating interpretable machine learning models using SHAP (Shapley Additive exPlanations) and
-                  LIME to provide clinician-friendly transparency for predictive healthcare analytics.
-                </p>
-              </div>
-            </li>
-            <li>
-              <div class="when">Career Vision</div>
-              <div class="what">
-                <strong>Data Analyst &bull; Data Scientist &bull; ML Engineer</strong>
-                <p>
-                  Seeking high-impact opportunities and research collaborations in India and Germany to engineer
-                  data-driven solutions.
-                </p>
-              </div>
-            </li>
-          </ul>
+
+            </div>
+          </div>
         </section>
 
 
-        <!-- ============ 6. CERTIFICATIONS ============ -->
-        <section id="certifications">
+        <!-- ============ 7. CERTIFICATIONS (VERIFIED BADGES & SEALS) ============ -->
+        <section id="certifications" class="certifications-editorial">
           <div class="section-head">
-            <span class="num-badge">06</span>
+            <span class="num-badge">07</span>
             <h2>Certifications &amp; Credentials</h2>
           </div>
 
-          <div class="cert-grid">
+          <p class="section-lead">
+            Formally accredited specializations and industry-verified engineering competencies in data analytics, machine learning, and statistical computing.
+          </p>
 
-            <!-- Card 1: IBM Data Analyst Professional Certificate -->
-            <div class="cert-card" data-cert-img="/portfolio/certificates/ibm-data-analyst.jpg"
+          <div class="cert-credential-grid">
+
+            <!-- Credential Badge 1: IBM Data Analyst Professional Certificate -->
+            <article class="cert-card credential-plaque-object"
+              data-cert-img="/portfolio/certificates/ibm-data-analyst.jpg"
               data-cert-title="IBM Data Analyst Professional Certificate • Golla Raghavendra"
               data-cert-link="https://coursera.org/verify/professional-cert/KEDX396MPOYI">
-              <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
-                <picture>
-                  <source srcset="/portfolio/certificates/ibm-data-analyst-thumb.webp" type="image/webp">
-                  <img src="/portfolio/certificates/ibm-data-analyst.jpg"
-                    alt="IBM Data Analyst Professional Certificate — Golla Raghavendra"
-                    width="640" height="494" loading="lazy" decoding="async" class="cert-img">
-                </picture>
+
+              <!-- Left Seal & Badge Emblem -->
+              <div class="credential-object-media-wrap">
+                <button type="button" class="cert-media" title="Click to view full certificate">
+                  <picture>
+                    <source srcset="/portfolio/certificates/ibm-data-analyst-thumb.webp" type="image/webp">
+                    <img src="/portfolio/certificates/ibm-data-analyst.jpg"
+                      alt="IBM Data Analyst Professional Certificate — Golla Raghavendra"
+                      width="640" height="494" loading="lazy" decoding="async" class="cert-img">
+                  </picture>
+                  <span class="credential-view-overlay" aria-hidden="true">
+                    <i data-lucide="maximize-2"></i>
+                    <span>Expand Credential</span>
+                  </span>
+                </button>
+
+                <!-- Credential Seal Emblem -->
+                <div class="credential-seal-emblem" aria-hidden="true">
+                  <svg class="seal-icon" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                    <circle cx="24" cy="24" r="17" fill="currentColor" fill-opacity="0.12"/>
+                    <path d="M24 14l2.5 5.5 6 .9-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2 6-.9L24 14z" fill="currentColor"/>
+                  </svg>
+                  <span class="seal-caption">OFFICIAL ACCREDITATION</span>
+                </div>
               </div>
 
-              <div class="cert-content">
-                <div class="cert-header">
-                  <div class="cert-issuer-badge">
+              <!-- Right Dossier Body -->
+              <div class="cert-content credential-dossier-body">
+                <div class="cert-header credential-header">
+                  <div class="cert-issuer-badge credential-issuer-badge">
                     <span class="cert-icon" aria-hidden="true">🏛️</span>
                     <span>IBM Skills Network &bull; Coursera</span>
                   </div>
-                  <span class="cert-verified-pill">✓ Verified Credential</span>
+                  <span class="cert-verified-pill credential-seal-verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Verified Credential
+                  </span>
                 </div>
 
-                <h3 class="cert-title">IBM Data Analyst Professional Certificate</h3>
-                <p class="cert-issued">Issued to <strong>Golla Raghavendra</strong> &bull; Completed April 5, 2026</p>
+                <h3 class="cert-title credential-title">IBM Data Analyst Professional Certificate</h3>
+                <div class="credential-meta-strip">
+                  <span class="cred-recipient">Issued to <strong>Golla Raghavendra</strong></span>
+                  <span class="meta-sep">&bull;</span>
+                  <span class="cred-date">April 5, 2026</span>
+                  <span class="meta-sep">&bull;</span>
+                  <span class="cred-status">Honors Specialization</span>
+                </div>
 
-                <p class="cert-summary">
+                <p class="cert-summary credential-summary">
                   Comprehensive 11-course specialization covering core principles of Data Analytics, hands-on data
                   manipulation, relational databases &amp; SQL, statistical computing in Python, interactive dashboards
                   in Cognos, and generative AI.
                 </p>
 
-                <div class="cert-skills-wrap">
+                <div class="cert-skills-wrap credential-curriculum">
                   <span class="cert-skills-title">Specialization Competencies (11 Courses):</span>
-                  <div class="cert-tags">
-                    <span>Python for Data Science</span>
-                    <span>SQL &amp; Relational DBs</span>
-                    <span>Data Analysis</span>
-                    <span>Data Visualization</span>
-                    <span>IBM Cognos</span>
-                    <span>Excel Dashboards</span>
-                    <span>Generative AI</span>
-                    <span>Capstone Analysis</span>
+                  <div class="cert-tags credential-pill-tags">
+                    <span class="cred-pill">Python for Data Science</span>
+                    <span class="cred-pill">SQL &amp; Relational DBs</span>
+                    <span class="cred-pill">Data Analysis</span>
+                    <span class="cred-pill">Data Visualization</span>
+                    <span class="cred-pill">IBM Cognos</span>
+                    <span class="cred-pill">Excel Dashboards</span>
+                    <span class="cred-pill">Generative AI</span>
+                    <span class="cred-pill">Capstone Analysis</span>
                   </div>
                 </div>
 
-                <div class="cert-actions">
+                <div class="cert-actions credential-actions">
                   <button type="button" class="btn primary cert-preview-btn">
                     <i data-lucide="eye" aria-hidden="true"></i>
                     <span>Preview Certificate</span>
@@ -975,53 +2106,82 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
 
-            <!-- Card 2: SmartED Machine Learning Internship Certificate -->
-            <div class="cert-card" data-cert-img="/portfolio/certificates/smarted-ml-internship.png"
+            <!-- Credential Badge 2: SmartED Machine Learning Internship Certificate -->
+            <article class="cert-card credential-plaque-object"
+              data-cert-img="/portfolio/certificates/smarted-ml-internship.png"
               data-cert-title="Machine Learning Internship Completion Certificate • SmartED Innovations"
               data-cert-link="https://elearn.smarted.pro/verify/ML1222">
-              <div class="cert-media" role="button" tabindex="0" title="Click to view full certificate">
-                <picture>
-                  <source srcset="/portfolio/certificates/smarted-ml-internship-thumb.webp" type="image/webp">
-                  <img src="/portfolio/certificates/smarted-ml-internship.png"
-                    alt="SmartED Innovations Machine Learning Internship Certificate — Golla Raghavendra"
-                    width="640" height="452" loading="lazy" decoding="async" class="cert-img">
-                </picture>
+
+              <!-- Left Seal & Badge Emblem -->
+              <div class="credential-object-media-wrap">
+                <button type="button" class="cert-media" title="Click to view full certificate">
+                  <picture>
+                    <source srcset="/portfolio/certificates/smarted-ml-internship-thumb.webp" type="image/webp">
+                    <img src="/portfolio/certificates/smarted-ml-internship.png"
+                      alt="SmartED Innovations Machine Learning Internship Certificate — Golla Raghavendra"
+                      width="640" height="452" loading="lazy" decoding="async" class="cert-img">
+                  </picture>
+                  <span class="credential-view-overlay" aria-hidden="true">
+                    <i data-lucide="maximize-2"></i>
+                    <span>Expand Credential</span>
+                  </span>
+                </button>
+
+                <!-- Credential Seal Emblem -->
+                <div class="credential-seal-emblem" aria-hidden="true">
+                  <svg class="seal-icon" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"/>
+                    <circle cx="24" cy="24" r="17" fill="currentColor" fill-opacity="0.12"/>
+                    <path d="M24 14l2.5 5.5 6 .9-4.3 4.2 1 6-5.2-2.8-5.2 2.8 1-6-4.3-4.2 6-.9L24 14z" fill="currentColor"/>
+                  </svg>
+                  <span class="seal-caption">INDUSTRY CERTIFIED</span>
+                </div>
               </div>
 
-              <div class="cert-content">
-                <div class="cert-header">
-                  <div class="cert-issuer-badge">
+              <!-- Right Dossier Body -->
+              <div class="cert-content credential-dossier-body">
+                <div class="cert-header credential-header">
+                  <div class="cert-issuer-badge credential-issuer-badge">
                     <span class="cert-icon" aria-hidden="true">🚀</span>
                     <span>SmartED Innovations &bull; Skill India</span>
                   </div>
-                  <span class="cert-verified-pill">✓ Internship Verified</span>
+                  <span class="cert-verified-pill credential-seal-verified">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Internship Verified
+                  </span>
                 </div>
 
-                <h3 class="cert-title">Machine Learning Internship Certificate</h3>
-                <p class="cert-issued">Issued to <strong>Golla Raghavendra</strong> &bull; Completed March 28, 2026</p>
+                <h3 class="cert-title credential-title">Machine Learning Internship Certificate</h3>
+                <div class="credential-meta-strip">
+                  <span class="cred-recipient">Issued to <strong>Golla Raghavendra</strong></span>
+                  <span class="meta-sep">&bull;</span>
+                  <span class="cred-date">March 28, 2026</span>
+                  <span class="meta-sep">&bull;</span>
+                  <span class="cred-status">Student ID: ML1222</span>
+                </div>
 
-                <p class="cert-summary">
+                <p class="cert-summary credential-summary">
                   Successfully completed industry training and internship in Machine Learning at SmartED Innovations.
                   Demonstrated practical engineering proficiency in end-to-end data preprocessing, feature engineering,
                   and supervised ML pipelines.
                 </p>
 
-                <div class="cert-skills-wrap">
+                <div class="cert-skills-wrap credential-curriculum">
                   <span class="cert-skills-title">Core Focus &amp; Technologies:</span>
-                  <div class="cert-tags">
-                    <span>Machine Learning</span>
-                    <span>Python &amp; Scikit-Learn</span>
-                    <span>Supervised Learning</span>
-                    <span>Feature Engineering</span>
-                    <span>Data Preprocessing</span>
-                    <span>Model Evaluation</span>
-                    <span>Student ID: ML1222</span>
+                  <div class="cert-tags credential-pill-tags">
+                    <span class="cred-pill">Machine Learning</span>
+                    <span class="cred-pill">Python &amp; Scikit-Learn</span>
+                    <span class="cred-pill">Supervised Learning</span>
+                    <span class="cred-pill">Feature Engineering</span>
+                    <span class="cred-pill">Data Preprocessing</span>
+                    <span class="cred-pill">Model Evaluation</span>
+                    <span class="cred-pill">Pipeline Automation</span>
                   </div>
                 </div>
 
-                <div class="cert-actions">
+                <div class="cert-actions credential-actions">
                   <button type="button" class="btn primary cert-preview-btn">
                     <i data-lucide="eye" aria-hidden="true"></i>
                     <span>Preview Certificate</span>
@@ -1033,110 +2193,117 @@
                   </a>
                 </div>
               </div>
-            </div>
+            </article>
 
           </div>
         </section>
 
 
-        <!-- ============ 7. CONTACT ============ -->
-        <section id="contact">
-          <div class="section-head">
-            <span class="num-badge">07</span>
-            <h2>Get in Touch</h2>
-          </div>
-
-          <p class="contact-intro">
-            I'm actively open to Data Analyst, Data Scientist, and Machine Learning internship and full-time
-            opportunities,
-            as well as applied research collaborations. Feel free to reach out directly using the form below or through
-            my direct channels!
-          </p>
-
-          <div class="contact-layout">
-            <!-- Left Column: Direct Channels & Information -->
-            <div class="contact-channels">
-              <div class="contact-card" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email">
-                <span class="k"><i data-lucide="mail" aria-hidden="true"></i> Email (Click to Copy)</span>
-                <span class="v"><a
-                    href="mailto:raghavendrayadavgolla@gmail.com">raghavendrayadavgolla@gmail.com</a></span>
-              </div>
-
-              <div class="contact-card">
-                <span class="k"><i data-lucide="linkedin" aria-hidden="true"></i> LinkedIn Profile</span>
-                <span class="v"><a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank"
-                    rel="noopener">linkedin.com/in/raghavendra-golla &rarr;</a></span>
-              </div>
-
-              <div class="contact-card">
-                <span class="k"><i data-lucide="github" aria-hidden="true"></i> GitHub Profile</span>
-                <span class="v"><a href="https://github.com/raghavendrayadavgolla" target="_blank"
-                    rel="noopener">github.com/raghavendrayadavgolla &rarr;</a></span>
-              </div>
-
-              <div class="contact-card">
-                <span class="k"><i data-lucide="map-pin" aria-hidden="true"></i> Location &amp; Mobility</span>
-                <span class="v">Guntur, Andhra Pradesh, India &bull; Open to Remote &amp; Relocation (DE / IN)</span>
-              </div>
-
-              <div class="contact-status-card">
-                <div class="status-pulse-dot"></div>
-                <div class="status-content">
-                  <span class="status-title">⚡ Fast Response</span>
-                  <span class="status-desc">I typically respond within 24 hours to all academic and professional inquiries.</span>
-                </div>
-              </div>
+        <!-- ============ 8. CONTACT (INVERTED DARK EDITORIAL SECTION) ============ -->
+        <section id="contact" class="contact-editorial-dark">
+          <div class="contact-editorial-container">
+            <div class="contact-header-editorial">
+              <span class="num-badge num-badge-dark">08</span>
+              <h2 class="contact-title-editorial">Let's build something <span class="accent-highlight">intelligent.</span></h2>
+              <p class="contact-lead-editorial">
+                Open to Machine Learning engineering, Data Analytics roles, and applied research collaborations.
+                Available for remote and on-site opportunities in India and Germany.
+              </p>
             </div>
 
-            <!-- Right Column: Interactive Direct Message Form -->
-            <div class="contact-form-container">
-              <div class="form-header">
-                <h3 class="form-title"><i data-lucide="send" aria-hidden="true"></i> Send a Direct Message</h3>
-                <p class="form-subtitle">Drop a note directly to my inbox without opening an external mail client.</p>
-              </div>
+            <div class="contact-editorial-layout">
+              <!-- Left Column: Direct Channels & Circular Social Hub -->
+              <div class="contact-channels-editorial">
 
-              <form id="contactForm" class="contact-form" novalidate>
-                <!-- Hidden fields for form submission service -->
-                <input type="hidden" name="access_key" value="dcce0916-1f6e-4e20-82af-bc1db19bbecf">
-                <input type="hidden" name="from_name" value="Raghavendra Portfolio Visitor">
-                <input type="hidden" name="subject" value="New Message from Data Science Portfolio">
-                <!-- Honeypot field for anti-spam protection -->
-                <input type="checkbox" name="botcheck" class="hidden-field" style="display: none;">
+                <!-- Quick Copy Direct Email Card -->
+                <button type="button" class="contact-quick-channel" data-copy="raghavendrayadavgolla@gmail.com" title="Click to copy email address">
+                  <span class="channel-icon-pill" aria-hidden="true">
+                    <i data-lucide="mail"></i>
+                  </span>
+                  <span class="channel-text-body">
+                    <span class="channel-label">Direct Email (Click to Copy)</span>
+                    <strong class="channel-value">raghavendrayadavgolla@gmail.com</strong>
+                  </span>
+                  <span class="channel-copy-hint" aria-hidden="true">Copy</span>
+                </button>
 
-                <div class="form-group-row">
-                  <div class="form-group">
-                    <label for="senderName" class="form-label">Your Name <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <i data-lucide="user" class="input-icon" aria-hidden="true"></i>
-                      <input type="text" id="senderName" name="name" class="form-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
+                <!-- Academic & Mobility Status Strip -->
+                <div class="contact-presence-strip">
+                  <div class="presence-item">
+                    <div class="presence-dot-live" aria-hidden="true"></div>
+                    <div class="presence-content">
+                      <span class="presence-heading">Fast Response SLA</span>
+                      <span class="presence-sub">Typically responds within 24 hours</span>
                     </div>
-                    <span class="form-error" id="nameError"></span>
                   </div>
-
-                  <div class="form-group">
-                    <label for="senderEmail" class="form-label">Your Email <span class="req">*</span></label>
-                    <div class="input-wrapper">
-                      <i data-lucide="mail" class="input-icon" aria-hidden="true"></i>
-                      <input type="email" id="senderEmail" name="email" class="form-input" placeholder="e.g. alex@company.com" required autocomplete="email">
+                  <div class="presence-item">
+                    <i data-lucide="map-pin" class="presence-icon" aria-hidden="true"></i>
+                    <div class="presence-content">
+                      <span class="presence-heading">Location &amp; Mobility</span>
+                      <span class="presence-sub">Guntur, AP, India &bull; Open to Relocation (DE / IN)</span>
                     </div>
-                    <span class="form-error" id="emailError"></span>
                   </div>
                 </div>
 
-                <div class="form-group-row">
-                  <div class="form-group">
-                    <label for="senderPhone" class="form-label">Phone Number <span class="opt">(Optional)</span></label>
-                    <div class="input-wrapper">
-                      <i data-lucide="phone" class="input-icon" aria-hidden="true"></i>
-                      <input type="tel" id="senderPhone" name="phone" class="form-input" placeholder="e.g. +91 98765 43210" autocomplete="tel">
+                <!-- Circular Social Action Hub -->
+                <div class="social-circular-hub">
+                  <span class="social-hub-title">Connect on Networks:</span>
+                  <div class="circular-buttons-row">
+                    <a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="LinkedIn Profile" title="Connect on LinkedIn">
+                      <i data-lucide="linkedin" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="GitHub Profile" title="Explore GitHub Code">
+                      <i data-lucide="github" aria-hidden="true"></i>
+                    </a>
+                    <a href="mailto:raghavendrayadavgolla@gmail.com" class="social-circle-btn" aria-label="Send Direct Email" title="Send Email">
+                      <i data-lucide="mail" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener" class="social-circle-btn" aria-label="Main Portfolio Hub" title="Main Portal">
+                      <i data-lucide="globe" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Right Column: Minimalist Bordered Direct Message Form -->
+              <div class="contact-form-dark-wrap">
+                <div class="form-title-bar">
+                  <h3 class="form-editorial-title">Direct Inquiries</h3>
+                  <span class="form-editorial-sub">Direct transmission to inbox</span>
+                </div>
+
+                <form id="contactForm" class="contact-form contact-form-minimal" novalidate>
+                  <!-- Hidden fields for Web3Forms service -->
+                  <input type="hidden" name="access_key" value="dcce0916-1f6e-4e20-82af-bc1db19bbecf">
+                  <input type="hidden" name="from_name" value="Raghavendra Portfolio Visitor">
+                  <input type="hidden" name="subject" value="New Message from Data Science Portfolio">
+                  <!-- Honeypot field for anti-spam protection -->
+                  <input type="checkbox" name="botcheck" class="hidden-field" style="display: none;">
+
+                  <div class="form-row-minimal">
+                    <div class="field-item">
+                      <label for="senderName" class="field-label">Your Name <span class="req">*</span></label>
+                      <input type="text" id="senderName" name="name" class="minimal-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
+                      <span class="form-error" id="nameError"></span>
+                    </div>
+
+                    <div class="field-item">
+                      <label for="senderEmail" class="field-label">Your Email <span class="req">*</span></label>
+                      <input type="email" id="senderEmail" name="email" class="minimal-input" placeholder="e.g. alex@company.com" required autocomplete="email">
+                      <span class="form-error" id="emailError"></span>
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <label for="senderTopic" class="form-label">Subject / Purpose</label>
-                    <div class="input-wrapper">
-                      <i data-lucide="tag" class="input-icon" aria-hidden="true"></i>
-                      <select id="senderTopic" name="topic" class="form-input form-select">
+                  <div class="form-row-minimal">
+                    <div class="field-item">
+                      <label for="senderPhone" class="field-label">Phone Number <span class="opt">(Optional)</span></label>
+                      <input type="tel" id="senderPhone" name="phone" class="minimal-input" placeholder="e.g. +91 98765 43210" autocomplete="tel">
+                    </div>
+
+                    <div class="field-item">
+                      <label for="senderTopic" class="field-label">Subject / Purpose</label>
+                      <select id="senderTopic" name="topic" class="minimal-input minimal-select">
                         <option value="Internship / Full-time Opportunity">💼 Internship / Full-time Opportunity</option>
                         <option value="Research & ML Collaboration">🔬 Research &amp; ML Collaboration</option>
                         <option value="Project Inquiry / Feedback">💡 Project Inquiry / Feedback</option>
@@ -1144,38 +2311,147 @@
                       </select>
                     </div>
                   </div>
-                </div>
 
-                <div class="form-group">
-                  <label for="senderMessage" class="form-label">Message <span class="req">*</span></label>
-                  <div class="input-wrapper textarea-wrapper">
-                    <textarea id="senderMessage" name="message" class="form-input form-textarea" rows="4" placeholder="Hi Raghavendra, I came across your portfolio and wanted to discuss..." required></textarea>
+                  <div class="field-item full-width">
+                    <label for="senderMessage" class="field-label">Message <span class="req">*</span></label>
+                    <textarea id="senderMessage" name="message" class="minimal-input minimal-textarea" rows="4" placeholder="Hi Raghavendra, I came across your portfolio and wanted to discuss..." required></textarea>
+                    <span class="form-error" id="messageError"></span>
                   </div>
-                  <span class="form-error" id="messageError"></span>
-                </div>
 
-                <div class="form-actions">
-                  <button type="submit" id="submitBtn" class="btn primary btn-submit">
-                    <span class="btn-text">Send Message</span>
-                    <i data-lucide="send" class="btn-icon" aria-hidden="true"></i>
-                    <span class="btn-spinner" aria-hidden="true"></span>
-                  </button>
-                  <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
-                </div>
-              </form>
+                  <div class="form-actions-minimal">
+                    <button type="submit" id="submitBtn" class="btn primary btn-submit-minimal">
+                      <span class="btn-text">Send Message</span>
+                      <i data-lucide="send" class="btn-icon" aria-hidden="true"></i>
+                      <span class="btn-spinner" aria-hidden="true"></span>
+                    </button>
+                    <span class="form-status" id="formStatus" role="status" aria-live="polite"></span>
+                  </div>
+                </form>
+              </div>
+
             </div>
           </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-          <p class="footer-copy">
-            &copy; <span id="year"></span> Raghavendra Golla. All Rights Reserved.
-          </p>
-          <div class="footer-links">
-            <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">raghavendragolla.com</a>
-            <span>&bull;</span>
-            <a href="/privacy.html">Privacy Notice</a>
+        <!-- Footer: n8n-Inspired Cosmic Ember Horizon & Rounded Obsidian Chassis -->
+        <footer class="footer-n8n-cosmic" id="colophon">
+          <!-- Ambient Sunset Ember Horizon Glow & Micro-Stars Canopy -->
+          <div class="footer-cosmic-horizon" aria-hidden="true">
+            <div class="horizon-glow"></div>
+            <div class="horizon-stars"></div>
+          </div>
+
+          <!-- Rounded Obsidian Chassis (border-radius: 28px 28px 0 0) -->
+          <div class="footer-chassis">
+            <div class="footer-top-grid">
+
+              <!-- Brand / Mission Column (Left) -->
+              <div class="footer-brand-col">
+                <div class="footer-brand-header">
+                  <div class="footer-brand-emblem" aria-hidden="true">
+                    <svg viewBox="0 0 36 36" fill="none">
+                      <circle cx="9" cy="18" r="4.5" fill="#E85D3F" />
+                      <circle cx="27" cy="11" r="4" fill="#4D6BFE" />
+                      <circle cx="27" cy="25" r="4" fill="#10B981" />
+                      <path d="M9 18c6 0 9-7 18-7M9 18c6 0 9 7 18 7" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <span class="footer-brand-name">Raghavendra Golla</span>
+                </div>
+                <p class="footer-tagline-text">
+                  Automate intelligence without limits. Transforming complex datasets into transparent, clinician- and enterprise-ready decisions.
+                </p>
+                <div class="footer-social-strip">
+                  <a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank" rel="noopener noreferrer" class="footer-circle-link" aria-label="LinkedIn Profile">
+                    <i data-lucide="linkedin" aria-hidden="true"></i>
+                  </a>
+                  <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener noreferrer" class="footer-circle-link" aria-label="GitHub Profile">
+                    <i data-lucide="github" aria-hidden="true"></i>
+                  </a>
+                  <a href="mailto:raghavendrayadavgolla@gmail.com" class="footer-circle-link" aria-label="Send Direct Email">
+                    <i data-lucide="mail" aria-hidden="true"></i>
+                  </a>
+                  <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener" class="footer-circle-link" aria-label="Main Website Hub">
+                    <i data-lucide="globe" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Column 1: Portfolio Index -->
+              <div class="footer-nav-col">
+                <span class="footer-col-title">Index</span>
+                <ul class="footer-nav-list">
+                  <li><a href="#home">Cover Overview</a></li>
+                  <li><a href="#about">About &amp; Dossier</a></li>
+                  <li><a href="#skills">Skill Constellation</a></li>
+                  <!-- <li><a href="#dashboard">Live Telemetry Hub</a></li> -->
+                  <li><a href="#projects">Featured Projects</a></li>
+                  <li><a href="#resume">Career Timeline</a></li>
+                  <li><a href="#certifications">Verified Credentials</a></li>
+                  <li><a href="#contact">Direct Inquiries</a></li>
+                </ul>
+              </div>
+
+              <!-- Column 2: Core Disciplines -->
+              <div class="footer-nav-col">
+                <span class="footer-col-title">Focus Areas</span>
+                <ul class="footer-nav-list">
+                  <li><a href="#projects">Gradient Boosting &amp; RF</a></li>
+                  <li><a href="#projects">Explainable AI (SHAP &bull; LIME)</a></li>
+                  <li><a href="#skills">PyTorch Deep Learning</a></li>
+                  <li><a href="#skills">SQL &amp; Relational Analytics</a></li>
+                  <li><a href="#skills">Power BI &amp; DAX Modeling</a></li>
+                  <!-- <li><a href="#dashboard">Distributed Spark &amp; Big Data</a></li> -->
+                </ul>
+              </div>
+
+              <!-- Column 3: Status & Credentials -->
+              <div class="footer-nav-col">
+                <span class="footer-col-title">Status &amp; Verification</span>
+                <div class="footer-status-chips">
+                  <div class="status-chip-row">
+                    <span class="status-badge-live"><span class="pulse-live-dot" aria-hidden="true"></span>Active</span>
+                    <span class="chip-text">Open to Roles</span>
+                    <span class="chip-pill">2026</span>
+                  </div>
+                  <div class="status-chip-row">
+                    <span class="chip-icon">🎓</span>
+                    <span class="chip-text">MSc Data Science</span>
+                    <span class="chip-pill pill-subtle">2025&ndash;27</span>
+                  </div>
+                  <div class="status-chip-row">
+                    <span class="chip-icon">🏛️</span>
+                    <span class="chip-text">IBM Data Analyst</span>
+                    <span class="chip-pill pill-subtle">Honors</span>
+                  </div>
+                  <div class="status-chip-row">
+                    <span class="chip-icon">🚀</span>
+                    <span class="chip-text">SmartED ML Intern</span>
+                    <span class="chip-pill pill-subtle">Verified</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Hairline Divider -->
+            <div class="footer-chassis-divider" aria-hidden="true"></div>
+
+            <!-- Bottom Baseline Strip -->
+            <div class="footer-bottom-strip">
+              <div class="footer-sub-links">
+                <a href="https://www.raghavendragolla.com/" target="_blank" rel="noopener">Main Hub</a>
+                <span class="sub-sep">&bull;</span>
+                <a href="/privacy.html">Privacy Notice</a>
+                <span class="sub-sep">&bull;</span>
+                <a href="resume/resume.pdf" target="_blank" rel="noopener noreferrer">Curriculum Vitae</a>
+                <span class="sub-sep">&bull;</span>
+                <a href="https://coursera.org/verify/professional-cert/KEDX396MPOYI" target="_blank" rel="noopener noreferrer">Verify IBM Credential</a>
+              </div>
+              <p class="footer-copy-text">
+                &copy; <span id="year"></span> Raghavendra Golla. Automate intelligence without limits.
+              </p>
+            </div>
           </div>
         </footer>
 
@@ -1225,13 +2501,13 @@
   author={Golla, Raghavendra},
   journal={Department of Data Science, Chandigarh University},
   year={2026},
-  url={https://github.com/raghavendrayadavgolla}
+  url={https://github.com/raghavendragolla}
 }</code></pre>
         </div>
       </div>
 
       <div class="citation-footer">
-        <a href="https://github.com/raghavendrayadavgolla" target="_blank" rel="noopener" class="btn primary">
+        <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener" class="btn primary">
           <i data-lucide="github" aria-hidden="true"></i><span>View Research Repository</span>
         </a>
       </div>
