@@ -25,20 +25,21 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
 ├── robots.txt                   # Search Engine Crawler Guidance
 ├── sitemap.xml                  # XML Sitemap for SEO
 ├── sw.js                        # Service Worker (Cache management & offline navigation)
-├── css/
-│   ├── animations.css           # Keyframe animations (pulse, fade, float)
-│   ├── responsive.css           # Breakpoint media queries
-│   ├── style.css                # Landing page layout & card styling
-│   ├── variables.css            # Base design variables
-│   └── shared/
-│       ├── components.css       # Shared UI components & toasts
-│       └── tokens.css           # Consolidated design tokens & theme rules
-├── favicon/                     # Web App icons & favicons
-├── images/
-│   └── og-image.jpg             # Open Graph social preview banner
-├── js/
-│   ├── script.js                # Main page controller & tilt effects
-│   └── shared.js                # System engine (Theme, Canvas, Modal A11y, IST Clock, Toast, PWA)
+├── assets/
+│   ├── css/
+│   │   ├── animations.css       # Keyframe animations (pulse, fade, float)
+│   │   ├── responsive.css       # Breakpoint media queries
+│   │   ├── style.css            # Landing page layout & card styling
+│   │   ├── variables.css        # Base design variables
+│   │   └── shared/
+│   │       ├── components.css   # Shared UI components & toasts
+│   │       └── tokens.css       # Consolidated design tokens & theme rules
+│   ├── favicon/                 # Web App icons & favicons
+│   ├── images/
+│   │   └── og-image.jpg         # Open Graph social preview banner
+│   └── js/
+│       ├── script.js            # Main page controller & tilt effects
+│       └── shared.js            # System engine (Theme, Canvas, Modal A11y, IST Clock, Toast, PWA)
 └── portfolio/
     ├── index.html               # Full Portfolio & Resume Page
     ├── certificates/            # Verified credential media assets

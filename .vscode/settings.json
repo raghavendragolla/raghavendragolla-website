@@ -1,0 +1,12 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "package.json": "package-lock.json, .stylelintrc.json, eslint.config.mjs, playwright.config.js, lighthouserc.json, .htmlvalidate.json"
+  },
+  "files.exclude": {
+    "**/playwright-report": true,
+    "**/test-results": true,
+    "**/.lighthouseci": true
+  }
+}
