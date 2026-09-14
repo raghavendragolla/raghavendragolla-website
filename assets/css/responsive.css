@@ -71,7 +71,7 @@
     }
 
     .highlight-card {
-        padding: 26px 28px;
+        padding: 40px 28px 24px;
     }
 
     .specs-bar {
@@ -124,7 +124,7 @@
     }
 
     .highlight-card {
-        padding: 20px 20px;
+        padding: 38px 20px 20px;
     }
 
     .highlight-title {
@@ -167,7 +167,7 @@
     }
 
     .highlight-card {
-        padding: 18px 18px;
+        padding: 38px 18px 18px;
     }
 
     .specs-bar {
@@ -200,7 +200,7 @@
     }
 
     .highlight-card {
-        padding: 16px 14px;
+        padding: 36px 14px 16px;
     }
 
     .highlight-header {
@@ -360,7 +360,7 @@
     }
 
     .highlight-card {
-        padding: 18px 20px;
+        padding: 38px 20px 18px;
     }
 
     .highlight-header {
@@ -565,8 +565,13 @@
     }
 
     .highlight-card {
-        padding: 16px 18px;
+        padding: 36px 18px 16px;
         border-radius: var(--radius-md);
+    }
+
+    .card-corner-badge {
+        font-size: 9px;
+        padding: 3.5px 10px;
     }
 
     .highlight-header {
@@ -736,7 +741,12 @@
     }
 
     .highlight-card {
-        padding: 14px 15px;
+        padding: 34px 15px 14px;
+    }
+
+    .card-corner-badge {
+        font-size: 8.5px;
+        padding: 3px 9px;
     }
 
     .highlight-title {
@@ -803,7 +813,12 @@
     }
 
     .highlight-card {
-        padding: 12px 14px;
+        padding: 30px 14px 12px;
+    }
+
+    .card-corner-badge {
+        font-size: 8.5px;
+        padding: 3px 8px;
     }
 
     .specs-bar {

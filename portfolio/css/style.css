@@ -578,20 +578,22 @@ header.top-vitals {
 
 .ecg-base-track {
     stroke: var(--teal);
-    stroke-width: 1.2;
-    opacity: 0.32;
+    stroke-width: 1.1;
+    opacity: 0.22;
 }
 
 .ecg-flowing-beam {
     stroke: url(#ecgBeamDesktop);
-    stroke-width: 1.8;
-    filter: drop-shadow(0 0 5px var(--teal-glow));
+    stroke-width: 1.3;
+    opacity: 0.75;
+    filter: drop-shadow(0 0 2px var(--teal-glow));
 }
 
 .ecg-flowing-beam-mobile {
     stroke: url(#ecgBeamMobile);
-    stroke-width: 1.8;
-    filter: drop-shadow(0 0 5px var(--teal-glow));
+    stroke-width: 1.3;
+    opacity: 0.75;
+    filter: drop-shadow(0 0 2px var(--teal-glow));
 }
 
 .heartbeat-pulse-zone {
@@ -642,6 +644,13 @@ header.top-vitals {
     font-size: 9px;
     animation: dotColorBlink 3.6s ease-in-out infinite;
     will-change: transform, opacity, color;
+}
+
+.vitals-pin {
+    display: inline-block;
+    transform-origin: bottom center;
+    animation: pinBounce 2.4s ease-in-out infinite;
+    will-change: transform;
 }
 
 /* Mobile Nav Toggle & Backdrop */
