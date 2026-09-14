@@ -302,3 +302,24 @@
         opacity: 0.85;
     }
 }
+
+/* -----------------------------------------
+   Location Pin Pulse & Bounce Animation
+   ----------------------------------------- */
+@keyframes pinBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    12% {
+        transform: translateY(-3.5px) scale(1.12);
+    }
+    24% {
+        transform: translateY(0) scale(0.96);
+    }
+    36% {
+        transform: translateY(-1.5px) scale(1.04);
+    }
+    48% {
+        transform: translateY(0) scale(1);
+    }
+}
