@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v12.0';
+const ASSET_VERSION = 'v12.1';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const PRECACHE_ASSETS = [
@@ -9,21 +9,21 @@ const PRECACHE_ASSETS = [
   '/privacy.html',
   '/404.html',
   '/portfolio/images/profile/profile.jpg',
-  '/css/shared/tokens.css',
-  '/css/shared/components.css',
-  '/css/style.css',
-  '/css/animations.css',
-  '/css/responsive.css',
-  '/js/shared.js',
-  '/js/script.js',
+  '/assets/css/shared/tokens.css',
+  '/assets/css/shared/components.css',
+  '/assets/css/style.css',
+  '/assets/css/animations.css',
+  '/assets/css/responsive.css',
+  '/assets/js/shared.js',
+  '/assets/js/script.js',
   '/portfolio/css/style.css',
   '/portfolio/css/responsive.css',
   '/portfolio/js/script.js',
   '/manifest.json',
-  '/favicon/favicon.png',
-  '/favicon/favicon-192x192.png',
-  '/favicon/favicon-512x512.png',
-  '/favicon/apple-touch-icon.png'
+  '/assets/favicon/favicon.png',
+  '/assets/favicon/favicon-192x192.png',
+  '/assets/favicon/favicon-512x512.png',
+  '/assets/favicon/apple-touch-icon.png'
 ];
 
 // Install event - Pre-cache critical app shell for instant launch

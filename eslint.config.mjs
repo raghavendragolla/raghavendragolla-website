@@ -11,7 +11,7 @@ export default [
     ]
   },
   {
-    files: ["js/**/*.js", "portfolio/js/**/*.js"],
+    files: ["assets/js/**/*.js", "portfolio/js/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "script",
