@@ -3,7 +3,7 @@
 
 <head>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://career.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
@@ -137,6 +137,7 @@
     <!-- JavaScript Stack (shared.js loads FIRST) -->
     <script src="/assets/js/shared.js?v=22.0" defer></script>
     <script src="/assets/js/script.js?v=22.0" defer></script>
+    <script src="/assets/js/push.js?v=1.0" defer></script>
 
 </head>
 
@@ -417,6 +418,7 @@
                     GitHub
                 </a>
                 <a href="/privacy.html" class="footer-link">Privacy</a>
+                <a href="https://career.raghavendragolla.com" target="_blank" rel="noopener noreferrer" class="footer-link">Career Radar</a>
                 <button id="thoughts-footer-btn" class="footer-thoughts-btn" type="button"
                     aria-label="Open My Thoughts and Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
                 <a href="portfolio/index.html#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
@@ -677,6 +679,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Career Radar Job-Alert Push Pairing Banner: hidden unless the page
+         was opened with a valid one-time ?pair_token= from Career Radar
+         (see assets/js/push.js). Never shown to ordinary visitors. -->
+    <aside id="pushPairingBanner" class="pwa-install-banner" aria-label="Enable Career Radar Job Alerts">
+        <div class="pwa-banner-content">
+            <span class="pwa-banner-icon" aria-hidden="true" style="font-size: 1.6rem;">🔔</span>
+            <div class="pwa-banner-text">
+                <strong class="pwa-banner-title">Enable Career Radar Job Alerts?</strong>
+                <span class="pwa-banner-subtitle" id="pushPairingSubtitle">Get notified here when a new relevant job is found.</span>
+            </div>
+        </div>
+        <div class="pwa-banner-actions">
+            <button id="pushPairingEnableBtn" class="pwa-install-btn" type="button">
+                <span>Enable</span>
+            </button>
+            <button id="pushPairingDismissBtn" class="pwa-dismiss-btn" type="button" aria-label="Dismiss">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+    </aside>
 
     <!-- Mobile PWA Install Floating Banner (Commented out)
     <aside id="pwa-install-banner" class="pwa-install-banner" aria-label="Install Portfolio App" style="display: none;">
