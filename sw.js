@@ -117,4 +117,53 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
+// Career Radar Web Push (a different origin — career.raghavendragolla.com —
+// sends these; this service worker only displays and routes the click).
+// Existing install/activate/fetch caching behavior above is unchanged.
+const CAREER_RADAR_ORIGIN = 'https://career.raghavendragolla.com';
+
+self.addEventListener('push', (event) => {
+  let payload = { title: 'Career Radar', body: 'New job update available.', job_id: '' };
+  if (event.data) {
+    try {
+      payload = Object.assign(payload, event.data.json());
+    } catch (err) {
+      payload.body = event.data.text() || payload.body;
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title, {
+      body: payload.body,
+      icon: '/assets/favicon/favicon-192x192.png',
+      badge: '/assets/favicon/favicon.png',
+      data: { job_id: payload.job_id || '' }
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  const jobId = (event.notification.data && event.notification.data.job_id) || '';
+  const targetUrl = CAREER_RADAR_ORIGIN + (jobId ? `/?job=${encodeURIComponent(jobId)}` : '/');
+
+  event.waitUntil(
+    (async () => {
+      // Career Radar is a different origin from this service worker, so
+      // clients.matchAll() here can only ever see raghavendragolla.com
+      // tabs — it cannot see or focus an already-open Career Radar tab.
+      // This best-effort check only helps if such a same-origin edge case
+      // ever applies; otherwise this always opens a new tab/window.
+      const allClients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      for (const client of allClients) {
+        if (client.url === targetUrl && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      return self.clients.openWindow(targetUrl);
+    })()
+  );
+});
+
 
