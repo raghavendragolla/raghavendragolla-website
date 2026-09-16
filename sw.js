@@ -127,7 +127,7 @@ self.addEventListener('push', (event) => {
   if (event.data) {
     try {
       payload = Object.assign(payload, event.data.json());
-    } catch (err) {
+    } catch {
       payload.body = event.data.text() || payload.body;
     }
   }

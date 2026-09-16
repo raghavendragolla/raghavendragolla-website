@@ -2065,6 +2065,10 @@ body.drawer-open {
     object-fit: cover;
     box-shadow: var(--shadow-sm);
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
 }
 
 .pwa-banner-text {
