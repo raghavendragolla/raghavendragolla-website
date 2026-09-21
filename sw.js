@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v12.1';
+const ASSET_VERSION = 'v22.0';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const PRECACHE_ASSETS = [
@@ -11,14 +11,24 @@ const PRECACHE_ASSETS = [
   '/portfolio/images/profile/profile.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
+  '/assets/css/variables.css',
   '/assets/css/style.css',
   '/assets/css/animations.css',
   '/assets/css/responsive.css',
   '/assets/js/shared.js',
   '/assets/js/script.js',
+  '/assets/js/push.js',
+  '/assets/images/og-image.jpg',
+  '/portfolio/css/variables.css',
+  '/portfolio/css/animations.css',
   '/portfolio/css/style.css',
   '/portfolio/css/responsive.css',
   '/portfolio/js/script.js',
+  '/portfolio/resume/resume.pdf',
+  '/portfolio/certificates/ibm-data-analyst-thumb.webp',
+  '/portfolio/certificates/ibm-data-analyst.jpg',
+  '/portfolio/certificates/smarted-ml-internship-thumb.webp',
+  '/portfolio/certificates/smarted-ml-internship.png',
   '/manifest.json',
   '/assets/favicon/favicon.png',
   '/assets/favicon/favicon-192x192.png',
@@ -85,7 +95,7 @@ self.addEventListener('fetch', (event) => {
           return networkResponse;
         })
         .catch(async () => {
-          const cachedResponse = await caches.match(event.request);
+          const cachedResponse = (await caches.match(event.request)) || (await caches.match(event.request, { ignoreSearch: true }));
           if (cachedResponse) return cachedResponse;
 
           if (url.pathname.startsWith('/portfolio')) {
@@ -101,7 +111,7 @@ self.addEventListener('fetch', (event) => {
   // 2. Asset strategy: Stale-While-Revalidate
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = await cache.match(event.request);
+      const cachedResponse = (await cache.match(event.request)) || (await cache.match(event.request, { ignoreSearch: true }));
 
       const fetchPromise = fetch(event.request)
         .then((networkResponse) => {

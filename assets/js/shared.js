@@ -29,12 +29,14 @@
         }
     };
 
-    // Migrate legacy 'theme' storage key to 'rg:theme' and clean obsolete keys
+    // Harmonize legacy 'theme' storage key and canonical 'rg:theme' key
     try {
-        var legacyTheme = localStorage.getItem('theme');
-        if (legacyTheme) {
+        var rgThemeVal = window.rgStorage.getItem('rg:theme');
+        var legacyTheme = window.rgStorage.getItem('theme');
+        if (rgThemeVal) {
+            window.rgStorage.setItem('theme', rgThemeVal);
+        } else if (legacyTheme) {
             window.rgStorage.setItem('rg:theme', legacyTheme);
-            localStorage.removeItem('theme');
         }
         localStorage.removeItem('cached_visits');
         sessionStorage.removeItem('visited_session');
@@ -47,17 +49,18 @@
 
     window.isPwaDismissed = function () {
         try {
-            var val = window.rgStorage.getItem('rg:pwa_dismissed');
+            var val = window.rgStorage.getItem('rg:pwa_dismissed') || window.rgStorage.getItem('rg:pwa-dismissed');
             if (!val) {
                 if (sessionStorage.getItem('pwa_prompt_dismissed') === 'true') return true;
                 return false;
             }
             var dismissedAt = parseInt(val, 10);
             if (isNaN(dismissedAt)) return false;
-            if (Date.now() - dismissedAt < 14 * 24 * 60 * 60 * 1000) {
+            if (Date.now() - dismissedAt < 30 * 24 * 60 * 60 * 1000) {
                 return true;
             }
             window.rgStorage.removeItem('rg:pwa_dismissed');
+            window.rgStorage.removeItem('rg:pwa-dismissed');
             return false;
         } catch (e) {
             return false;
@@ -66,7 +69,9 @@
 
     window.dismissPwa = function () {
         try {
-            window.rgStorage.setItem('rg:pwa_dismissed', Date.now().toString());
+            var nowStr = Date.now().toString();
+            window.rgStorage.setItem('rg:pwa_dismissed', nowStr);
+            window.rgStorage.setItem('rg:pwa-dismissed', nowStr);
             sessionStorage.removeItem('pwa_prompt_dismissed');
         } catch (e) { }
     };
@@ -75,8 +80,11 @@
     // 2. Unified Theme System (Follows OS Preference)
     // ====================================================
     window.rgTheme = {
+        getTheme: function () {
+            return window.rgStorage.getItem('rg:theme') || window.rgStorage.getItem('theme');
+        },
         init: function () {
-            var saved = window.rgStorage.getItem('rg:theme');
+            var saved = window.rgTheme.getTheme();
             var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             if (saved === 'dark' || (!saved && prefersDark)) {
                 document.documentElement.setAttribute('data-theme', 'dark');
@@ -84,16 +92,23 @@
                 document.documentElement.removeAttribute('data-theme');
             }
         },
-        toggle: function () {
-            var current = document.documentElement.getAttribute('data-theme');
-            var next = current === 'dark' ? 'light' : 'dark';
+        setTheme: function (next) {
             if (next === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
                 document.documentElement.removeAttribute('data-theme');
             }
             window.rgStorage.setItem('rg:theme', next);
+            window.rgStorage.setItem('theme', next);
+            if (window.updateCanvasTheme) {
+                window.updateCanvasTheme();
+            }
             return next;
+        },
+        toggle: function () {
+            var current = document.documentElement.getAttribute('data-theme');
+            var next = current === 'dark' ? 'light' : 'dark';
+            return window.rgTheme.setTheme(next);
         }
     };
 
@@ -389,9 +404,13 @@
     // ====================================================
     // 6. Live IST Clock Helper
     // ====================================================
+    var istClockInitialized = false;
     window.initISTClock = function () {
+        if (istClockInitialized) return;
         var clockEl = document.getElementById('vitals-clock');
         if (!clockEl) return;
+        istClockInitialized = true;
+        window._istClockInitialized = true;
 
         var clockInterval = null;
 
@@ -430,13 +449,19 @@
     // 7. PWA Install & Service Worker Integration
     // ====================================================
     window.initPWA = function () {
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
+        // Register Service Worker authoritatively once per lifecycle
+        if ('serviceWorker' in navigator && !window._swRegistered) {
+            window._swRegistered = true;
+            var registerSW = function () {
                 navigator.serviceWorker.register('/sw.js').catch(function (err) {
                     console.warn('SW registration failed:', err);
                 });
-            });
+            };
+            if (document.readyState === 'complete') {
+                registerSW();
+            } else {
+                window.addEventListener('load', registerSW);
+            }
         }
 
         // PWA Install Prompt handling with 30-day localStorage expiry
@@ -447,7 +472,7 @@
 
         if (!pwaBanner) return;
 
-        var dismissedTime = window.rgStorage.getItem('rg:pwa-dismissed');
+        var dismissedTime = window.rgStorage.getItem('rg:pwa_dismissed') || window.rgStorage.getItem('rg:pwa-dismissed');
         var now = Date.now();
         if (dismissedTime && (now - parseInt(dismissedTime, 10) < 30 * 24 * 60 * 60 * 1000)) {
             return; // Dismissed within 30 days
@@ -474,7 +499,11 @@
         if (dismissBtn) {
             dismissBtn.addEventListener('click', function () {
                 pwaBanner.classList.remove('show');
-                window.rgStorage.setItem('rg:pwa-dismissed', Date.now().toString());
+                if (window.dismissPwa) {
+                    window.dismissPwa();
+                } else {
+                    window.rgStorage.setItem('rg:pwa_dismissed', Date.now().toString());
+                }
             });
         }
     };

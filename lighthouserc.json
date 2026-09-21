@@ -1,17 +1,18 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": ".",
+      "startServerCommand": "node scripts/test-server.js",
+      "startServerReadyPattern": "Test static server running",
       "url": [
-        "http://localhost/index.html",
-        "http://localhost/portfolio/index.html"
+        "http://localhost:8080/index.html",
+        "http://localhost:8080/portfolio/index.html"
       ],
       "numberOfRuns": 1
     },
     "assert": {
       "assertMatrix": [
         {
-          "matchingUrlPattern": ".*index\\.html$",
+          "matchingUrlPattern": "http://localhost:8080/index\\.html$",
           "assertions": {
             "categories:performance": ["warn", { "minScore": 0.80 }],
             "categories:accessibility": ["error", { "minScore": 0.95 }],
