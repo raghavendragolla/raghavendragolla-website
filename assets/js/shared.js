@@ -6,6 +6,33 @@
 (function () {
     'use strict';
 
+    // Reset scroll to (0, 0) on reload and restore 'auto' after load for native Back/Forward
+    try {
+        var navEntries = performance.getEntriesByType('navigation');
+        var isReload = navEntries && navEntries.length > 0 ? navEntries[0].type === 'reload' : (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
+        if (isReload) {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            if (document.body) {
+                document.body.scrollTop = 0;
+            }
+            document.documentElement.style.scrollBehavior = '';
+
+            window.addEventListener('load', function () {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                setTimeout(function () {
+                    if ('scrollRestoration' in history) {
+                        history.scrollRestoration = 'auto';
+                    }
+                }, 100);
+            }, { once: true });
+        }
+    } catch (e) { }
+
     // ====================================================
     // 1. Safe Storage Utilities (safely handle Private Mode)
     // ====================================================

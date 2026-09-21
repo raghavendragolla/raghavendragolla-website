@@ -336,3 +336,19 @@
     --green-soft: var(--success-subtle);
     --badge-bg: var(--surface);
 }
+
+/* ==========================================================================
+   Core Fixed Background Elements (Zero Initial Layout Shift)
+   ========================================================================== */
+#neural-canvas,
+.bg-grid,
+.ambient-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 0;
+    pointer-events: none;
+}

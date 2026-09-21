@@ -325,4 +325,82 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     });
     expect(cachedCss).toBe(true);
   });
+
+  test('Regression: Initial render stability on refresh - portfolio vertical position remains constant', async ({ page }) => {
+    await page.goto('/portfolio/');
+
+    await page.addInitScript(() => {
+      window.__positions = {};
+      const record = (stage) => {
+        const main = document.querySelector('.main-content') || document.querySelector('main');
+        const sidebar = document.querySelector('nav.sidebar');
+        window.__positions[stage] = {
+          mainTop: main ? Math.round(main.getBoundingClientRect().top) : null,
+          sidebarTop: sidebar ? Math.round(sidebar.getBoundingClientRect().top) : null,
+          scrollY: window.scrollY
+        };
+      };
+      document.addEventListener('DOMContentLoaded', () => record('DOMContentLoaded'));
+      window.addEventListener('load', () => {
+        record('load');
+        if (document.fonts) {
+          document.fonts.ready.then(() => record('fonts_ready'));
+        }
+      });
+    });
+
+    await page.reload({ waitUntil: 'load' });
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(2000);
+    await page.evaluate(() => {
+      const main = document.querySelector('.main-content') || document.querySelector('main');
+      const sidebar = document.querySelector('nav.sidebar');
+      window.__positions['plus_2s'] = {
+        mainTop: main ? Math.round(main.getBoundingClientRect().top) : null,
+        sidebarTop: sidebar ? Math.round(sidebar.getBoundingClientRect().top) : null,
+        scrollY: window.scrollY
+      };
+    });
+
+    const pos = await page.evaluate(() => window.__positions);
+    expect(pos.DOMContentLoaded).toBeDefined();
+    expect(pos.load).toBeDefined();
+    expect(pos.fonts_ready).toBeDefined();
+    expect(pos.plus_2s).toBeDefined();
+
+    // Verify mainTop does not shift between stages
+    expect(pos.DOMContentLoaded.mainTop).toBe(pos.load.mainTop);
+    expect(pos.load.mainTop).toBe(pos.fonts_ready.mainTop);
+    expect(pos.fonts_ready.mainTop).toBe(pos.plus_2s.mainTop);
+
+    // Verify sidebarTop stays at 0
+    expect(pos.DOMContentLoaded.sidebarTop).toBe(0);
+    expect(pos.plus_2s.sidebarTop).toBe(0);
+    expect(pos.plus_2s.scrollY).toBe(0);
+  });
+
+  test('Regression: Portfolio reload from scrolled position resets scrollY to 0', async ({ page }) => {
+    await page.goto('/portfolio/');
+    await page.evaluate(() => window.scrollTo(0, 1500));
+    await page.waitForTimeout(50);
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  });
+
+  test('Regression: Browser back/forward navigation preserves scroll position', async ({ page }) => {
+    await page.goto('/portfolio/');
+    await page.evaluate(() => window.scrollTo(0, 1200));
+    await page.waitForTimeout(50);
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+
+    await page.goto('/privacy.html', { waitUntil: 'load' });
+    await page.goBack({ waitUntil: 'load' });
+    await page.waitForTimeout(400);
+
+    const scrollAfter = await page.evaluate(() => window.scrollY);
+    expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(50);
+  });
 });
