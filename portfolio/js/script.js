@@ -20,48 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const sidebarThemeToggle = document.getElementById('theme-toggle-sidebar');
     const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-    function getSavedTheme() {
-        return (window.rgStorage && window.rgStorage.getItem('rg:theme')) || localStorage.getItem('theme');
-    }
-
-    function applyTheme(theme) {
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-        }
-        if (window.updateCanvasTheme) {
-            window.updateCanvasTheme();
-        }
-    }
-
-    // Initialize Theme
-    const savedTheme = getSavedTheme();
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (systemPrefersDark.matches) {
-        applyTheme('dark');
-    } else {
-        applyTheme('light');
-    }
-
-    systemPrefersDark.addEventListener('change', (e) => {
-        if (!getSavedTheme()) {
-            applyTheme(e.matches ? 'dark' : 'light');
-        }
-    });
 
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        if (window.rgStorage) {
-            window.rgStorage.setItem('rg:theme', newTheme);
-        }
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme);
-        showToast(newTheme === 'dark' ? 'Switched to Dark Mode 🌙' : 'Switched to Light Mode ☀️');
+        const nextTheme = window.rgTheme ? window.rgTheme.toggle() : (document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        showToast(nextTheme === 'dark' ? 'Switched to Dark Mode 🌙' : 'Switched to Light Mode ☀️');
 
         // Trigger 360-degree spin animation on theme toggle buttons
         [sidebarThemeToggle, mobileThemeToggle].forEach(btn => {
@@ -152,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dy = mouse.y - this.y;
                     const dist = Math.hypot(dx, dy);
 
-                    if (dist < mouse.radius) {
+                    if (dist > 0.001 && dist < mouse.radius) {
                         const force = (mouse.radius - dist) / mouse.radius;
                         this.x += (dx / dist) * force * 1.1;
                         this.y += (dy / dist) * force * 1.1;
@@ -251,24 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     // 3. Real-Time IST Clock
     // ====================================================
-    const clockEl = document.getElementById('vitals-clock');
-    function updateClock() {
-        if (!clockEl) return;
-        const now = new Date();
-        const options = {
-            timeZone: 'Asia/Kolkata',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        };
-        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-        clockEl.textContent = `${timeString} IST`;
-    }
-
-    if (clockEl) {
-        updateClock();
-        setInterval(updateClock, 1000);
+    if (window.initISTClock) {
+        window.initISTClock();
     }
 
 
@@ -344,8 +290,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.2 });
 
-    const statsSection = document.querySelector('.hero-strip');
-    if (statsSection) observer.observe(statsSection);
+    const statsSection = document.querySelector('.hero-metrics-editorial') || document.querySelector('.hero-strip');
+    if (statsSection) {
+        const rect = statsSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+            animateCountUp();
+        }
+        observer.observe(statsSection);
+    }
 
 
     // ====================================================
@@ -491,15 +443,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Email click-to-copy handler
-    const emailCards = document.querySelectorAll('.contact-card[data-copy], a[href^="mailto:"]');
+    const emailCards = document.querySelectorAll('[data-copy], a[href^="mailto:"]');
     emailCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const email = 'raghavendrayadavgolla@gmail.com';
-            navigator.clipboard.writeText(email).then(() => {
-                showToast('Copied email to clipboard! 📋');
-            }).catch(() => {
-                showToast('Opening email client...');
-            });
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = card.getAttribute('data-copy') || (card.getAttribute('href') ? card.getAttribute('href').replace(/^mailto:/, '') : 'raghavendrayadavgolla@gmail.com');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).then(() => {
+                    showToast('Copied email to clipboard! 📋');
+                }).catch(() => {
+                    showToast('Opening email client...');
+                    window.location.href = card.getAttribute('href') || `mailto:${email}`;
+                });
+            } else {
+                window.location.href = card.getAttribute('href') || `mailto:${email}`;
+            }
         });
     });
 
@@ -727,6 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const nameError = document.getElementById('nameError');
         const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
         const messageError = document.getElementById('messageError');
 
         let lastSubmissionTime = 0;
@@ -738,6 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (nameError) nameError.textContent = '';
             if (emailError) emailError.textContent = '';
+            if (phoneError) phoneError.textContent = '';
             if (messageError) messageError.textContent = '';
             if (formStatus) {
                 formStatus.textContent = '';
@@ -802,6 +762,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 isValid = false;
             }
 
+            if (phoneVal) {
+                const digitsOnly = phoneVal.replace(/\D/g, '');
+                const isValidCharSet = /^[+]?[\d\s().-]+$/.test(phoneVal);
+                if (!isValidCharSet || digitsOnly.length < 7 || digitsOnly.length > 15) {
+                    if (phoneInput) phoneInput.classList.add('is-invalid');
+                    if (phoneError) phoneError.textContent = 'Please enter a valid phone number or leave blank';
+                    isValid = false;
+                }
+            }
+
             if (!messageVal || messageVal.length < 10) {
                 if (messageInput) messageInput.classList.add('is-invalid');
                 if (messageError) messageError.textContent = 'Please provide a message (at least 10 characters)';
@@ -809,6 +779,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!isValid) return;
+
+            // 3. Honeypot Botcheck Guard
+            const botcheckField = contactForm.querySelector('input[name="botcheck"]');
+            if (botcheckField && (botcheckField.checked || (botcheckField.type !== 'checkbox' && botcheckField.value))) {
+                lastSubmissionTime = Date.now();
+                lastSubmissionPayload = currentPayload;
+                contactForm.reset();
+                if (formStatus) {
+                    formStatus.textContent = '✓ Message delivered directly to Raghavendra!';
+                    formStatus.className = 'form-status is-success';
+                }
+                showToast('✓ Message sent successfully! 🚀');
+                return;
+            }
 
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const formStatus = document.getElementById('formStatus');
@@ -858,8 +842,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Genuine Failure Handling - Do NOT reset form, do NOT force mailto redirect
                     const errorMsg = result.message || 'Submission failed. Please try again.';
                     if (formStatus) {
-                        formStatus.innerHTML = `✕ ${errorMsg} You can also email directly: <a href="mailto:raghavendrayadavgolla@gmail.com" style="color: var(--teal); text-decoration: underline;">raghavendrayadavgolla@gmail.com</a>`;
+                        formStatus.textContent = '';
                         formStatus.className = 'form-status is-error';
+                        formStatus.appendChild(document.createTextNode(`✕ ${errorMsg} You can also email directly: `));
+                        const mailLink = document.createElement('a');
+                        mailLink.href = 'mailto:raghavendrayadavgolla@gmail.com';
+                        mailLink.style.color = 'var(--teal)';
+                        mailLink.style.textDecoration = 'underline';
+                        mailLink.textContent = 'raghavendrayadavgolla@gmail.com';
+                        formStatus.appendChild(mailLink);
                     }
                     showToast('✕ Unable to send message. Please try again.');
                 }
@@ -871,8 +862,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     : 'Network error occurred while sending.';
 
                 if (formStatus) {
-                    formStatus.innerHTML = `✕ ${failureText} You can email directly: <a href="mailto:raghavendrayadavgolla@gmail.com" style="color: var(--teal); text-decoration: underline;">raghavendrayadavgolla@gmail.com</a>`;
+                    formStatus.textContent = '';
                     formStatus.className = 'form-status is-error';
+                    formStatus.appendChild(document.createTextNode(`✕ ${failureText} You can email directly: `));
+                    const mailLink = document.createElement('a');
+                    mailLink.href = 'mailto:raghavendrayadavgolla@gmail.com';
+                    mailLink.style.color = 'var(--teal)';
+                    mailLink.style.textDecoration = 'underline';
+                    mailLink.textContent = 'raghavendrayadavgolla@gmail.com';
+                    formStatus.appendChild(mailLink);
                 }
                 showToast(isTimeout ? '✕ Request timed out.' : '✕ Network failure.');
             } finally {
@@ -958,15 +956,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(() => {
                 showToast('Could not copy citation.');
             });
-        });
-    }
-
-    // ====================================================
-    // 16. Service Worker Registration (PWA Install Support)
-    // ====================================================
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
     }
 
@@ -1202,34 +1191,106 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!repoListEl) return;
 
                 const displayRepos = repos.slice(0, 3);
-                const repoHtml = displayRepos.map(r => {
-                    const lang = r.language || 'Python';
+                repoListEl.textContent = '';
+
+                displayRepos.forEach(r => {
+                    const lang = typeof r.language === 'string' && r.language ? r.language : 'Python';
                     const colorClass = lang.toLowerCase() === 'python' ? 'color-python' :
                                        lang.toLowerCase() === 'javascript' || lang.toLowerCase() === 'html' ? 'color-web' : 'color-pytorch';
-                    const description = r.description || 'Data science and machine learning research repository.';
+                    const description = typeof r.description === 'string' && r.description ? r.description : 'Data science and machine learning research repository.';
                     const stars = r.stargazers_count > 0 ? `${r.stargazers_count} Stars` : 'Starred';
                     const forks = r.forks_count > 0 ? `${r.forks_count} Forks` : 'Public';
 
-                    return `
-                    <div class="repo-item-card">
-                      <div class="repo-main">
-                        <div class="repo-title-row">
-                          <i data-lucide="book-marked" aria-hidden="true" class="repo-icon"></i>
-                          <a href="${r.html_url}" target="_blank" rel="noopener noreferrer" class="repo-name">${r.name}</a>
-                          <span class="repo-tag">${lang}</span>
-                        </div>
-                        <p class="repo-description">${description}</p>
-                      </div>
-                      <div class="repo-stats-row">
-                        <span class="repo-lang"><span class="lang-dot ${colorClass}" aria-hidden="true"></span> ${lang}</span>
-                        <span class="repo-stat"><i data-lucide="star" aria-hidden="true"></i> <span class="repo-stars">${stars}</span></span>
-                        <span class="repo-stat"><i data-lucide="git-fork" aria-hidden="true"></i> <span class="repo-forks">${forks}</span></span>
-                      </div>
-                    </div>
-                    `;
-                }).join('');
+                    let safeUrl = '#';
+                    if (typeof r.html_url === 'string') {
+                        try {
+                            const parsed = new URL(r.html_url);
+                            if (parsed.protocol === 'https:' && (parsed.hostname === 'github.com' || parsed.hostname.endsWith('.github.com'))) {
+                                safeUrl = parsed.href;
+                            }
+                        } catch (_) {}
+                    }
 
-                repoListEl.innerHTML = repoHtml;
+                    const card = document.createElement('div');
+                    card.className = 'repo-item-card';
+
+                    const main = document.createElement('div');
+                    main.className = 'repo-main';
+
+                    const titleRow = document.createElement('div');
+                    titleRow.className = 'repo-title-row';
+
+                    const bookIcon = document.createElement('i');
+                    bookIcon.setAttribute('data-lucide', 'book-marked');
+                    bookIcon.setAttribute('aria-hidden', 'true');
+                    bookIcon.className = 'repo-icon';
+
+                    const link = document.createElement('a');
+                    link.href = safeUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.className = 'repo-name';
+                    link.textContent = typeof r.name === 'string' ? r.name : '';
+
+                    const tag = document.createElement('span');
+                    tag.className = 'repo-tag';
+                    tag.textContent = lang;
+
+                    titleRow.appendChild(bookIcon);
+                    titleRow.appendChild(link);
+                    titleRow.appendChild(tag);
+
+                    const desc = document.createElement('p');
+                    desc.className = 'repo-description';
+                    desc.textContent = description;
+
+                    main.appendChild(titleRow);
+                    main.appendChild(desc);
+
+                    const statsRow = document.createElement('div');
+                    statsRow.className = 'repo-stats-row';
+
+                    const langSpan = document.createElement('span');
+                    langSpan.className = 'repo-lang';
+                    const dot = document.createElement('span');
+                    dot.className = `lang-dot ${colorClass}`;
+                    dot.setAttribute('aria-hidden', 'true');
+                    langSpan.appendChild(dot);
+                    langSpan.appendChild(document.createTextNode(` ${lang}`));
+
+                    const starStat = document.createElement('span');
+                    starStat.className = 'repo-stat';
+                    const starIcon = document.createElement('i');
+                    starIcon.setAttribute('data-lucide', 'star');
+                    starIcon.setAttribute('aria-hidden', 'true');
+                    const starText = document.createElement('span');
+                    starText.className = 'repo-stars';
+                    starText.textContent = stars;
+                    starStat.appendChild(starIcon);
+                    starStat.appendChild(document.createTextNode(' '));
+                    starStat.appendChild(starText);
+
+                    const forkStat = document.createElement('span');
+                    forkStat.className = 'repo-stat';
+                    const forkIcon = document.createElement('i');
+                    forkIcon.setAttribute('data-lucide', 'git-fork');
+                    forkIcon.setAttribute('aria-hidden', 'true');
+                    const forkText = document.createElement('span');
+                    forkText.className = 'repo-forks';
+                    forkText.textContent = forks;
+                    forkStat.appendChild(forkIcon);
+                    forkStat.appendChild(document.createTextNode(' '));
+                    forkStat.appendChild(forkText);
+
+                    statsRow.appendChild(langSpan);
+                    statsRow.appendChild(starStat);
+                    statsRow.appendChild(forkStat);
+
+                    card.appendChild(main);
+                    card.appendChild(statsRow);
+                    repoListEl.appendChild(card);
+                });
+
                 if (window.lucide) {
                     lucide.createIcons();
                 }

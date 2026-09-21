@@ -149,4 +149,180 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     await expect(page.locator('.github-sync-card')).toBeVisible();
     await expect(page.locator('.linkedin-impact-card')).toBeVisible();
   });
+
+  test('Security: GitHub API repository sync renders malicious payload safely as text without executing', async ({ page }) => {
+    let dialogTriggered = false;
+    page.on('dialog', () => { dialogTriggered = true; });
+
+    await page.route('https://api.github.com/users/raghavendragolla/repos*', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify([
+          {
+            name: '<img src=x onerror=alert(1)>',
+            html_url: 'javascript:alert(1)',
+            description: '<script>alert(2)</script>',
+            language: 'Python',
+            stargazers_count: 10,
+            forks_count: 5
+          }
+        ])
+      });
+    });
+
+    // Ensure #dashboard and #githubRepoList containers are available for initDashboard/fetchGitHubStats if Section 4 is commented out
+    await page.addInitScript(() => {
+      const observer = new MutationObserver(() => {
+        if (document.body && !document.getElementById('dashboard')) {
+          const dash = document.createElement('div');
+          dash.id = 'dashboard';
+          const testContainer = document.createElement('div');
+          testContainer.id = 'githubRepoList';
+          dash.appendChild(testContainer);
+          document.body.appendChild(dash);
+          observer.disconnect();
+        }
+      });
+      observer.observe(document, { childList: true, subtree: true });
+    });
+
+    await page.goto('/portfolio/');
+
+    // Wait for the repo list to be populated
+    const repoItem = page.locator('#githubRepoList .repo-item-card').first();
+    await expect(repoItem).toBeVisible({ timeout: 5000 });
+
+    const repoName = repoItem.locator('.repo-name');
+    await expect(repoName).toHaveText('<img src=x onerror=alert(1)>');
+
+    // Confirm no <img> element was created
+    const imgCount = await page.locator('#githubRepoList img').count();
+    expect(imgCount).toBe(0);
+
+    // Confirm dangerous scheme was blocked from href
+    const href = await repoName.getAttribute('href');
+    expect(href).not.toContain('javascript:');
+
+    expect(dialogTriggered).toBe(false);
+  });
+
+  test('Issue 4: Theme persistence and synchronization across pages', async ({ page }) => {
+    // Navigate to landing and set theme to dark
+    await page.goto('/');
+    await page.evaluate(() => {
+      window.rgTheme.setTheme('dark');
+    });
+
+    // Check both storage keys
+    const storedRgTheme = await page.evaluate(() => localStorage.getItem('rg:theme'));
+    const storedTheme = await page.evaluate(() => localStorage.getItem('theme'));
+    expect(storedRgTheme).toBe('dark');
+    expect(storedTheme).toBe('dark');
+
+    // Navigate to portfolio
+    await page.goto('/portfolio/');
+    const portfolioTheme = await page.locator('html').getAttribute('data-theme');
+    expect(portfolioTheme).toBe('dark');
+
+    // Toggle on portfolio
+    await page.evaluate(() => {
+      window.rgTheme.toggle();
+    });
+    const toggledRgTheme = await page.evaluate(() => localStorage.getItem('rg:theme'));
+    const toggledTheme = await page.evaluate(() => localStorage.getItem('theme'));
+    expect(toggledRgTheme).toBe('light');
+    expect(toggledTheme).toBe('light');
+
+    // Navigate back to landing
+    await page.goto('/');
+    const landingTheme = await page.locator('html').getAttribute('data-theme');
+    expect(landingTheme).toBeNull(); // Light mode has no data-theme attribute
+  });
+
+  test('Issue 5 & 6: Authoritative singleton IST clock and single SW registration path', async ({ page }) => {
+    await page.goto('/portfolio/');
+    const swRegistered = await page.evaluate(() => window._swRegistered);
+    const clockInit = await page.evaluate(() => window._istClockInitialized);
+
+    expect(swRegistered).toBe(true);
+    expect(clockInit).toBe(true);
+
+    const clockText = await page.locator('#vitals-clock').textContent();
+    expect(clockText).toContain('IST');
+  });
+
+  test('Issue 7: Hero metrics count-up selector activates on .hero-metrics-editorial', async ({ page }) => {
+    await page.goto('/portfolio/');
+    const metricsSection = page.locator('.hero-metrics-editorial');
+    await expect(metricsSection).toBeVisible();
+
+    const statNumber = page.locator('.hero-metrics-editorial .stat-number').first();
+    await expect(statNumber).toBeVisible();
+
+    // Allow animation frame count-up to finish
+    await page.waitForTimeout(2000);
+    const countText = await statNumber.textContent();
+    expect(countText).toContain('2027');
+  });
+
+  test('Issue 8: Mailto / contact channel copies email, displays feedback toast, and prevents navigation', async ({ page }) => {
+    await page.goto('/portfolio/');
+
+    // Mock navigator.clipboard
+    await page.evaluate(() => {
+      window._copiedText = '';
+      navigator.clipboard.writeText = async (text) => {
+        window._copiedText = text;
+        return Promise.resolve();
+      };
+    });
+
+    const emailButton = page.locator('button.contact-quick-channel[data-copy]').first();
+    await emailButton.click();
+
+    // Verify toast feedback appears
+    const toast = page.locator('#toast');
+    await expect(toast).toContainText('Copied email to clipboard');
+
+    // Verify clipboard received email
+    const copied = await page.evaluate(() => window._copiedText);
+    expect(copied).toBe('raghavendrayadavgolla@gmail.com');
+
+    // Verify page did not navigate away
+    expect(page.url()).toContain('/portfolio/');
+  });
+
+  test('Issue 13: Offline portfolio verification - shell and precached assets load offline', async ({ page, context }) => {
+    // 1. Visit portfolio page online
+    await page.goto('/portfolio/');
+
+    // 2. Wait for service worker to register and caches to be populated
+    await page.waitForFunction(async () => {
+      if (!('serviceWorker' in navigator)) return false;
+      const reg = await navigator.serviceWorker.ready;
+      if (!reg || !reg.active) return false;
+      const cache = await caches.open('raghavendra-portfolio-v22.0');
+      const keys = await cache.keys();
+      return keys.length >= 15;
+    }, { timeout: 10000 });
+
+    // 3. Emulate offline network condition
+    await context.setOffline(true);
+
+    // 4. Reload page while offline
+    const response = await page.reload();
+    expect(response.status()).toBe(200);
+
+    // 5. Verify DOM shell and critical elements are present
+    const title = await page.title();
+    expect(title).toContain('Raghavendra Golla');
+
+    // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
+    const cachedCss = await page.evaluate(async () => {
+      const res = await fetch('/portfolio/css/style.css?v=22.0');
+      return res.ok && res.status === 200;
+    });
+    expect(cachedCss).toBe(true);
+  });
 });

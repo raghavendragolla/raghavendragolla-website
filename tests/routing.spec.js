@@ -68,4 +68,25 @@ test.describe('Routing & URL Normalization', () => {
     await expect(page).toHaveTitle(/Privacy Notice/);
     await expect(page.locator('h1')).toContainText('Privacy Notice');
   });
+
+  const viewports = [
+    { name: 'Desktop (1440px)', width: 1440, height: 900 },
+    { name: 'Tablet (768px)', width: 768, height: 1024 },
+    { name: 'Mobile (390px)', width: 390, height: 844 }
+  ];
+
+  for (const vp of viewports) {
+    test(`Responsive verification: no horizontal overflow on ${vp.name}`, async ({ page }) => {
+      await page.setViewportSize({ width: vp.width, height: vp.height });
+
+      const routes = ['/', '/portfolio/', '/404.html', '/privacy.html'];
+      for (const route of routes) {
+        await page.goto(route);
+        const hasOverflow = await page.evaluate(() => {
+          return document.documentElement.scrollWidth > window.innerWidth;
+        });
+        expect(hasOverflow).toBe(false);
+      }
+    });
+  }
 });

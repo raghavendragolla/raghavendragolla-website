@@ -19,57 +19,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.getElementById('theme-toggle');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    function getSavedTheme() {
-        return (window.rgStorage && window.rgStorage.getItem('rg:theme')) || localStorage.getItem('theme');
-    }
-
-    function applyTheme(theme) {
+    function updateThemeUI(theme) {
+        if (!themeToggleBtn) return;
         if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            if (themeToggleBtn) {
-                themeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
-                themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
-            }
+            themeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+            themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
         } else {
-            document.documentElement.removeAttribute('data-theme');
-            if (themeToggleBtn) {
-                themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
-                themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
-            }
-        }
-        // Notify canvas to re-read theme colors
-        if (window.updateCanvasTheme) {
-            window.updateCanvasTheme();
+            themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+            themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
         }
     }
 
-    // Initialize Theme
-    const savedTheme = getSavedTheme();
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (systemPrefersDark.matches) {
-        applyTheme('dark');
-    } else {
-        applyTheme('light');
-    }
-
-    systemPrefersDark.addEventListener('change', (e) => {
-        if (!getSavedTheme()) {
-            applyTheme(e.matches ? 'dark' : 'light');
-        }
-    });
+    const currentInitialTheme = document.documentElement.getAttribute('data-theme') || (window.rgTheme ? window.rgTheme.getTheme() : 'light');
+    updateThemeUI(currentInitialTheme);
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            if (window.rgStorage) {
-                window.rgStorage.setItem('rg:theme', newTheme);
-            }
-            localStorage.setItem('theme', newTheme);
-            applyTheme(newTheme);
+            const nextTheme = window.rgTheme ? window.rgTheme.toggle() : (document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+            updateThemeUI(nextTheme);
         });
     }
+
+    systemPrefersDark.addEventListener('change', (e) => {
+        const hasExplicit = (window.rgStorage && (window.rgStorage.getItem('rg:theme') || window.rgStorage.getItem('theme')));
+        if (!hasExplicit) {
+            updateThemeUI(e.matches ? 'dark' : 'light');
+        }
+    });
 
 
     // ====================================================
@@ -152,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dy = mouse.y - this.y;
                     const distance = Math.hypot(dx, dy);
 
-                    if (distance < mouse.radius) {
+                    if (distance > 0.001 && distance < mouse.radius) {
                         const force = (mouse.radius - distance) / mouse.radius;
                         this.x += (dx / distance) * force * 1.2;
                         this.y += (dy / distance) * force * 1.2;
@@ -541,24 +517,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     // 7. Live Real-Time Clock & Availability Ticker (IST)
     // ====================================================
-    const clockEl = document.getElementById('vitals-clock');
-    function updateClock() {
-        if (!clockEl) return;
-        const now = new Date();
-        const options = {
-            timeZone: 'Asia/Kolkata',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        };
-        const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-        clockEl.textContent = `${timeString} IST`;
-    }
-
-    if (clockEl) {
-        updateClock();
-        setInterval(updateClock, 1000);
+    if (window.initISTClock) {
+        window.initISTClock();
     }
 
 
@@ -727,16 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ====================================================
-    // 11. Service Worker Registration (PWA Install Support)
-    // ====================================================
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-        });
-    }
-
-    // ====================================================
-    // 12. PWA Install Prompt Banner Controller
+    // 11. PWA Install Prompt Banner Controller
     // ====================================================
     let deferredPWAInstallPrompt = null;
     const pwaInstallBanner = document.getElementById('pwa-install-banner');
