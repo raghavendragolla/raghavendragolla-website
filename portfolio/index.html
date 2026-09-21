@@ -151,10 +151,13 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
 
-  <!-- Stylesheets (Cascade Preserved: tokens -> components -> variables -> animations -> style -> responsive) -->
+  <!-- Third-party CDN Preconnects -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+
+  <!-- Stylesheets (Cascade Preserved: tokens -> components -> animations -> style -> responsive) -->
   <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=22.0">
   <link rel="stylesheet" href="/assets/css/shared/components.css?v=22.0">
-  <link rel="stylesheet" href="/portfolio/css/variables.css?v=22.0">
   <link rel="stylesheet" href="/portfolio/css/animations.css?v=22.0">
   <link rel="stylesheet" href="/portfolio/css/style.css?v=22.0">
   <link rel="stylesheet" href="/portfolio/css/responsive.css?v=22.0">
@@ -196,8 +199,11 @@
         <!-- Profile Brand & Monogram -->
         <div class="brand-container">
           <div class="avatar-wrapper">
-            <img src="/portfolio/images/profile/profile.jpg" alt="Raghavendra Golla Photo"
-              width="48" height="48" loading="eager" decoding="async">
+            <picture>
+              <source type="image/webp" srcset="/portfolio/images/profile/profile.webp">
+              <img src="/portfolio/images/profile/profile.jpg" alt="Raghavendra Golla Photo"
+                width="48" height="48" loading="eager" decoding="async">
+            </picture>
           </div>
           <div class="brand">
             Raghavendra Golla

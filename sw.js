@@ -8,6 +8,7 @@ const PRECACHE_ASSETS = [
   '/portfolio/index.html',
   '/privacy.html',
   '/404.html',
+  '/portfolio/images/profile/profile.webp',
   '/portfolio/images/profile/profile.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
@@ -51,7 +52,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - clean old caches and claim clients immediately
+// Activate event - Purge obsolete caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {

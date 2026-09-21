@@ -38,12 +38,40 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
 
 
+    // Helper: Defer non-critical execution to requestIdleCallback with load+timeout fallback
+    function deferToIdleOrLoad(fn, fallbackDelay = 1500) {
+        let executed = false;
+        function run() {
+            if (executed) return;
+            executed = true;
+            fn();
+        }
+
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(run, { timeout: fallbackDelay });
+        } else {
+            if (document.readyState === 'complete') {
+                setTimeout(run, fallbackDelay);
+            } else {
+                window.addEventListener('load', () => setTimeout(run, fallbackDelay), { once: true });
+            }
+        }
+    }
+
     // ====================================================
     // 2. Interactive Neural Particle Node Canvas
     // ====================================================
-    const canvas = document.getElementById('neural-canvas');
-    if (canvas) {
+    let canvasInitialized = false;
+
+    function initCanvas() {
+        if (canvasInitialized) return;
+        const canvas = document.getElementById('neural-canvas');
+        if (!canvas) return;
+        canvasInitialized = true;
+
         const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
         let width, height;
         let particles = [];
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -147,33 +175,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.updateCanvasTheme();
 
-        let isPageVisible = true;
+        let isPageVisible = !document.hidden;
         let animFrameId = null;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-        document.addEventListener('visibilitychange', () => {
-            isPageVisible = !document.hidden;
-            if (isPageVisible) {
-                if (!animFrameId) {
-                    animFrameId = requestAnimationFrame(animateCanvas);
-                }
-            } else {
-                if (animFrameId) {
-                    cancelAnimationFrame(animFrameId);
-                    animFrameId = null;
+        function renderStaticFrame() {
+            ctx.clearRect(0, 0, width, height);
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a + 1; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < maxDistance) {
+                        const alpha = (1 - dist / maxDistance) * 0.25;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${tealRgb}, ${alpha})`;
+                        ctx.lineWidth = 0.85;
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
                 }
             }
-        });
-
-        window.addEventListener('pagehide', () => {
-            isPageVisible = false;
-            if (animFrameId) {
-                cancelAnimationFrame(animFrameId);
-                animFrameId = null;
-            }
-        });
+            particles.forEach(p => p.draw(tealRgb, goldRgb));
+        }
 
         function animateCanvas() {
-            if (!isPageVisible) {
+            if (!isPageVisible || prefersReducedMotion.matches) {
                 animFrameId = null;
                 return;
             }
@@ -206,8 +235,52 @@ document.addEventListener('DOMContentLoaded', () => {
             animFrameId = requestAnimationFrame(animateCanvas);
         }
 
-        animFrameId = requestAnimationFrame(animateCanvas);
+        function startAnimation() {
+            if (prefersReducedMotion.matches) {
+                renderStaticFrame();
+                return;
+            }
+            if (!animFrameId && isPageVisible) {
+                animFrameId = requestAnimationFrame(animateCanvas);
+            }
+        }
+
+        function stopAnimation() {
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (isPageVisible) {
+                startAnimation();
+            } else {
+                stopAnimation();
+            }
+        });
+
+        window.addEventListener('pagehide', () => {
+            isPageVisible = false;
+            stopAnimation();
+        });
+
+        if (prefersReducedMotion.addEventListener) {
+            prefersReducedMotion.addEventListener('change', () => {
+                if (prefersReducedMotion.matches) {
+                    stopAnimation();
+                    renderStaticFrame();
+                } else {
+                    startAnimation();
+                }
+            });
+        }
+
+        startAnimation();
     }
+
+    deferToIdleOrLoad(initCanvas, 1500);
 
 
     // ====================================================
@@ -580,8 +653,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     // 11. Lucide Icons & Footer Year
     // ====================================================
-    if (window.lucide) {
-        lucide.createIcons();
+    let lucideInitialized = false;
+
+    function initLucide() {
+        if (lucideInitialized) return;
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+            lucideInitialized = true;
+            lucide.createIcons();
+        }
+    }
+
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initLucide, { timeout: 1000 });
+    }
+    if (document.readyState === 'complete') {
+        initLucide();
+    } else {
+        window.addEventListener('load', initLucide, { once: true });
     }
 
     const yearEl = document.getElementById('year');
