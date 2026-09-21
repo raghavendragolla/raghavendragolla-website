@@ -139,4 +139,68 @@ test.describe('Landing Page (/index.html)', () => {
     const maxPerFrame = Math.max(...countsPerTimestamp);
     expect(maxPerFrame).toBe(1);
   });
+
+  test('Regression: Initial render stability on refresh - page vertical position remains constant', async ({ page }) => {
+    await page.goto('/');
+
+    await page.addInitScript(() => {
+      window.__positions = {};
+      const record = (stage) => {
+        const main = document.querySelector('main');
+        const header = document.querySelector('header');
+        window.__positions[stage] = {
+          mainTop: main ? Math.round(main.getBoundingClientRect().top) : null,
+          headerTop: header ? Math.round(header.getBoundingClientRect().top) : null,
+          scrollY: window.scrollY
+        };
+      };
+      document.addEventListener('DOMContentLoaded', () => record('DOMContentLoaded'));
+      window.addEventListener('load', () => {
+        record('load');
+        if (document.fonts) {
+          document.fonts.ready.then(() => record('fonts_ready'));
+        }
+      });
+    });
+
+    await page.reload({ waitUntil: 'load' });
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(2000);
+    await page.evaluate(() => {
+      const main = document.querySelector('main');
+      const header = document.querySelector('header');
+      window.__positions['plus_2s'] = {
+        mainTop: main ? Math.round(main.getBoundingClientRect().top) : null,
+        headerTop: header ? Math.round(header.getBoundingClientRect().top) : null,
+        scrollY: window.scrollY
+      };
+    });
+
+    const pos = await page.evaluate(() => window.__positions);
+    expect(pos.DOMContentLoaded).toBeDefined();
+    expect(pos.load).toBeDefined();
+    expect(pos.fonts_ready).toBeDefined();
+    expect(pos.plus_2s).toBeDefined();
+
+    // Verify mainTop does not shift between stages
+    expect(pos.DOMContentLoaded.mainTop).toBe(pos.load.mainTop);
+    expect(pos.load.mainTop).toBe(pos.fonts_ready.mainTop);
+    expect(pos.fonts_ready.mainTop).toBe(pos.plus_2s.mainTop);
+
+    // Verify headerTop stays at 0
+    expect(pos.DOMContentLoaded.headerTop).toBe(0);
+    expect(pos.plus_2s.headerTop).toBe(0);
+    expect(pos.plus_2s.scrollY).toBe(0);
+  });
+
+  test('Regression: Page reload from scrolled position resets scrollY to 0', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => window.scrollTo(0, 500));
+    await page.waitForTimeout(50);
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    await page.reload({ waitUntil: 'load' });
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  });
 });
