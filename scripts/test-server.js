@@ -27,6 +27,8 @@ const server = http.createServer((req, res) => {
   // Trap A Guard: /portfolio without trailing slash serves portfolio/index.html DIRECTLY without 301 redirect
   if (pathname === '/portfolio' || pathname === '/portfolio/') {
     pathname = '/portfolio/index.html';
+  } else if (pathname === '/redesign' || pathname === '/redesign/') {
+    pathname = '/redesign/index.html';
   } else if (pathname === '/') {
     pathname = '/index.html';
   }

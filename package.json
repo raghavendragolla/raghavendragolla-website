@@ -1,6 +1,6 @@
 {
   "name": "raghavendragolla-website",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "description": "Personal data science portfolio of Raghavendra Golla",
   "scripts": {
@@ -8,8 +8,8 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
-    "validate": "html-validate index.html portfolio/index.html 404.html privacy.html",
-    "test:e2e": "playwright test tests/routing.spec.js tests/landing.spec.js tests/portfolio.spec.js tests/contact.spec.js --workers=4",
+    "validate": "html-validate index.html portfolio/index.html 404.html privacy.html redesign/index.html",
+    "test:e2e": "playwright test tests/routing.spec.js tests/landing.spec.js tests/portfolio.spec.js tests/contact.spec.js tests/redesign.spec.js --workers=4",
     "test:a11y": "playwright test tests/a11y.spec.js --workers=2",
     "test:visual": "playwright test tests/visual.spec.js",
     "test:links": "linkinator http://localhost:8080 --recurse --skip \"^(https?:\\/\\/(www\\.)?(linkedin\\.com|github\\.com))\" --retry",
