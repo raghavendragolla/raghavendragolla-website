@@ -263,6 +263,10 @@ nav.sidebar {
     justify-content: center;
 }
 
+.avatar-wrapper picture {
+    display: contents;
+}
+
 .avatar-wrapper img {
     width: 100%;
     height: 100%;
@@ -278,6 +282,7 @@ nav.sidebar {
     font-size: 1.04rem;
     line-height: 1.22;
     min-width: 0;
+    white-space: nowrap;
 }
 
 .brand span {
@@ -405,6 +410,8 @@ nav.sidebar {
     gap: 0.5rem;
     color: var(--ink-soft);
     font-weight: 500;
+    font-size: 0.68rem;
+    white-space: nowrap;
 }
 
 .dot {
