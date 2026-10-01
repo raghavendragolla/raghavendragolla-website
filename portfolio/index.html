@@ -2000,7 +2000,7 @@
                     <span>STATUS: VALIDATED // ROC-AUC 87.4%</span>
                   </div>
                   <div class="project-links research-links">
-                    <button type="button" class="btn primary btn-paper-cite" id="openCitationBtn" aria-label="View Abstract and Citation">
+                    <button type="button" class="btn primary btn-paper-cite" id="openCitationBtn" aria-label="Abstract &amp; BibTeX — View Citation">
                       <i data-lucide="book-open" aria-hidden="true"></i><span>Abstract &amp; BibTeX</span>
                     </button>
                     <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener" class="btn ghost">
@@ -2446,13 +2446,13 @@
                   <div class="form-row-minimal">
                     <div class="field-item">
                       <label for="senderName" class="field-label">Your Name <span class="req">*</span></label>
-                      <input type="text" id="senderName" name="name" class="minimal-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
+                      <input type="text" id="senderName" name="name" class="minimal-input" placeholder="e.g. Alex Johnson" required autocomplete="name" aria-describedby="nameError">
                       <span class="form-error" id="nameError"></span>
                     </div>
 
                     <div class="field-item">
                       <label for="senderEmail" class="field-label">Your Email <span class="req">*</span></label>
-                      <input type="email" id="senderEmail" name="email" class="minimal-input" placeholder="e.g. alex@company.com" required autocomplete="email">
+                      <input type="email" id="senderEmail" name="email" class="minimal-input" placeholder="e.g. alex@company.com" required autocomplete="email" aria-describedby="emailError">
                       <span class="form-error" id="emailError"></span>
                     </div>
                   </div>
@@ -2460,7 +2460,7 @@
                   <div class="form-row-minimal">
                     <div class="field-item">
                       <label for="senderPhone" class="field-label">Phone Number <span class="opt">(Optional)</span></label>
-                      <input type="tel" id="senderPhone" name="phone" class="minimal-input" placeholder="e.g. +91 98765 43210" autocomplete="tel">
+                      <input type="tel" id="senderPhone" name="phone" class="minimal-input" placeholder="e.g. +91 98765 43210" autocomplete="tel" aria-describedby="phoneError">
                       <span class="form-error" id="phoneError"></span>
                     </div>
 
@@ -2477,7 +2477,7 @@
 
                   <div class="field-item full-width">
                     <label for="senderMessage" class="field-label">Message <span class="req">*</span></label>
-                    <textarea id="senderMessage" name="message" class="minimal-input minimal-textarea" rows="4" placeholder="Hi Raghavendra, I came across your portfolio and wanted to discuss..." required></textarea>
+                    <textarea id="senderMessage" name="message" class="minimal-input minimal-textarea" rows="4" placeholder="Hi Raghavendra, I came across your portfolio and wanted to discuss..." required aria-describedby="messageError"></textarea>
                     <span class="form-error" id="messageError"></span>
                   </div>
 

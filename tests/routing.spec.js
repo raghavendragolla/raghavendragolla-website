@@ -89,4 +89,28 @@ test.describe('Routing & URL Normalization', () => {
       }
     });
   }
+
+  test('404 page theme toggle switches theme and persists preference', async ({ page }) => {
+    await page.goto('/404.html');
+    const html = page.locator('html');
+    const toggle = page.locator('#theme-toggle');
+
+    await expect(toggle).toBeVisible();
+    const initialTheme = (await html.getAttribute('data-theme')) || 'light';
+
+    await toggle.click();
+    const switchedAttr = await html.getAttribute('data-theme');
+    const switchedTheme = switchedAttr || 'light';
+    expect(switchedTheme).not.toBe(initialTheme);
+
+    // Verify localStorage persistence
+    const storedTheme = await page.evaluate(() => localStorage.getItem('rg:theme') || localStorage.getItem('theme'));
+    expect(storedTheme).toBe(switchedTheme);
+
+    // Reload 404 and ensure persistence
+    await page.reload();
+    const reloadedAttr = await html.getAttribute('data-theme');
+    const reloadedTheme = reloadedAttr || 'light';
+    expect(reloadedTheme).toBe(switchedTheme);
+  });
 });

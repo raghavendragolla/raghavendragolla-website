@@ -7,10 +7,13 @@
     'use strict';
 
     // Reset scroll to (0, 0) on reload and restore 'auto' after load for native Back/Forward
+    // Reset scroll to (0, 0) on reload ONLY if not navigating to a hash anchor
     try {
         var navEntries = performance.getEntriesByType('navigation');
         var isReload = navEntries && navEntries.length > 0 ? navEntries[0].type === 'reload' : (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
-        if (isReload) {
+        var hasValidHash = window.location.hash && window.location.hash.length > 1 && !window.location.hash.startsWith('#filter=');
+
+        if (isReload && !hasValidHash) {
             if ('scrollRestoration' in history) {
                 history.scrollRestoration = 'manual';
             }
@@ -23,13 +26,36 @@
             document.documentElement.style.scrollBehavior = '';
 
             window.addEventListener('load', function () {
-                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                if (!window.location.hash || window.location.hash.startsWith('#filter=')) {
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }
                 setTimeout(function () {
                     if ('scrollRestoration' in history) {
                         history.scrollRestoration = 'auto';
                     }
                 }, 100);
             }, { once: true });
+        }
+
+        function scrollToHashTarget() {
+            var hash = window.location.hash;
+            if (hash && hash.length > 1 && !hash.startsWith('#filter=')) {
+                try {
+                    var target = document.querySelector(hash);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }
+                } catch (e) { }
+            }
+        }
+
+        window.addEventListener('hashchange', scrollToHashTarget);
+        if (hasValidHash) {
+            if (document.readyState === 'loading') {
+                window.addEventListener('load', scrollToHashTarget, { once: true });
+            } else {
+                scrollToHashTarget();
+            }
         }
     } catch (e) { }
 
@@ -189,17 +215,21 @@
     // ====================================================
     // 4. Modal / Dialog Accessibility Helper
     // ====================================================
-    window.setupAccessibleModal = function (modalElement, triggerElement, closeElements) {
+    window.setupAccessibleModal = function (modalElement, triggerElement, closeElements, options) {
         if (!modalElement) return;
 
         var lastFocusedElement = null;
+        options = options || {};
 
-        function openModal() {
-            lastFocusedElement = document.activeElement;
+        function openModal(customTrigger) {
+            lastFocusedElement = customTrigger || (document.activeElement && document.activeElement !== document.body ? document.activeElement : triggerElement);
             modalElement.setAttribute('aria-modal', 'true');
             modalElement.setAttribute('aria-hidden', 'false');
             modalElement.classList.add('active', 'open', 'show');
             document.body.classList.add('scroll-locked');
+            if (typeof options.onOpen === 'function') {
+                options.onOpen();
+            }
 
             function focusFirst() {
                 if (modalElement.contains(document.activeElement)) return;
@@ -222,8 +252,13 @@
             modalElement.removeAttribute('aria-modal');
             modalElement.setAttribute('aria-hidden', 'true');
             modalElement.classList.remove('active', 'open', 'show');
-            document.body.classList.remove('scroll-locked');
+            document.body.classList.remove('scroll-locked', 'drawer-open');
+            document.documentElement.classList.remove('scroll-locked', 'drawer-open');
             document.removeEventListener('keydown', handleKeyDown);
+
+            if (typeof options.onClose === 'function') {
+                options.onClose();
+            }
 
             if (triggerElement && typeof triggerElement.focus === 'function') {
                 triggerElement.focus();
@@ -297,6 +332,7 @@
         var lastFrameTime = 0;
         var targetFPS = 30;
         var frameInterval = 1000 / targetFPS;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         function resizeCanvas() {
             var rect = canvas.getBoundingClientRect();
@@ -336,7 +372,7 @@
         resizeCanvas();
 
         function renderFrame(timestamp) {
-            if (!isVisible) return;
+            if (!isVisible || prefersReducedMotion.matches) return;
 
             rafId = requestAnimationFrame(renderFrame);
 
@@ -386,6 +422,10 @@
         }
 
         function startLoop() {
+            if (prefersReducedMotion.matches) {
+                stopLoop();
+                return;
+            }
             if (!rafId && isVisible) {
                 lastFrameTime = performance.now();
                 rafId = requestAnimationFrame(renderFrame);
@@ -398,6 +438,16 @@
                 rafId = null;
             }
         }
+
+        try {
+            prefersReducedMotion.addEventListener('change', function () {
+                if (prefersReducedMotion.matches) {
+                    stopLoop();
+                } else {
+                    startLoop();
+                }
+            });
+        } catch (e) { }
 
         // IntersectionObserver to pause loop when scrolled out of view
         try {
@@ -535,10 +585,42 @@
         }
     };
 
+    // Theme toggle binder for pages with #theme-toggle (e.g. 404.html, index.html)
+    window.initThemeToggle = function () {
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        if (!themeToggleBtn || themeToggleBtn._rgBound) return;
+        themeToggleBtn._rgBound = true;
+
+        function updateUI(theme) {
+            if (theme === 'dark') {
+                themeToggleBtn.setAttribute('aria-label', 'Switch to Light Mode');
+                themeToggleBtn.setAttribute('title', 'Switch to Light Mode');
+            } else {
+                themeToggleBtn.setAttribute('aria-label', 'Switch to Dark Mode');
+                themeToggleBtn.setAttribute('title', 'Switch to Dark Mode');
+            }
+        }
+
+        var current = document.documentElement.getAttribute('data-theme') || (window.rgTheme ? window.rgTheme.getTheme() : 'light');
+        updateUI(current);
+
+        themeToggleBtn.addEventListener('click', function () {
+            var next = window.rgTheme ? window.rgTheme.toggle() : (document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+            updateUI(next);
+        });
+    };
+
     // DOMContentLoaded Initialization
-    document.addEventListener('DOMContentLoaded', function () {
+    function initSharedModules() {
         window.initISTClock();
         window.initPWA();
-    });
+        window.initThemeToggle();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSharedModules);
+    } else {
+        initSharedModules();
+    }
 
 })();

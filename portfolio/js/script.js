@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
             draw(tealRgb, goldRgb) {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.colorType === 'teal' 
-                    ? `rgba(${tealRgb}, 0.7)` 
+                ctx.fillStyle = this.colorType === 'teal'
+                    ? `rgba(${tealRgb}, 0.7)`
                     : `rgba(${goldRgb}, 0.75)`;
                 ctx.fill();
             }
@@ -461,13 +461,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Restore filter state from URL hash if present
-    if (window.location.hash && window.location.hash.startsWith('#filter=')) {
-        const hashFilter = decodeURIComponent(window.location.hash.replace('#filter=', ''));
-        const targetBtn = document.querySelector(`.filter-btn[data-filter="${hashFilter}"]`);
-        if (targetBtn) {
-            applyProjectFilter(hashFilter, false);
+    // Restore filter state from URL hash safely if present
+    try {
+        if (window.location.hash && window.location.hash.startsWith('#filter=')) {
+            const rawHash = window.location.hash.slice(8);
+            let decodedFilter = '';
+            try {
+                decodedFilter = decodeURIComponent(rawHash).trim().toLowerCase();
+            } catch (err) {
+                decodedFilter = '';
+            }
+            if (decodedFilter) {
+                const validBtn = Array.from(filterButtons).find(btn => {
+                    const df = (btn.getAttribute('data-filter') || '').toLowerCase();
+                    return df === decodedFilter;
+                });
+                if (validBtn) {
+                    const matchedFilter = validBtn.getAttribute('data-filter');
+                    applyProjectFilter(matchedFilter, false);
+                } else {
+                    applyProjectFilter('all', false);
+                }
+            }
         }
+    } catch (e) {
+        console.warn('Failed to parse filter hash:', e);
     }
 
 
@@ -603,18 +621,28 @@ document.addEventListener('DOMContentLoaded', () => {
             navToggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
             if (isOpen) {
                 document.body.style.overflow = 'hidden';
+                const firstLink = navlist.querySelector('a');
+                if (firstLink && typeof firstLink.focus === 'function') {
+                    firstLink.focus();
+                }
             } else {
                 document.body.style.overflow = '';
+                if (typeof navToggleBtn.focus === 'function') {
+                    navToggleBtn.focus();
+                }
             }
         }
 
-        function closeMenu() {
+        function closeMenu(restoreFocus) {
             if (navlist.classList.contains('open')) {
                 navlist.classList.remove('open');
                 navToggleBtn.classList.remove('active');
                 if (backdrop) backdrop.classList.remove('show');
                 navToggleBtn.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
+                if (restoreFocus && typeof navToggleBtn.focus === 'function') {
+                    navToggleBtn.focus();
+                }
             }
         }
 
@@ -624,19 +652,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (backdrop) {
-            backdrop.addEventListener('click', closeMenu);
+            backdrop.addEventListener('click', () => closeMenu(true));
         }
 
         navlist.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                closeMenu();
+                closeMenu(false);
             });
         });
 
         // Close on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && navlist.classList.contains('open')) {
-                closeMenu();
+                closeMenu(true);
             }
         });
 
@@ -644,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // breakpoint in portfolio/css/responsive.css: max-width: 1024px)
         window.addEventListener('resize', () => {
             if (!window.matchMedia('(max-width: 1024px)').matches) {
-                closeMenu();
+                closeMenu(false);
             }
         });
     }
@@ -781,7 +809,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function clearErrors() {
             [nameInput, emailInput, phoneInput, messageInput].forEach(input => {
-                if (input) input.classList.remove('is-invalid');
+                if (input) {
+                    input.classList.remove('is-invalid');
+                    input.removeAttribute('aria-invalid');
+                }
             });
             if (nameError) nameError.textContent = '';
             if (emailError) emailError.textContent = '';
@@ -798,6 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (input) {
                 input.addEventListener('input', () => {
                     input.classList.remove('is-invalid');
+                    input.removeAttribute('aria-invalid');
                     const err = document.getElementById(input.id.replace('sender', '').toLowerCase() + 'Error');
                     if (err) err.textContent = '';
                 });
@@ -809,6 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clearErrors();
 
             let isValid = true;
+            let firstInvalidInput = null;
             const nameVal = nameInput ? nameInput.value.trim() : '';
             const emailVal = emailInput ? emailInput.value.trim() : '';
             const phoneVal = phoneInput ? phoneInput.value.trim() : '';
@@ -838,14 +871,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!nameVal || nameVal.length < 2) {
-                if (nameInput) nameInput.classList.add('is-invalid');
+                if (nameInput) {
+                    nameInput.classList.add('is-invalid');
+                    nameInput.setAttribute('aria-invalid', 'true');
+                    if (!firstInvalidInput) firstInvalidInput = nameInput;
+                }
                 if (nameError) nameError.textContent = 'Please enter your name (at least 2 characters)';
                 isValid = false;
             }
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailVal || !emailRegex.test(emailVal)) {
-                if (emailInput) emailInput.classList.add('is-invalid');
+                if (emailInput) {
+                    emailInput.classList.add('is-invalid');
+                    emailInput.setAttribute('aria-invalid', 'true');
+                    if (!firstInvalidInput) firstInvalidInput = emailInput;
+                }
                 if (emailError) emailError.textContent = 'Please enter a valid email address';
                 isValid = false;
             }
@@ -854,25 +895,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 const digitsOnly = phoneVal.replace(/\D/g, '');
                 const isValidCharSet = /^[+]?[\d\s().-]+$/.test(phoneVal);
                 if (!isValidCharSet || digitsOnly.length < 7 || digitsOnly.length > 15) {
-                    if (phoneInput) phoneInput.classList.add('is-invalid');
+                    if (phoneInput) {
+                        phoneInput.classList.add('is-invalid');
+                        phoneInput.setAttribute('aria-invalid', 'true');
+                        if (!firstInvalidInput) firstInvalidInput = phoneInput;
+                    }
                     if (phoneError) phoneError.textContent = 'Please enter a valid phone number or leave blank';
                     isValid = false;
                 }
             }
 
             if (!messageVal || messageVal.length < 10) {
-                if (messageInput) messageInput.classList.add('is-invalid');
+                if (messageInput) {
+                    messageInput.classList.add('is-invalid');
+                    messageInput.setAttribute('aria-invalid', 'true');
+                    if (!firstInvalidInput) firstInvalidInput = messageInput;
+                }
                 if (messageError) messageError.textContent = 'Please provide a message (at least 10 characters)';
                 isValid = false;
             }
 
-            if (!isValid) return;
+            if (!isValid) {
+                if (formStatus) {
+                    formStatus.textContent = 'Please correct the errors in the form before submitting.';
+                    formStatus.className = 'form-status is-error';
+                }
+                if (firstInvalidInput && typeof firstInvalidInput.focus === 'function') {
+                    firstInvalidInput.focus();
+                }
+                return;
+            }
 
             // 3. Honeypot Botcheck Guard
             const botcheckField = contactForm.querySelector('input[name="botcheck"]');
             if (botcheckField && (botcheckField.checked || (botcheckField.type !== 'checkbox' && botcheckField.value))) {
                 lastSubmissionTime = Date.now();
                 lastSubmissionPayload = currentPayload;
+                clearErrors();
                 contactForm.reset();
                 if (formStatus) {
                     formStatus.textContent = '✓ Message delivered directly to Raghavendra!';
@@ -883,7 +942,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const formStatus = document.getElementById('formStatus');
 
             if (submitBtn) {
                 submitBtn.disabled = true;
@@ -945,8 +1003,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 clearTimeout(timeoutId);
                 const isTimeout = err.name === 'AbortError';
-                const failureText = isTimeout 
-                    ? 'Request timed out after 10 seconds.' 
+                const failureText = isTimeout
+                    ? 'Request timed out after 10 seconds.'
                     : 'Network error occurred while sending.';
 
                 if (formStatus) {
@@ -1036,14 +1094,36 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeCitationBtn) closeCitationBtn.addEventListener('click', closeCitation);
     if (closeCitationBackdrop) closeCitationBackdrop.addEventListener('click', closeCitation);
 
+    function fallbackCopy(text) {
+        try {
+            const tempArea = document.createElement('textarea');
+            tempArea.value = text;
+            tempArea.style.position = 'fixed';
+            tempArea.style.opacity = '0';
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            const success = document.execCommand('copy');
+            document.body.removeChild(tempArea);
+            if (success) {
+                showToast('✓ BibTeX citation copied to clipboard! 📋');
+                return;
+            }
+        } catch (e) { }
+        showToast('Could not copy citation.');
+    }
+
     if (copyBibtexBtn && bibtexCode) {
         copyBibtexBtn.addEventListener('click', () => {
             const code = bibtexCode.textContent.trim();
-            navigator.clipboard.writeText(code).then(() => {
-                showToast('✓ BibTeX citation copied to clipboard! 📋');
-            }).catch(() => {
-                showToast('Could not copy citation.');
-            });
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                navigator.clipboard.writeText(code).then(() => {
+                    showToast('✓ BibTeX citation copied to clipboard! 📋');
+                }).catch(() => {
+                    fallbackCopy(code);
+                });
+            } else {
+                fallbackCopy(code);
+            }
         });
     }
 

@@ -61,11 +61,18 @@
             var keyRes = await fetch(CAREER_RADAR_ORIGIN + '/api/push/vapid-public-key');
             if (!keyRes.ok) {
                 subtitleEl.textContent = 'Career Radar push is not currently available.';
-                return;
+                return false;
             }
             var keyData = await keyRes.json();
 
-            var registration = await navigator.serviceWorker.ready;
+            var registrationPromise = navigator.serviceWorker.ready;
+            var timeoutPromise = new Promise(function (_, reject) {
+                setTimeout(function () {
+                    reject(new Error('Service Worker activation timed out'));
+                }, 8000);
+            });
+            var registration = await Promise.race([registrationPromise, timeoutPromise]);
+
             var subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(keyData.public_key)
@@ -89,14 +96,16 @@
 
             if (!subRes.ok) {
                 subtitleEl.textContent = 'This link has expired or was already used. Please request a new one from Career Radar.';
-                return;
+                return false;
             }
 
             try { window.rgStorage && window.rgStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
             subtitleEl.textContent = 'Job alerts enabled on this device.';
+            return true;
         } catch (err) {
             console.warn('Push subscription failed:', err);
             subtitleEl.textContent = 'Something went wrong enabling notifications. Please try again.';
+            return false;
         }
     }
 
@@ -125,9 +134,22 @@
         enableBtn.addEventListener('click', function () {
             enableBtn.disabled = true;
             subtitleEl.textContent = 'Enabling...';
-            subscribeWithToken(pairToken, subtitleEl).finally(function () {
-                enableBtn.disabled = false;
+            subscribeWithToken(pairToken, subtitleEl).then(function (success) {
                 cleanPairTokenFromUrl();
+                if (success) {
+                    enableBtn.disabled = true;
+                    enableBtn.textContent = 'Enabled';
+                    setTimeout(function () {
+                        banner.classList.remove('show');
+                    }, 3500);
+                } else {
+                    enableBtn.disabled = false;
+                    enableBtn.textContent = 'Retry';
+                }
+            }).catch(function () {
+                cleanPairTokenFromUrl();
+                enableBtn.disabled = false;
+                enableBtn.textContent = 'Retry';
             });
         });
 

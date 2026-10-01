@@ -211,4 +211,72 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     await expect(formStatus).toHaveClass(/is-success/);
     await expect(page.locator('#phoneError')).toHaveText('');
   });
+
+  test('Fix F-03: Throttled or rapid resubmission does not trigger TDZ ReferenceError on formStatus', async ({ page }) => {
+    let uncaughtErrors = [];
+    page.on('pageerror', err => uncaughtErrors.push(err.message));
+
+    await page.route('**/api.web3forms.com/**', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: true, message: 'Message submitted successfully' })
+      });
+    });
+
+    await fillForm(page);
+    // First click to submit
+    await page.click('button[type="submit"]');
+
+    const formStatus = page.locator('#formStatus');
+    await expect(formStatus).toHaveClass(/is-success/);
+
+    // Attempt second immediate submission (triggers duplicate or throttle block in script.js)
+    await fillForm(page);
+    await page.click('button[type="submit"]');
+
+    // Confirm formStatus message changed to throttle/duplicate warning
+    await expect(formStatus).toHaveClass(/is-error/);
+    await expect(formStatus).toContainText(/wait|already/i);
+
+    // Ensure NO TDZ ReferenceError was thrown
+    const tdzError = uncaughtErrors.find(e => e.includes('formStatus') || e.includes('initialization'));
+    expect(tdzError).toBeUndefined();
+    expect(uncaughtErrors).toHaveLength(0);
+  });
+
+  test('Fix F-07: Form validation sets aria-invalid, connects aria-describedby, announces summary, and focuses first invalid input', async ({ page }) => {
+    // Clear all inputs and click submit
+    await page.fill('#senderName', '');
+    await page.fill('#senderEmail', '');
+    await page.fill('#senderMessage', '');
+    await page.click('button[type="submit"]');
+
+    const nameInput = page.locator('#senderName');
+    const emailInput = page.locator('#senderEmail');
+    const messageInput = page.locator('#senderMessage');
+    const formStatus = page.locator('#formStatus');
+
+    // First invalid field receives focus
+    await expect(nameInput).toBeFocused();
+
+    // aria-invalid attributes set
+    await expect(nameInput).toHaveAttribute('aria-invalid', 'true');
+    await expect(emailInput).toHaveAttribute('aria-invalid', 'true');
+    await expect(messageInput).toHaveAttribute('aria-invalid', 'true');
+
+    // aria-describedby connected
+    await expect(nameInput).toHaveAttribute('aria-describedby', 'nameError');
+    await expect(emailInput).toHaveAttribute('aria-describedby', 'emailError');
+    await expect(messageInput).toHaveAttribute('aria-describedby', 'messageError');
+
+    // Error summary announced in formStatus
+    await expect(formStatus).toHaveClass(/is-error/);
+    await expect(formStatus).toContainText(/Please correct the errors in the form/i);
+
+    // Live typing clears aria-invalid on the input
+    await nameInput.fill('Valid Name');
+    await expect(nameInput).not.toHaveAttribute('aria-invalid', 'true');
+    await expect(nameInput).not.toHaveClass(/is-invalid/);
+  });
 });

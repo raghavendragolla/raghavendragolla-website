@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentInitialTheme = document.documentElement.getAttribute('data-theme') || (window.rgTheme ? window.rgTheme.getTheme() : 'light');
     updateThemeUI(currentInitialTheme);
 
-    if (themeToggleBtn) {
+    if (themeToggleBtn && !themeToggleBtn._rgBound) {
+        themeToggleBtn._rgBound = true;
         themeToggleBtn.addEventListener('click', () => {
             const nextTheme = window.rgTheme ? window.rgTheme.toggle() : (document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
             updateThemeUI(nextTheme);
@@ -157,17 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let wave2Rgb = '47, 125, 120';
         let wave3Rgb = '15, 118, 110';
 
-        window.updateCanvasTheme = function() {
-            const style = getComputedStyle(document.documentElement);
-            tealRgb = (style.getPropertyValue('--canvas-particle-teal') || '45, 212, 191').trim();
-            goldRgb = (style.getPropertyValue('--canvas-particle-gold') || '251, 191, 36').trim();
-            wave1Rgb = (style.getPropertyValue('--canvas-wave-1') || tealRgb).trim();
-            wave2Rgb = (style.getPropertyValue('--canvas-wave-2') || tealRgb).trim();
-            wave3Rgb = (style.getPropertyValue('--canvas-wave-3') || tealRgb).trim();
-        };
-
-        window.updateCanvasTheme();
-
         let waveTime = 0;
 
         function drawQuantumWave(time, isDark) {
@@ -283,34 +273,91 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        let isPageVisible = true;
+        let isPageVisible = !document.hidden;
         let animFrameId = null;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-        document.addEventListener('visibilitychange', () => {
-            isPageVisible = !document.hidden;
-            if (isPageVisible) {
-                if (!animFrameId) {
-                    animFrameId = requestAnimationFrame(animateCanvas);
+        function renderStaticFrame() {
+            ctx.clearRect(0, 0, width, height);
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            drawQuantumWave(0, isDark);
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a + 1; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.hypot(dx, dy);
+
+                    if (dist < maxDistance) {
+                        const alpha = (1 - dist / maxDistance) * 0.28;
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${tealRgb}, ${alpha})`;
+                        ctx.lineWidth = 0.9;
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
                 }
-            } else {
+            }
+            particles.forEach(p => p.draw(tealRgb, goldRgb));
+        }
+
+        window.updateCanvasTheme = function() {
+            const style = getComputedStyle(document.documentElement);
+            tealRgb = (style.getPropertyValue('--canvas-particle-teal') || '45, 212, 191').trim();
+            goldRgb = (style.getPropertyValue('--canvas-particle-gold') || '251, 191, 36').trim();
+            wave1Rgb = (style.getPropertyValue('--canvas-wave-1') || tealRgb).trim();
+            wave2Rgb = (style.getPropertyValue('--canvas-wave-2') || tealRgb).trim();
+            wave3Rgb = (style.getPropertyValue('--canvas-wave-3') || tealRgb).trim();
+            if (prefersReducedMotion.matches) {
+                renderStaticFrame();
+            }
+        };
+
+        window.updateCanvasTheme();
+
+        function startCanvasLoop() {
+            if (prefersReducedMotion.matches) {
                 if (animFrameId) {
                     cancelAnimationFrame(animFrameId);
                     animFrameId = null;
                 }
+                renderStaticFrame();
+                return;
+            }
+            if (!animFrameId && isPageVisible) {
+                animFrameId = requestAnimationFrame(animateCanvas);
+            }
+        }
+
+        function stopCanvasLoop() {
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            isPageVisible = !document.hidden;
+            if (isPageVisible) {
+                startCanvasLoop();
+            } else {
+                stopCanvasLoop();
             }
         });
 
         window.addEventListener('pagehide', () => {
             isPageVisible = false;
-            if (animFrameId) {
-                cancelAnimationFrame(animFrameId);
-                animFrameId = null;
-            }
+            stopCanvasLoop();
+        });
+
+        prefersReducedMotion.addEventListener('change', () => {
+            startCanvasLoop();
         });
 
         function animateCanvas() {
-            if (!isPageVisible) {
+            if (!isPageVisible || prefersReducedMotion.matches) {
                 animFrameId = null;
+                if (prefersReducedMotion.matches) renderStaticFrame();
                 return;
             }
 
@@ -350,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animFrameId = requestAnimationFrame(animateCanvas);
         }
 
-        animFrameId = requestAnimationFrame(animateCanvas);
+        startCanvasLoop();
     }
 
 
@@ -369,15 +416,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let currentIndex = 0;
 
-        setInterval(() => {
-            dynamicTextEl.classList.add('swapping');
+        // Allow initial headline to settle for stable LCP before starting rotation
+        setTimeout(() => {
+            setInterval(() => {
+                dynamicTextEl.classList.add('swapping');
 
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % phrases.length;
-                dynamicTextEl.textContent = phrases[currentIndex];
-                dynamicTextEl.classList.remove('swapping');
-            }, 320);
-        }, 3400);
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % phrases.length;
+                    dynamicTextEl.textContent = phrases[currentIndex];
+                    dynamicTextEl.classList.remove('swapping');
+                }, 320);
+            }, 3400);
+        }, 3000);
     }
 
 
@@ -387,10 +437,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const metricElements = document.querySelectorAll('.spec-number[data-count]');
 
     function animateCountUp() {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
         metricElements.forEach(el => {
             const target = parseFloat(el.getAttribute('data-count'));
             const suffix = el.getAttribute('data-suffix') || '';
             const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+
+            if (isReducedMotion) {
+                el.textContent = (decimals > 0 ? target.toFixed(decimals) : target) + suffix;
+                return;
+            }
+
             const duration = 1800; // ms
             const startTime = performance.now();
 
@@ -468,6 +526,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     skillChips.forEach(chip => {
+        chip.setAttribute('tabindex', '0');
+        chip.setAttribute('role', 'button');
+        chip.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                chip.click();
+            }
+        });
+
         chip.addEventListener('click', () => {
             const category = chip.getAttribute('data-category');
             const info = chip.getAttribute('data-info') || chip.textContent.trim();
@@ -597,7 +664,17 @@ document.addEventListener('DOMContentLoaded', () => {
         thoughtsModalCtrl = window.setupAccessibleModal(
             thoughtsDrawer,
             thoughtsFooterBtn,
-            [closeThoughtsBtn, closeThoughtsBackdrop]
+            [closeThoughtsBtn, closeThoughtsBackdrop],
+            {
+                onOpen: () => {
+                    document.documentElement.classList.add('drawer-open');
+                    document.body.classList.add('drawer-open');
+                },
+                onClose: () => {
+                    document.documentElement.classList.remove('drawer-open');
+                    document.body.classList.remove('drawer-open');
+                }
+            }
         );
     }
 
@@ -608,9 +685,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 thoughtsDrawer.classList.add('active');
                 thoughtsDrawer.setAttribute('aria-hidden', 'false');
+                document.documentElement.classList.add('drawer-open');
+                document.body.classList.add('drawer-open');
             }
-            document.documentElement.classList.add('drawer-open');
-            document.body.classList.add('drawer-open');
         }
     }
 
@@ -621,9 +698,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 thoughtsDrawer.classList.remove('active');
                 thoughtsDrawer.setAttribute('aria-hidden', 'true');
+                document.documentElement.classList.remove('drawer-open');
+                document.body.classList.remove('drawer-open');
             }
-            document.documentElement.classList.remove('drawer-open');
-            document.body.classList.remove('drawer-open');
         }
     }
 
