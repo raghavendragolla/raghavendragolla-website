@@ -39,7 +39,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     await expect(allBtn).toHaveAttribute('aria-pressed', 'false');
 
     // Visible cards check
-    const visibleCards = page.locator('.project-card:not(.is-hidden)');
+    const visibleCards = page.locator('.project-card:visible');
     const visibleCount = await visibleCards.count();
     expect(visibleCount).toBeGreaterThan(0);
 
@@ -50,6 +50,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     // Reset filter
     await allBtn.click();
     await expect(allBtn).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.project-card:visible')).toHaveCount(4);
   });
 
   test('Task 13 Verification: Project cards in DOM match filter counts and JSON-LD schema', async ({ page }) => {
@@ -402,5 +403,80 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(50);
+  });
+
+  test('F-02 Regression: Malformed portfolio filter hashes do not crash initialization', async ({ page }) => {
+    const malformedHashes = [
+      '#filter=ML',
+      '#filter=invalid',
+      '#filter=%',
+      '#filter=%22',
+      '#filter=%5B'
+    ];
+
+    for (const hash of malformedHashes) {
+      const pageErrors = [];
+      page.on('pageerror', err => pageErrors.push(err.message));
+
+      await page.goto(`/portfolio/${hash}`, { waitUntil: 'domcontentloaded' });
+      expect(pageErrors).toEqual([]);
+
+      // Ensure page rendered and projects are present
+      const cards = page.locator('.project-card');
+      await expect(cards.first()).toBeAttached();
+    }
+  });
+
+  test('F-04 Regression: Mobile navigation closed accessibility & escape key focus restoration', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/portfolio/');
+
+    const navToggle = page.locator('#navToggle');
+    const navlist = page.locator('#navlist');
+
+    await expect(navToggle).toBeVisible();
+    await expect(navToggle).toHaveAttribute('aria-expanded', 'false');
+
+    // When closed, navlist must not be visible
+    await expect(navlist).toBeHidden();
+
+    // Open menu
+    await navToggle.click();
+    await expect(navToggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(navlist).toBeVisible();
+
+    // Press Escape to close
+    await page.keyboard.press('Escape');
+    await expect(navToggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(navlist).toBeHidden();
+
+    // Focus must return to navToggle
+    await expect(navToggle).toBeFocused();
+  });
+
+  test('N-01 Regression: All project filters remain discoverable and wrap on small mobile screens', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 740 });
+    await page.goto('/portfolio/');
+
+    const filters = page.locator('.project-filters .filter-btn');
+    const count = await filters.count();
+    expect(count).toBe(5);
+
+    for (let i = 0; i < count; i++) {
+      await expect(filters.nth(i)).toBeVisible();
+    }
+  });
+
+  test('F-08 Regression: Hash navigation reaches contact section', async ({ page }) => {
+    // Direct navigation to /portfolio/#contact from another document
+    await page.goto('/privacy.html');
+    await page.goto('/portfolio/#contact');
+    await page.waitForFunction(() => window.scrollY > 500);
+
+    const contactSection = page.locator('#contact');
+    await expect(contactSection).toBeVisible();
+
+    const scrollY = await page.evaluate(() => window.scrollY);
+    expect(scrollY).toBeGreaterThan(500);
   });
 });

@@ -1,6 +1,8 @@
 const ASSET_VERSION = 'v22.0';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
+const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;
+
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
@@ -12,7 +14,6 @@ const PRECACHE_ASSETS = [
   '/portfolio/images/profile/profile.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
-  '/assets/css/variables.css',
   '/assets/css/style.css',
   '/assets/css/animations.css',
   '/assets/css/responsive.css',
@@ -20,7 +21,6 @@ const PRECACHE_ASSETS = [
   '/assets/js/script.js',
   '/assets/js/push.js',
   '/assets/images/og-image.jpg',
-  '/portfolio/css/variables.css',
   '/portfolio/css/animations.css',
   '/portfolio/css/style.css',
   '/portfolio/css/responsive.css',
@@ -90,20 +90,32 @@ self.addEventListener('fetch', (event) => {
       fetch(event.request)
         .then(async (networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(event.request, networkResponse.clone());
+            // Do not cache sensitive or transient query strings
+            if (!SENSITIVE_QUERY_REGEX.test(url.search)) {
+              const cache = await caches.open(CACHE_NAME);
+              cache.put(event.request, networkResponse.clone());
+            }
           }
           return networkResponse;
         })
         .catch(async () => {
-          const cachedResponse = (await caches.match(event.request)) || (await caches.match(event.request, { ignoreSearch: true }));
+          const cachedResponse = await caches.match(event.request);
           if (cachedResponse) return cachedResponse;
+
+          if (url.pathname === '/' || url.pathname === '/index.html') {
+            return (await caches.match('/index.html')) || (await caches.match('/'));
+          }
 
           if (url.pathname.startsWith('/portfolio')) {
             return (await caches.match('/portfolio/index.html')) || (await caches.match('/portfolio/'));
           }
 
-          return (await caches.match('/index.html')) || (await caches.match('/404.html')) || (await caches.match('/'));
+          if (url.pathname === '/privacy.html') {
+            return await caches.match('/privacy.html');
+          }
+
+          // Fallback to offline 404 page for unknown paths to preserve intended 404 behavior
+          return (await caches.match('/404.html')) || (await caches.match('/index.html'));
         })
     );
     return;
@@ -112,12 +124,27 @@ self.addEventListener('fetch', (event) => {
   // 2. Asset strategy: Stale-While-Revalidate
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
-      const cachedResponse = (await cache.match(event.request)) || (await cache.match(event.request, { ignoreSearch: true }));
+      // 1. Exact match ensures versioned URLs (e.g. ?v=22 vs ?v=23) are treated as distinct cache keys
+      let cachedResponse = await cache.match(event.request);
+
+      if (!cachedResponse) {
+        const versionParam = url.searchParams.get('v');
+        if (!versionParam && url.search.length === 0) {
+          // Unversioned static asset can fall back to ignoreSearch
+          cachedResponse = await cache.match(event.request, { ignoreSearch: true });
+        } else if (versionParam && (versionParam === ASSET_VERSION || versionParam === ASSET_VERSION.replace(/^v/, ''))) {
+          // Allow precached base asset fallback only if version param matches current ASSET_VERSION
+          cachedResponse = await cache.match(url.pathname);
+        }
+      }
 
       const fetchPromise = fetch(event.request)
         .then((networkResponse) => {
           if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-            cache.put(event.request, networkResponse.clone());
+            // Do not persist sensitive query strings in asset cache
+            if (!SENSITIVE_QUERY_REGEX.test(url.search)) {
+              cache.put(event.request, networkResponse.clone());
+            }
           }
           return networkResponse;
         })

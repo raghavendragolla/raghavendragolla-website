@@ -203,4 +203,71 @@ test.describe('Landing Page (/index.html)', () => {
     await page.waitForTimeout(300);
     expect(await page.evaluate(() => window.scrollY)).toBe(0);
   });
+
+  test('Fix F-01: Closing Thoughts drawer with Escape removes drawer-open and restores scrolling', async ({ page }) => {
+    await page.goto('/');
+    const openBtn = page.locator('#thoughts-footer-btn');
+    await openBtn.click();
+
+    const drawer = page.locator('#thoughtsDrawer');
+    await expect(drawer).toHaveClass(/active/);
+
+    // Verify drawer-open class added
+    const hasDrawerOpenBefore = await page.evaluate(() => {
+      return document.body.classList.contains('drawer-open') || document.documentElement.classList.contains('drawer-open');
+    });
+    expect(hasDrawerOpenBefore).toBe(true);
+
+    // Press Escape to close
+    await page.keyboard.press('Escape');
+    await expect(drawer).not.toHaveClass(/active/);
+
+    // Verify drawer-open class removed from both body and html
+    const hasDrawerOpenAfter = await page.evaluate(() => {
+      return document.body.classList.contains('drawer-open') || document.documentElement.classList.contains('drawer-open');
+    });
+    expect(hasDrawerOpenAfter).toBe(false);
+
+    // Verify scrolling is not blocked
+    await page.evaluate(() => window.scrollTo(0, 150));
+    await page.waitForTimeout(100);
+    const scrollY = await page.evaluate(() => window.scrollY);
+    expect(scrollY).toBeGreaterThan(0);
+  });
+
+  test('Fix F-09: prefers-reduced-motion stops continuous canvas animation loop', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+
+    // Collect rAF calls after initial load
+    const rafCount = await page.evaluate(async () => {
+      let count = 0;
+      const originalRaf = window.requestAnimationFrame;
+      window.requestAnimationFrame = (cb) => {
+        count++;
+        return originalRaf(cb);
+      };
+      await new Promise(resolve => setTimeout(resolve, 800));
+      return count;
+    });
+
+    // In reduced motion mode, the canvas renders a static frame and does NOT loop rAF continuously
+    expect(rafCount).toBeLessThan(5);
+  });
+
+  test('Item 23: Landing skill chips have keyboard accessibility and role=button', async ({ page }) => {
+    await page.goto('/');
+    const chips = page.locator('.skill-chip');
+    const chipCount = await chips.count();
+    expect(chipCount).toBeGreaterThan(0);
+
+    const firstChip = chips.first();
+    await expect(firstChip).toHaveAttribute('role', 'button');
+    await expect(firstChip).toHaveAttribute('tabindex', '0');
+
+    // Trigger via Enter key
+    await firstChip.focus();
+    await page.keyboard.press('Enter');
+    // Chip is clickable without errors
+  });
 });
