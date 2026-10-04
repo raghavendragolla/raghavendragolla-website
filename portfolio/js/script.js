@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let width, height;
         let particles = [];
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        const particleCount = isMobile ? 30 : 60;
-        const maxDistance = isMobile ? 90 : 135;
+        const particleCount = isMobile ? 18 : 36;
+        const maxDistance = isMobile ? 80 : 120;
 
         let mouse = {
             x: null,
@@ -365,10 +365,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const statsSection = document.querySelector('.hero-metrics-editorial') || document.querySelector('.hero-strip');
     if (statsSection) {
-        const rect = statsSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom >= 0) {
-            animateCountUp();
-        }
         observer.observe(statsSection);
     }
 

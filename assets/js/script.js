@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let width, height;
         let particles = [];
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
-        const particleCount = isMobile ? 32 : 65;
-        const maxDistance = isMobile ? 95 : 140;
+        const particleCount = isMobile ? 18 : 36;
+        const maxDistance = isMobile ? 85 : 120;
 
         let mouse = {
             x: null,
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resizeTimeout = setTimeout(resizeCanvas, 150);
         });
 
-        resizeCanvas();
+        requestAnimationFrame(resizeCanvas);
 
         // Track fine pointer mouse position for node attraction
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {

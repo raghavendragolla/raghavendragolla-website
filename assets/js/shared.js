@@ -6,6 +6,21 @@
 (function () {
     'use strict';
 
+    // Activate asynchronous non-critical stylesheets (CSP-compliant without inline event handlers)
+    function activateAsyncStylesheets() {
+        try {
+            var asyncLinks = document.querySelectorAll('link[data-async-css]');
+            for (var i = 0; i < asyncLinks.length; i++) {
+                asyncLinks[i].media = 'all';
+                asyncLinks[i].removeAttribute('data-async-css');
+            }
+        } catch (e) { }
+    }
+    activateAsyncStylesheets();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', activateAsyncStylesheets, { once: true });
+    }
+
     // Reset scroll to (0, 0) on reload and restore 'auto' after load for native Back/Forward
     // Reset scroll to (0, 0) on reload ONLY if not navigating to a hash anchor
     try {

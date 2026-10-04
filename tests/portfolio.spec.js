@@ -264,7 +264,8 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     // Allow animation frame count-up to finish
     await page.waitForTimeout(2000);
     const countText = await statNumber.textContent();
-    expect(countText).toContain('2027');
+    // Exact match: 'toContain' would also pass on '13', '23' or '0.34'.
+    expect(countText).toBe('4');
   });
 
   test('Issue 8: Mailto / contact channel copies email, displays feedback toast, and prevents navigation', async ({ page }) => {
@@ -303,7 +304,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
       if (!('serviceWorker' in navigator)) return false;
       const reg = await navigator.serviceWorker.ready;
       if (!reg || !reg.active) return false;
-      const cache = await caches.open('raghavendra-portfolio-v22.0');
+      const cache = await caches.open('raghavendra-portfolio-v23.0');
       const keys = await cache.keys();
       return keys.length >= 15;
     }, { timeout: 10000 });
@@ -321,7 +322,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
     const cachedCss = await page.evaluate(async () => {
-      const res = await fetch('/portfolio/css/style.css?v=22.0');
+      const res = await fetch('/portfolio/css/style.css?v=23.0');
       return res.ok && res.status === 200;
     });
     expect(cachedCss).toBe(true);
