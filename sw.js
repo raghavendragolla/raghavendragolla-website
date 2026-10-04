@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v22.0';
+const ASSET_VERSION = 'v23.0';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;

@@ -157,9 +157,11 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  </noscript>
 
   <!-- Third-party CDN Preconnects -->
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -195,16 +197,19 @@
   </style>
 
   <!-- Stylesheets (Cascade Preserved: tokens -> components -> animations -> style -> responsive) -->
-  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=22.0">
-  <link rel="stylesheet" href="/assets/css/shared/components.css?v=22.0">
-  <link rel="stylesheet" href="/portfolio/css/animations.css?v=22.0">
-  <link rel="stylesheet" href="/portfolio/css/style.css?v=22.0">
-  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=22.0">
+  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=23.0">
+  <link rel="stylesheet" href="/assets/css/shared/components.css?v=23.0">
+  <link rel="stylesheet" href="/portfolio/css/animations.css?v=23.0" media="print" data-async-css>
+  <noscript>
+    <link rel="stylesheet" href="/portfolio/css/animations.css?v=23.0">
+  </noscript>
+  <link rel="stylesheet" href="/portfolio/css/style.css?v=23.0">
+  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=23.0">
 
   <!-- Lucide Icons & Core Scripts (shared.js loads FIRST) -->
   <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js" integrity="sha384-tTkFttkBclaU1cloKwOi9xk3pbao3VZxTjLNBt8iFABWDBQibbAbWpVmO28zMuxq" crossorigin="anonymous" defer></script>
-  <script src="/assets/js/shared.js?v=22.0" defer></script>
-  <script src="/portfolio/js/script.js?v=22.0" defer></script>
+  <script src="/assets/js/shared.js?v=23.0" defer></script>
+  <script src="/portfolio/js/script.js?v=23.0" defer></script>
 </head>
 
 <body>
@@ -290,8 +295,8 @@
         <li><a href="#home"><i data-lucide="home" aria-hidden="true"></i><span>Home</span></a></li>
         <li><a href="#about"><i data-lucide="user" aria-hidden="true"></i><span>About</span></a></li>
         <li><a href="#skills"><i data-lucide="brain" aria-hidden="true"></i><span>Skills</span></a></li>
-        <!-- <li><a href="#dashboard"><i data-lucide="layout-dashboard" aria-hidden="true"></i><span>Dashboard</span></a></li> -->
         <li><a href="#projects"><i data-lucide="folder-git-2" aria-hidden="true"></i><span>Projects</span></a></li>
+        <li><a href="#research"><i data-lucide="microscope" aria-hidden="true"></i><span>Research</span></a></li>
         <li><a href="#resume"><i data-lucide="file-text" aria-hidden="true"></i><span>Resume</span></a></li>
         <li><a href="#certifications"><i data-lucide="award" aria-hidden="true"></i><span>Certifications</span></a></li>
         <li><a href="#contact"><i data-lucide="mail" aria-hidden="true"></i><span>Get in Touch</span></a></li>
@@ -594,16 +599,9 @@
             <div class="hero-metrics-editorial">
               <div class="metric-block">
                 <div class="metric-val-row">
-                  <span class="metric-num stat-number" data-count="2027">2027</span>
+                  <span class="metric-num stat-number" data-count="4">4</span>
                 </div>
-                <span class="metric-label">MSc Graduation</span>
-              </div>
-              <div class="metric-divider" aria-hidden="true"></div>
-              <div class="metric-block">
-                <div class="metric-val-row">
-                  <span class="metric-num stat-number" data-count="6" data-suffix="+">6+</span>
-                </div>
-                <span class="metric-label">Practice Pipelines</span>
+                <span class="metric-label">End-to-End Projects</span>
               </div>
               <div class="metric-divider" aria-hidden="true"></div>
               <div class="metric-block">
@@ -637,7 +635,7 @@
             <div class="about-narrative-col">
               <div class="section-head-inline">
                 <span class="num-badge">02</span>
-                <h2>Data Philosophy &amp; Candidate Overview</h2>
+                <h2>Data Philosophy &amp; Overview</h2>
               </div>
               <p class="editorial-lead-dropcap">
                 <span class="dropcap">I</span>'m currently pursuing an MSc in Data Science at Chandigarh University (2025&ndash;2027), where I'm building rigorous foundations in mathematical statistics, predictive modeling architectures, and business intelligence. My core focus is translating raw, unstructured data into clear, decision-ready insights that drive measurable outcomes.
@@ -684,13 +682,14 @@
             <div class="about-monument-col">
               <div class="about-profile-dossier">
                 <div class="dossier-head">
-                  <span class="dossier-kicker">CANDIDATE DOSSIER &bull; OVERVIEW</span>
+                  <span class="dossier-kicker">Overview</span>
                   <span class="dossier-live-pill"><span class="pulse-live-dot" aria-hidden="true"></span> Available</span>
                 </div>
 
                 <div class="monument-block">
                   <span class="monument-number">2027</span>
-                  <span class="monument-label">MSc Data Science &bull; Chandigarh Univ</span>
+                  <span class="monument-label">MSc Data Science</span>
+                  <span class="monument-institution">Chandigarh University</span>
                   <p class="monument-detail">Statistical inference, predictive machine learning pipelines, and advanced analytics.</p>
                 </div>
 
@@ -698,7 +697,8 @@
 
                 <div class="monument-block">
                   <span class="monument-number">BSc</span>
-                  <span class="monument-label">Mathematics Core &bull; Krishna Univ</span>
+                  <span class="monument-label">Mathematics Core</span>
+                  <span class="monument-institution">Krishna University</span>
                   <p class="monument-detail">Mathematical grounding across linear algebra, calculus, and probability distributions.</p>
                 </div>
 
@@ -992,7 +992,7 @@
               </div>
               <p class="kpi-desc">Rigorous MSc Data Science curriculum at Chandigarh University; BSc in Mathematics from Krishna University.</p>
               <div class="kpi-footer">
-                <span class="kpi-trend"><i data-lucide="award" aria-hidden="true"></i> Chandigarh Univ</span>
+                <span class="kpi-trend"><i data-lucide="award" aria-hidden="true"></i> Chandigarh University</span>
                 <span class="kpi-meta">BSc Mathematics Core</span>
               </div>
             </div>
@@ -1306,7 +1306,89 @@
         <section id="projects">
           <div class="section-head">
             <span class="num-badge">05</span>
-            <h2>Featured Projects</h2>
+            <h2>Applied Projects &amp; Research Engineering</h2>
+          </div>
+
+          <!-- PHASE 4: Prominent Featured Work Spotlight -->
+          <div class="featured-spotlight-section">
+            <div class="featured-spotlight-header">
+              <span class="featured-kicker">SPOTLIGHT &bull; FLAGSHIP WORK</span>
+              <span class="featured-sub">Curated applied research &amp; analytics case studies</span>
+            </div>
+
+            <div class="featured-spotlight-grid">
+              <!-- Spotlight Card 1: Explainable ML for Heart Disease -->
+              <div class="featured-spotlight-card">
+                <div class="featured-spotlight-top">
+                  <span class="spotlight-domain-tag">Healthcare &bull; Explainable AI</span>
+                  <span class="featured-spotlight-pill">Flagship Research</span>
+                </div>
+                <h3 class="featured-spotlight-title">Explainable ML for Cardiovascular Diagnosis</h3>
+                <p class="featured-spotlight-summary">
+                  Academic study applying TreeSHAP and LIME interpretability frameworks to ensemble gradient-boosted diagnostic classifiers across 13 clinical biomarkers. Solves the black-box dilemma by surfacing individualized patient attribution vectors.
+                </p>
+                <div class="featured-spotlight-metrics">
+                  <div class="spotlight-metric-item">
+                    <strong>87.4%</strong>
+                    <span>ROC-AUC</span>
+                  </div>
+                  <div class="spotlight-metric-item">
+                    <strong>13</strong>
+                    <span>Biomarkers</span>
+                  </div>
+                  <div class="spotlight-metric-item">
+                    <strong>SHAP</strong>
+                    <span>Local/Global</span>
+                  </div>
+                </div>
+                <div class="featured-spotlight-footer">
+                  <div class="stack-row">
+                    <span class="stack-pill">SHAP</span>
+                    <span class="stack-pill">LIME</span>
+                    <span class="stack-pill">scikit-learn</span>
+                  </div>
+                  <a href="#node-04-xai" class="btn ghost btn-sm">
+                    <span>Inspect Pipeline &darr;</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Spotlight Card 2: IBM Data Analyst Capstone -->
+              <div class="featured-spotlight-card">
+                <div class="featured-spotlight-top">
+                  <span class="spotlight-domain-tag">Data Intelligence &bull; Labor Analytics</span>
+                  <span class="featured-spotlight-pill">Flagship Analytics</span>
+                </div>
+                <h3 class="featured-spotlight-title">IBM Tech Labor Market Analytics &amp; BI Studio</h3>
+                <p class="featured-spotlight-summary">
+                  Comprehensive intelligence pipeline synthesizing 11,398 developer surveys and 27,005 job postings. Engineered 10 SQL schemas, demographic IQR wage models, and interactive Cognos/Power BI executive visualization terminals.
+                </p>
+                <div class="featured-spotlight-metrics">
+                  <div class="spotlight-metric-item">
+                    <strong>11.4k</strong>
+                    <span>Responses</span>
+                  </div>
+                  <div class="spotlight-metric-item">
+                    <strong>27k</strong>
+                    <span>Job Postings</span>
+                  </div>
+                  <div class="spotlight-metric-item">
+                    <strong>+46%</strong>
+                    <span>Python Net Gain</span>
+                  </div>
+                </div>
+                <div class="featured-spotlight-footer">
+                  <div class="stack-row">
+                    <span class="stack-pill">SQL</span>
+                    <span class="stack-pill">Power BI</span>
+                    <span class="stack-pill">Python</span>
+                  </div>
+                  <a href="#node-01-analytics" class="btn ghost btn-sm">
+                    <span>Inspect Pipeline &darr;</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Project Filter Category Pills -->
@@ -1383,7 +1465,7 @@
             <div class="projects-editorial-grid pipeline-dag-nodes">
 
               <!-- Node 01: IBM Data Analyst Capstone (Data Intelligence & Labor Analytics) -->
-              <article class="project-card project-analytical-dossier pipeline-node node-analytics" data-category="analytics ml">
+              <article id="node-01-analytics" class="project-card project-analytical-dossier pipeline-node node-analytics" data-category="analytics ml">
                 <!-- Node Header Dock -->
                 <div class="node-header-dock">
                   <div class="node-identity-block">
@@ -1405,9 +1487,20 @@
                     </div>
                   </div>
                   <h3 class="project-title">IBM Data Analyst Capstone &amp; Market Intelligence</h3>
-                  <p class="project-desc">
-                    End-to-end data analytics and market intelligence pipeline exploring 11,398 Stack Overflow developer survey responses and 27,005 job postings. Engineered 10 SQL analytical models, multi-stage ETL wrangling pipelines, interactive Cognos/Power BI dashboards, and a live technology labor market comparator.
-                  </p>
+                  <div class="project-psr-card">
+                    <div class="psr-row">
+                      <span class="psr-label">Problem</span>
+                      <p class="psr-text">Fragmented tech labor market data makes it difficult to quantify real compensation drivers and identify which technologies have expanding vs. declining developer adoption.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Solution</span>
+                      <p class="psr-text">Engineered 10 SQL analytical models and multi-stage ETL pipelines over 11,398 developer surveys and 27,005 job postings with interactive Power BI and Cognos executive dashboards.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Result</span>
+                      <p class="psr-text">Quantified tech momentum proving Python (+46.0%) and PostgreSQL as primary market expansion drivers, and isolated $100k median compensation after IQR outlier cleansing.</p>
+                    </div>
+                  </div>
 
                   <div class="stack-row">
                     <span class="stack-pill">Python</span>
@@ -1624,11 +1717,20 @@
                     </div>
                   </div>
                   <h3 class="project-title">California House Price Predictor</h3>
-                  <p class="project-desc">
-                    End-to-end regression pipeline on the California Housing dataset (20,640 records).
-                    Engineered domain ratios, benchmarked multi-model architectures (Hist Gradient Boosting, Random
-                    Forest), and deployed an interactive geospatial web application.
-                  </p>
+                  <div class="project-psr-card">
+                    <div class="psr-row">
+                      <span class="psr-label">Problem</span>
+                      <p class="psr-text">Accurate property valuation requires capturing complex non-linear geospatial interactions and economic census features without overfitting regional variance.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Solution</span>
+                      <p class="psr-text">Engineered domain feature ratios, benchmarked HistGradientBoosting against Random Forest ensembles across 20,640 records, and deployed real-time Streamlit geospatial inference.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Result</span>
+                      <p class="psr-text">Achieved 0.84 R&sup2; test accuracy ($46k RMSE) with interactive confidence bounds and district geographic coordinate mapping.</p>
+                    </div>
+                  </div>
                   <div class="stack-row">
                     <span class="stack-pill">scikit-learn</span>
                     <span class="stack-pill">Streamlit</span>
@@ -1816,11 +1918,20 @@
                     </div>
                   </div>
                   <h3 class="project-title">Handwritten Digit Recognition</h3>
-                  <p class="project-desc">
-                    Convolutional Neural Network (CNN) built with PyTorch trained on MNIST &mdash; 2 convolutional blocks
-                    (32&rarr;64 filters) with batch normalization, dropout, and max-pooling wrapped in a Streamlit UI for real-time digit
-                    drawing and inference.
-                  </p>
+                  <div class="project-psr-card">
+                    <div class="psr-row">
+                      <span class="psr-label">Problem</span>
+                      <p class="psr-text">Translating freehand digit sketching into reliable real-time class probabilities under varying stroke thickness and noise.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Solution</span>
+                      <p class="psr-text">Designed a PyTorch CNN with dual Conv2D blocks (32&rarr;64 filters), batch normalization, dropout regularization, and an HTML5 canvas drawing interface.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Result</span>
+                      <p class="psr-text">Achieved 99.6% classification accuracy on 10,000 MNIST test samples with sub-5ms inference latency and live Softmax confidence distribution.</p>
+                    </div>
+                  </div>
 
                   <!-- Model Metrics Bar -->
                   <div class="showcase-metrics-bar">
@@ -1899,7 +2010,7 @@
               </article>
 
               <!-- Node 04: Explainable ML for Heart Disease (Healthcare XAI) -->
-              <article class="project-card project-research-document pipeline-node node-xai" data-category="explainable ml">
+              <article id="node-04-xai" class="project-card project-research-document pipeline-node node-xai" data-category="explainable ml">
                 <!-- Node Header Dock -->
                 <div class="node-header-dock">
                   <div class="node-identity-block">
@@ -1923,11 +2034,20 @@
                   <h3 class="project-title research-paper-heading">Explainable ML for Heart Disease</h3>
                   <p class="research-author-affil">Department of Data Science &bull; Chandigarh University &bull; IEEE Formatting</p>
 
-                  <p class="project-desc research-paper-abstract">
-                    Academic research study applying explainable machine learning techniques (SHAP &amp; LIME) to
-                    cardiovascular risk prediction. Focuses on global and local model interpretability to assist healthcare practitioners in clinical
-                    decision-making.
-                  </p>
+                  <div class="project-psr-card">
+                    <div class="psr-row">
+                      <span class="psr-label">Problem</span>
+                      <p class="psr-text">Black-box medical classification models prevent clinical adoption because doctors cannot audit which specific physiological indicators drive individualized diagnostic risk predictions.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Solution</span>
+                      <p class="psr-text">Developed a dual interpretability framework using TreeSHAP and LIME over ensemble classifiers (Random Forest, XGBoost) trained on 13 clinical biomarkers across the Cleveland dataset.</p>
+                    </div>
+                    <div class="psr-row">
+                      <span class="psr-label">Result</span>
+                      <p class="psr-text">Validated global feature impact hierarchies (chest pain, thal, ST depression) and produced patient-specific SHAP force plots yielding clinician-interpretable risk explanations at 87.4% ROC-AUC.</p>
+                    </div>
+                  </div>
 
                   <!-- Scientific Pipeline Methodology Flow Diagram (DAG) -->
                   <div class="research-scientific-pipeline">
@@ -2012,6 +2132,17 @@
 
             </div>
           </div>
+        </section>
+
+        <!-- ============ 5B. RESEARCH & PUBLICATIONS ============ -->
+        <section id="research" class="research-publications-section">
+          <div class="section-head">
+            <span class="num-badge">05B</span>
+            <h2>Research &amp; Scientific Inquiries</h2>
+          </div>
+          <p class="section-lead">
+            Formal preprints, empirical investigations, and mathematical methodologies focused on model interpretability, statistical diagnostics, and healthcare decision-support systems.
+          </p>
 
           <!-- Intellectual Inquiry & Editorial Research Index (Magazine Content Index Metaphor) -->
           <div class="editorial-intel-index">
@@ -2024,7 +2155,7 @@
                 <span class="index-num">01</span>
                 <div class="index-content">
                   <strong class="index-title">Explainable Machine Learning in High-Stakes Healthcare</strong>
-                  <span class="index-desc">Translating non-linear gradient boosting ensembles into clinician-validated SHAP attribution plots.</span>
+                  <span class="index-desc">Translating non-linear gradient boosting ensembles into clinician-validated SHAP attribution plots. Cleveland cohort (303 patients, 13 biomarkers) achieving 87.4% ROC-AUC.</span>
                 </div>
                 <span class="index-tag">Clinical AI</span>
               </div>
@@ -2033,7 +2164,7 @@
                 <span class="index-num">02</span>
                 <div class="index-content">
                   <strong class="index-title">Mathematical Foundations of Predictive Analytics</strong>
-                  <span class="index-desc">Rigorous grounding in linear algebra, Gaussian probability spaces, and loss function optimization.</span>
+                  <span class="index-desc">Rigorous grounding in linear algebra, Gaussian probability spaces, and loss function optimization. Undergraduate core mathematics at Krishna University.</span>
                 </div>
                 <span class="index-tag">Mathematics</span>
               </div>
@@ -2042,7 +2173,7 @@
                 <span class="index-num">03</span>
                 <div class="index-content">
                   <strong class="index-title">End-to-End Business Intelligence &amp; Analytical Pipelines</strong>
-                  <span class="index-desc">Designing robust SQL aggregation layers, automated ETL routines, and executive Power BI dashboards.</span>
+                  <span class="index-desc">Designing robust SQL aggregation layers, automated ETL routines, and executive Power BI dashboards with IQR outlier removal across 11,398 developer records.</span>
                 </div>
                 <span class="index-tag">Data Analytics</span>
               </div>

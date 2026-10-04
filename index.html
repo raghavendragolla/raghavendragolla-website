@@ -132,9 +132,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+    </noscript>
 
     <!-- Critical Layout & Positioning (Zero Initial Layout Shift) -->
     <style>
@@ -156,16 +158,18 @@
     </style>
 
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=22.0">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=22.0">
-    <link rel="stylesheet" href="/assets/css/variables.css?v=22.0">
-    <link rel="stylesheet" href="/assets/css/style.css?v=22.0">
-    <link rel="stylesheet" href="/assets/css/animations.css?v=22.0">
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=22.0">
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=23.0">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=23.0">
+    <link rel="stylesheet" href="/assets/css/style.css?v=23.0">
+    <link rel="stylesheet" href="/assets/css/animations.css?v=23.0" media="print" data-async-css>
+    <noscript>
+      <link rel="stylesheet" href="/assets/css/animations.css?v=23.0">
+    </noscript>
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=23.0">
 
     <!-- JavaScript Stack (shared.js loads FIRST) -->
-    <script src="/assets/js/shared.js?v=22.0" defer></script>
-    <script src="/assets/js/script.js?v=22.0" defer></script>
+    <script src="/assets/js/shared.js?v=23.0" defer></script>
+    <script src="/assets/js/script.js?v=23.0" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
 
 </head>
@@ -279,15 +283,19 @@
 
         <div class="status-badge">
             <span class="badge-sparkle" aria-hidden="true">✨</span>
-            <span>AI &amp; Data Science Portfolio</span>
+            <span>Applied Data Science &bull; Machine Learning &bull; XAI</span>
         </div>
 
         <p class="eyebrow">
             Raghavendra Golla
         </p>
 
-        <h1>Turning data into <span class="dynamic-wrapper"><em id="dynamic-text">intelligent solutions.</em></span>
+        <h1>Turning complex data into <span class="dynamic-wrapper"><em id="dynamic-text">intelligent solutions.</em></span>
         </h1>
+
+        <p class="hero-sub">
+            Specializing in predictive modeling, deep learning architectures, and explainable AI (XAI) to engineer auditable, production-grade intelligence.
+        </p>
 
         <div class="social-links">
             <a href="https://www.linkedin.com/in/raghavendra-golla-a25334192" target="_blank" rel="noopener noreferrer"
@@ -321,7 +329,7 @@
             aria-label="Enter Portfolio — Data Science and Machine Learning Portfolio">
             <span class="enter-text">Enter Portfolio</span>
             <span class="coming-text">Explore Projects</span>
-            <span class="arrow">→</span>
+            <span class="arrow">&rarr;</span>
         </a>
 
         <!-- Neuronpedia-Inspired Interactive Research Plaquettes Grid -->
@@ -355,14 +363,13 @@
             <div class="highlight-card" data-category="ai-research">
                 <span class="card-corner-badge">XAI &amp; Mechanistic</span>
                 <div class="highlight-header">
-                    <div class="highlight-icon">🚀</div>
-                    <div class="highlight-title">Applied AI</div>
+                    <div class="highlight-icon">🔬</div>
+                    <div class="highlight-title">Applied AI &amp; XAI</div>
                 </div>
-                <div class="highlight-desc">Exploring generative AI, large language models, and real-world applied
-                    intelligence.</div>
+                <div class="highlight-desc">Explainable AI architectures, SHAP game-theoretic interpretability, and auditable models.</div>
                 <div class="highlight-footer-pills">
                     <span class="card-micro-tag">SHAP Interpretability</span>
-                    <span class="card-micro-tag">LLMs &amp; GenAI</span>
+                    <span class="card-micro-tag">Clinical Decision AI</span>
                 </div>
             </div>
         </div>
@@ -370,7 +377,7 @@
         <!-- Realistic Project Metrics Bar -->
         <div class="specs-bar">
             <div class="spec-item">
-                <div class="spec-number" data-count="5" data-suffix="+">5+</div>
+                <div class="spec-number" data-count="4">4</div>
                 <div class="spec-label">END-TO-END PROJECTS</div>
             </div>
             <div class="spec-item">
@@ -753,4 +760,4 @@
 
 </body>
 
-</html>
+</html>
