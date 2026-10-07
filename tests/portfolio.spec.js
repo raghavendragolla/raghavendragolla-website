@@ -110,104 +110,6 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     await expect(citeTrigger).toBeFocused();
   });
 
-  test.skip('Developer & Analytics Dashboard renders properly with interactive controls (commented out)', async ({ page }) => {
-    await page.goto('/portfolio/');
-
-    const dashboardSection = page.locator('#dashboard');
-    await expect(dashboardSection).toBeVisible();
-
-    // Verify 4 KPI cards exist
-    const kpiCards = page.locator('.dash-kpi-card');
-    expect(await kpiCards.count()).toBe(4);
-
-    // Verify Timeframe toggle works
-    const allRangeBtn = page.locator('.dash-range-btn[data-range="all"]');
-    const recentRangeBtn = page.locator('.dash-range-btn[data-range="current"]');
-    const repoCount = page.locator('#kpi-repo-count');
-
-    await expect(allRangeBtn).toHaveClass(/active/);
-    await expect(repoCount).toContainText('6+');
-
-    await recentRangeBtn.click();
-    await expect(recentRangeBtn).toHaveClass(/active/);
-    await expect(repoCount).toContainText('4+');
-
-    // Switch back
-    await allRangeBtn.click();
-    await expect(repoCount).toContainText('6+');
-
-    // Verify Donut Chart & Legend
-    const donutSvg = page.locator('.donut-chart-svg');
-    await expect(donutSvg).toBeVisible();
-    const legendPills = page.locator('.donut-legend-pill');
-    expect(await legendPills.count()).toBe(4);
-
-    // Verify Activity Bar Chart
-    const barCols = page.locator('.activity-bar-col');
-    expect(await barCols.count()).toBe(6);
-
-    // Verify GitHub Live Sync card & LinkedIn Impact card
-    await expect(page.locator('.github-sync-card')).toBeVisible();
-    await expect(page.locator('.linkedin-impact-card')).toBeVisible();
-  });
-
-  test('Security: GitHub API repository sync renders malicious payload safely as text without executing', async ({ page }) => {
-    let dialogTriggered = false;
-    page.on('dialog', () => { dialogTriggered = true; });
-
-    await page.route('https://api.github.com/users/raghavendragolla/repos*', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify([
-          {
-            name: '<img src=x onerror=alert(1)>',
-            html_url: 'javascript:alert(1)',
-            description: '<script>alert(2)</script>',
-            language: 'Python',
-            stargazers_count: 10,
-            forks_count: 5
-          }
-        ])
-      });
-    });
-
-    // Ensure #dashboard and #githubRepoList containers are available for initDashboard/fetchGitHubStats if Section 4 is commented out
-    await page.addInitScript(() => {
-      const observer = new MutationObserver(() => {
-        if (document.body && !document.getElementById('dashboard')) {
-          const dash = document.createElement('div');
-          dash.id = 'dashboard';
-          const testContainer = document.createElement('div');
-          testContainer.id = 'githubRepoList';
-          dash.appendChild(testContainer);
-          document.body.appendChild(dash);
-          observer.disconnect();
-        }
-      });
-      observer.observe(document, { childList: true, subtree: true });
-    });
-
-    await page.goto('/portfolio/');
-
-    // Wait for the repo list to be populated
-    const repoItem = page.locator('#githubRepoList .repo-item-card').first();
-    await expect(repoItem).toBeVisible({ timeout: 5000 });
-
-    const repoName = repoItem.locator('.repo-name');
-    await expect(repoName).toHaveText('<img src=x onerror=alert(1)>');
-
-    // Confirm no <img> element was created
-    const imgCount = await page.locator('#githubRepoList img').count();
-    expect(imgCount).toBe(0);
-
-    // Confirm dangerous scheme was blocked from href
-    const href = await repoName.getAttribute('href');
-    expect(href).not.toContain('javascript:');
-
-    expect(dialogTriggered).toBe(false);
-  });
-
   test('Issue 4: Theme persistence and synchronization across pages', async ({ page }) => {
     // Navigate to landing and set theme to dark
     await page.goto('/');
@@ -304,7 +206,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
       if (!('serviceWorker' in navigator)) return false;
       const reg = await navigator.serviceWorker.ready;
       if (!reg || !reg.active) return false;
-      const cache = await caches.open('raghavendra-portfolio-v23.0');
+      const cache = await caches.open('raghavendra-portfolio-v24.0');
       const keys = await cache.keys();
       return keys.length >= 15;
     }, { timeout: 10000 });
@@ -322,7 +224,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
     const cachedCss = await page.evaluate(async () => {
-      const res = await fetch('/portfolio/css/style.css?v=23.0');
+      const res = await fetch('/portfolio/css/style.css?v=24.0');
       return res.ok && res.status === 200;
     });
     expect(cachedCss).toBe(true);

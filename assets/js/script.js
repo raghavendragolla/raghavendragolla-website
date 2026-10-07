@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             resizeTimeout = setTimeout(resizeCanvas, 150);
         });
 
-        requestAnimationFrame(resizeCanvas);
+        // Initialize canvas dimensions synchronously before creating particles
+        resizeCanvas();
 
         // Track fine pointer mouse position for node attraction
         if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -406,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const dynamicTextEl = document.getElementById('dynamic-text');
     if (dynamicTextEl) {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
         const phrases = [
             'intelligent solutions.',
             'predictive models.',
@@ -415,10 +417,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         let currentIndex = 0;
+        let rotateInterval = null;
 
-        // Allow initial headline to settle for stable LCP before starting rotation
-        setTimeout(() => {
-            setInterval(() => {
+        function startRotation() {
+            if (prefersReduced.matches || rotateInterval) return;
+            rotateInterval = setInterval(() => {
                 dynamicTextEl.classList.add('swapping');
 
                 setTimeout(() => {
@@ -427,7 +430,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     dynamicTextEl.classList.remove('swapping');
                 }, 320);
             }, 3400);
-        }, 3000);
+        }
+
+        function stopRotation() {
+            if (rotateInterval) {
+                clearInterval(rotateInterval);
+                rotateInterval = null;
+            }
+        }
+
+        // Allow initial headline to settle for stable LCP before starting rotation
+        if (!prefersReduced.matches) {
+            setTimeout(startRotation, 3000);
+        }
+
+        if (prefersReduced.addEventListener) {
+            prefersReduced.addEventListener('change', (e) => {
+                if (e.matches) {
+                    stopRotation();
+                    dynamicTextEl.textContent = phrases[0];
+                    dynamicTextEl.classList.remove('swapping');
+                } else {
+                    startRotation();
+                }
+            });
+        }
     }
 
 
@@ -764,83 +791,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ====================================================
-    // 11. PWA Install Prompt Banner Controller
+    // 11. PWA Install Prompt (Preserve suppression per owner configuration)
     // ====================================================
-    let deferredPWAInstallPrompt = null;
-    const pwaInstallBanner = document.getElementById('pwa-install-banner');
-    const pwaInstallBtn = document.getElementById('pwa-install-btn');
-    const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
-
-    const isAppStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches;
-
-    function displayInstallBanner() {
-        if (!pwaInstallBanner || isAppStandalone) return;
-        if (window.isPwaDismissed && window.isPwaDismissed()) return;
-
-        pwaInstallBanner.style.display = 'flex';
-        void pwaInstallBanner.offsetWidth;
-        pwaInstallBanner.classList.add('show');
-    }
-
-    // Capture standard PWA install prompt (Chrome / Android / Chromium)
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        deferredPWAInstallPrompt = e;
-        setTimeout(displayInstallBanner, 1500);
-    });
-
-    // Mobile automatic display after slight delay
-    if (isMobileDevice && !isAppStandalone) {
-        setTimeout(displayInstallBanner, 2200);
-    }
-
-    if (pwaInstallBtn) {
-        pwaInstallBtn.addEventListener('click', async () => {
-            if (deferredPWAInstallPrompt) {
-                deferredPWAInstallPrompt.prompt();
-                const choiceResult = await deferredPWAInstallPrompt.userChoice;
-                if (choiceResult && choiceResult.outcome === 'accepted') {
-                    showToast('🎉 Thank you for installing!');
-                }
-                deferredPWAInstallPrompt = null;
-                if (pwaInstallBanner) {
-                    pwaInstallBanner.classList.remove('show');
-                    setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-                }
-            } else {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (isIOS) {
-                    showToast('📲 Tap Share ⎙ and select "Add to Home Screen"');
-                } else {
-                    showToast('📲 Tap browser menu (⋮) -> "Install App" or "Add to Home Screen"');
-                }
-                if (pwaInstallBanner) {
-                    pwaInstallBanner.classList.remove('show');
-                    setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-                }
-            }
-        });
-    }
-
-    if (pwaDismissBtn && pwaInstallBanner) {
-        pwaDismissBtn.addEventListener('click', () => {
-            pwaInstallBanner.classList.remove('show');
-            setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-            if (window.dismissPwa) {
-                window.dismissPwa();
-            } else {
-                try { localStorage.setItem('rg:pwa_dismissed', Date.now().toString()); } catch (e) {}
-            }
-        });
-    }
-
-    window.addEventListener('appinstalled', () => {
-        if (pwaInstallBanner) {
-            pwaInstallBanner.classList.remove('show');
-            pwaInstallBanner.style.display = 'none';
-        }
-        showToast('✓ App installed successfully! 🎉');
     });
 });
 

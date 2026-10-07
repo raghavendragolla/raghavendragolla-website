@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, "fix/*" ]
+  pull_request:
+    branches: [ main, "fix/*" ]
+
+jobs:
+  lint:
+    name: Code & Style Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+
+  validate:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run validate
+
+  pdf-check:
+    name: PDF Integrity Verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install qpdf
+        run: sudo apt-get update && sudo apt-get install -y qpdf
+      - name: Verify Resume PDF Integrity
+        run: qpdf --check portfolio/resume/resume.pdf
+
+  privacy-guard:
+    name: Privacy & Secrets Guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for accidental phone numbers in tracked code
+        run: |
+          if grep -rEn '(\+?91[\s.-]?)?[6-9][0-9]{9}' index.html portfolio/index.html privacy.html 404.html redesign/index.html assets/js portfolio/js; then
+            echo "Error: Phone number pattern detected in source files!"
+            exit 1
+          fi
+
+  test-e2e:
+    name: Playwright E2E & A11y Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      - name: Start local test server
+        run: node scripts/test-server.js &
+      - name: Run E2E Tests
+        run: npm run test:e2e
+      - name: Run A11y Tests
+        run: npm run test:a11y

@@ -30,7 +30,6 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
 │   │   ├── animations.css       # Keyframe animations (pulse, fade, float)
 │   │   ├── responsive.css       # Breakpoint media queries
 │   │   ├── style.css            # Landing page layout & card styling
-│   │   ├── variables.css        # Base design variables
 │   │   └── shared/
 │   │       ├── components.css   # Shared UI components & toasts
 │   │       └── tokens.css       # Consolidated design tokens & theme rules
@@ -38,14 +37,17 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
 │   ├── images/
 │   │   └── og-image.jpg         # Open Graph social preview banner
 │   └── js/
+│       ├── push.js              # Career Radar Web Push notifications
 │       ├── script.js            # Main page controller & tilt effects
-│       └── shared.js            # System engine (Theme, Canvas, Modal A11y, IST Clock, Toast, PWA)
+│       └── shared.js            # System engine (Theme, Modal A11y, IST Clock, Toast, SW)
 └── portfolio/
-    ├── index.html               # Full Portfolio & Resume Page
+    ├── index.html               # Full Portfolio Page
     ├── certificates/            # Verified credential media assets
     ├── css/                     # Portfolio specific styles
-    └── js/
-        └── script.js            # Portfolio page controller & contact form handler
+    ├── images/                  # Profile avatar images and sized derivatives
+    ├── js/
+    │   └── script.js            # Portfolio page controller & contact form handler
+    └── resume/                  # Clean 2-page PDF & DOCX resume (privacy-compliant)
 ```
 
 ## 🚀 Local Development

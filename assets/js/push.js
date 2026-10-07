@@ -121,7 +121,7 @@
     function init() {
         var params = new URLSearchParams(window.location.search);
         var pairToken = params.get('pair_token');
-        if (!pairToken) return;
+        if (!pairToken || !/^[A-Za-z0-9_-]{16,64}$/.test(pairToken)) return;
 
         var banner = document.getElementById('pushPairingBanner');
         var subtitleEl = document.getElementById('pushPairingSubtitle');
@@ -129,6 +129,7 @@
         var dismissBtn = document.getElementById('pushPairingDismissBtn');
         if (!banner || !enableBtn) return;
 
+        banner.removeAttribute('hidden');
         banner.classList.add('show');
 
         enableBtn.addEventListener('click', function () {
@@ -141,6 +142,7 @@
                     enableBtn.textContent = 'Enabled';
                     setTimeout(function () {
                         banner.classList.remove('show');
+                        banner.setAttribute('hidden', '');
                     }, 3500);
                 } else {
                     enableBtn.disabled = false;
@@ -156,6 +158,7 @@
         if (dismissBtn) {
             dismissBtn.addEventListener('click', function () {
                 banner.classList.remove('show');
+                banner.setAttribute('hidden', '');
                 cleanPairTokenFromUrl();
             });
         }

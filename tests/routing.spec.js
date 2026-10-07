@@ -113,4 +113,86 @@ test.describe('Routing & URL Normalization', () => {
     const reloadedTheme = reloadedAttr || 'light';
     expect(reloadedTheme).toBe(switchedTheme);
   });
+
+  test('SEO & Robots directives: / indexed, /portfolio/ strictly noindex, follow, /redesign/ and /404.html noindex', async ({ page }) => {
+    // 1. Root landing page
+    await page.goto('/');
+    const rootRobots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(rootRobots).toMatch(/\bindex\b/i);
+    expect(rootRobots).not.toMatch(/\bnoindex\b/i);
+    const rootCanonical = await page.locator('link[rel="canonical"]').getAttribute('href');
+    expect(rootCanonical).toBe('https://www.raghavendragolla.com/');
+
+    // 2. Portfolio page
+    await page.goto('/portfolio/');
+    const portfolioRobots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(portfolioRobots).toBe('noindex, follow');
+
+    // 3. Redesign page
+    await page.goto('/redesign/');
+    const redesignRobots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(redesignRobots).toContain('noindex');
+
+    // 4. 404 page
+    await page.goto('/404.html');
+    const notFoundRobots = await page.locator('meta[name="robots"]').getAttribute('content');
+    expect(notFoundRobots).toContain('noindex');
+  });
+
+  test('Sitemap integrity: contains root landing page and strictly excludes /portfolio', async ({ request }) => {
+    const response = await request.get('/sitemap.xml');
+    expect(response.status()).toBe(200);
+    const xml = await response.text();
+    expect(xml).toContain('https://www.raghavendragolla.com/');
+    expect(xml).not.toContain('/portfolio');
+    expect(xml).not.toContain('portfolio/index.html');
+  });
+
+  test('Landing internal links: portfolio links must use /portfolio/, never portfolio/index.html', async ({ page }) => {
+    await page.goto('/');
+    const links = await page.$$eval('a[href*="portfolio"]', els => els.map(a => a.getAttribute('href')));
+    expect(links.length).toBeGreaterThan(0);
+    for (const href of links) {
+      expect(href).not.toContain('portfolio/index.html');
+      expect(href).toMatch(/^(\/portfolio\/|https:\/\/www\.raghavendragolla\.com\/portfolio\/)/);
+    }
+  });
+
+  test('Resume PDF verification: serves valid PDF starting with %PDF- header', async ({ request }) => {
+    const res = await request.get('/portfolio/resume/resume.pdf');
+    expect(res.status()).toBe(200);
+    const buffer = await res.body();
+    const magic = buffer.slice(0, 5).toString('ascii');
+    expect(magic).toBe('%PDF-');
+  });
+
+  test('Privacy guard: tracked public files do not leak personal phone numbers', async () => {
+    const fs = require('fs');
+    const path = require('path');
+    const root = path.resolve(__dirname, '..');
+
+    const phoneRegex = /(?:\+?91[\s.-]?)?[6-9]\d{9}\b/g;
+
+    const filesToCheck = [
+      'index.html',
+      'portfolio/index.html',
+      'privacy.html',
+      '404.html',
+      'redesign/index.html',
+      'assets/js/script.js',
+      'assets/js/shared.js',
+      'assets/js/push.js',
+      'portfolio/js/script.js'
+    ];
+
+    for (const relPath of filesToCheck) {
+      const fullPath = path.join(root, relPath);
+      if (fs.existsSync(fullPath)) {
+        const text = fs.readFileSync(fullPath, 'utf8');
+        const matches = text.match(phoneRegex) || [];
+        expect(matches, `Found phone number pattern in ${relPath}`).toEqual([]);
+      }
+    }
+  });
 });
+
