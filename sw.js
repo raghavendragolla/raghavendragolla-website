@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v23.0';
+const ASSET_VERSION = 'v24.0';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;
@@ -10,8 +10,10 @@ const PRECACHE_ASSETS = [
   '/portfolio/index.html',
   '/privacy.html',
   '/404.html',
-  '/portfolio/images/profile/profile.webp',
-  '/portfolio/images/profile/profile.jpg',
+  '/portfolio/images/profile/profile-48.webp',
+  '/portfolio/images/profile/profile-96.webp',
+  '/portfolio/images/profile/profile-144.webp',
+  '/portfolio/images/profile/profile-144.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
   '/assets/css/style.css',
@@ -20,16 +22,12 @@ const PRECACHE_ASSETS = [
   '/assets/js/shared.js',
   '/assets/js/script.js',
   '/assets/js/push.js',
-  '/assets/images/og-image.jpg',
   '/portfolio/css/animations.css',
   '/portfolio/css/style.css',
   '/portfolio/css/responsive.css',
   '/portfolio/js/script.js',
-  '/portfolio/resume/resume.pdf',
   '/portfolio/certificates/ibm-data-analyst-thumb.webp',
-  '/portfolio/certificates/ibm-data-analyst.jpg',
   '/portfolio/certificates/smarted-ml-internship-thumb.webp',
-  '/portfolio/certificates/smarted-ml-internship.png',
   '/manifest.json',
   '/assets/favicon/favicon.png',
   '/assets/favicon/favicon-192x192.png',
@@ -74,11 +72,6 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
-  // Skip analytics & tracking
-  if (url.hostname.includes('google-analytics.com') || url.hostname.includes('googletagmanager.com')) {
-    return;
-  }
-
   const isSameOrigin = url.origin === self.location.origin;
   const isGoogleFont = url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com');
 
@@ -90,8 +83,8 @@ self.addEventListener('fetch', (event) => {
       fetch(event.request)
         .then(async (networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
-            // Do not cache sensitive or transient query strings
-            if (!SENSITIVE_QUERY_REGEX.test(url.search)) {
+            // Only cache clean navigation URLs without query params to prevent cache storage bloat
+            if (url.search === '') {
               const cache = await caches.open(CACHE_NAME);
               cache.put(event.request, networkResponse.clone());
             }

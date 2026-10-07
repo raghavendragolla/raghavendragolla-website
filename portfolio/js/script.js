@@ -296,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const dynamicTextEl = document.getElementById('dynamic-text');
     if (dynamicTextEl) {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
         const phrases = [
             'actionable analytics & insights.',
             'high-impact business intelligence.',
@@ -305,16 +306,43 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         let currentIndex = 0;
+        let rotateInterval = null;
 
-        setInterval(() => {
-            dynamicTextEl.classList.add('swapping');
+        function startRotation() {
+            if (prefersReduced.matches || rotateInterval) return;
+            rotateInterval = setInterval(() => {
+                dynamicTextEl.classList.add('swapping');
 
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % phrases.length;
-                dynamicTextEl.textContent = phrases[currentIndex];
-                dynamicTextEl.classList.remove('swapping');
-            }, 300);
-        }, 3600);
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % phrases.length;
+                    dynamicTextEl.textContent = phrases[currentIndex];
+                    dynamicTextEl.classList.remove('swapping');
+                }, 300);
+            }, 3600);
+        }
+
+        function stopRotation() {
+            if (rotateInterval) {
+                clearInterval(rotateInterval);
+                rotateInterval = null;
+            }
+        }
+
+        if (!prefersReduced.matches) {
+            startRotation();
+        }
+
+        if (prefersReduced.addEventListener) {
+            prefersReduced.addEventListener('change', (e) => {
+                if (e.matches) {
+                    stopRotation();
+                    dynamicTextEl.textContent = phrases[0];
+                    dynamicTextEl.classList.remove('swapping');
+                } else {
+                    startRotation();
+                }
+            });
+        }
     }
 
 
@@ -529,33 +557,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2800);
     }
 
-    // Email click-to-copy handler
-    const emailCards = document.querySelectorAll('[data-copy], a[href^="mailto:"]');
-    emailCards.forEach(card => {
-        card.addEventListener('click', (e) => {
+    // Dedicated click-to-copy handler (only for elements explicitly specifying data-copy)
+    const copyTriggers = document.querySelectorAll('[data-copy]');
+    copyTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            const textToCopy = trigger.getAttribute('data-copy');
+            if (!textToCopy) return;
             e.preventDefault();
-            const email = card.getAttribute('data-copy') || (card.getAttribute('href') ? card.getAttribute('href').replace(/^mailto:/, '') : 'raghavendrayadavgolla@gmail.com');
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(email).then(() => {
+                navigator.clipboard.writeText(textToCopy).then(() => {
                     showToast('Copied email to clipboard! 📋');
                 }).catch(() => {
                     showToast('Opening email client...');
-                    window.location.href = card.getAttribute('href') || `mailto:${email}`;
+                    window.location.href = `mailto:${textToCopy}`;
                 });
             } else {
-                window.location.href = card.getAttribute('href') || `mailto:${email}`;
+                window.location.href = `mailto:${textToCopy}`;
             }
         });
     });
 
-    // Skill chip click info
-    const skillChips = document.querySelectorAll('.chip[data-info]');
-    skillChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const info = chip.getAttribute('data-info');
-            if (info) showToast(info);
-        });
-    });
+
 
 
     // ====================================================
@@ -587,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const isActive = link.getAttribute('href') === `#${activeId}`;
                     link.classList.toggle('active', isActive);
                     if (isActive) {
-                        link.setAttribute('aria-current', 'page');
+                        link.setAttribute('aria-current', 'location');
                     } else {
                         link.removeAttribute('aria-current');
                     }
@@ -657,10 +679,35 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Close on escape key
+        // Keyboard handler for open menu (Escape closes, Tab trapped within menu)
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navlist.classList.contains('open')) {
+            if (!navlist.classList.contains('open')) return;
+
+            if (e.key === 'Escape') {
                 closeMenu(true);
+                return;
+            }
+
+            if (e.key === 'Tab') {
+                const focusables = [navToggleBtn].concat(
+                    Array.from(navlist.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])'))
+                ).filter(el => !el.disabled && el.offsetParent !== null);
+                if (focusables.length === 0) return;
+
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        last.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        first.focus();
+                        e.preventDefault();
+                    }
+                }
             }
         });
 
@@ -675,27 +722,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ====================================================
-    // 11. Lucide Icons & Footer Year
+    // 11. Footer Current Year
     // ====================================================
-    let lucideInitialized = false;
-
-    function initLucide() {
-        if (lucideInitialized) return;
-        if (window.lucide && typeof lucide.createIcons === 'function') {
-            lucideInitialized = true;
-            lucide.createIcons();
-        }
-    }
-
-    if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(initLucide, { timeout: 1000 });
-    }
-    if (document.readyState === 'complete') {
-        initLucide();
-    } else {
-        window.addEventListener('load', initLucide, { once: true });
-    }
-
     const yearEl = document.getElementById('year');
     if (yearEl) {
         yearEl.textContent = new Date().getFullYear();
@@ -1124,351 +1152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ====================================================
-    // 17. PWA Install Prompt Banner Controller
+    // 16. PWA Install Prompt (Preserve suppression per owner configuration)
     // ====================================================
-    let deferredPWAInstallPrompt = null;
-    const pwaInstallBanner = document.getElementById('pwa-install-banner');
-    const pwaInstallBtn = document.getElementById('pwa-install-btn');
-    const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
-
-    const isAppStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent) || window.matchMedia('(max-width: 768px)').matches;
-
-    function displayInstallBanner() {
-        if (!pwaInstallBanner || isAppStandalone) return;
-        if (window.isPwaDismissed && window.isPwaDismissed()) return;
-
-        pwaInstallBanner.style.display = 'flex';
-        void pwaInstallBanner.offsetWidth;
-        pwaInstallBanner.classList.add('show');
-    }
-
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        deferredPWAInstallPrompt = e;
-        setTimeout(displayInstallBanner, 1500);
     });
-
-    if (isMobileDevice && !isAppStandalone) {
-        setTimeout(displayInstallBanner, 2200);
-    }
-
-    if (pwaInstallBtn) {
-        pwaInstallBtn.addEventListener('click', async () => {
-            if (deferredPWAInstallPrompt) {
-                deferredPWAInstallPrompt.prompt();
-                const choiceResult = await deferredPWAInstallPrompt.userChoice;
-                if (choiceResult && choiceResult.outcome === 'accepted') {
-                    showToast('🎉 Thank you for installing!');
-                }
-                deferredPWAInstallPrompt = null;
-                if (pwaInstallBanner) {
-                    pwaInstallBanner.classList.remove('show');
-                    setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-                }
-            } else {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                if (isIOS) {
-                    showToast('📲 Tap Share ⎙ and select "Add to Home Screen"');
-                } else {
-                    showToast('📲 Tap browser menu (⋮) -> "Install App" or "Add to Home Screen"');
-                }
-                if (pwaInstallBanner) {
-                    pwaInstallBanner.classList.remove('show');
-                    setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-                }
-            }
-        });
-    }
-
-    if (pwaDismissBtn && pwaInstallBanner) {
-        pwaDismissBtn.addEventListener('click', () => {
-            pwaInstallBanner.classList.remove('show');
-            setTimeout(() => { pwaInstallBanner.style.display = 'none'; }, 300);
-            if (window.dismissPwa) {
-                window.dismissPwa();
-            } else {
-                try { localStorage.setItem('rg:pwa_dismissed', Date.now().toString()); } catch (e) {}
-            }
-        });
-    }
-
-    window.addEventListener('appinstalled', () => {
-        if (pwaInstallBanner) {
-            pwaInstallBanner.classList.remove('show');
-            pwaInstallBanner.style.display = 'none';
-        }
-        showToast('✓ App installed successfully! 🎉');
-    });
-
-    // ====================================================
-    // 16. Live Developer & Analytics Dashboard Engine
-    // ====================================================
-    (function initDashboard() {
-        const dashboardSection = document.getElementById('dashboard');
-        if (!dashboardSection) return;
-
-        // 1. Timeframe Toggle
-        const rangeButtons = dashboardSection.querySelectorAll('.dash-range-btn');
-        const kpiRepo = document.getElementById('kpi-repo-count');
-        const kpiCommit = document.getElementById('kpi-commit-count');
-        const kpiAccuracy = document.getElementById('kpi-accuracy-count');
-        const kpiNetwork = document.getElementById('kpi-network-count');
-
-        const metricsData = {
-            all: {
-                repos: '6+',
-                commits: '280+',
-                accuracy: '94.2%',
-                network: "MSc '27"
-            },
-            current: {
-                repos: '4+',
-                commits: '142',
-                accuracy: '95.1%',
-                network: "MSc '27"
-            }
-        };
-
-        rangeButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const range = btn.getAttribute('data-range');
-                rangeButtons.forEach(b => {
-                    const isActive = b === btn;
-                    b.classList.toggle('active', isActive);
-                    b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-                });
-
-                if (metricsData[range]) {
-                    if (kpiRepo) kpiRepo.textContent = metricsData[range].repos;
-                    if (kpiCommit) kpiCommit.textContent = metricsData[range].commits;
-                    if (kpiAccuracy) kpiAccuracy.textContent = metricsData[range].accuracy;
-                    if (kpiNetwork) kpiNetwork.textContent = metricsData[range].network;
-                }
-            });
-        });
-
-        // 2. Interactive Donut / Pie Chart Readout
-        const donutPct = document.getElementById('donutPct');
-        const donutLabel = document.getElementById('donutLabel');
-        const donutSub = document.getElementById('donutSub');
-        const donutSlices = dashboardSection.querySelectorAll('.donut-slice');
-        const legendPills = dashboardSection.querySelectorAll('.donut-legend-pill');
-
-        const defaultReadout = {
-            pct: '48%',
-            label: 'Python',
-            sub: 'Core ML & Data'
-        };
-
-        function setDonutReadout(pct, label, sub, activeTarget) {
-            if (donutPct) donutPct.textContent = pct;
-            if (donutLabel) donutLabel.textContent = label;
-            if (donutSub) donutSub.textContent = sub;
-
-            legendPills.forEach(pill => {
-                pill.classList.toggle('active', pill.getAttribute('data-target') === activeTarget);
-            });
-        }
-
-        donutSlices.forEach(slice => {
-            const lang = slice.getAttribute('data-lang');
-            const pct = slice.getAttribute('data-pct');
-            const info = slice.getAttribute('data-info');
-            const targetClass = Array.from(slice.classList).find(c => c.startsWith('slice-'));
-
-            slice.addEventListener('mouseenter', () => {
-                setDonutReadout(pct, lang, info, targetClass);
-            });
-            slice.addEventListener('focus', () => {
-                setDonutReadout(pct, lang, info, targetClass);
-            });
-            slice.addEventListener('mouseleave', () => {
-                setDonutReadout(defaultReadout.pct, defaultReadout.label, defaultReadout.sub, 'slice-python');
-            });
-        });
-
-        legendPills.forEach(pill => {
-            const targetClass = pill.getAttribute('data-target');
-            const slice = dashboardSection.querySelector('.' + targetClass);
-            if (!slice) return;
-
-            const lang = slice.getAttribute('data-lang');
-            const pct = slice.getAttribute('data-pct');
-            const info = slice.getAttribute('data-info');
-
-            pill.addEventListener('mouseenter', () => {
-                setDonutReadout(pct, lang, info, targetClass);
-            });
-            pill.addEventListener('focus', () => {
-                setDonutReadout(pct, lang, info, targetClass);
-            });
-            pill.addEventListener('mouseleave', () => {
-                setDonutReadout(defaultReadout.pct, defaultReadout.label, defaultReadout.sub, 'slice-python');
-            });
-        });
-
-        // 3. Activity Bar Chart Interactive Tooltip
-        const barCols = dashboardSection.querySelectorAll('.activity-bar-col');
-        const barTooltip = document.getElementById('barTooltip');
-
-        barCols.forEach(col => {
-            const month = col.getAttribute('data-month');
-            const commits = col.getAttribute('data-commits');
-            const note = col.getAttribute('data-note');
-
-            function showTooltip() {
-                if (!barTooltip) return;
-                barTooltip.innerHTML = `
-                    <strong class="tooltip-month-title">${month} 2025/2026</strong>
-                    <span class="tooltip-commits-val">${commits} commits logged</span>
-                    <span class="tooltip-milestone">${note}</span>
-                `;
-                barCols.forEach(c => c.classList.remove('active-month'));
-                col.classList.add('active-month');
-                barTooltip.classList.add('show');
-            }
-
-            col.addEventListener('mouseenter', showTooltip);
-            col.addEventListener('focus', showTooltip);
-            col.addEventListener('mouseleave', () => {
-                if (barTooltip) barTooltip.classList.remove('show');
-            });
-        });
-
-        // 4. Live GitHub Sync via Public REST API
-        async function fetchGitHubStats() {
-            try {
-                const response = await fetch('https://api.github.com/users/raghavendragolla/repos?sort=updated&per_page=6', {
-                    headers: { 'Accept': 'application/vnd.github.v3+json' }
-                });
-                if (!response.ok) return;
-
-                const repos = await response.json();
-                if (!Array.isArray(repos) || repos.length === 0) return;
-
-                if (kpiRepo) {
-                    kpiRepo.textContent = `${repos.length}+`;
-                }
-
-                const repoListEl = document.getElementById('githubRepoList');
-                if (!repoListEl) return;
-
-                const displayRepos = repos.slice(0, 3);
-                repoListEl.textContent = '';
-
-                displayRepos.forEach(r => {
-                    const lang = typeof r.language === 'string' && r.language ? r.language : 'Python';
-                    const colorClass = lang.toLowerCase() === 'python' ? 'color-python' :
-                                       lang.toLowerCase() === 'javascript' || lang.toLowerCase() === 'html' ? 'color-web' : 'color-pytorch';
-                    const description = typeof r.description === 'string' && r.description ? r.description : 'Data science and machine learning research repository.';
-                    const stars = r.stargazers_count > 0 ? `${r.stargazers_count} Stars` : 'Starred';
-                    const forks = r.forks_count > 0 ? `${r.forks_count} Forks` : 'Public';
-
-                    let safeUrl = '#';
-                    if (typeof r.html_url === 'string') {
-                        try {
-                            const parsed = new URL(r.html_url);
-                            if (parsed.protocol === 'https:' && (parsed.hostname === 'github.com' || parsed.hostname.endsWith('.github.com'))) {
-                                safeUrl = parsed.href;
-                            }
-                        } catch (_) {}
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = 'repo-item-card';
-
-                    const main = document.createElement('div');
-                    main.className = 'repo-main';
-
-                    const titleRow = document.createElement('div');
-                    titleRow.className = 'repo-title-row';
-
-                    const bookIcon = document.createElement('i');
-                    bookIcon.setAttribute('data-lucide', 'book-marked');
-                    bookIcon.setAttribute('aria-hidden', 'true');
-                    bookIcon.className = 'repo-icon';
-
-                    const link = document.createElement('a');
-                    link.href = safeUrl;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    link.className = 'repo-name';
-                    link.textContent = typeof r.name === 'string' ? r.name : '';
-
-                    const tag = document.createElement('span');
-                    tag.className = 'repo-tag';
-                    tag.textContent = lang;
-
-                    titleRow.appendChild(bookIcon);
-                    titleRow.appendChild(link);
-                    titleRow.appendChild(tag);
-
-                    const desc = document.createElement('p');
-                    desc.className = 'repo-description';
-                    desc.textContent = description;
-
-                    main.appendChild(titleRow);
-                    main.appendChild(desc);
-
-                    const statsRow = document.createElement('div');
-                    statsRow.className = 'repo-stats-row';
-
-                    const langSpan = document.createElement('span');
-                    langSpan.className = 'repo-lang';
-                    const dot = document.createElement('span');
-                    dot.className = `lang-dot ${colorClass}`;
-                    dot.setAttribute('aria-hidden', 'true');
-                    langSpan.appendChild(dot);
-                    langSpan.appendChild(document.createTextNode(` ${lang}`));
-
-                    const starStat = document.createElement('span');
-                    starStat.className = 'repo-stat';
-                    const starIcon = document.createElement('i');
-                    starIcon.setAttribute('data-lucide', 'star');
-                    starIcon.setAttribute('aria-hidden', 'true');
-                    const starText = document.createElement('span');
-                    starText.className = 'repo-stars';
-                    starText.textContent = stars;
-                    starStat.appendChild(starIcon);
-                    starStat.appendChild(document.createTextNode(' '));
-                    starStat.appendChild(starText);
-
-                    const forkStat = document.createElement('span');
-                    forkStat.className = 'repo-stat';
-                    const forkIcon = document.createElement('i');
-                    forkIcon.setAttribute('data-lucide', 'git-fork');
-                    forkIcon.setAttribute('aria-hidden', 'true');
-                    const forkText = document.createElement('span');
-                    forkText.className = 'repo-forks';
-                    forkText.textContent = forks;
-                    forkStat.appendChild(forkIcon);
-                    forkStat.appendChild(document.createTextNode(' '));
-                    forkStat.appendChild(forkText);
-
-                    statsRow.appendChild(langSpan);
-                    statsRow.appendChild(starStat);
-                    statsRow.appendChild(forkStat);
-
-                    card.appendChild(main);
-                    card.appendChild(statsRow);
-                    repoListEl.appendChild(card);
-                });
-
-                if (window.lucide) {
-                    lucide.createIcons();
-                }
-            } catch (err) {
-                // Silently fallback to pre-rendered HTML
-            }
-        }
-
-        if (window.requestIdleCallback) {
-            window.requestIdleCallback(() => fetchGitHubStats(), { timeout: 2000 });
-        } else {
-            setTimeout(fetchGitHubStats, 1200);
-        }
-    })();
 
     // ====================================================
     // California Housing Model - In-Browser Live Inference Engine
@@ -1491,10 +1179,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let activeLocation = 'sf';
         const locationModifiers = {
-            sf: { premium: 1.15, name: 'Executive Coastal' },
-            la: { premium: 0.70, name: 'Prime Metro' },
-            sd: { premium: 0.45, name: 'Suburban Coastal' },
-            valley: { premium: -0.40, name: 'Central Inland' }
+            sf: { premium: 0.345, name: 'Executive Coastal' },
+            la: { premium: 0.05, name: 'Prime Metro' },
+            sd: { premium: -0.15, name: 'Suburban Coastal' },
+            valley: { premium: -0.65, name: 'Central Inland' }
         };
 
         function calculateValuation() {
@@ -1550,9 +1238,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.setAttribute('aria-pressed', 'true');
 
                 activeLocation = btn.getAttribute('data-loc') || 'sf';
-                incomeInput.value = btn.getAttribute('data-inc') || '8.5';
+                incomeInput.value = btn.getAttribute('data-inc') || '7.5';
                 ageInput.value = btn.getAttribute('data-age') || '28';
-                roomsInput.value = btn.getAttribute('data-rooms') || '6.5';
+                roomsInput.value = btn.getAttribute('data-rooms') || '6.2';
 
                 calculateValuation();
             });

@@ -45,27 +45,7 @@
     }
 }
 
-@keyframes ecgColorCycle {
-    0%, 100% {
-        stroke: var(--primary);
-        filter: drop-shadow(0 0 4px var(--primary-glow));
-    }
-    50% {
-        stroke: var(--primary-hover);
-        filter: drop-shadow(0 0 6px var(--primary-glow));
-    }
-}
 
-@keyframes ecgColorCycleDark {
-    0%, 100% {
-        stroke: var(--primary);
-        filter: drop-shadow(0 0 5px var(--primary-glow));
-    }
-    50% {
-        stroke: var(--primary-hover);
-        filter: drop-shadow(0 0 8px var(--primary-glow));
-    }
-}
 
 @keyframes dotColorCycle {
     0%, 100% {
@@ -167,30 +147,7 @@
     }
 }
 
-@keyframes borderGradientFlow {
-    0% {
-        background-position: 0% 0%, 0% 50%;
-    }
-    50% {
-        background-position: 0% 0%, 100% 50%;
-    }
-    100% {
-        background-position: 0% 0%, 0% 50%;
-    }
-}
 
-@keyframes buttonGlowPulse {
-    0%, 100% {
-        box-shadow: 
-            0 0 16px var(--primary-glow),
-            var(--shadow-sm);
-    }
-    50% {
-        box-shadow: 
-            0 0 20px var(--primary-glow),
-            var(--shadow-md);
-    }
-}
 
 /* -----------------------------------------
    Status Dot Blink
@@ -320,18 +277,7 @@
 /* -----------------------------------------
    Dynamic Text Fade & Swap
    ----------------------------------------- */
-@keyframes textSwapIn {
-    0% {
-        opacity: 0;
-        transform: translateY(14px) scale(0.98);
-        filter: blur(4px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
-}
+
 
 @keyframes textSwapOut {
     0% {

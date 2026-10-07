@@ -102,19 +102,7 @@
     }
 }
 
-@keyframes radarPing {
-    0% {
-        transform: scale(1);
-        opacity: 0.85;
-    }
-    50% {
-        opacity: 0.4;
-    }
-    100% {
-        transform: scale(3.5);
-        opacity: 0;
-    }
-}
+
 
 @keyframes radarSonarPing {
     0% {
@@ -154,31 +142,6 @@
 }
 
 /* -----------------------------------------
-   Toast Notifications
-   ----------------------------------------- */
-@keyframes toastIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0) scale(1);
-    }
-}
-
-@keyframes toastOut {
-    from {
-        opacity: 1;
-        transform: translate(-50%, 0) scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, -15px) scale(0.95);
-    }
-}
-
-/* -----------------------------------------
    Ambient Background Glow Orbs
    ----------------------------------------- */
 @keyframes floatGlow1 {
@@ -200,7 +163,7 @@
 }
 
 /* -----------------------------------------
-   Badge Sparkle & Shimmer
+   Badge Sparkle
    ----------------------------------------- */
 @keyframes sparkle {
     0%, 100% {
@@ -213,34 +176,9 @@
     }
 }
 
-@keyframes cardPulseGlow {
-    0% {
-        box-shadow: 0 0 0 0 var(--primary-glow);
-    }
-    70% {
-        box-shadow: 0 0 0 12px transparent;
-    }
-    100% {
-        box-shadow: 0 0 0 0 transparent;
-    }
-}
-
 /* -----------------------------------------
-   Dynamic Rotating Text Swap
+   Dynamic Rotating Text Swap Out
    ----------------------------------------- */
-@keyframes textSwapIn {
-    0% {
-        opacity: 0;
-        transform: translateY(14px) scale(0.98);
-        filter: blur(4px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
-}
-
 @keyframes textSwapOut {
     0% {
         opacity: 1;
@@ -251,18 +189,6 @@
         opacity: 0;
         transform: translateY(-14px) scale(0.98);
         filter: blur(4px);
-    }
-}
-
-/* -----------------------------------------
-   Interactive Card Spotlight Shimmer
-   ----------------------------------------- */
-@keyframes shimmerGlow {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
     }
 }
 

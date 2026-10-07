@@ -1001,9 +1001,11 @@
         min-height: auto;
     }
 
+    h1.hero-title,
     .hero-title {
         font-size: clamp(2.2rem, 5vw, 3.4rem);
         max-width: 100%;
+        min-height: 2.16em;
     }
 
     .hero-sub {
@@ -1091,9 +1093,11 @@
         padding: 3.5rem 1.4rem 2.5rem;
     }
 
+    h1.hero-title,
     .hero-title {
         font-size: clamp(1.95rem, 6vw, 2.6rem);
         line-height: 1.16;
+        min-height: 2.32em;
     }
 
     .hero-sub {
@@ -1274,8 +1278,10 @@
         opacity: 0.15;
     }
 
+    h1.hero-title,
     .hero-title {
         font-size: clamp(1.65rem, 6.8vw, 1.95rem);
+        min-height: 3.55em;
     }
 
     .hero-sub {
@@ -1323,9 +1329,11 @@
 
 /* 8. Ultra-Narrow Devices (<= 360px) */
 @media (max-width: 360px) {
+    h1.hero-title,
     .hero-title {
         font-size: 1.48rem;
         line-height: 1.2;
+        min-height: 3.6em;
     }
 
     .hero-metrics-editorial {
@@ -1612,6 +1620,14 @@
     .footer-meta-links {
         flex-wrap: wrap;
         gap: 0.75rem 1.25rem;
+    }
+
+    .footer-meta-links a,
+    .footer-sub-links a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 6px;
     }
 
     .ecosystem-tray-grid {

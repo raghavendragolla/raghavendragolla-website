@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-MuwxejY1RNTM47hjVek+uX/RSFT+9+f3T0lBg8KGRtA=' 'sha256-9PHyn1vQ3FY96mDujGIuPyOJaXjI1gTvL0/R/OnSsxI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://career.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -31,7 +32,6 @@
         })();
     </script>
 
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <meta name="description"
@@ -96,7 +96,19 @@
             "@id": "https://www.raghavendragolla.com/#person",
             "name": "Raghavendra Golla",
             "url": "https://www.raghavendragolla.com/",
-            "jobTitle": "Data Science & Machine Learning Practitioner",
+            "image": "https://www.raghavendragolla.com/assets/images/og-image.jpg",
+            "jobTitle": "Data Scientist & Applied ML Researcher",
+            "description": "Data Scientist & Applied ML Researcher specializing in machine learning, deep learning architectures, and explainable AI.",
+            "affiliation": {
+              "@type": "CollegeOrUniversity",
+              "name": "Chandigarh University",
+              "sameAs": "https://www.cuchd.in"
+            },
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "Krishna University",
+              "sameAs": "https://kru.ac.in"
+            },
             "knowsAbout": [
               "Data Science",
               "Machine Learning",
@@ -109,6 +121,7 @@
               "NumPy",
               "Deep Learning",
               "Predictive Modeling",
+              "Explainable AI",
               "Large Language Models & GenAI"
             ],
             "sameAs": [
@@ -158,18 +171,18 @@
     </style>
 
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=23.0">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=23.0">
-    <link rel="stylesheet" href="/assets/css/style.css?v=23.0">
-    <link rel="stylesheet" href="/assets/css/animations.css?v=23.0" media="print" data-async-css>
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/style.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/animations.css?v=24.0" media="print" data-async-css>
     <noscript>
-      <link rel="stylesheet" href="/assets/css/animations.css?v=23.0">
+      <link rel="stylesheet" href="/assets/css/animations.css?v=24.0">
     </noscript>
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=23.0">
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.0">
 
     <!-- JavaScript Stack (shared.js loads FIRST) -->
-    <script src="/assets/js/shared.js?v=23.0" defer></script>
-    <script src="/assets/js/script.js?v=23.0" defer></script>
+    <script src="/assets/js/shared.js?v=24.0" defer></script>
+    <script src="/assets/js/script.js?v=24.0" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
 
 </head>
@@ -286,11 +299,9 @@
             <span>Applied Data Science &bull; Machine Learning &bull; XAI</span>
         </div>
 
-        <p class="eyebrow">
-            Raghavendra Golla
-        </p>
-
-        <h1>Turning complex data into <span class="dynamic-wrapper"><em id="dynamic-text">intelligent solutions.</em></span>
+        <h1>
+            <span class="eyebrow">Raghavendra Golla</span>
+            Turning complex data into <span class="dynamic-wrapper"><em id="dynamic-text">intelligent solutions.</em></span>
         </h1>
 
         <p class="hero-sub">
@@ -312,11 +323,6 @@
                         d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                 </svg>
             </a>
-            <!-- Kaggle Profile (Uncomment when active)
-            <a href="https://kaggle.com/raghavendragolla" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Kaggle Profile" title="Kaggle Profile">
-                <svg viewBox="0 0 24 24"><path d="M18.825 23.859h-3.854l-5.632-8.232-2.484 2.298v5.934H3.454V.141h3.401v13.565l7.585-8.28h4.207l-7.009 7.422 7.187 11.011z"/></svg>
-            </a>
-            -->
             <a href="mailto:raghavendrayadavgolla@gmail.com" class="social-link" aria-label="Email Me" title="Email Me">
                 <svg viewBox="0 0 24 24">
                     <path
@@ -325,7 +331,7 @@
             </a>
         </div>
 
-        <a class="enter" href="portfolio/index.html"
+        <a class="enter" href="/portfolio/"
             aria-label="Enter Portfolio — Data Science and Machine Learning Portfolio">
             <span class="enter-text">Enter Portfolio</span>
             <span class="coming-text">Explore Projects</span>
@@ -457,7 +463,7 @@
                 <a href="https://career.raghavendragolla.com" target="_blank" rel="noopener noreferrer" class="footer-link">Career Radar</a>
                 <button id="thoughts-footer-btn" class="footer-thoughts-btn" type="button"
                     aria-label="My Thoughts &amp; Intel — Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
-                <a href="portfolio/index.html#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
+                <a href="/portfolio/#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
             </div>
         </div>
     </footer>
@@ -719,7 +725,7 @@
     <!-- Career Radar Job-Alert Push Pairing Banner: hidden unless the page
          was opened with a valid one-time ?pair_token= from Career Radar
          (see assets/js/push.js). Never shown to ordinary visitors. -->
-    <aside id="pushPairingBanner" class="pwa-install-banner" aria-label="Enable Career Radar Job Alerts">
+    <aside id="pushPairingBanner" class="pwa-install-banner" aria-label="Enable Career Radar Job Alerts" hidden>
         <div class="pwa-banner-content">
             <span class="pwa-banner-icon" aria-hidden="true">🔔</span>
             <div class="pwa-banner-text">
@@ -736,27 +742,6 @@
             </button>
         </div>
     </aside>
-
-    <!-- Mobile PWA Install Floating Banner (Commented out)
-    <aside id="pwa-install-banner" class="pwa-install-banner" aria-label="Install Portfolio App" style="display: none;">
-        <div class="pwa-banner-content">
-            <img src="/assets/favicon/favicon-192x192.png" alt="Raghavendra App Icon" class="pwa-banner-icon" width="42" height="42">
-            <div class="pwa-banner-text">
-                <strong class="pwa-banner-title">Install Raghavendra's App</strong>
-                <span class="pwa-banner-subtitle">Fast offline access &amp; instant launch</span>
-            </div>
-        </div>
-        <div class="pwa-banner-actions">
-            <button id="pwa-install-btn" class="pwa-install-btn" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span>Install</span>
-            </button>
-            <button id="pwa-dismiss-btn" class="pwa-dismiss-btn" type="button" aria-label="Dismiss">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-        </div>
-    </aside>
-    -->
 
 </body>
 

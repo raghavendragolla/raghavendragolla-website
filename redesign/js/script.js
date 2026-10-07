@@ -36,21 +36,5 @@
       });
     }
   }
-
-  // Smooth scroll for anchor links with offset
-  var anchorLinks = document.querySelectorAll('a[href^="#"]');
-  for (var j = 0; j < anchorLinks.length; j++) {
-    anchorLinks[j].addEventListener('click', function (e) {
-      var targetId = this.getAttribute('href');
-      if (targetId === '#' || targetId === '') return;
-      var targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        e.preventDefault();
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (window.history && window.history.pushState) {
-          window.history.pushState(null, '', targetId);
-        }
-      }
-    });
-  }
 })();
+
