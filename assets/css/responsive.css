@@ -180,7 +180,7 @@
     }
 
     .spec-label {
-        font-size: 9.5px;
+        font-size: 0.6875rem;
     }
 
     .enter {
@@ -221,7 +221,7 @@
     }
 
     .highlight-desc {
-        font-size: 10.5px;
+        font-size: 0.8125rem;
         line-height: 1.5;
     }
 }
@@ -267,7 +267,7 @@
         bottom: 18px;
         right: 16px;
         padding: 7px 13px;
-        font-size: 10px;
+        font-size: 0.6875rem;
     }
 
     .thoughts-panel {
@@ -305,7 +305,7 @@
 
     .vitals-status {
         left: 14px;
-        font-size: 9.5px;
+        font-size: 0.6875rem;
         padding: 3px 9px;
         gap: 5px;
     }
@@ -416,7 +416,7 @@
     }
 
     .spec-label {
-        font-size: 10px;
+        font-size: 0.6875rem;
     }
 
     .skills-section {
@@ -655,7 +655,7 @@
     }
 
     footer {
-        font-size: 10px;
+        font-size: 0.6875rem;
         padding: 18px 12px max(24px, env(safe-area-inset-bottom)) !important;
     }
 }
@@ -678,7 +678,7 @@
 
     .vitals-status {
         left: 8px;
-        font-size: 8.5px;
+        font-size: 0.6875rem;
         padding: 2px 6px;
         gap: 3px;
     }
@@ -703,7 +703,7 @@
         bottom: 14px;
         right: 12px;
         padding: 6px 10px;
-        font-size: 9.5px;
+        font-size: 0.6875rem;
     }
 
     main {
@@ -711,7 +711,7 @@
     }
 
     .status-badge {
-        font-size: 10px;
+        font-size: 0.6875rem;
         padding: 4px 12px;
     }
 
@@ -746,7 +746,7 @@
     }
 
     .card-corner-badge {
-        font-size: 8.5px;
+        font-size: 0.6875rem;
         padding: 3px 9px;
     }
 
@@ -755,7 +755,7 @@
     }
 
     .highlight-desc {
-        font-size: 10.5px;
+        font-size: 0.8125rem;
     }
 
     .specs-bar {
@@ -768,11 +768,11 @@
 
     .skill-chip {
         padding: 5px 9px;
-        font-size: 10px;
+        font-size: 0.6875rem;
     }
 
     .currently {
-        font-size: 10.5px;
+        font-size: 0.6875rem;
     }
 }
 
@@ -818,7 +818,7 @@
     }
 
     .card-corner-badge {
-        font-size: 8.5px;
+        font-size: 0.6875rem;
         padding: 3px 8px;
     }
 

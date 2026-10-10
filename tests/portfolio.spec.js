@@ -204,7 +204,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     // 2. Wait for service worker to register and caches to be populated
     await page.waitForFunction(async () => {
       if (!('serviceWorker' in navigator)) return false;
-      const reg = await navigator.serviceWorker.ready;
+      await navigator.serviceWorker.ready;
       const cacheKeys = await caches.keys();
       const match = cacheKeys.find(k => k.startsWith('raghavendra-portfolio-'));
       if (!match) return false;
@@ -226,7 +226,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
     const cachedCss = await page.evaluate(async () => {
-      const res = await fetch('/portfolio/css/style.css?v=24.2');
+      const res = await fetch('/portfolio/css/style.css?v=24.3');
       return res.ok && res.status === 200;
     });
     expect(cachedCss).toBe(true);

@@ -412,15 +412,22 @@ document.addEventListener('DOMContentLoaded', () => {
             'intelligent solutions.',
             'predictive models.',
             'actionable insights.',
-            'scalable AI systems.',
+            'explainable models.',
             'practical ML apps.'
         ];
 
         let currentIndex = 0;
         let rotateInterval = null;
+        // WCAG 2.2.2: auto-updating content needs a pause control. The rotation
+        // starts paused for reduced-motion users; the button toggles it.
+        const toggleBtn = document.getElementById('headlineToggle');
+        let paused = prefersReduced.matches;
+        // True once the visitor has used the button; an OS-level reduced-motion
+        // change must never override that explicit choice by resuming motion.
+        let userPaused = false;
 
         function startRotation() {
-            if (prefersReduced.matches || rotateInterval) return;
+            if (paused || rotateInterval) return;
             rotateInterval = setInterval(() => {
                 dynamicTextEl.classList.add('swapping');
 
@@ -439,19 +446,42 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        function setPaused(nextPaused) {
+            paused = nextPaused;
+            if (toggleBtn) {
+                toggleBtn.textContent = paused ? 'Play headline animation' : 'Pause headline animation';
+            }
+            if (paused) {
+                stopRotation();
+                dynamicTextEl.classList.remove('swapping');
+            } else {
+                startRotation();
+            }
+        }
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                userPaused = !paused;
+                setPaused(!paused);
+            });
+        }
+
         // Allow initial headline to settle for stable LCP before starting rotation
-        if (!prefersReduced.matches) {
+        if (toggleBtn && paused) {
+            toggleBtn.textContent = 'Play headline animation';
+        }
+        if (!paused) {
             setTimeout(startRotation, 3000);
         }
 
         if (prefersReduced.addEventListener) {
             prefersReduced.addEventListener('change', (e) => {
                 if (e.matches) {
-                    stopRotation();
+                    currentIndex = 0;
                     dynamicTextEl.textContent = phrases[0];
-                    dynamicTextEl.classList.remove('swapping');
-                } else {
-                    startRotation();
+                    setPaused(true);
+                } else if (!userPaused) {
+                    setPaused(false);
                 }
             });
         }

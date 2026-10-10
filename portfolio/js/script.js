@@ -748,6 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function openCertLightbox(imgSrc, title, verifyLink) {
         if (certModal && certModalImg) {
             certModalImg.src = imgSrc;
+            certModalImg.alt = 'Full certificate: ' + (title || 'Certificate').replace(/&bull;/g, '•');
             if (certModalTitle) {
                 certModalTitle.textContent = (title || 'Certificate Preview').replace(/&bull;/g, '•');
             }
@@ -1158,229 +1159,73 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
     });
 
-    // ====================================================
-    // California Housing Model - In-Browser Live Inference Engine
-    // ====================================================
-    (function initCaliforniaPredictor() {
-        const incomeInput = document.getElementById('califIncomeInput');
-        const ageInput = document.getElementById('califAgeInput');
-        const roomsInput = document.getElementById('califRoomsInput');
-        const presetBtns = document.querySelectorAll('.preset-pill[data-loc]');
-
-        const incomeDisplay = document.getElementById('califIncomeDisplay');
-        const ageDisplay = document.getElementById('califAgeDisplay');
-        const roomsDisplay = document.getElementById('califRoomsDisplay');
-        const priceDisplay = document.getElementById('califPriceValue');
-        const rangeDisplay = document.getElementById('califPriceRange');
-        const tierBadge = document.getElementById('califTierBadge');
-        const gaugeFill = document.getElementById('califGaugeFill');
-
-        if (!incomeInput || !ageInput || !roomsInput || !priceDisplay) return;
-
-        let activeLocation = 'sf';
-        const locationModifiers = {
-            sf: { premium: 0.345, name: 'Executive Coastal' },
-            la: { premium: 0.05, name: 'Prime Metro' },
-            sd: { premium: -0.15, name: 'Suburban Coastal' },
-            valley: { premium: -0.65, name: 'Central Inland' }
-        };
-
-        function calculateValuation() {
-            const income = parseFloat(incomeInput.value);
-            const age = parseFloat(ageInput.value);
-            const rooms = parseFloat(roomsInput.value);
-
-            if (incomeDisplay) incomeDisplay.textContent = '$' + Math.round(income * 10).toLocaleString() + ',000 / yr';
-            if (ageDisplay) ageDisplay.textContent = Math.round(age) + ' years';
-            if (roomsDisplay) roomsDisplay.textContent = rooms.toFixed(1) + ' rooms';
-
-            const locConfig = locationModifiers[activeLocation] || locationModifiers.sf;
-            let predValInHundreds = 0.75 + (income * 0.425) + (rooms * 0.042) + (age * 0.0065) + locConfig.premium;
-
-            predValInHundreds = Math.max(0.65, Math.min(5.00, predValInHundreds));
-            const exactPrice = Math.round(predValInHundreds * 100000);
-
-            if (priceDisplay) priceDisplay.textContent = '$' + exactPrice.toLocaleString();
-
-            const lowRange = Math.max(50000, exactPrice - 46000);
-            const highRange = Math.min(500000, exactPrice + 46000);
-            if (rangeDisplay) rangeDisplay.textContent = '$' + lowRange.toLocaleString() + ' \u2013 $' + highRange.toLocaleString();
-
-            const minP = 65000;
-            const maxP = 500000;
-            const pct = Math.max(5, Math.min(100, Math.round(((exactPrice - minP) / (maxP - minP)) * 100)));
-            if (gaugeFill) gaugeFill.style.width = pct + '%';
-
-            let tierName = locConfig.name;
-            if (exactPrice > 450000) {
-                tierName = 'Executive Coastal';
-            } else if (exactPrice > 320000) {
-                tierName = 'Prime Metro';
-            } else if (exactPrice > 180000) {
-                tierName = 'Suburban Mid-Market';
-            } else {
-                tierName = 'Entry Level / Inland';
-            }
-            if (tierBadge) tierBadge.textContent = tierName;
-        }
-
-        [incomeInput, ageInput, roomsInput].forEach(inp => {
-            inp.addEventListener('input', calculateValuation);
-        });
-
-        presetBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                presetBtns.forEach(b => {
-                    b.classList.remove('active');
-                    b.setAttribute('aria-pressed', 'false');
-                });
-                btn.classList.add('active');
-                btn.setAttribute('aria-pressed', 'true');
-
-                activeLocation = btn.getAttribute('data-loc') || 'sf';
-                incomeInput.value = btn.getAttribute('data-inc') || '7.5';
-                ageInput.value = btn.getAttribute('data-age') || '28';
-                roomsInput.value = btn.getAttribute('data-rooms') || '6.2';
-
-                calculateValuation();
-            });
-        });
-
-        calculateValuation();
-    })();
-
 
     // ====================================================
-    // IBM Data Analyst Capstone - Interactive Tech Comparator Engine
+    // IBM Data Analyst Capstone - Tech Adoption Comparator
     // ====================================================
+    // Every figure below was recomputed from the capstone's public source data:
+    // m1_survey_data.csv (11,552 rows -> 11,398 after removing 154 duplicates;
+    // LanguageWorkedWith / LanguageDesireNextYear / DatabaseWorkedWith /
+    // DatabaseDesireNextYear) and jobs.json (27,005 postings, word-boundary
+    // match on "Key Skills"). Net change = (desired - current) / current.
     (function initCapstoneComparator() {
-        const expInput = document.getElementById('capstoneExpInput');
-        const expDisplay = document.getElementById('capstoneExpDisplay');
         const presetBtns = document.querySelectorAll('#capstoneTechPresets .preset-pill');
-
         const devShareDisplay = document.getElementById('capstoneDevShare');
         const devCountDisplay = document.getElementById('capstoneDevCount');
+        const desiredShareDisplay = document.getElementById('capstoneDesiredShare');
+        const desiredCountDisplay = document.getElementById('capstoneDesiredCount');
+        const momentumValDisplay = document.getElementById('capstoneMomentumVal');
         const jobCountDisplay = document.getElementById('capstoneJobCount');
         const jobShareDisplay = document.getElementById('capstoneJobShare');
-        const salaryValDisplay = document.getElementById('capstoneSalaryVal');
-        const salarySubDisplay = document.getElementById('capstoneSalarySub');
-        const momentumValDisplay = document.getElementById('capstoneMomentumVal');
-        const categoryValDisplay = document.getElementById('capstoneCategoryVal');
         const insightTextDisplay = document.getElementById('capstoneInsightText');
 
-        if (!expInput || !presetBtns.length || !devShareDisplay) return;
-
-        let activeTech = 'python';
+        if (!presetBtns.length || !devShareDisplay) return;
 
         const techData = {
             python: {
-                name: 'Python',
-                devShare: '39.9%',
-                devCount: '4,548 respondents',
-                jobCount: '1,171',
-                jobShare: '4.3% of postings',
-                baseSalary: 72000,
-                expCoeff: 5800,
-                momentum: '+46.0%',
-                category: 'Growth Leader',
-                insight: '<strong>Strategic Growth Driver:</strong> Python demonstrates the highest net desire expansion (+46.0%) across all general-purpose languages. Critical anchor competency across Data Analytics, Machine Learning, and backend architectures.'
+                devShare: '39.8%', devCount: '4,542 respondents',
+                desiredShare: '46.0%', desiredCount: '5,239 respondents',
+                netChange: '+15.3%',
+                jobCount: '1,171', jobShare: '4.3% of 27,005 postings',
+                insight: 'Python was used by 39.8% of respondents and wanted by 46.0% for next year — a +15.3% net increase. Among the ten most-used languages, only Python and TypeScript had more developers wanting them than using them.'
             },
             sql: {
-                name: 'SQL',
-                devShare: '62.3%',
-                devCount: '7,106 respondents',
-                jobCount: '2,216',
-                jobShare: '8.2% of postings',
-                baseSalary: 66000,
-                expCoeff: 4900,
-                momentum: '0.96x Ratio',
-                category: 'Enterprise Core',
-                insight: '<strong>Universal Data Foundation:</strong> Required across 62.3% of survey respondents and 8.2% of all mined job postings. Consistent enterprise salary stability across both transactional and warehouse analytics.'
+                devShare: '62.3%', devCount: '7,106 respondents',
+                desiredShare: '44.0%', desiredCount: '5,012 respondents',
+                netChange: '−29.5%',
+                jobCount: '2,216', jobShare: '8.2% of 27,005 postings',
+                insight: 'SQL was used by 62.3% of respondents and appeared in 8.2% of job postings. Fewer respondents listed it as a language they want to use next year (44.0%).'
             },
             javascript: {
-                name: 'JavaScript',
-                devShare: '76.2%',
-                devCount: '8,687 respondents',
-                jobCount: '2,246',
-                jobShare: '8.3% of postings',
-                baseSalary: 68000,
-                expCoeff: 5200,
-                momentum: '0.84x Saturation',
-                category: 'Fullstack Standard',
-                insight: '<strong>Ubiquitous Baseline:</strong> Most widely adopted language across respondents (76.2%). Unmatched frontend ubiquity with consistent enterprise hiring velocity and steady mid-career compensation scaling.'
+                devShare: '76.2%', devCount: '8,687 respondents',
+                desiredShare: '58.2%', desiredCount: '6,630 respondents',
+                netChange: '−23.7%',
+                jobCount: '2,246', jobShare: '8.3% of 27,005 postings',
+                insight: 'JavaScript was the most-used language in the survey (76.2%) and appeared in 8.3% of job postings; 58.2% of respondents wanted to use it next year.'
             },
             postgres: {
-                name: 'PostgreSQL',
-                devShare: '35.9%',
-                devCount: '4,092 respondents',
-                jobCount: '1,048',
-                jobShare: '3.9% of postings',
-                baseSalary: 74000,
-                expCoeff: 5700,
-                momentum: '+6.0% (#1 Desired)',
-                category: '#1 Desired Database',
-                insight: '<strong>Modern Database Standard:</strong> Ranked as the #1 most desired database in the developer survey (38.0% desire), overtaking legacy relational engines as the primary cloud database architecture.'
-            },
-            go: {
-                name: 'Go',
-                devShare: '9.8%',
-                devCount: '1,117 respondents',
-                jobCount: '842',
-                jobShare: '3.1% of postings',
-                baseSalary: 82000,
-                expCoeff: 6200,
-                momentum: '+88.0% Momentum',
-                category: 'High-Demand Cloud',
-                insight: '<strong>Elite Growth Momentum:</strong> Demonstrates high salary scaling ($121k+ average in senior cohorts) and an +88% growth trajectory driven by Kubernetes, microservices, and high-concurrency cloud engineering.'
-            },
-            docker: {
-                name: 'Docker',
-                devShare: '42.5%',
-                devCount: '4,844 respondents',
-                jobCount: '1,874',
-                jobShare: '6.9% of postings',
-                baseSalary: 76000,
-                expCoeff: 5600,
-                momentum: '+36.5% Net Gain',
-                category: 'DevOps Standard',
-                insight: '<strong>Containerization Standard:</strong> Dominates developer container infrastructure. High correlation with senior engineering pay grades and modern MLOps / Cloud Data deployment pipelines.'
+                devShare: '35.9%', devCount: '4,097 respondents',
+                desiredShare: '38.0%', desiredCount: '4,328 respondents',
+                netChange: '+5.6%',
+                jobCount: '—', jobShare: 'Not analysed for databases',
+                insight: 'PostgreSQL was used by 35.9% of respondents and was the most-desired database for next year (38.0%), ahead of MongoDB (32.0%), Redis (29.2%) and MySQL (28.8%).'
             }
         };
 
-        function updateComparator() {
-            const expYears = parseInt(expInput.value, 10);
-            const data = techData[activeTech] || techData.python;
-
-            // Update Experience Label
-            let tierText = 'Junior';
-            if (expYears >= 15) tierText = 'Principal / Lead';
-            else if (expYears >= 8) tierText = 'Senior Specialist';
-            else if (expYears >= 4) tierText = 'Mid-Level';
-
-            if (expDisplay) {
-                expDisplay.textContent = `${expYears} ${expYears === 1 ? 'Year' : 'Years'} (${tierText})`;
-            }
-
-            // Calculate Projected Salary
-            const projectedSalary = data.baseSalary + (expYears * data.expCoeff);
-            if (salaryValDisplay) {
-                salaryValDisplay.textContent = '$' + projectedSalary.toLocaleString();
-            }
-            if (salarySubDisplay) {
-                salarySubDisplay.textContent = `${tierText} Benchmark`;
-            }
-
-            // Update Static Tech Stats
-            if (devShareDisplay) devShareDisplay.textContent = data.devShare;
+        function updateComparator(tech) {
+            const data = techData[tech] || techData.python;
+            devShareDisplay.textContent = data.devShare;
             if (devCountDisplay) devCountDisplay.textContent = data.devCount;
+            if (desiredShareDisplay) desiredShareDisplay.textContent = data.desiredShare;
+            if (desiredCountDisplay) desiredCountDisplay.textContent = data.desiredCount;
+            if (momentumValDisplay) {
+                momentumValDisplay.textContent = data.netChange;
+                momentumValDisplay.classList.toggle('is-negative', data.netChange.charAt(0) === '−');
+            }
             if (jobCountDisplay) jobCountDisplay.textContent = data.jobCount;
             if (jobShareDisplay) jobShareDisplay.textContent = data.jobShare;
-            if (momentumValDisplay) momentumValDisplay.textContent = data.momentum;
-            if (categoryValDisplay) categoryValDisplay.textContent = data.category;
-            if (insightTextDisplay) insightTextDisplay.innerHTML = data.insight;
+            if (insightTextDisplay) insightTextDisplay.textContent = data.insight;
         }
-
-        expInput.addEventListener('input', updateComparator);
 
         presetBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1390,13 +1235,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 btn.classList.add('active');
                 btn.setAttribute('aria-pressed', 'true');
-
-                activeTech = btn.getAttribute('data-tech') || 'python';
-                updateComparator();
+                updateComparator(btn.getAttribute('data-tech'));
             });
         });
 
-        updateComparator();
+        updateComparator('python');
     })();
 
 });
