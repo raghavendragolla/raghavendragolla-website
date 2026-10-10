@@ -226,7 +226,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
     const cachedCss = await page.evaluate(async () => {
-      const res = await fetch('/portfolio/css/style.css?v=24.1');
+      const res = await fetch('/portfolio/css/style.css?v=24.2');
       return res.ok && res.status === 200;
     });
     expect(cachedCss).toBe(true);
