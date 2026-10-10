@@ -280,6 +280,7 @@ header {
     background: transparent;
     border: none;
     cursor: pointer;
+    min-height: 32px;
     padding: 4px 8px;
     border-radius: var(--radius-sm);
     font-family: inherit;
@@ -386,7 +387,7 @@ header {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 10.5px;
+    font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     color: var(--muted);
@@ -502,7 +503,9 @@ main {
     text-align: center;
     padding: 38px 24px 44px;
 
-    animation: fadeUp 0.8s var(--apple-ease);
+    /* No entrance fade: the previous opacity fade (whose keyframes arrived
+       with the async animations.css) re-hid the already-painted hero and
+       delayed Largest Contentful Paint. */
 }
 
 /* =========================================
@@ -613,6 +616,28 @@ h1 {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
     filter: blur(4px);
+}
+
+/* Pause/play control for the rotating headline (WCAG 2.2.2) */
+.headline-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    margin: -8px auto 12px;
+    padding: 4px 10px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.headline-toggle:hover {
+    color: var(--text);
 }
 
 /* =========================================
@@ -859,7 +884,7 @@ h1 {
     left: 0;
     border-radius: 0 0 14px 0;
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -1068,7 +1093,7 @@ h1 {
 
 .spec-label {
     font-family: var(--font-body);
-    font-size: 10.5px;
+    font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1291,6 +1316,7 @@ footer {
     font-weight: 500;
     color: var(--muted);
     text-decoration: none;
+    min-height: 32px;
     padding: 4px 8px;
     border-radius: var(--radius-sm);
     transition: color 0.25s ease, transform 0.25s ease;
@@ -1592,7 +1618,7 @@ body.drawer-open {
     gap: 5px;
     padding: 3px 8px 3px 6px;
     font-family: var(--font-mono);
-    font-size: 8.5px;
+    font-size: 0.6875rem;
     font-weight: 700;
     border-radius: 9999px;
     background: var(--success-subtle);
@@ -1799,7 +1825,7 @@ body.drawer-open {
 
 .thought-tag {
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 0.6875rem;
     font-weight: 600;
     padding: 3px 8px;
     border-radius: 6px;
@@ -1832,7 +1858,7 @@ body.drawer-open {
 
 .read-time {
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 0.6875rem;
     color: var(--muted);
 }
 
@@ -1861,7 +1887,7 @@ body.drawer-open {
 
 .thought-meta {
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 0.6875rem;
     color: var(--teal);
     font-weight: 500;
 }
@@ -2023,7 +2049,7 @@ body.drawer-open {
 
 .intel-title {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 0.6875rem;
     color: var(--muted);
     text-transform: uppercase;
 }
@@ -2036,7 +2062,7 @@ body.drawer-open {
 
 .intel-chip {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 0.6875rem;
     color: var(--teal);
     background: var(--primary-subtle);
     border: 1px solid var(--border-subtle);

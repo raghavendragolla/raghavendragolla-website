@@ -13,7 +13,7 @@
     "verify:precache": "node scripts/verify-precache.js",
     "privacy:scan": "node scripts/privacy-scan.js",
     "verify": "npm run verify:csp && npm run verify:precache && npm run privacy:scan",
-    "test:e2e": "playwright test tests/routing.spec.js tests/landing.spec.js tests/portfolio.spec.js tests/contact.spec.js tests/redesign.spec.js --workers=4",
+    "test:e2e": "playwright test tests/routing.spec.js tests/landing.spec.js tests/portfolio.spec.js tests/contact.spec.js tests/redesign.spec.js tests/content-integrity.spec.js tests/deploy-exclusions.spec.js --workers=4",
     "test:a11y": "playwright test tests/a11y.spec.js --workers=2",
     "test:cross-browser": "playwright test tests/cross-browser.smoke.spec.js --project=firefox-smoke --project=webkit-smoke",
     "test:links": "linkinator http://localhost:8080 --recurse --skip \"^(https?:\\/\\/(www\\.)?(linkedin\\.com|github\\.com|towardsdatascience\\.com)|https:\\/\\/[a-z-]+\\.streamlit\\.app)\" --retry --concurrency 5",

@@ -1,0 +1,34 @@
+# GitHub Pages (Jekyll) publishing configuration.
+#
+# This site is plain static HTML/CSS/JS; no page uses front matter or Liquid,
+# so Jekyll copies files verbatim. This file only controls WHICH files are
+# published. Everything listed below stays in the repository for local
+# development and CI, but is not deployed to https://www.raghavendragolla.com.
+#
+# Note: setting `exclude` replaces Jekyll's default exclude list, so the usual
+# defaults (node_modules, vendor, Gemfile...) are repeated here explicitly.
+# Dotfiles/dot-directories (.github, .gitignore, ...) are never published.
+#
+# Kept in sync with tests/deploy-exclusions.spec.js.
+
+exclude:
+  # Jekyll defaults (re-declared because `exclude` overrides them)
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  # Node tooling and documentation
+  - package.json
+  - package-lock.json
+  - README.md
+  - eslint.config.mjs
+  - playwright.config.js
+  - lighthouserc.json
+  # Development, test and audit tooling
+  - scripts/
+  - tests/
+  - test-results/
+  - playwright-report/
+  - scratch/
+  # Unreleased design preview (source kept locally; not part of the public site)
+  - redesign/

@@ -24,6 +24,7 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { githubHandles } = require('./helpers/pdf-links');
 
 const PROD = 'https://www.raghavendragolla.com';
 const ENABLED = process.env.PRODUCTION_SMOKE === '1';
@@ -32,8 +33,10 @@ const ENABLED = process.env.PRODUCTION_SMOKE === '1';
 const EXPECTED = {
   // Cloudflare Email Address Obfuscation rewrites mailto: links in transit.
   emailObfuscation: '/cdn-cgi/l/email-protection',
-  // Cloudflare's injected analytics beacon is deliberately blocked by the
-  // site's own CSP, which is why a console error for this host is tolerated.
+  // Cloudflare Web Analytics injects a beacon from this host. From release
+  // v24.3 the page CSPs allow it (script-src static.cloudflareinsights.com,
+  // connect-src cloudflareinsights.com); earlier releases blocked it, so a
+  // console error for this host is still tolerated while old pages are cached.
   analyticsBeaconHost: 'cloudflareinsights.com',
   // No HTTP security headers are configured yet (tracked as a separate task);
   // their absence is recorded rather than asserted.
@@ -87,10 +90,11 @@ test.describe('Production Smoke (live site)', () => {
       expect(res.headers()['location']).toContain('/portfolio/');
     });
 
-    test('/redesign redirects to /redesign/', async ({ request }) => {
+    // /redesign/ is an unreleased preview excluded from publishing by
+    // _config.yml, so neither form of the path may be served in production.
+    test('/redesign is not published (404)', async ({ request }) => {
       const res = await request.get(PROD + '/redesign', { maxRedirects: 0 });
-      expect(res.status()).toBe(301);
-      expect(res.headers()['location']).toContain('/redesign/');
+      expect(res.status()).toBe(404);
     });
   });
 
@@ -114,11 +118,9 @@ test.describe('Production Smoke (live site)', () => {
       expect(robots).toContain('follow');
     });
 
-    test('redesign preview is noindex, nofollow', async ({ page }) => {
-      await page.goto(PROD + '/redesign/');
-      const robots = await page.locator('meta[name="robots"]').getAttribute('content');
-      expect(robots).toContain('noindex');
-      expect(robots).toContain('nofollow');
+    test('redesign preview is not published (/redesign/ returns 404)', async ({ request }) => {
+      const res = await request.get(PROD + '/redesign/', { maxRedirects: 0 });
+      expect(res.status()).toBe(404);
     });
   });
 
@@ -157,10 +159,10 @@ test.describe('Production Smoke (live site)', () => {
       const body = await res.body();
       expect(body.subarray(0, 5).toString('ascii')).toBe('%PDF-');
 
-      const raw = body.toString('latin1');
-
-      // Collect every github.com/... link embedded as a PDF URI action.
-      const githubLinks = [...new Set([...raw.matchAll(/github\.com\/([A-Za-z0-9._-]+)/g)].map((m) => m[1]))];
+      // Collect every github.com/... link embedded as a PDF URI action. The
+      // helper inflates compressed streams and decodes PDF string escapes
+      // (pdfTeX writes "github\056com"), which a raw-byte regex cannot see.
+      const githubLinks = githubHandles(body);
       expect(githubLinks.length, 'resume should embed a GitHub link').toBeGreaterThan(0);
 
       // The known-broken handle (a dead 404 account) must never reappear.
