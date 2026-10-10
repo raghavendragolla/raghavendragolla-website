@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-mVk6iO6F8PQ8poN2XhQqweo2HeRbY2f1Anwc2JTBgl4=' 'sha256-/Wwvk/e09CfIhs95JbIB7HMZabm1kk9x1JjHMy0lIxU='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://avatars.githubusercontent.com; connect-src 'self' https://api.web3forms.com https://api.github.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-mVk6iO6F8PQ8poN2XhQqweo2HeRbY2f1Anwc2JTBgl4='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Trailing-slash URL Normalization & Reload Scroll Reset -->
@@ -163,14 +163,6 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-  </noscript>
 
   <!-- Critical Layout & Positioning (Zero Initial Layout Shift) -->
   <style>
@@ -202,18 +194,21 @@
   </style>
 
   <!-- Stylesheets (Cascade Preserved: tokens -> components -> animations -> style -> responsive) -->
-  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.0">
-  <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.0">
-  <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.0" media="print" data-async-css>
+  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.1">
+  <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.1">
+  <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.1" media="print" data-async-css>
   <noscript>
-    <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.0">
+    <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.1">
   </noscript>
-  <link rel="stylesheet" href="/portfolio/css/style.css?v=24.0">
-  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=24.0">
+  <link rel="stylesheet" href="/portfolio/css/style.css?v=24.1">
+  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=24.1">
 
   <!-- Core Scripts (shared.js loads FIRST) -->
-  <script src="/assets/js/shared.js?v=24.0" defer></script>
-  <script src="/portfolio/js/script.js?v=24.0" defer></script>
+  <script src="/assets/js/shared.js?v=24.1" defer></script>
+  <script src="/portfolio/js/script.js?v=24.1" defer></script>
+    <!-- Self-hosted Fonts (no third-party font origins) -->
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.1">
+
 </head>
 
 <body>
@@ -314,7 +309,7 @@
 
       <!-- Sidebar Foot Controls & Status -->
       <div class="sidebar-foot">
-        <button id="theme-toggle-sidebar" class="theme-toggle-sidebar" type="button" aria-label="Toggle Dark/Light Mode">
+        <button id="theme-toggle-sidebar" class="theme-toggle-sidebar" type="button" aria-label="Theme Mode — Switch Theme">
           <span>Theme Mode</span>
           <svg class="moon-icon" viewBox="0 0 24 24">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>

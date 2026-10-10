@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v24.0';
+const ASSET_VERSION = 'v24.1';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;
@@ -13,12 +13,19 @@ const PRECACHE_ASSETS = [
   '/portfolio/images/profile/profile-48.webp',
   '/portfolio/images/profile/profile-96.webp',
   '/portfolio/images/profile/profile-144.webp',
+  '/portfolio/images/profile/profile-48.jpg',
+  '/portfolio/images/profile/profile-96.jpg',
   '/portfolio/images/profile/profile-144.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
+  '/assets/css/shared/fonts.css',
   '/assets/css/style.css',
   '/assets/css/animations.css',
   '/assets/css/responsive.css',
+  '/assets/fonts/fraunces-yevdiide9ea92uemak-wbq8u-9v0c2wa0kxc9tea.woff2',
+  '/assets/fonts/ibmplexsans-lmyyaje8bplhncwdkr932-g7dytd-dmu1syxekyy.woff2',
+  '/assets/fonts/fraunces-italic-jucmhvn85ni7emae9lkqztnbb-gztk0k1chjeveq.woff2',
+  '/assets/fonts/plusjakartasans-normal-ldioaomqnqcsa88c7o9yz4kmcoog4ko20yw.woff2',
   '/assets/js/shared.js',
   '/assets/js/script.js',
   '/assets/js/push.js',
@@ -73,9 +80,10 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   const isSameOrigin = url.origin === self.location.origin;
-  const isGoogleFont = url.hostname.includes('fonts.googleapis.com') || url.hostname.includes('fonts.gstatic.com');
 
-  if (!isSameOrigin && !isGoogleFont) return;
+  // Fonts are now self-hosted from this origin, so no cross-origin font
+  // handling is required any more.
+  if (!isSameOrigin) return;
 
   // 1. Navigation strategy: Network-First with cache fallback
   if (event.request.mode === 'navigate') {

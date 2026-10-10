@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Notice — Raghavendra Golla</title>
     <meta name="description" content="Privacy notice for the personal portfolio website of Raghavendra Golla. Plain-language explanation of data collection and processing.">
@@ -19,18 +19,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    </noscript>
 
     <!-- Stylesheets (Shared Architecture) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.1">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
     <script>
@@ -192,6 +184,9 @@
             color: var(--ink-muted);
         }
     </style>
+    <!-- Self-hosted Fonts (no third-party font origins) -->
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.1">
+
 </head>
 
 <body>
@@ -243,20 +238,23 @@
         </section>
 
         <section class="privacy-section">
-            <h2>4. Hosting &amp; Server Infrastructure</h2>
+            <h2>4. Hosting, CDN &amp; Server Infrastructure</h2>
             <p>
                 This website is hosted statically on <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA).
                 When your browser connects to GitHub Pages, standard technical access logs (such as your IP address, browser type, and timestamp) may be recorded by GitHub for operational security, DDOS mitigation, and content delivery purposes.
             </p>
+            <p>
+                Requests are additionally proxied through <strong>Cloudflare, Inc.</strong> (101 Townsend St, San Francisco, CA 94107, USA), which provides the site's TLS termination, DNS, content delivery, and email routing. Cloudflare processes standard request metadata (IP address, user agent, requested URL and headers) to serve and protect the site. Cloudflare Web Analytics and email-address obfuscation are disabled, so no analytics or behavioural data is collected at the edge.
+            </p>
         </section>
 
         <section class="privacy-section">
-            <h2>5. External Fonts &amp; Static Assets</h2>
+            <h2>5. Fonts &amp; Static Assets</h2>
             <p>
-                Typography is served using <strong>Google Fonts</strong> (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA). When your browser downloads font files, standard network request metadata (IP address and user agent) may be processed by Google to deliver the font files securely. No cookies or account credentials are exchanged.
+                All typography is <strong>self-hosted</strong>. The web font files are served directly from this site's own origin, so no request is made to any third-party font provider when you load a page. No cookies or account credentials are exchanged.
             </p>
             <p>
-                Certain user interface icons are delivered via public content delivery networks (CDNs) or embedded locally as SVGs.
+                All user interface icons are embedded locally as inline SVG within the page itself. No icon fonts or third-party icon services are used.
             </p>
         </section>
 
@@ -271,7 +269,7 @@
                 <li><code>rg:push-subscribed</code>: Remembers active web push notification status if you paired this device.</li>
             </ul>
             <p>
-                Additionally, an offline service worker (<code>sw.js</code>) utilizes browser Cache Storage (named <code>raghav-cache-*</code>) to cache static assets, stylesheets, and fonts locally on your device for instant page loads and offline reading. These caches contain zero personal information.
+                Additionally, an offline service worker (<code>sw.js</code>) utilises browser Cache Storage to cache static assets, stylesheets, and fonts locally on your device for instant page loads and offline reading. The cache is versioned (its name includes a release tag such as <code>raghavendra-portfolio-v24.1</code>) so that each new release purges the previous one. These caches contain zero personal information.
             </p>
         </section>
 
@@ -298,7 +296,7 @@
         <p>&copy; 2026 Raghavendra Golla. All rights reserved. &bull; <a href="/" class="privacy-inline-link">Home</a> &bull; <a href="/portfolio/" class="privacy-inline-link">Portfolio</a></p>
     </footer>
 
-    <script src="/assets/js/shared.js?v=24.0" defer></script>
+    <script src="/assets/js/shared.js?v=24.1" defer></script>
 </body>
 
 </html>

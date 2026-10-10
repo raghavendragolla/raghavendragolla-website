@@ -1,6 +1,6 @@
 {
   "name": "raghavendragolla-website",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "private": true,
   "description": "Personal data science portfolio of Raghavendra Golla",
   "scripts": {
@@ -9,11 +9,17 @@
     "lint:css": "stylelint \"**/*.css\"",
     "lint": "npm run lint:js && npm run lint:css",
     "validate": "html-validate index.html portfolio/index.html 404.html privacy.html redesign/index.html",
+    "verify:csp": "node scripts/verify-csp.js",
+    "verify:precache": "node scripts/verify-precache.js",
+    "privacy:scan": "node scripts/privacy-scan.js",
+    "verify": "npm run verify:csp && npm run verify:precache && npm run privacy:scan",
     "test:e2e": "playwright test tests/routing.spec.js tests/landing.spec.js tests/portfolio.spec.js tests/contact.spec.js tests/redesign.spec.js --workers=4",
     "test:a11y": "playwright test tests/a11y.spec.js --workers=2",
-    "test:links": "linkinator http://localhost:8080 --recurse --skip \"^(https?:\\/\\/(www\\.)?(linkedin\\.com|github\\.com))\" --retry",
+    "test:cross-browser": "playwright test tests/cross-browser.smoke.spec.js --project=firefox-smoke --project=webkit-smoke",
+    "test:links": "linkinator http://localhost:8080 --recurse --skip \"^(https?:\\/\\/(www\\.)?(linkedin\\.com|github\\.com|towardsdatascience\\.com)|https:\\/\\/[a-z-]+\\.streamlit\\.app)\" --retry --concurrency 5",
+    "test:smoke": "node scripts/run-production-smoke.js",
     "test:lh": "lhci autorun",
-    "check": "npm run lint && npm run validate && npm run test:e2e && npm run test:a11y",
+    "check": "npm run lint && npm run validate && npm run verify && npm run test:e2e && npm run test:a11y",
     "test": "npm run check && npm run test:links && npm run test:lh"
   },
   "devDependencies": {

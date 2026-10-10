@@ -540,12 +540,28 @@ main {
 
 .eyebrow {
     display: block;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: .22em;
+    width: fit-content;
+    margin: 0 auto 28px;
+    font-family: var(--font-sans);
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 700;
+    letter-spacing: .20em;
     text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 20px;
+    line-height: 1.25;
+    background: var(--name-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: var(--name-glow);
+    cursor: default;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .eyebrow:hover {
+        transform: translateY(-2px);
+        filter: var(--name-glow-hover);
+    }
 }
 
 /* =========================================
@@ -734,6 +750,11 @@ h1 {
         opacity: 0.95;
         filter: blur(18px);
     }
+
+    [data-theme="dark"] .enter:hover::before {
+        opacity: 0.5;
+        filter: blur(14px);
+    }
 }
 
 .enter .arrow {
@@ -782,6 +803,7 @@ h1 {
         color: var(--hover-text);
         background:
             linear-gradient(var(--hover-bg), var(--hover-bg)) padding-box,
+            linear-gradient(var(--paper-card), var(--paper-card)) padding-box,
             conic-gradient(from var(--angle), var(--primary) 0deg, var(--accent) 180deg, var(--primary) 360deg) border-box;
         transform: translateY(-3px) scale(1.02);
         box-shadow: var(--shadow-lg);
@@ -812,7 +834,7 @@ h1 {
     gap: 22px;
     width: 100%;
     max-width: 920px;
-    margin: 28px 0 34px;
+    margin: 68px 0 34px;
 }
 
 .highlight-card {

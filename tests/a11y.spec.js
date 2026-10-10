@@ -84,4 +84,51 @@ test.describe('Accessibility Scans & Keyboard Audits (@axe-core/playwright)', ()
 
     expect(outline).not.toBe('none');
   });
+
+  // -------------------------------------------------------------------------
+  // WCAG 2.5.3 "Label in Name" (Level A)
+  //
+  // The `label-content-name-mismatch` rule is tagged `experimental` upstream, so
+  // it is NOT part of the `wcag2a/wcag2aa/wcag21a/wcag21aa` tag set used by the
+  // scans above, and it is also absent from an untagged default scan. A real
+  // Level-A violation therefore shipped once while these tests reported zero
+  // violations. These tests opt the rule in explicitly so it can never silently
+  // disappear again.
+  // -------------------------------------------------------------------------
+  const labelInNameRule = 'label-content-name-mismatch';
+
+  for (const url of ['/', '/portfolio/', '/404.html', '/privacy.html']) {
+    test(`WCAG 2.5.3: visible labels are contained in accessible names on ${url}`, async ({ page }) => {
+      await stabilizePage(page);
+      await page.goto(url);
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForLoadState('networkidle');
+
+      const results = await new AxeBuilder({ page })
+        .withRules([labelInNameRule])
+        .analyze();
+
+      const describe = results.violations.flatMap(v =>
+        v.nodes.map(n => `${n.target}: ${(n.failureSummary || '').split('\n').pop()}`));
+
+      expect(describe).toEqual([]);
+    });
+  }
+
+  test('Regression: sidebar theme toggle accessible name contains its visible text', async ({ page }) => {
+    await stabilizePage(page);
+    await page.goto('/portfolio/');
+
+    const btn = page.locator('#theme-toggle-sidebar');
+    await expect(btn).toBeVisible();
+
+    const { visible, aria } = await btn.evaluate(el => ({
+      visible: (el.innerText || '').trim(),
+      aria: el.getAttribute('aria-label') || ''
+    }));
+
+    expect(visible.length).toBeGreaterThan(0);
+    // WCAG 2.5.3: the accessible name must contain the visible label text.
+    expect(aria.toLowerCase()).toContain(visible.toLowerCase());
+  });
 });

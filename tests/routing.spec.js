@@ -30,7 +30,9 @@ test.describe('Routing & URL Normalization', () => {
   });
 
   test('TRAP A GUARD: /portfolio (no trailing slash) resolves /portfolio/css/ stylesheets, NOT /css/', async ({ page }) => {
-    // Request /portfolio on server that does NOT redirect
+    // The production-faithful test server 301s /portfolio to /portfolio/
+    // (Playwright follows the redirect). The resolved page must still load its
+    // stylesheets from /portfolio/css/, never the root /css/.
     await page.goto('/portfolio');
 
     // Verify stylesheets loaded contain /portfolio/css/
