@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-MuwxejY1RNTM47hjVek+uX/RSFT+9+f3T0lBg8KGRtA=' 'sha256-9PHyn1vQ3FY96mDujGIuPyOJaXjI1gTvL0/R/OnSsxI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://career.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-MuwxejY1RNTM47hjVek+uX/RSFT+9+f3T0lBg8KGRtA='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://career.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) & Reload Scroll Reset -->
@@ -141,15 +141,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    </noscript>
 
     <!-- Critical Layout & Positioning (Zero Initial Layout Shift) -->
     <style>
@@ -170,19 +162,22 @@
       }
     </style>
 
+    <!-- Self-hosted Fonts (no third-party font origins) -->
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.1">
+
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/style.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/animations.css?v=24.0" media="print" data-async-css>
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/animations.css?v=24.1" media="print" data-async-css>
     <noscript>
-      <link rel="stylesheet" href="/assets/css/animations.css?v=24.0">
+      <link rel="stylesheet" href="/assets/css/animations.css?v=24.1">
     </noscript>
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.1">
 
     <!-- JavaScript Stack (shared.js loads FIRST) -->
-    <script src="/assets/js/shared.js?v=24.0" defer></script>
-    <script src="/assets/js/script.js?v=24.0" defer></script>
+    <script src="/assets/js/shared.js?v=24.1" defer></script>
+    <script src="/assets/js/script.js?v=24.1" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
 
 </head>
@@ -460,7 +455,7 @@
                     GitHub
                 </a>
                 <a href="/privacy.html" class="footer-link">Privacy</a>
-                <a href="https://career.raghavendragolla.com" target="_blank" rel="noopener noreferrer" class="footer-link">Career Radar</a>
+                <!-- <a href="https://career.raghavendragolla.com" target="_blank" rel="noopener noreferrer" class="footer-link">Career Radar</a> -->
                 <button id="thoughts-footer-btn" class="footer-thoughts-btn" type="button"
                     aria-label="My Thoughts &amp; Intel — Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
                 <a href="/portfolio/#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>

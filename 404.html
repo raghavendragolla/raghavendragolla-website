@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+        content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
@@ -40,23 +40,15 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" data-async-css>
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-    </noscript>
 
     <!-- Root-Absolute CSS Stack -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/style.css?v=24.0">
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.0">
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=24.1">
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.1">
 
     <!-- Shared JS & Page Scripts -->
-    <script src="/assets/js/shared.js?v=24.0" defer></script>
+    <script src="/assets/js/shared.js?v=24.1" defer></script>
 
     <style>
         .error-wrapper {
@@ -134,6 +126,9 @@
             color: var(--ink);
         }
     </style>
+    <!-- Self-hosted Fonts (no third-party font origins) -->
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.1">
+
 </head>
 
 <body>

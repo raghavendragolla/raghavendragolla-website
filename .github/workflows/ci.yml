@@ -5,10 +5,21 @@ on:
     branches: [ main, "fix/*" ]
   pull_request:
     branches: [ main, "fix/*" ]
+  # Allows running the production smoke suite on demand against the live site.
+  workflow_dispatch:
+
+# Least privilege: this workflow only reads the repository.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref instead of burning runners.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Code & Style Linting
+  quality:
+    name: Lint, Validate & Static Verification
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,19 +28,38 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-      - run: npm run lint
 
-  validate:
-    name: HTML Validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: ESLint + Stylelint
+        run: npm run lint
+
+      - name: HTML validation
+        run: npm run validate
+
+      # Verifies that every inline script's SHA-256 matches the hash declared in
+      # its page CSP. Without this, editing an inline script would silently break
+      # the zero-FOUC theme initialisation on production.
+      - name: CSP hash verification
+        run: npm run verify:csp
+
+      # Verifies that every service-worker precache path exists on disk, so a
+      # missing/untracked asset can never be silently dropped from the cache.
+      - name: Service-worker precache verification
+        run: npm run verify:precache
+
+      # Scans text files, PDFs (real text extraction), DOCX and image metadata
+      # for unintended PII and secrets. Replaces the previous grep that could
+      # not read the resume PDF at all.
+      # privacy-scan.js shells out to Python: pypdf decodes the resume PDF's
+      # text and metadata, Pillow reads image EXIF/GPS. Without them the scan
+      # reports EXTRACTION_FAILED and fails the job.
+      - uses: actions/setup-python@v5
         with:
-          node-version: 20
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run validate
+          python-version: '3.12'
+      - name: Install Python scan dependencies
+        run: python -m pip install --upgrade pip && python -m pip install pypdf Pillow
+
+      - name: Privacy & secrets scan
+        run: npm run privacy:scan
 
   pdf-check:
     name: PDF Integrity Verification
@@ -41,20 +71,8 @@ jobs:
       - name: Verify Resume PDF Integrity
         run: qpdf --check portfolio/resume/resume.pdf
 
-  privacy-guard:
-    name: Privacy & Secrets Guard
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Scan for accidental phone numbers in tracked code
-        run: |
-          if grep -rEn '(\+?91[\s.-]?)?[6-9][0-9]{9}' index.html portfolio/index.html privacy.html 404.html redesign/index.html assets/js portfolio/js; then
-            echo "Error: Phone number pattern detected in source files!"
-            exit 1
-          fi
-
   test-e2e:
-    name: Playwright E2E & A11y Tests
+    name: Playwright E2E, A11y & Smoke
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,10 +82,66 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium firefox
       - name: Start local test server
         run: node scripts/test-server.js &
       - name: Run E2E Tests
         run: npm run test:e2e
       - name: Run A11y Tests
         run: npm run test:a11y
+      # Small high-value smoke suite on a second engine to catch
+      # engine-specific breakage the Chromium suites cannot see.
+      - name: Cross-browser smoke (Firefox)
+        run: npx playwright test tests/cross-browser.smoke.spec.js --project=firefox-smoke
+
+  links:
+    name: Link Checking
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Start local test server
+        run: node scripts/test-server.js &
+      - name: Check internal links
+        run: npm run test:links
+
+  lighthouse:
+    name: Lighthouse Budgets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Lighthouse CI
+        run: npm run test:lh
+
+  # ---------------------------------------------------------------------------
+  # Production verification.
+  #
+  # This is the check that closes the "we only ever test localhost" gap: a stale
+  # deploy, a partial deploy, a broken resume link or a wrong sitemap would all
+  # previously pass CI unnoticed. It is manual-dispatch only because it depends
+  # on the live site (and therefore on the deploy having completed).
+  # ---------------------------------------------------------------------------
+  production-smoke:
+    name: Production Smoke (live site)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Verify live production
+        run: npm run test:smoke

@@ -205,8 +205,10 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     await page.waitForFunction(async () => {
       if (!('serviceWorker' in navigator)) return false;
       const reg = await navigator.serviceWorker.ready;
-      if (!reg || !reg.active) return false;
-      const cache = await caches.open('raghavendra-portfolio-v24.0');
+      const cacheKeys = await caches.keys();
+      const match = cacheKeys.find(k => k.startsWith('raghavendra-portfolio-'));
+      if (!match) return false;
+      const cache = await caches.open(match);
       const keys = await cache.keys();
       return keys.length >= 15;
     }, { timeout: 10000 });
@@ -224,7 +226,7 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
     // 6. Verify offline fetch of critical precached stylesheet resolves via SW cache
     const cachedCss = await page.evaluate(async () => {
-      const res = await fetch('/portfolio/css/style.css?v=24.0');
+      const res = await fetch('/portfolio/css/style.css?v=24.1');
       return res.ok && res.status === 200;
     });
     expect(cachedCss).toBe(true);
@@ -296,13 +298,18 @@ test.describe('Portfolio Page (/portfolio/)', () => {
 
   test('Regression: Browser back/forward navigation preserves scroll position', async ({ page }) => {
     await page.goto('/portfolio/');
+    await page.waitForLoadState('domcontentloaded');
     await page.evaluate(() => window.scrollTo(0, 1200));
-    await page.waitForTimeout(50);
+    await page.waitForTimeout(100);
     const scrollBefore = await page.evaluate(() => window.scrollY);
 
     await page.goto('/privacy.html', { waitUntil: 'load' });
     await page.goBack({ waitUntil: 'load' });
-    await page.waitForTimeout(400);
+    await page.waitForFunction(
+      (expected) => Math.abs(window.scrollY - expected) < 50,
+      scrollBefore,
+      { timeout: 3000 }
+    ).catch(() => {});
 
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(Math.abs(scrollAfter - scrollBefore)).toBeLessThan(50);
