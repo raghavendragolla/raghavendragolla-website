@@ -467,7 +467,7 @@
     .vitals-status {
         right: 12px;
         left: auto;
-        font-size: 0.68rem;
+        font-size: 0.6875rem;
         padding: 3px 9px;
     }
 
@@ -1661,9 +1661,7 @@
         -webkit-overflow-scrolling: touch;
     }
 
-    .demo-prediction-console {
-        grid-template-columns: 1fr !important;
-    }
+    
 }
 
 /* Mobile Small Phones (<= 480px) */
@@ -1671,7 +1669,7 @@
     .vitals-status {
         right: 8px;
         left: auto;
-        font-size: 0.65rem;
+        font-size: 0.6875rem;
         padding: 3px 8px;
     }
 

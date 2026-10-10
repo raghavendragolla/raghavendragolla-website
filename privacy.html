@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Notice — Raghavendra Golla</title>
     <meta name="description" content="Privacy notice for the personal portfolio website of Raghavendra Golla. Plain-language explanation of data collection and processing.">
@@ -13,6 +13,21 @@
 
     <link rel="canonical" href="https://www.raghavendragolla.com/privacy.html">
 
+    <!-- Open Graph / Twitter (consistent social previews) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Raghavendra Golla">
+    <meta property="og:title" content="Privacy Notice — Raghavendra Golla">
+    <meta property="og:description" content="How this personal portfolio website handles contact-form data, hosting logs, analytics and local browser storage.">
+    <meta property="og:url" content="https://www.raghavendragolla.com/privacy.html">
+    <meta property="og:image" content="https://www.raghavendragolla.com/assets/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Raghavendra Golla - Data Science &amp; Machine Learning Portfolio">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy Notice — Raghavendra Golla">
+    <meta name="twitter:description" content="How this personal portfolio website handles contact-form data, hosting logs, analytics and local browser storage.">
+    <meta name="twitter:image" content="https://www.raghavendragolla.com/assets/images/og-image.jpg">
+
     <!-- Favicons (Root-Absolute) -->
     <link rel="icon" type="image/png" sizes="256x256" href="/assets/favicon/favicon.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon/favicon-512x512.png">
@@ -21,8 +36,8 @@
 
 
     <!-- Stylesheets (Shared Architecture) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.2">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.2">
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.3">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.3">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
     <script>
@@ -185,7 +200,7 @@
         }
     </style>
     <!-- Self-hosted Fonts (no third-party font origins) -->
-    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.2">
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.3">
 
 </head>
 
@@ -208,10 +223,10 @@
         <div class="privacy-last-updated">Last Updated: October 2026</div>
 
         <section class="privacy-section">
-            <h2>1. Overview &amp; Tracking-Free Architecture</h2>
+            <h2>1. Overview</h2>
             <p>
                 Welcome to <strong>raghavendragolla.com</strong>, the personal portfolio and academic website of Raghavendra Golla.
-                This website is statically served and does not use analytics tracking cookies, advertising beacons, or behavioral user profiling.
+                This website is statically served. It does not use advertising, tracking cookies or behavioral profiling. It does use Cloudflare Web Analytics, a cookieless, aggregate traffic measurement service described in section 4.
             </p>
         </section>
 
@@ -244,7 +259,13 @@
                 When your browser connects to GitHub Pages, standard technical access logs (such as your IP address, browser type, and timestamp) may be recorded by GitHub for operational security, DDOS mitigation, and content delivery purposes.
             </p>
             <p>
-                Requests are additionally proxied through <strong>Cloudflare, Inc.</strong> (101 Townsend St, San Francisco, CA 94107, USA), which provides the site's TLS termination, DNS, content delivery, and email routing. Cloudflare processes standard request metadata (IP address, user agent, requested URL and headers) to serve and protect the site. Cloudflare Web Analytics and email-address obfuscation are disabled, so no analytics or behavioural data is collected at the edge.
+                Requests are additionally proxied through <strong>Cloudflare, Inc.</strong> (101 Townsend St, San Francisco, CA 94107, USA), which provides the site's TLS termination, DNS, content delivery, and email routing. Cloudflare processes standard request metadata (IP address, user agent, requested URL and headers) to serve and protect the site.
+            </p>
+            <p>
+                <strong>Cloudflare Web Analytics.</strong> Cloudflare adds a small script (loaded from <code>static.cloudflareinsights.com</code>) that reports aggregate page-view and page-performance data, such as the page visited, referrer, browser and device type, country and page-load timings, to <code>cloudflareinsights.com</code>. According to Cloudflare, Web Analytics does not use cookies or local storage and does not track individual visitors across sites. The data is used only to understand overall traffic and site performance.
+            </p>
+            <p>
+                <strong>Email-address protection.</strong> Cloudflare&rsquo;s email obfuscation feature rewrites email addresses in the page so that simple spam bots cannot harvest them. A same-origin Cloudflare script (<code>/cdn-cgi/scripts/&hellip;/email-decode.min.js</code>) restores the readable address in your browser. It does not collect any data about you.
             </p>
         </section>
 
@@ -269,14 +290,14 @@
                 <li><code>rg:push-subscribed</code>: Remembers active web push notification status if you paired this device.</li>
             </ul>
             <p>
-                Additionally, an offline service worker (<code>sw.js</code>) utilises browser Cache Storage to cache static assets, stylesheets, and fonts locally on your device for instant page loads and offline reading. The cache is versioned (its name includes a release tag such as <code>raghavendra-portfolio-v24.2</code>) so that each new release purges the previous one. These caches contain zero personal information.
+                Additionally, an offline service worker (<code>sw.js</code>) uses browser Cache Storage to cache static assets, stylesheets, and fonts locally on your device for instant page loads and offline reading. The cache is versioned (its name includes a release tag such as <code>raghavendra-portfolio-v24.3</code>) so that each new release purges the previous one. These caches contain zero personal information.
             </p>
         </section>
 
         <section class="privacy-section">
             <h2>7. Career Radar Push Notifications (Opt-in)</h2>
             <p>
-                If you connect this device to <strong>Career Radar</strong> (<code>career.raghavendragolla.com</code>), the W3C Push API generates a local cryptographic subscription key pair (<code>p256dh</code> and <code>auth</code>) via your browser's push service. This occurs strictly after you click "Enable Alerts" on a authenticated pairing link. You can revoke push permissions at any time directly through your browser's site settings.
+                If you connect this device to <strong>Career Radar</strong> (<code>career.raghavendragolla.com</code>), the W3C Push API generates a local cryptographic subscription key pair (<code>p256dh</code> and <code>auth</code>) via your browser's push service. This occurs only after you click &ldquo;Enable&rdquo; on an authenticated pairing link. You can revoke push permissions at any time directly through your browser's site settings.
             </p>
         </section>
 
@@ -296,7 +317,7 @@
         <p>&copy; 2026 Raghavendra Golla. All rights reserved. &bull; <a href="/" class="privacy-inline-link">Home</a> &bull; <a href="/portfolio/" class="privacy-inline-link">Portfolio</a></p>
     </footer>
 
-    <script src="/assets/js/shared.js?v=24.2" defer></script>
+    <script src="/assets/js/shared.js?v=24.3" defer></script>
 </body>
 
 </html>
