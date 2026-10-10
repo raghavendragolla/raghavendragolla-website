@@ -64,8 +64,7 @@ test.describe('Production Smoke (live site)', () => {
       '/sitemap.xml',
       '/manifest.json',
       '/sw.js',
-      '/portfolio/resume/resume.pdf',
-      '/portfolio/resume/resume.docx'
+      '/portfolio/resume/resume.pdf'
     ];
 
     for (const path of expect200) {

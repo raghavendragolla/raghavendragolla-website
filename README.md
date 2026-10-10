@@ -47,7 +47,7 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
     ├── images/                  # Profile avatar images and sized derivatives
     ├── js/
     │   └── script.js            # Portfolio page controller & contact form handler
-    └── resume/                  # Clean 2-page PDF & DOCX resume (privacy-compliant)
+    └── resume/                  # Clean 2-page PDF resume (privacy-compliant)
 ```
 
 ## 🚀 Local Development
