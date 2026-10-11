@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v24.4';
+const ASSET_VERSION = 'v24.5';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;
@@ -48,8 +48,10 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.allSettled(
+        // cache: 'reload' bypasses the browser's HTTP cache, so an updated worker never
+        // precaches stale copies of unversioned asset URLs left over from the previous release.
         PRECACHE_ASSETS.map((url) =>
-          cache.add(url).catch((err) => {
+          cache.add(new Request(url, { cache: 'reload' })).catch((err) => {
             console.warn('Pre-cache notice for asset:', url, err);
           })
         )
