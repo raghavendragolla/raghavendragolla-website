@@ -34,8 +34,7 @@ const DEFAULT_PAGES = [
   'index.html',
   'portfolio/index.html',
   '404.html',
-  'privacy.html',
-  'redesign/index.html'
+  'privacy.html'
 ];
 
 /**
@@ -97,8 +96,8 @@ function verifyPage(relPath) {
   const csp = extractCsp(html);
 
   if (!csp) {
-    // Pages without a CSP have nothing to verify. redesign/index.html is
-    // intentionally CSP-less, so this is informational rather than an error.
+    // Pages without a CSP have nothing to verify, so this is informational
+    // rather than an error.
     return { relPath, status: 'no-csp', problems: [], info: 'No CSP meta tag found (nothing to verify)' };
   }
 

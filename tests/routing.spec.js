@@ -116,7 +116,7 @@ test.describe('Routing & URL Normalization', () => {
     expect(reloadedTheme).toBe(switchedTheme);
   });
 
-  test('SEO & Robots directives: / indexed, /portfolio/ strictly noindex, follow, /redesign/ and /404.html noindex', async ({ page }) => {
+  test('SEO & Robots directives: / indexed, /portfolio/ strictly noindex, follow, /404.html noindex', async ({ page }) => {
     // 1. Root landing page
     await page.goto('/');
     const rootRobots = await page.locator('meta[name="robots"]').getAttribute('content');
@@ -130,12 +130,7 @@ test.describe('Routing & URL Normalization', () => {
     const portfolioRobots = await page.locator('meta[name="robots"]').getAttribute('content');
     expect(portfolioRobots).toBe('noindex, follow');
 
-    // 3. Redesign page
-    await page.goto('/redesign/');
-    const redesignRobots = await page.locator('meta[name="robots"]').getAttribute('content');
-    expect(redesignRobots).toContain('noindex');
-
-    // 4. 404 page
+    // 3. 404 page
     await page.goto('/404.html');
     const notFoundRobots = await page.locator('meta[name="robots"]').getAttribute('content');
     expect(notFoundRobots).toContain('noindex');
@@ -180,7 +175,6 @@ test.describe('Routing & URL Normalization', () => {
       'portfolio/index.html',
       'privacy.html',
       '404.html',
-      'redesign/index.html',
       'assets/js/script.js',
       'assets/js/shared.js',
       'assets/js/push.js',
