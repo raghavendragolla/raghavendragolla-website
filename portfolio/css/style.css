@@ -7560,7 +7560,8 @@ h1.hero-title em {
 }
 
 .demo-disclaimer a {
-    color: var(--accent);
+    /* --accent is 4.47:1 on the narrow-viewport card background; the hover tone clears 4.5:1 in both themes */
+    color: var(--accent-hover);
     text-decoration: underline;
     text-underline-offset: 2px;
 }

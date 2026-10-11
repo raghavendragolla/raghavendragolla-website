@@ -20,8 +20,8 @@ test.describe('Accessibility Scans & Keyboard Audits (@axe-core/playwright)', ()
     await page.route('https://api.web3forms.com/**', route => route.abort());
   }
 
-  async function settleAndInjectStyle(page, applyStyles) {
-    await page.evaluate(applyStyles);
+  async function settleAndInjectStyle(page, applyStyles, arg) {
+    await page.evaluate(applyStyles, arg);
     await page.evaluate(() => document.fonts.ready);
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(150);
@@ -67,6 +67,41 @@ test.describe('Accessibility Scans & Keyboard Audits (@axe-core/playwright)', ()
 
       expect(accessibilityScanResults.violations).toEqual([]);
     });
+  }
+
+  // -------------------------------------------------------------------------
+  // Phone-width scans, including WCAG 2.2 AA rules (e.g. 2.5.8 Target Size).
+  //
+  // The desktop scans above missed a real contrast failure: the Streamlit link
+  // in `.demo-disclaimer` measured 4.47:1 against the card background that only
+  // appears at narrow widths. These scans run at a 390 px viewport in both
+  // themes so layout-dependent colours and target sizes are covered too.
+  // -------------------------------------------------------------------------
+  for (const pageInfo of pagesToTest) {
+    for (const theme of ['light', 'dark']) {
+      test(`${pageInfo.name} has no WCAG 2.2 AA violations at 390px in ${theme} mode`, async ({ page }) => {
+        await stabilizePage(page);
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.emulateMedia({ colorScheme: theme });
+        await page.goto(pageInfo.url);
+        await settleAndInjectStyle(page, (t) => {
+          localStorage.setItem('theme', t);
+          localStorage.setItem('rg:theme', t);
+          document.documentElement.setAttribute('data-theme', t);
+          const style = document.createElement('style');
+          style.textContent = '* { transition: none !important; animation: none !important; }';
+          document.head.appendChild(style);
+        }, theme);
+
+        const results = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+          .analyze();
+
+        const describe = results.violations.flatMap(v =>
+          v.nodes.map(n => `${v.id}: ${n.target}`));
+        expect(describe).toEqual([]);
+      });
+    }
   }
 
   test('Focus visible check: interactive elements display distinct focus ring on keyboard navigation', async ({ page }) => {
