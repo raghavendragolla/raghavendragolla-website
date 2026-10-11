@@ -30,10 +30,33 @@ test.describe('Service-worker precache check (verify-precache.js)', () => {
     'the call only in a /* */ comment': `fetch(url) /* ${LIVE} */`,
     'the call only in a string literal': `fetch(url, ${JSON.stringify(LIVE)})`,
     'the call only in a template literal': `fetch(\`${LIVE}\`)`,
+    // The effective cache mode must be 'reload'.
+    'a duplicate cache property overriding reload': "cache.add(new Request(url, { cache: 'reload', cache: 'default' }))",
+    'a duplicate cache property, both reload': "cache.add(new Request(url, { cache: 'reload', 'cache': 'reload' }))",
+    'a spread after cache that may override it': "cache.add(new Request(url, { cache: 'reload', ...self.requestInit }))",
+    'a computed key after cache that may override it': "cache.add(new Request(url, { cache: 'reload', ['cache']: 'default' }))",
+    'a cache getter': "cache.add(new Request(url, { get cache() { return 'reload'; } }))",
+    'a non-literal cache value': "cache.add(new Request(url, { cache: self.cacheMode }))",
+    // Only calls the install handler actually makes count.
+    'the call only in an unused nested function declaration':
+      `(() => { function unused() { return ${LIVE}; } return fetch(url); })()`,
+    'the call only in a stored, never-called arrow function':
+      `(() => { const later = () => ${LIVE}; return fetch(url); })()`,
   };
   for (const [name, replacement] of Object.entries(failing)) {
     test(`fails for ${name}`, () => {
       expect(installPrecacheProblem(withInstallCall(replacement))).not.toBeNull();
+    });
+  }
+
+  const passing = {
+    'a spread before cache (cache still wins)': "cache.add(new Request(url, { ...self.requestInit, cache: 'reload' }))",
+    "a quoted 'cache' key": "cache.add(new Request(url, { 'cache': 'reload' }))",
+    'the call inside an immediately invoked function': `(() => ${LIVE})()`,
+  };
+  for (const [name, replacement] of Object.entries(passing)) {
+    test(`passes for ${name}`, () => {
+      expect(installPrecacheProblem(withInstallCall(replacement))).toBeNull();
     });
   }
 

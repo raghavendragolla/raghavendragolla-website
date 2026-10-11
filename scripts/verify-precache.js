@@ -42,22 +42,58 @@ function callsIn(node, out = []) {
   return out;
 }
 
-/** True for `new Request(<anything>, { cache: 'reload' })`. */
+const FUNCTION_TYPES = new Set(['FunctionDeclaration', 'FunctionExpression', 'ArrowFunctionExpression']);
+
+/**
+ * CallExpression nodes that run when the code at `node` runs: calls in it, and
+ * in functions passed directly as call arguments (`.then(cb)`, `.map(cb)`) or
+ * invoked immediately. Functions that are only declared or stored are skipped.
+ */
+function executedCalls(node, out = [], entered = new Set()) {
+  if (!node || typeof node.type !== 'string') return out;
+  if (FUNCTION_TYPES.has(node.type) && !entered.has(node)) return out;
+  if (node.type === 'CallExpression') {
+    out.push(node);
+    for (const fn of [node.callee, ...node.arguments]) {
+      if (FUNCTION_TYPES.has(fn.type)) entered.add(fn);
+    }
+  }
+  for (const value of Object.values(node)) {
+    if (Array.isArray(value)) value.forEach((child) => executedCalls(child, out, entered));
+    else if (value && typeof value.type === 'string') executedCalls(value, out, entered);
+  }
+  return out;
+}
+
+/**
+ * True for `new Request(<anything>, { cache: 'reload' })` whose effective cache
+ * mode is 'reload': exactly one plain `cache` property, and no spread, computed
+ * key or accessor after it that could override it.
+ */
 function isReloadRequest(node) {
   if (!node || node.type !== 'NewExpression') return false;
   if (node.callee.type !== 'Identifier' || node.callee.name !== 'Request') return false;
   const init = node.arguments[1];
-  return Boolean(init && init.type === 'ObjectExpression' && init.properties.some((p) =>
-    p.type === 'Property' && !p.computed &&
-    (p.key.name === 'cache' || p.key.value === 'cache') &&
-    p.value.type === 'Literal' && p.value.value === 'reload'));
+  if (!init || init.type !== 'ObjectExpression') return false;
+  let cacheProps = 0;
+  let effective = null; // 'reload', another known value, or null when unknown
+  for (const p of init.properties) {
+    if (p.type !== 'Property' || p.computed) {
+      effective = null; // a spread or computed key may set cache
+      continue;
+    }
+    if (p.key.name !== 'cache' && p.key.value !== 'cache') continue;
+    cacheProps += 1;
+    effective = p.kind === 'init' && !p.method && p.value.type === 'Literal' ? p.value.value : null;
+  }
+  return cacheProps === 1 && effective === 'reload';
 }
 
 /**
  * Returns null when sw.js's install handler precaches only with
  * cache.add(new Request(url, { cache: 'reload' })), otherwise the reason it
- * does not. The source is parsed, so comments, strings and code outside the
- * install handler cannot satisfy the check.
+ * does not. The source is parsed, so comments, strings, code outside the
+ * install handler and functions it never calls cannot satisfy the check.
  */
 function installPrecacheProblem(src) {
   let ast;
@@ -71,8 +107,10 @@ function installPrecacheProblem(src) {
     c.callee.property.name === 'addEventListener' &&
     c.arguments[0] && c.arguments[0].type === 'Literal' && c.arguments[0].value === 'install');
   if (installs.length !== 1) return `expected one install listener, found ${installs.length}`;
+  const handler = installs[0].arguments[1];
+  if (!handler || !FUNCTION_TYPES.has(handler.type)) return 'the install handler must be an inline function';
 
-  const adds = callsIn(installs[0].arguments[1]).filter((c) =>
+  const adds = executedCalls(handler.body).filter((c) =>
     c.callee.type === 'MemberExpression' && !c.callee.computed &&
     (c.callee.property.name === 'add' || c.callee.property.name === 'addAll'));
   if (!adds.length) return 'the install handler never calls cache.add()';
