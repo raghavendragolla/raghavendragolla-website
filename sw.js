@@ -1,4 +1,4 @@
-const ASSET_VERSION = 'v24.3';
+const ASSET_VERSION = 'v24.4';
 const CACHE_NAME = 'raghavendra-portfolio-' + ASSET_VERSION;
 
 const SENSITIVE_QUERY_REGEX = /(?:token|auth|key|secret|session|code|pass|pair_token|jwt|signature)=/i;
@@ -22,10 +22,11 @@ const PRECACHE_ASSETS = [
   '/assets/css/style.css',
   '/assets/css/animations.css',
   '/assets/css/responsive.css',
-  '/assets/fonts/fraunces-yevdiide9ea92uemak-wbq8u-9v0c2wa0kxc9tea.woff2',
-  '/assets/fonts/ibmplexsans-lmyyaje8bplhncwdkr932-g7dytd-dmu1syxekyy.woff2',
-  '/assets/fonts/fraunces-italic-jucmhvn85ni7emae9lkqztnbb-gztk0k1chjeveq.woff2',
-  '/assets/fonts/plusjakartasans-normal-ldioaomqnqcsa88c7o9yz4kmcoog4ko20yw.woff2',
+  '/assets/fonts/fraunces-latin-subset.woff2',
+  '/assets/fonts/ibmplexsans-latin-subset.woff2',
+  '/assets/fonts/fraunces-italic-latin-subset.woff2',
+  '/assets/fonts/ibmplexmono-400-latin-subset.woff2',
+  '/assets/fonts/ibmplexmono-500-latin-subset.woff2',
   '/assets/js/shared.js',
   '/assets/js/script.js',
   '/assets/js/push.js',
