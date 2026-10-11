@@ -389,4 +389,29 @@ test.describe('Portfolio Page (/portfolio/)', () => {
     const scrollY = await page.evaluate(() => window.scrollY);
     expect(scrollY).toBeGreaterThan(500);
   });
+
+  // Sections were once rendered lazily (content-visibility: auto with an 800 px
+  // placeholder). Jumping to a section then rendered the real, much taller
+  // sections above it, so the page visibly jumped (layout shift of 1.0 at 390 px).
+  for (const id of ['projects', 'research', 'resume']) {
+    test(`Regression: navigating to #${id} at phone width causes no layout shift`, async ({ browser }) => {
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
+      const page = await ctx.newPage();
+      await page.addInitScript(() => {
+        window.__cls = 0;
+        new PerformanceObserver((list) => {
+          for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value;
+        }).observe({ type: 'layout-shift', buffered: true });
+      });
+      await page.goto('/portfolio/');
+      await page.waitForTimeout(1000);
+      await page.evaluate(() => { window.__cls = 0; });
+      await page.evaluate((h) => document.querySelector(`a[href="#${h}"]`).click(), id);
+      await page.waitForTimeout(1500);
+
+      expect(await page.evaluate(() => window.__cls)).toBeLessThan(0.1);
+      expect(Math.abs(await page.evaluate((h) => document.getElementById(h).getBoundingClientRect().top, id))).toBeLessThan(120);
+      await ctx.close();
+    });
+  }
 });

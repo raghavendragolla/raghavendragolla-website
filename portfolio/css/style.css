@@ -6930,6 +6930,16 @@ h1.hero-title em {
     text-underline-offset: 2px;
 }
 
+/* The contact section is dark in both themes, so its note uses the dark-theme
+   tones; the light-theme tokens measured 2.99:1 and 3.21:1 on #161616. */
+.contact-editorial-dark .form-privacy-note {
+    color: #94a3b8;
+}
+
+.contact-editorial-dark .form-privacy-note a {
+    color: #ff6b4a;
+}
+
 /* --------------------------------------------------------------------------
    8. ECOSYSTEM & WORKFLOW COMPONENTS (n8n-Inspired Metaphors)
    -------------------------------------------------------------------------- */
@@ -7613,7 +7623,8 @@ h1.hero-title em {
 .results-table .is-best th,
 .results-table .is-best td {
     font-weight: 700;
-    color: var(--accent);
+    /* --accent is 4.47:1 on the narrow-viewport card background */
+    color: var(--accent-hover);
 }
 
 /* Narrow screens: stack each model's results instead of scrolling sideways */
@@ -7851,13 +7862,7 @@ h1.hero-title em {
     background: #ef4444;
 }
 
-/* =========================================
-   Performance: Below-the-fold Content Visibility
-   ========================================= */
-#skills,
-#projects,
-#research,
-#contact {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 800px;
-}
+/* Sections are intentionally NOT rendered lazily (content-visibility: auto).
+   With an 800 px placeholder, jumping to a section rendered the much taller
+   sections above it and the page visibly jumped (layout shift 1.0 at 390 px).
+   Guarded by the "causes no layout shift" tests in tests/portfolio.spec.js. */
