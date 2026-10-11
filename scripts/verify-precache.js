@@ -83,8 +83,19 @@ function main() {
     process.exit(1);
   }
 
+  // The install step must bypass the browser's HTTP cache. Otherwise a returning
+  // visitor's new service worker precaches stale copies of unversioned URLs
+  // (assets are served with max-age=14400), and versioned requests fall back to
+  // them -- the v24.4 release served the previous fonts.css this way.
+  if (!/cache\.add\(\s*new Request\(\s*url\s*,\s*\{\s*cache:\s*'reload'\s*\}\s*\)\s*\)/.test(src)) {
+    console.log('='.repeat(72));
+    console.error("FAIL: sw.js install must precache with cache.add(new Request(url, { cache: 'reload' })).");
+    process.exit(1);
+  }
+
   console.log('='.repeat(72));
   console.log('PASS: every precache entry resolves to a real file.');
+  console.log('PASS: precache requests bypass the HTTP cache (cache: \'reload\').');
 }
 
 main();
