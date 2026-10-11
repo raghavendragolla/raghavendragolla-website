@@ -87,9 +87,15 @@ function main() {
   // visitor's new service worker precaches stale copies of unversioned URLs
   // (assets are served with max-age=14400), and versioned requests fall back to
   // them -- the v24.4 release served the previous fonts.css this way.
-  if (!/cache\.add\(\s*new Request\(\s*url\s*,\s*\{\s*cache:\s*'reload'\s*\}\s*\)\s*\)/.test(src)) {
+  // Only live code inside the install handler counts: comments are stripped
+  // first, and any plain cache.add(url) / cache.addAll(...) there fails too.
+  const code = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  const install = code.match(/addEventListener\(\s*'install'[\s\S]*?\n\}\);/);
+  const reloadAdd = /cache\.add\(\s*new Request\(\s*url\s*,\s*\{\s*cache:\s*'reload'\s*\}\s*\)\s*\)/;
+  const plainAdd = /cache\.add\(\s*url\s*\)|cache\.addAll\(/;
+  if (!install || !reloadAdd.test(install[0]) || plainAdd.test(install[0])) {
     console.log('='.repeat(72));
-    console.error("FAIL: sw.js install must precache with cache.add(new Request(url, { cache: 'reload' })).");
+    console.error("FAIL: the sw.js install handler must precache with cache.add(new Request(url, { cache: 'reload' })).");
     process.exit(1);
   }
 
