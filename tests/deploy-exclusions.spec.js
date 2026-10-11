@@ -4,9 +4,8 @@ const path = require('path');
 
 // Guards the GitHub Pages publishing rules in _config.yml. GitHub Pages builds
 // this repository with Jekyll, which publishes every file except dotfiles and
-// the paths listed under `exclude:`. These tests keep development tooling and
-// the unreleased /redesign/ preview off the public site, without accidentally
-// excluding anything the live site needs.
+// the paths listed under `exclude:`. These tests keep development tooling off
+// the public site, without accidentally excluding anything the live site needs.
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -27,12 +26,11 @@ function isExcluded(relPath, excludes) {
 test.describe('Production deployment exclusions (_config.yml)', () => {
   const excludes = readExcludes();
 
-  test('development, test and preview files are excluded from publishing', () => {
+  test('development and test files are excluded from publishing', () => {
     const mustExclude = [
       'package.json', 'package-lock.json', 'README.md', 'eslint.config.mjs',
       'playwright.config.js', 'lighthouserc.json', 'node_modules',
-      'scripts/verify-csp.js', 'scripts/privacy-scan.js', 'tests/routing.spec.js',
-      'redesign/index.html', 'redesign/assets/glass-prisms.jpg'
+      'scripts/verify-csp.js', 'scripts/privacy-scan.js', 'tests/routing.spec.js'
     ];
     for (const p of mustExclude) {
       expect(isExcluded(p, excludes), `${p} should not be published`).toBe(true);
@@ -50,13 +48,6 @@ test.describe('Production deployment exclusions (_config.yml)', () => {
     for (const p of mustPublish) {
       expect(fs.existsSync(path.join(ROOT, p)), `${p} exists`).toBe(true);
       expect(isExcluded(p, excludes), `${p} must stay published`).toBe(false);
-    }
-  });
-
-  test('no published page links to the unreleased /redesign/ preview', () => {
-    for (const page of ['index.html', 'portfolio/index.html', 'privacy.html', '404.html', 'sitemap.xml']) {
-      const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
-      expect(html, `${page} must not reference /redesign/`).not.toMatch(/\/redesign\//);
     }
   });
 });

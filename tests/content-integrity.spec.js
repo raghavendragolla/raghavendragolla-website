@@ -65,7 +65,7 @@ test.describe('Content integrity', () => {
 
   test('every LinkedIn link and JSON-LD sameAs uses the canonical profile URL', () => {
     const CANONICAL = 'https://www.linkedin.com/in/raghavendragolla';
-    for (const p of ['index.html', 'portfolio/index.html', 'privacy.html', '404.html', 'redesign/index.html']) {
+    for (const p of ['index.html', 'portfolio/index.html', 'privacy.html', '404.html']) {
       const src = read(p);
       const urls = src.match(/https?:\/\/(?:www\.)?linkedin\.com\/in\/[^"'<\s)]*/g) || [];
       for (const u of urls) expect(u, `${p} LinkedIn URL`).toBe(CANONICAL);
