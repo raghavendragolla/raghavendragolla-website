@@ -18,6 +18,7 @@ const PRECACHE_ASSETS = [
   '/portfolio/images/profile/profile-144.jpg',
   '/assets/css/shared/tokens.css',
   '/assets/css/shared/components.css',
+  '/assets/css/shared/chatbot.css',
   '/assets/css/shared/fonts.css',
   '/assets/css/style.css',
   '/assets/css/animations.css',
@@ -30,6 +31,7 @@ const PRECACHE_ASSETS = [
   '/assets/js/shared.js',
   '/assets/js/script.js',
   '/assets/js/push.js',
+  '/assets/js/chatbot.js',
   '/portfolio/css/animations.css',
   '/portfolio/css/style.css',
   '/portfolio/css/responsive.css',
@@ -81,6 +83,9 @@ self.addEventListener('fetch', (event) => {
   if (!event.request.url.startsWith('http')) return;
 
   const url = new URL(event.request.url);
+
+  // Explicitly bypass chatbot API requests so they are never intercepted or cached
+  if (url.pathname === '/chat' || url.hostname === 'ai.raghavendragolla.com') return;
 
   const isSameOrigin = url.origin === self.location.origin;
 

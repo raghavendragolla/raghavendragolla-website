@@ -69,6 +69,16 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Mirror production deployment exclusions: chatbot-worker is never published
+  if (pathname === '/chatbot-worker' || pathname.startsWith('/chatbot-worker/')) {
+    const notFoundPath = path.join(ROOT, '404.html');
+    fs.readFile(notFoundPath, (err404, data404) => {
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(data404 || 'Not Found');
+    });
+    return;
+  }
+
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
       const notFoundPath = path.join(ROOT, '404.html');

@@ -7,7 +7,8 @@ export default [
       "test-results/",
       "playwright-report/",
       ".lighthouseci/",
-      "dist/"
+      "dist/",
+      "chatbot-worker/"
     ]
   },
   {

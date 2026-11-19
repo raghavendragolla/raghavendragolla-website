@@ -21,6 +21,8 @@ exclude:
   - package.json
   - package-lock.json
   - README.md
+  - AI_CHATBOT_INTEGRATION_AUDIT.md
+  - CHATBOT_SINGLE_REPO_ARCHITECTURE.md
   - eslint.config.mjs
   - playwright.config.js
   - lighthouserc.json
@@ -30,3 +32,5 @@ exclude:
   - test-results/
   - playwright-report/
   - scratch/
+  # Chatbot backend worker (never published to public website)
+  - chatbot-worker/

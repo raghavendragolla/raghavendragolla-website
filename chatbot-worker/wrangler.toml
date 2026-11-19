@@ -1,0 +1,26 @@
+# ==============================================================================
+# Cloudflare Worker Configuration: Raghavendra Golla Portfolio AI Assistant
+# ==============================================================================
+
+name = "raghavendragolla-ai-bot"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers AI Native Platform Binding
+# Zero external API keys, zero paid third-party tokens required.
+[ai]
+binding = "AI"
+
+# Native Distributed Edge Rate Limiting (Supported on Workers Free Plan)
+# Enforces a maximum of 10 requests per 60 seconds per client IP
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 10
+period = 60
+
+[observability]
+enabled = false

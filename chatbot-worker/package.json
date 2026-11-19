@@ -1,0 +1,16 @@
+{
+  "name": "raghavendragolla-ai-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers AI backend for Raghavendra Golla portfolio chatbot",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/index.test.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.165.0"
+  },
+  "private": true
+}

@@ -1,0 +1,789 @@
+/* ==========================================================================
+   Ask GORA - AI Portfolio Assistant Stylesheet
+   Premium Editorial Swiss-Tech Aesthetics • Token Integrated • Fully Responsive
+   ========================================================================== */
+
+/* ---------- 1. Body Scroll Lock for Mobile Dialog ---------- */
+body.gora-scroll-lock {
+    overflow: hidden !important;
+    touch-action: none;
+}
+
+/* ---------- 2. Root Container & Launcher Button ---------- */
+.ask-gora-root {
+    position: relative;
+    z-index: 1050;
+}
+
+.ask-gora-launcher {
+    position: fixed;
+    bottom: max(24px, calc(env(safe-area-inset-bottom) + 14px));
+    right: max(24px, calc(env(safe-area-inset-right) + 14px));
+    z-index: 1050;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    padding: 0 16px 0 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-strong);
+    background: var(--glass-fill-strong);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--motion-micro) var(--ease-out),
+                box-shadow var(--motion-micro) var(--ease-out),
+                border-color var(--motion-micro) var(--ease-out),
+                background-color var(--motion-micro) var(--ease-out);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .ask-gora-launcher {
+        backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+    }
+}
+
+.ask-gora-launcher:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.ask-gora-launcher:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+}
+
+.ask-gora-launcher:active {
+    transform: translateY(0);
+}
+
+.ask-gora-launcher.is-active {
+    border-color: var(--primary);
+    background: var(--surface-elevated);
+}
+
+/* Launcher Icon & Badge */
+.ask-gora-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--primary-subtle);
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.ask-gora-launcher-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.15;
+}
+
+.ask-gora-launcher-title {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.ask-gora-launcher-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.ask-gora-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background-color: var(--success);
+    box-shadow: 0 0 6px var(--success);
+    display: inline-block;
+    animation: goraPulse 2.8s infinite ease-in-out;
+}
+
+@keyframes goraPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.45;
+        transform: scale(0.85);
+    }
+}
+
+/* ---------- 3. Floating Chat Panel ---------- */
+.ask-gora-panel,
+section.ask-gora-panel {
+    position: fixed;
+    bottom: max(80px, calc(env(safe-area-inset-bottom) + 70px));
+    right: max(24px, calc(env(safe-area-inset-right) + 14px));
+    z-index: 1100;
+    width: 390px;
+    max-width: calc(100vw - 32px) !important;
+    height: 580px;
+    max-height: calc(100vh - 105px);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-strong) !important;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: var(--shadow-lg), 0 20px 48px rgba(0, 0, 0, 0.16);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    contain: layout paint;
+    will-change: transform, opacity;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.98);
+    transform-origin: bottom right;
+    transition: opacity var(--motion-standard) var(--ease-out),
+                transform var(--motion-standard) var(--ease-out),
+                visibility var(--motion-standard);
+    pointer-events: none;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal;
+    animation: none !important;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .ask-gora-panel {
+        background: var(--glass-fill-strong);
+        backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+        -webkit-backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+    }
+}
+
+.ask-gora-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* ---------- 4. Header ---------- */
+.ask-gora-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    background: var(--surface-elevated) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    flex-shrink: 0;
+    box-sizing: border-box !important;
+    line-height: normal;
+}
+
+.ask-gora-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.ask-gora-avatar {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent, #3355E6) 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+.ask-gora-avatar-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--success);
+    border: 2px solid var(--surface-elevated);
+}
+
+.ask-gora-header-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.ask-gora-title {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.01em !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ask-gora-subtitle {
+    margin: 2px 0 0 !important;
+    padding: 0 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ask-gora-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.ask-gora-action-btn,
+.ask-gora-close-btn,
+.ask-gora-minimize-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--motion-micro) var(--ease-out),
+                color var(--motion-micro) var(--ease-out),
+                border-color var(--motion-micro) var(--ease-out);
+}
+
+.ask-gora-action-btn:hover,
+.ask-gora-close-btn:hover,
+.ask-gora-minimize-btn:hover {
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--border-subtle);
+}
+
+.ask-gora-action-btn:focus-visible,
+.ask-gora-close-btn:focus-visible,
+.ask-gora-minimize-btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+/* ---------- 5. Messages Container ---------- */
+.ask-gora-messages {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 16px 14px !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box !important;
+    line-height: normal;
+}
+
+.ask-gora-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ask-gora-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ask-gora-messages::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--radius-full);
+}
+
+.ask-gora-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+/* Message Item */
+.ask-gora-msg {
+    display: flex;
+    flex-direction: column;
+    max-width: 84%;
+    animation: goraFadeIn var(--motion-standard) var(--ease-out);
+}
+
+@keyframes goraFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ask-gora-msg-assistant {
+    align-self: flex-start;
+}
+
+.ask-gora-msg-user {
+    align-self: flex-end;
+}
+
+.ask-gora-msg-bubble {
+    padding: 10px 14px !important;
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    word-break: break-word;
+    box-sizing: border-box !important;
+}
+
+.ask-gora-msg-assistant .ask-gora-msg-bubble {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    color: var(--text);
+    border-radius: 16px 16px 16px 4px;
+}
+
+.ask-gora-msg-user .ask-gora-msg-bubble {
+    background: var(--primary);
+    color: var(--text-on-primary, #ffffff);
+    border-radius: 16px 16px 4px 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.ask-gora-msg-bubble p {
+    margin: 0;
+}
+
+.ask-gora-msg-bubble p + p {
+    margin-top: 6px;
+}
+
+.ask-gora-msg-bubble a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.ask-gora-msg-meta {
+    margin-top: 3px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--text-muted);
+    padding: 0 4px;
+}
+
+.ask-gora-msg-user .ask-gora-msg-meta {
+    align-self: flex-end;
+}
+
+/* ---------- 6. Friendly Hiccup / Error Card Experience ---------- */
+.ask-gora-msg-error .ask-gora-msg-bubble {
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--primary);
+    border-radius: 4px 14px 14px 4px;
+    color: var(--text);
+    padding: 12px 14px;
+}
+
+.ask-gora-error-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.ask-gora-error-icon {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.ask-gora-error-text {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+}
+
+.ask-gora-retry-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 12px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--motion-micro) var(--ease-out),
+                border-color var(--motion-micro) var(--ease-out),
+                color var(--motion-micro) var(--ease-out),
+                transform var(--motion-micro) var(--ease-out);
+}
+
+.ask-gora-retry-btn:hover:not(:disabled) {
+    background: var(--primary-subtle);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.ask-gora-retry-btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.ask-gora-retry-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---------- 7. Loading / Typing Indicator ---------- */
+.ask-gora-typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 14px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px 16px 16px 4px;
+    align-self: flex-start;
+}
+
+.ask-gora-typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--text-muted);
+    animation: goraBounce 1.4s infinite ease-in-out;
+}
+
+.ask-gora-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ask-gora-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes goraBounce {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* ---------- 8. Suggested Questions ---------- */
+.ask-gora-suggestions-wrapper {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ask-gora-suggestions-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.ask-gora-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ask-gora-chip {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-subtle);
+    background-color: var(--surface);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--motion-micro) var(--ease-out),
+                border-color var(--motion-micro) var(--ease-out),
+                color var(--motion-micro) var(--ease-out),
+                transform var(--motion-micro) var(--ease-out);
+}
+
+[data-theme="dark"] .ask-gora-chip {
+    background-color: var(--surface-elevated);
+    border-color: var(--border-strong);
+    color: var(--text);
+}
+
+.ask-gora-chip:hover {
+    background-color: var(--primary-subtle);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.ask-gora-chip:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+/* ---------- 9. Redesigned Message Composer ---------- */
+.ask-gora-footer {
+    padding: 10px 14px 12px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    background: var(--surface-elevated) !important;
+    flex-shrink: 0;
+    box-sizing: border-box !important;
+    line-height: normal;
+}
+
+.ask-gora-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Single integrated rounded container with clean focus-within styling */
+.ask-gora-input-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: var(--surface) !important;
+    border: 1px solid var(--border-strong) !important;
+    border-radius: 22px !important;
+    padding: 4px 6px 4px 14px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    line-height: normal;
+    transition: border-color var(--motion-micro) var(--ease-out),
+                box-shadow var(--motion-micro) var(--ease-out);
+}
+
+.ask-gora-input-wrap:hover {
+    border-color: var(--primary) !important;
+}
+
+.ask-gora-input-wrap:focus-within {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px var(--primary-subtle) !important;
+}
+
+/* Native textarea reset: no rectangular outline, no duplicate border */
+.ask-gora-input {
+    flex: 1 1 auto;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent !important;
+    color: var(--text) !important;
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+    resize: none;
+    min-height: 24px;
+    max-height: 88px;
+    padding: 6px 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.ask-gora-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Perfectly aligned rounded send button */
+.ask-gora-send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 0;
+    background: var(--primary);
+    color: var(--text-on-primary, #ffffff);
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-bottom: 2px;
+    transition: background-color var(--motion-micro) var(--ease-out),
+                opacity var(--motion-micro) var(--ease-out),
+                transform var(--motion-micro) var(--ease-out);
+}
+
+.ask-gora-send-btn:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: scale(1.05);
+}
+
+.ask-gora-send-btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.ask-gora-send-btn:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+
+.ask-gora-foot-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ---------- 10. Comprehensive Responsive Design ---------- */
+/* Small and Standard Mobile (<= 600px) */
+@media (max-width: 600px) {
+    .ask-gora-panel,
+    section.ask-gora-panel {
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100vw !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: var(--surface) !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        transform: translateY(100%);
+        transform-origin: bottom center;
+    }
+
+    .ask-gora-panel.is-open {
+        transform: translateY(0);
+    }
+
+    .ask-gora-header {
+        padding: max(12px, calc(env(safe-area-inset-top) + 8px)) 16px 12px !important;
+    }
+
+    .ask-gora-footer {
+        padding: 10px 14px max(12px, calc(env(safe-area-inset-bottom) + 8px)) !important;
+    }
+
+    .ask-gora-msg {
+        max-width: 90%;
+    }
+}
+
+/* Tablet (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .ask-gora-panel {
+        width: min(420px, calc(100vw - 32px));
+        height: min(600px, calc(100vh - 110px));
+        bottom: max(80px, calc(env(safe-area-inset-bottom) + 68px));
+        right: max(20px, calc(env(safe-area-inset-right) + 12px));
+    }
+}
+
+/* Large Screens & Ultra-Wide (>= 1440px) */
+@media (min-width: 1440px) {
+    .ask-gora-panel {
+        width: 400px;
+        height: 600px;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+/* ---------- 11. Stacking with Back to Top Button ---------- */
+.back-to-top-btn {
+    bottom: max(80px, calc(env(safe-area-inset-bottom) + 68px)) !important;
+}
+
+@media (max-width: 768px) {
+    .back-to-top-btn {
+        bottom: max(76px, calc(env(safe-area-inset-bottom) + 64px)) !important;
+    }
+}
+
+/* ---------- 12. Reduced Motion Compliance ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .ask-gora-launcher,
+    .ask-gora-panel,
+    .ask-gora-msg,
+    .ask-gora-status-dot,
+    .ask-gora-typing-dot,
+    .ask-gora-chip,
+    .ask-gora-send-btn,
+    .ask-gora-action-btn,
+    .ask-gora-minimize-btn,
+    .ask-gora-close-btn,
+    .ask-gora-retry-btn {
+        animation: none !important;
+        transition: none !important;
+    }
+}

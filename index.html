@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-yooQoLvk1iHetE3M99bioPGeEPx8q6Bbcvxrmy44NDs='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://career.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-yooQoLvk1iHetE3M99bioPGeEPx8q6Bbcvxrmy44NDs='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://career.raghavendragolla.com https://ai.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) & Reload Scroll Reset -->
@@ -168,6 +168,7 @@
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
     <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.5">
     <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.5">
+    <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.5">
     <link rel="stylesheet" href="/assets/css/style.css?v=24.5">
     <link rel="stylesheet" href="/assets/css/animations.css?v=24.5" media="print" data-async-css>
     <noscript>
@@ -179,6 +180,7 @@
     <script src="/assets/js/shared.js?v=24.5" defer></script>
     <script src="/assets/js/script.js?v=24.5" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
+    <script src="/assets/js/chatbot.js?v=24.5" defer></script>
 
 </head>
 
@@ -738,6 +740,92 @@
             </button>
         </div>
     </aside>
+
+    <!-- Ask GORA AI Assistant Launcher & Panel -->
+    <div id="askGoraRoot" class="ask-gora-root">
+        <button id="askGoraLauncher" class="ask-gora-launcher" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="askGoraPanel" aria-label="Ask GORA — AI Portfolio Assistant" title="Ask GORA — AI Portfolio Assistant">
+            <span class="ask-gora-launcher-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.25 5.08 7.37L9 22l4.5-2.25A8.003 8.003 0 0 0 20 10a8 8 0 0 0-8-8z"></path>
+                    <circle cx="9" cy="10" r="1" fill="currentColor"></circle>
+                    <circle cx="15" cy="10" r="1" fill="currentColor"></circle>
+                </svg>
+            </span>
+            <span class="ask-gora-launcher-text">
+                <span class="ask-gora-launcher-title">Ask GORA</span>
+                <span class="ask-gora-launcher-status">
+                    <span class="ask-gora-status-dot" aria-hidden="true"></span>
+                    <span class="ask-gora-status-label">AI Assistant</span>
+                </span>
+            </span>
+        </button>
+
+        <section id="askGoraPanel" class="ask-gora-panel" role="dialog" aria-modal="true" aria-label="Ask GORA — AI Portfolio Assistant" aria-hidden="true" hidden>
+            <header class="ask-gora-header">
+                <div class="ask-gora-header-brand">
+                    <div class="ask-gora-avatar" aria-hidden="true">
+                        <span class="ask-gora-avatar-inner">G</span>
+                        <span class="ask-gora-avatar-dot"></span>
+                    </div>
+                    <div class="ask-gora-header-text">
+                        <h2 class="ask-gora-title">Ask GORA</h2>
+                        <p class="ask-gora-subtitle">Your AI-powered portfolio assistant.</p>
+                    </div>
+                </div>
+                <div class="ask-gora-header-actions">
+                    <button id="askGoraMinimizeBtn" class="ask-gora-action-btn ask-gora-minimize-btn" type="button" aria-label="Minimize Ask GORA" title="Minimize Ask GORA">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                    <button id="askGoraCloseBtn" class="ask-gora-action-btn ask-gora-close-btn" type="button" aria-label="Close Ask GORA" title="Close Ask GORA">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div id="askGoraMessages" class="ask-gora-messages" role="log" aria-live="polite" aria-label="Chat messages">
+                <div class="ask-gora-msg ask-gora-msg-assistant">
+                    <div class="ask-gora-msg-bubble">
+                        <p>Hello! I'm GORA. I can help you explore Raghavendra's professional background, technical skills, projects and research. What would you like to know?</p>
+                    </div>
+                    <span class="ask-gora-msg-meta">GORA &bull; AI Assistant</span>
+                </div>
+
+                <div class="ask-gora-suggestions-wrapper">
+                    <span class="ask-gora-suggestions-label">Suggested Questions:</span>
+                    <div class="ask-gora-suggestions" role="group" aria-label="Suggested questions">
+                        <button class="ask-gora-chip" type="button">Tell me about Raghavendra.</button>
+                        <button class="ask-gora-chip" type="button">What are his technical skills?</button>
+                        <button class="ask-gora-chip" type="button">Tell me about his research.</button>
+                        <button class="ask-gora-chip" type="button">Show me his projects.</button>
+                        <button class="ask-gora-chip" type="button">What is his professional experience?</button>
+                        <button class="ask-gora-chip" type="button">How can I contact him?</button>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="ask-gora-footer">
+                <form id="askGoraForm" class="ask-gora-form" autocomplete="off">
+                    <div class="ask-gora-input-wrap">
+                        <textarea id="askGoraInput" class="ask-gora-input" rows="1" maxlength="400" placeholder="Ask GORA a question..." aria-label="Type your message"></textarea>
+                        <button id="askGoraSendBtn" class="ask-gora-send-btn" type="submit" aria-label="Send message" title="Send message" disabled>
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="ask-gora-foot-note">
+                    <span>Edge AI &bull; Gemma 4 on Cloudflare Workers</span>
+                </div>
+            </footer>
+        </section>
+    </div>
 
 </body>
 

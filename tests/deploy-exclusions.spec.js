@@ -28,11 +28,25 @@ test.describe('Production deployment exclusions (_config.yml)', () => {
 
   test('development and test files are excluded from publishing', () => {
     const mustExclude = [
-      'package.json', 'package-lock.json', 'README.md', 'eslint.config.mjs',
+      'package.json', 'package-lock.json', 'README.md', 'AI_CHATBOT_INTEGRATION_AUDIT.md',
+      'CHATBOT_SINGLE_REPO_ARCHITECTURE.md', 'eslint.config.mjs',
       'playwright.config.js', 'lighthouserc.json', 'node_modules',
       'scripts/verify-csp.js', 'scripts/privacy-scan.js', 'tests/routing.spec.js'
     ];
     for (const p of mustExclude) {
+      expect(isExcluded(p, excludes), `${p} should not be published`).toBe(true);
+    }
+  });
+
+  test('chatbot backend and its source files are excluded from publishing', () => {
+    const backendFiles = [
+      'chatbot-worker',
+      'chatbot-worker/wrangler.toml',
+      'chatbot-worker/package.json',
+      'chatbot-worker/src/index.js',
+      'chatbot-worker/src/knowledge.js'
+    ];
+    for (const p of backendFiles) {
       expect(isExcluded(p, excludes), `${p} should not be published`).toBe(true);
     }
   });
@@ -43,6 +57,7 @@ test.describe('Production deployment exclusions (_config.yml)', () => {
       'robots.txt', 'sitemap.xml', 'manifest.json', 'sw.js', 'CNAME',
       'google9dd676bcc70ae03c.html', 'portfolio/resume/resume.pdf',
       'assets/css/style.css', 'assets/js/script.js', 'portfolio/js/script.js',
+      'assets/css/shared/chatbot.css', 'assets/js/chatbot.js',
       'portfolio/certificates/ibm-data-analyst.jpg', 'assets/fonts'
     ];
     for (const p of mustPublish) {
