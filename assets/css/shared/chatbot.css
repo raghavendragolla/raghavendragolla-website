@@ -685,17 +685,6 @@ section.ask-gora-panel {
     cursor: not-allowed;
 }
 
-.ask-gora-foot-note {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--text-muted);
-    text-align: center;
-}
-
 /* ---------- 10. Comprehensive Responsive Design ---------- */
 /* Small and Standard Mobile (<= 600px) */
 @media (max-width: 600px) {
