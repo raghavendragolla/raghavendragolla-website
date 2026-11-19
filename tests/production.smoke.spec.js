@@ -89,13 +89,6 @@ test.describe('Production Smoke (live site)', () => {
       expect(res.status()).toBe(301);
       expect(res.headers()['location']).toContain('/portfolio/');
     });
-
-    // /redesign/ is an unreleased preview excluded from publishing by
-    // _config.yml, so neither form of the path may be served in production.
-    test('/redesign is not published (404)', async ({ request }) => {
-      const res = await request.get(PROD + '/redesign', { maxRedirects: 0 });
-      expect(res.status()).toBe(404);
-    });
   });
 
   test.describe('Canonical URLs and SEO directives', () => {
@@ -116,11 +109,6 @@ test.describe('Production Smoke (live site)', () => {
       const robots = await page.locator('meta[name="robots"]').getAttribute('content');
       expect(robots).toContain('noindex');
       expect(robots).toContain('follow');
-    });
-
-    test('redesign preview is not published (/redesign/ returns 404)', async ({ request }) => {
-      const res = await request.get(PROD + '/redesign/', { maxRedirects: 0 });
-      expect(res.status()).toBe(404);
     });
   });
 

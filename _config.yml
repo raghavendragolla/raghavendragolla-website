@@ -30,5 +30,3 @@ exclude:
   - test-results/
   - playwright-report/
   - scratch/
-  # Unreleased design preview (source kept locally; not part of the public site)
-  - redesign/

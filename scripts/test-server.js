@@ -38,14 +38,14 @@ const MIME_TYPES = {
  * Set TEST_SERVER_NO_REDIRECT=1 to restore the legacy silent-rewrite behaviour
  * if a specific test needs to exercise pre-redirect rendering.
  */
-const REDIRECT_TO_SLASH = ['/portfolio', '/redesign'];
+const REDIRECT_TO_SLASH = ['/portfolio'];
 const NO_REDIRECT = process.env.TEST_SERVER_NO_REDIRECT === '1';
 
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
   let pathname = decodeURIComponent(parsedUrl.pathname);
 
-  // Production-faithful redirect: /portfolio -> /portfolio/ (and /redesign).
+  // Production-faithful redirect: /portfolio -> /portfolio/.
   // Preserves any query string, mirroring how the real host behaves.
   if (!NO_REDIRECT && REDIRECT_TO_SLASH.includes(pathname)) {
     const search = parsedUrl.search || '';
@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (pathname === '/portfolio/' || pathname === '/redesign/') {
+  if (pathname === '/portfolio/') {
     pathname = pathname + 'index.html';
   } else if (pathname === '/') {
     pathname = '/index.html';

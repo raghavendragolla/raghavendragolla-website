@@ -20,7 +20,7 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
 ├── 404.html                     # Custom 404 Error Page
 ├── CNAME                        # Custom domain declaration for GitHub Pages
 ├── README.md                    # Repository documentation (not published)
-├── _config.yml                  # GitHub Pages publishing rules: excludes dev/test files and /redesign/
+├── _config.yml                  # GitHub Pages publishing rules: excludes dev/test files
 ├── index.html                   # Main Landing Page
 ├── manifest.json                # Web App Manifest
 ├── robots.txt                   # Search Engine Crawler Guidance
@@ -46,13 +46,13 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
     ├── index.html               # Full Portfolio Page
     ├── certificates/            # Verified credential media assets
     ├── css/                     # Portfolio specific styles
-    ├── images/                  # Profile avatar images and sized derivatives
+    ├── images/                  # Profile avatar at 48/96/144 px (JPEG + WebP)
     ├── js/
     │   └── script.js            # Portfolio page controller & contact form handler
     └── resume/                  # One-page PDF resume
 ```
 
-`redesign/`, `scripts/`, `tests/` and the Node tooling files stay in the repository for
+`scripts/`, `tests/` and the Node tooling files stay in the repository for
 development but are excluded from the published site by `_config.yml`
 (guarded by `tests/deploy-exclusions.spec.js`).
 
