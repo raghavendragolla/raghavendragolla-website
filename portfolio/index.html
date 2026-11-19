@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-mVk6iO6F8PQ8poN2XhQqweo2HeRbY2f1Anwc2JTBgl4='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-xYooGeT0Lj2Fff68M/Qh4iGHzGZd8dZiEr5f1rCCYVQ='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://api.web3forms.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action https://api.web3forms.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Trailing-slash URL Normalization & Reload Scroll Reset -->
@@ -25,8 +25,7 @@
       } catch (e) { }
       try {
         var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
-        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (saved === 'dark' || (!saved && prefersDark)) {
+        if (saved === 'dark') {
           document.documentElement.setAttribute('data-theme', 'dark');
         } else {
           document.documentElement.removeAttribute('data-theme');

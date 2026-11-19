@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Theme Management (Light / Dark Mode)
     // ====================================================
     const themeToggleBtn = document.getElementById('theme-toggle');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
     function updateThemeUI(theme) {
         if (!themeToggleBtn) return;
@@ -40,13 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateThemeUI(nextTheme);
         });
     }
-
-    systemPrefersDark.addEventListener('change', (e) => {
-        const hasExplicit = (window.rgStorage && (window.rgStorage.getItem('rg:theme') || window.rgStorage.getItem('theme')));
-        if (!hasExplicit) {
-            updateThemeUI(e.matches ? 'dark' : 'light');
-        }
-    });
 
 
     // ====================================================

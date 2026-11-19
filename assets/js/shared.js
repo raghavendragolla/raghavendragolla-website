@@ -153,8 +153,7 @@
         },
         init: function () {
             var saved = window.rgTheme.getTheme();
-            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (saved === 'dark' || (!saved && prefersDark)) {
+            if (saved === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
                 document.documentElement.removeAttribute('data-theme');
@@ -182,19 +181,6 @@
 
     // Immediate Theme Apply (Zero-FOUC)
     window.rgTheme.init();
-
-    // Listen for OS preference changes if no manual override is set
-    try {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
-            if (!window.rgStorage.getItem('rg:theme')) {
-                if (e.matches) {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                } else {
-                    document.documentElement.removeAttribute('data-theme');
-                }
-            }
-        });
-    } catch (e) { }
 
     // ====================================================
     // 3. Shared Toast System

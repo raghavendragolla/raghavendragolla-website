@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-qU67+BeaWdpAszmS9UoHzZz1uiwRxhF+6HYYekc4zUI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+        content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-bnJbFcQzMyDznJv5nrK5wL56SzOa6IBfkhFFnQ2u9D8='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) -->
@@ -13,8 +13,7 @@
         (function () {
             try {
                 var saved = localStorage.getItem('rg:theme') || localStorage.getItem('theme');
-                var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (saved === 'dark' || (!saved && prefersDark)) {
+                if (saved === 'dark') {
                     document.documentElement.setAttribute('data-theme', 'dark');
                 } else {
                     document.documentElement.removeAttribute('data-theme');
