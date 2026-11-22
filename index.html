@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-yooQoLvk1iHetE3M99bioPGeEPx8q6Bbcvxrmy44NDs='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://career.raghavendragolla.com https://ai.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com 'sha256-yooQoLvk1iHetE3M99bioPGeEPx8q6Bbcvxrmy44NDs='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com https://career.raghavendragolla.com https://ai.raghavendragolla.com; manifest-src 'self'; worker-src 'self'; base-uri 'self'; form-action 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Immediate Theme Initialization (Zero-FOUC) & Reload Scroll Reset -->
@@ -145,42 +146,227 @@
 
     <!-- Critical Layout & Positioning (Zero Initial Layout Shift) -->
     <style>
-      body { margin: 0; padding: 0; }
-      .skip-link { position: absolute; top: -100px; left: 1rem; }
-      #neural-canvas, .bg-grid, .ambient-glow {
-        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; z-index: 0; pointer-events: none;
-      }
-      header { position: sticky; top: 0; z-index: 100; padding: 8px 0; border-bottom: 1px solid transparent; }
-      .vitals-container { position: relative; width: 100%; height: 64px; }
-      .vitals-wave { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-      .vitals-svg-desktop { width: 100%; height: 100%; display: block; }
-      .vitals-svg-mobile { display: none; }
-      .theme-toggle { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); }
-      @media (max-width: 768px) {
-        .vitals-svg-desktop { display: none; }
-        .vitals-svg-mobile { display: block; }
-      }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 1rem;
+        }
+
+        #neural-canvas,
+        .bg-grid,
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 8px 0;
+            border-bottom: 1px solid transparent;
+        }
+
+        .vitals-container {
+            position: relative;
+            width: 100%;
+            height: 64px;
+        }
+
+        .vitals-wave {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .vitals-svg-desktop {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .vitals-svg-mobile {
+            display: none;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .vitals-svg-desktop {
+                display: none;
+            }
+
+            .vitals-svg-mobile {
+                display: block;
+            }
+        }
     </style>
 
     <!-- Self-hosted Fonts (no third-party font origins) -->
-    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.5">
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.6">
 
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.5">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.5">
-    <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.5">
-    <link rel="stylesheet" href="/assets/css/style.css?v=24.5">
-    <link rel="stylesheet" href="/assets/css/animations.css?v=24.5" media="print" data-async-css>
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.6">
+    <!-- Ask GORA: critical launcher styles inline; the full chatbot.css loads without blocking
+         first paint: it is only prefetched during load, and chatbot.js inserts it (at this position, so the
+         cascade order is unchanged) on first intent: hover, focus, touch or open. Keeping it out of the style
+         engine during load avoids a full style recalculation in the load window. Keep in sync with chatbot.css 1-2. -->
+    <style>
+        body.gora-scroll-lock {
+            overflow: hidden !important;
+            touch-action: none;
+        }
+
+        .ask-gora-root {
+            position: relative;
+            z-index: 1050;
+        }
+
+        .ask-gora-launcher {
+            position: fixed;
+            bottom: max(24px, calc(env(safe-area-inset-bottom) + 14px));
+            right: max(24px, calc(env(safe-area-inset-right) + 14px));
+            z-index: 1050;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            height: 46px;
+            padding: 0 16px 0 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-strong);
+            background: var(--glass-fill-strong);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .ask-gora-launcher-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-full);
+            background: var(--primary-subtle);
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .ask-gora-launcher-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.15;
+        }
+
+        .ask-gora-launcher-title {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .ask-gora-launcher-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .ask-gora-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: var(--radius-full);
+            background-color: var(--success);
+            box-shadow: 0 0 6px var(--success);
+            display: inline-block;
+            animation: goraPulse 2.8s infinite ease-in-out;
+        }
+
+        @keyframes goraPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: scale(0.85);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ask-gora-status-dot {
+                animation: none;
+            }
+        }
+
+        .ask-gora-panel {
+            position: fixed;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .ask-gora-launcher {
+                background: linear-gradient(var(--glass-fill-strong), var(--glass-fill-strong)), var(--paper);
+            }
+        }
+
+        @media (min-width: 769px) {
+            @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+                .ask-gora-launcher {
+                    backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+                    -webkit-backdrop-filter: var(--glass-blur-md) var(--glass-saturation);
+                }
+            }
+        }
+    </style>
+    <link rel="prefetch" href="/assets/css/shared/chatbot.css?v=24.6" as="style" data-gora-css>
     <noscript>
-      <link rel="stylesheet" href="/assets/css/animations.css?v=24.5">
+        <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.6">
     </noscript>
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.5">
+    <link rel="stylesheet" href="/assets/css/style.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/animations.css?v=24.6" media="print" data-async-css>
+    <noscript>
+        <link rel="stylesheet" href="/assets/css/animations.css?v=24.6">
+    </noscript>
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.6">
 
     <!-- JavaScript Stack (shared.js loads FIRST) -->
-    <script src="/assets/js/shared.js?v=24.5" defer></script>
-    <script src="/assets/js/script.js?v=24.5" defer></script>
+    <script src="/assets/js/shared.js?v=24.6" defer></script>
+    <script src="/assets/js/script.js?v=24.6" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
-    <script src="/assets/js/chatbot.js?v=24.5" defer></script>
+    <script src="/assets/js/chatbot.js?v=24.6" defer></script>
 
 </head>
 
@@ -205,7 +391,8 @@
             <div class="vitals-status">
                 <span class="vitals-dot">●</span>
                 <span class="vitals-content">
-                    <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR OPPORTUNITIES</span>
+                    <span class="vitals-available-highlight">AVAILABLE</span><span class="vitals-text-desktop"> FOR
+                        OPPORTUNITIES</span>
                     <span class="vitals-sep vitals-sep-opportunities">&bull;</span>
                     <strong id="vitals-clock" class="vitals-clock">--:--:-- IST</strong>
                     <span class="vitals-sep vitals-sep-clock">&bull;</span>
@@ -230,14 +417,16 @@
                     <!-- Base subtle track -->
                     <path class="ecg-base-track" d="M0,32 L460,32" />
                     <g class="heartbeat-pulse-zone">
-                        <path class="ecg-base-track" d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
+                        <path class="ecg-base-track"
+                            d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
                     </g>
                     <path class="ecg-base-track" d="M575,32 L1200,32" />
 
                     <!-- Flowing Chromatic Pulse Beam -->
                     <path class="ecg-flowing-beam" d="M0,32 L460,32" />
                     <g class="heartbeat-pulse-zone">
-                        <path class="ecg-flowing-beam" d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
+                        <path class="ecg-flowing-beam"
+                            d="M460,32 L480,12 L495,52 L510,32 L530,32 L545,16 L560,46 L575,32" />
                     </g>
                     <path class="ecg-flowing-beam" d="M575,32 L1200,32" />
                 </svg>
@@ -258,20 +447,22 @@
                     <!-- Base subtle track -->
                     <path class="ecg-base-track" d="M0,32 L280,32" />
                     <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
-                        <path class="ecg-base-track" d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
+                        <path class="ecg-base-track"
+                            d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
                     </g>
                     <path class="ecg-base-track" d="M395,32 L600,32" />
 
                     <!-- Flowing Chromatic Pulse Beam -->
                     <path class="ecg-flowing-beam-mobile" d="M0,32 L280,32" />
                     <g class="heartbeat-pulse-zone heartbeat-mobile-zone">
-                        <path class="ecg-flowing-beam-mobile" d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
+                        <path class="ecg-flowing-beam-mobile"
+                            d="M280,32 L300,12 L315,52 L330,32 L350,32 L365,16 L380,46 L395,32" />
                     </g>
                     <path class="ecg-flowing-beam-mobile" d="M395,32 L600,32" />
                 </svg>
             </div>
         </div>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch Theme" title="Switch Theme">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch Theme">
             <svg class="moon-icon" viewBox="0 0 24 24">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
@@ -298,30 +489,32 @@
 
         <h1>
             <span class="eyebrow">Raghavendra Golla</span>
-            Turning complex data into <span class="dynamic-wrapper"><em id="dynamic-text" aria-hidden="true">intelligent solutions.</em><span class="sr-only">intelligent solutions.</span></span>
+            Turning complex data into <span class="dynamic-wrapper"><em id="dynamic-text" aria-hidden="true">intelligent
+                    solutions.</em><span class="sr-only">intelligent solutions.</span></span>
         </h1>
         <button type="button" class="headline-toggle" id="headlineToggle">Pause headline animation</button>
 
         <p class="hero-sub">
-            MSc Data Science student working across data analysis, predictive modeling and explainable AI &mdash; with a focus on models that stay reliable outside the data they were trained on.
+            MSc Data Science student working across data analysis, predictive modeling and explainable AI &mdash; with a
+            focus on models that stay reliable outside the data they were trained on.
         </p>
 
         <div class="social-links">
             <a href="https://www.linkedin.com/in/raghavendragolla" target="_blank" rel="noopener noreferrer"
-                class="social-link" aria-label="LinkedIn Profile" title="LinkedIn Profile">
+                class="social-link" aria-label="LinkedIn Profile">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
                 </svg>
             </a>
-            <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener noreferrer"
-                class="social-link" aria-label="GitHub Profile" title="GitHub Profile">
+            <a href="https://github.com/raghavendragolla" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="GitHub Profile">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                 </svg>
             </a>
-            <a href="mailto:raghavendrayadavgolla@gmail.com" class="social-link" aria-label="Email Me" title="Email Me">
+            <a href="mailto:raghavendrayadavgolla@gmail.com" class="social-link" aria-label="Email Me">
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
@@ -329,8 +522,7 @@
             </a>
         </div>
 
-        <a class="enter" href="/portfolio/"
-            aria-label="Enter Portfolio — Data Science and Machine Learning Portfolio">
+        <a class="enter" href="/portfolio/" aria-label="Enter Portfolio — Data Science and Machine Learning Portfolio">
             <span class="enter-text">Enter Portfolio</span>
             <span class="coming-text">Explore Projects</span>
             <span class="arrow">&rarr;</span>
@@ -370,7 +562,8 @@
                     <div class="highlight-icon">🔬</div>
                     <div class="highlight-title">Applied AI &amp; XAI</div>
                 </div>
-                <div class="highlight-desc">SHAP explanations, probability calibration and cross-dataset evaluation of clinical prediction models.</div>
+                <div class="highlight-desc">SHAP explanations, probability calibration and cross-dataset evaluation of
+                    clinical prediction models.</div>
                 <div class="highlight-footer-pills">
                     <span class="card-micro-tag">SHAP Interpretability</span>
                     <span class="card-micro-tag">Healthcare ML Research</span>
@@ -441,8 +634,8 @@
                 <span class="footer-copy">&copy; <span id="footer-year">2026</span></span>
             </div>
             <div class="footer-links">
-                <a href="https://www.linkedin.com/in/raghavendragolla" target="_blank"
-                    rel="noopener noreferrer" class="footer-link">
+                <a href="https://www.linkedin.com/in/raghavendragolla" target="_blank" rel="noopener noreferrer"
+                    class="footer-link">
                     <svg viewBox="0 0 24 24" class="footer-icon">
                         <path
                             d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
@@ -460,7 +653,8 @@
                 <a href="/privacy.html" class="footer-link">Privacy</a>
                 <!-- <a href="https://career.raghavendragolla.com" target="_blank" rel="noopener noreferrer" class="footer-link">Career Radar</a> -->
                 <button id="thoughts-footer-btn" class="footer-thoughts-btn" type="button"
-                    aria-label="My Thoughts &amp; Intel — Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts &amp; Intel</button>
+                    aria-label="My Thoughts &amp; Intel — Market Hub"><span class="bulb-glow-fx">💡</span> My Thoughts
+                    &amp; Intel</button>
                 <a href="/portfolio/#contact" class="footer-cta">Get In Touch <span>&rarr;</span></a>
             </div>
         </div>
@@ -493,13 +687,16 @@
             <!-- Segmented Pill Tabs -->
             <div class="hub-tabs-container">
                 <div class="hub-tabs" role="tablist" aria-label="Hub Sections">
-                    <button id="tab-thoughts" class="hub-tab active" data-tab="thoughts" type="button" role="tab" aria-selected="true" aria-controls="pane-thoughts" tabindex="0">
+                    <button id="tab-thoughts" class="hub-tab active" data-tab="thoughts" type="button" role="tab"
+                        aria-selected="true" aria-controls="pane-thoughts" tabindex="0">
                         <span><span aria-hidden="true">💡</span> Thoughts &amp; Notes</span>
                     </button>
-                    <button id="tab-now" class="hub-tab" data-tab="now" type="button" role="tab" aria-selected="false" aria-controls="pane-now" tabindex="-1">
+                    <button id="tab-now" class="hub-tab" data-tab="now" type="button" role="tab" aria-selected="false"
+                        aria-controls="pane-now" tabindex="-1">
                         <span><span aria-hidden="true">⚡</span> Now Focus</span>
                     </button>
-                    <button id="tab-market" class="hub-tab" data-tab="market" type="button" role="tab" aria-selected="false" aria-controls="pane-market" tabindex="-1">
+                    <button id="tab-market" class="hub-tab" data-tab="market" type="button" role="tab"
+                        aria-selected="false" aria-controls="pane-market" tabindex="-1">
                         <span><span aria-hidden="true">📈</span> Market Intel</span>
                     </button>
                 </div>
@@ -509,7 +706,8 @@
             <div class="hub-content">
 
                 <!-- 1. My Thoughts & Book Notes Pane -->
-                <div id="pane-thoughts" class="hub-pane active" role="tabpanel" aria-labelledby="tab-thoughts" tabindex="0">
+                <div id="pane-thoughts" class="hub-pane active" role="tabpanel" aria-labelledby="tab-thoughts"
+                    tabindex="0">
                     <div class="thoughts-grid">
                         <article class="thought-card">
                             <div class="thought-tag-row">
@@ -594,7 +792,8 @@
                                 <div class="now-icon" aria-hidden="true">🔭</div>
                                 <div class="now-body">
                                     <h4>Active Research: MSc Dissertation</h4>
-                                    <p>Evaluating how heart-disease prediction models generalise across hospital cohorts,
+                                    <p>Evaluating how heart-disease prediction models generalise across hospital
+                                        cohorts,
                                         including calibration and the stability of SHAP explanations.</p>
                                 </div>
                             </div>
@@ -645,14 +844,16 @@
                         <!-- Top Signal Bar -->
                         <div class="market-pulse-bar">
                             <span class="live-blink-dot" aria-hidden="true">●</span>
-                            <span class="market-headline">My read of the 2026 market (opinion, not survey data): <strong>strong
+                            <span class="market-headline">My read of the 2026 market (opinion, not survey data):
+                                <strong>strong
                                     demand for applied &amp; explainable AI skills</strong></span>
                         </div>
 
                         <div class="market-grid">
                             <!-- In-Demand Skill Stack Card -->
                             <div class="market-card">
-                                <h4><span class="card-icon" aria-hidden="true">🔥</span> Top In-Demand Skills (2026)</h4>
+                                <h4><span class="card-icon" aria-hidden="true">🔥</span> Top In-Demand Skills (2026)
+                                </h4>
                                 <ul class="market-list">
                                     <li>
                                         <strong>1. Python &amp; PyTorch:</strong> Core tensor programming, fine-tuning,
@@ -728,7 +929,8 @@
             <span class="pwa-banner-icon" aria-hidden="true">🔔</span>
             <div class="pwa-banner-text">
                 <strong class="pwa-banner-title">Enable Career Radar Job Alerts?</strong>
-                <span class="pwa-banner-subtitle" id="pushPairingSubtitle" role="status" aria-live="polite">Get notified here when a new relevant job is found.</span>
+                <span class="pwa-banner-subtitle" id="pushPairingSubtitle" role="status" aria-live="polite">Get notified
+                    here when a new relevant job is found.</span>
             </div>
         </div>
         <div class="pwa-banner-actions">
@@ -736,17 +938,25 @@
                 <span>Enable</span>
             </button>
             <button id="pushPairingDismissBtn" class="pwa-dismiss-btn" type="button" aria-label="Dismiss">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
             </button>
         </div>
     </aside>
 
     <!-- Ask GORA AI Assistant Launcher & Panel -->
     <div id="askGoraRoot" class="ask-gora-root">
-        <button id="askGoraLauncher" class="ask-gora-launcher" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="askGoraPanel" aria-label="Ask GORA — AI Portfolio Assistant" title="Ask GORA — AI Portfolio Assistant">
+        <button id="askGoraLauncher" class="ask-gora-launcher" type="button" aria-haspopup="dialog"
+            aria-expanded="false" aria-controls="askGoraPanel">
             <span class="ask-gora-launcher-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.25 5.08 7.37L9 22l4.5-2.25A8.003 8.003 0 0 0 20 10a8 8 0 0 0-8-8z"></path>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12 2a8 8 0 0 0-8 8c0 3.37 2.1 6.25 5.08 7.37L9 22l4.5-2.25A8.003 8.003 0 0 0 20 10a8 8 0 0 0-8-8z">
+                    </path>
                     <circle cx="9" cy="10" r="1" fill="currentColor"></circle>
                     <circle cx="15" cy="10" r="1" fill="currentColor"></circle>
                 </svg>
@@ -760,7 +970,8 @@
             </span>
         </button>
 
-        <section id="askGoraPanel" class="ask-gora-panel" role="dialog" aria-modal="true" aria-label="Ask GORA — AI Portfolio Assistant" aria-hidden="true" hidden>
+        <section id="askGoraPanel" class="ask-gora-panel" role="dialog" aria-modal="true"
+            aria-label="Ask GORA — AI Portfolio Assistant" aria-hidden="true" hidden>
             <header class="ask-gora-header">
                 <div class="ask-gora-header-brand">
                     <div class="ask-gora-avatar" aria-hidden="true">
@@ -773,13 +984,17 @@
                     </div>
                 </div>
                 <div class="ask-gora-header-actions">
-                    <button id="askGoraMinimizeBtn" class="ask-gora-action-btn ask-gora-minimize-btn" type="button" aria-label="Minimize Ask GORA" title="Minimize Ask GORA">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <button id="askGoraMinimizeBtn" class="ask-gora-action-btn ask-gora-minimize-btn" type="button"
+                        aria-label="Minimize Ask GORA">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
                     </button>
-                    <button id="askGoraCloseBtn" class="ask-gora-action-btn ask-gora-close-btn" type="button" aria-label="Close Ask GORA" title="Close Ask GORA">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <button id="askGoraCloseBtn" class="ask-gora-action-btn ask-gora-close-btn" type="button"
+                        aria-label="Close Ask GORA">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
@@ -787,10 +1002,12 @@
                 </div>
             </header>
 
-            <div id="askGoraMessages" class="ask-gora-messages" role="log" aria-live="polite" aria-label="Chat messages">
+            <div id="askGoraMessages" class="ask-gora-messages" role="log" aria-live="polite"
+                aria-label="Chat messages">
                 <div class="ask-gora-msg ask-gora-msg-assistant">
                     <div class="ask-gora-msg-bubble">
-                        <p>Hello! I'm GORA. I can help you explore Raghavendra's professional background, technical skills, projects and research. What would you like to know?</p>
+                        <p>Hello! I'm GORA. I can help you explore Raghavendra's professional background, technical
+                            skills, projects and research. What would you like to know?</p>
                     </div>
                     <span class="ask-gora-msg-meta">GORA &bull; AI Assistant</span>
                 </div>
@@ -811,9 +1028,12 @@
             <footer class="ask-gora-footer">
                 <form id="askGoraForm" class="ask-gora-form" autocomplete="off">
                     <div class="ask-gora-input-wrap">
-                        <textarea id="askGoraInput" class="ask-gora-input" rows="1" maxlength="400" placeholder="Ask GORA a question..." aria-label="Type your message"></textarea>
-                        <button id="askGoraSendBtn" class="ask-gora-send-btn" type="submit" aria-label="Send message" title="Send message" disabled>
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <textarea id="askGoraInput" class="ask-gora-input" rows="1" maxlength="400"
+                            placeholder="Ask GORA a question..." aria-label="Type your message"></textarea>
+                        <button id="askGoraSendBtn" class="ask-gora-send-btn" type="submit" aria-label="Send message"
+                            disabled>
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg>

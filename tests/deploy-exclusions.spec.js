@@ -29,7 +29,8 @@ test.describe('Production deployment exclusions (_config.yml)', () => {
   test('development and test files are excluded from publishing', () => {
     const mustExclude = [
       'package.json', 'package-lock.json', 'README.md', 'AI_CHATBOT_INTEGRATION_AUDIT.md',
-      'CHATBOT_SINGLE_REPO_ARCHITECTURE.md', 'eslint.config.mjs',
+      'CHATBOT_SINGLE_REPO_ARCHITECTURE.md', 'WEBSITE_AND_ASK_GORA_AUDIT.md',
+      'PHASE1_IMPLEMENTATION_REPORT.md', 'PHASE2_FINAL_COMPLETION_REPORT.md', 'PHASE3_FINAL_COMPLETION_REPORT.md', 'eslint.config.mjs',
       'playwright.config.js', 'lighthouserc.json', 'node_modules',
       'scripts/verify-csp.js', 'scripts/privacy-scan.js', 'tests/routing.spec.js'
     ];

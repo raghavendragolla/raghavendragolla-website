@@ -21,7 +21,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     });
 
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-error/);
@@ -36,7 +36,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     await expect(mailtoLink).toBeVisible();
 
     // Button re-enabled
-    const submitBtn = page.locator('button[type="submit"]');
+    const submitBtn = page.locator('#contactForm button[type="submit"]');
     await expect(submitBtn).toBeEnabled();
 
     // URL did not change
@@ -53,7 +53,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     });
 
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-error/);
@@ -70,7 +70,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     });
 
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-error/);
@@ -90,7 +90,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     });
 
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-success/);
@@ -115,7 +115,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     });
 
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-error/);
@@ -145,7 +145,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
       if (botField) botField.checked = true;
     });
 
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     // Wait a moment to ensure no background fetch was initiated
     await page.waitForTimeout(500);
@@ -166,7 +166,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
 
     await fillForm(page);
     await page.fill('#senderPhone', '');
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-success/);
@@ -186,7 +186,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
 
     await fillForm(page);
     await page.fill('#senderPhone', 'abc-invalid');
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const phoneError = page.locator('#phoneError');
     await expect(phoneError).toHaveText(/valid phone number/);
@@ -205,7 +205,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
 
     await fillForm(page);
     await page.fill('#senderPhone', '+91 98765 43210');
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-success/);
@@ -226,14 +226,14 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
 
     await fillForm(page);
     // First click to submit
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const formStatus = page.locator('#formStatus');
     await expect(formStatus).toHaveClass(/is-success/);
 
     // Attempt second immediate submission (triggers duplicate or throttle block in script.js)
     await fillForm(page);
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     // Confirm formStatus message changed to throttle/duplicate warning
     await expect(formStatus).toHaveClass(/is-error/);
@@ -250,7 +250,7 @@ test.describe('Contact Form Submissions & Failure Paths (Web3Forms Mocked)', () 
     await page.fill('#senderName', '');
     await page.fill('#senderEmail', '');
     await page.fill('#senderMessage', '');
-    await page.click('button[type="submit"]');
+    await page.click('#contactForm button[type="submit"]');
 
     const nameInput = page.locator('#senderName');
     const emailInput = page.locator('#senderEmail');

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "node --test test/index.test.js"
+    "test": "node --test test/index.test.js test/phase3.test.js"
   },
   "devDependencies": {
     "wrangler": "^4.165.0"

@@ -3,9 +3,18 @@
 # ==============================================================================
 
 name = "raghavendragolla-ai-bot"
-main = "src/index.js"
+main = "src/worker.js"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
+
+# Public endpoint: the Custom Domain already attached in the Cloudflare dashboard, declared here
+# so that deployments keep it (owner decision 2026-11-22, Option B).
+# Declaring any route turns the workers.dev default OFF, so workers_dev = true is set explicitly
+# to keep <name>.<subdomain>.workers.dev enabled (owner decision: preserve workers.dev).
+workers_dev = true
+routes = [
+  { pattern = "ai.raghavendragolla.com", custom_domain = true }
+]
 
 # Cloudflare Workers AI Native Platform Binding
 # Zero external API keys, zero paid third-party tokens required.
@@ -21,6 +30,23 @@ namespace_id = "1001"
 [ratelimits.simple]
 limit = 10
 period = 60
+
+# Daily Workers AI budget (circuit breaker) - see src/budget.js
+# One global SQLite-backed Durable Object counts neurons per UTC day (exact,
+# strongly consistent). SQLite-backed Durable Objects are available on the
+# Workers Free plan; exceeding a Free limit returns errors, never charges.
+# If the counter is unavailable the Worker fails closed (no inference).
+[[durable_objects.bindings]]
+name = "AI_BUDGET"
+class_name = "AiBudget"
+
+[[migrations]]
+tag = "v1-ai-budget"
+new_sqlite_classes = ["AiBudget"]
+
+[vars]
+# Daily cap in neurons: 80% of the 10,000-neuron free allocation.
+AI_DAILY_NEURON_BUDGET = "8000"
 
 [observability]
 enabled = false

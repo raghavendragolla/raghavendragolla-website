@@ -1723,3 +1723,17 @@
         box-sizing: border-box !important;
     }
 }
+
+/* =========================================
+   Mobile Rendering Performance (<= 768px)
+   The blurred ambient glows stay in place (static instead of drifting), which
+   avoids re-rasterising two large blurred layers on every frame.
+   ========================================= */
+@media (max-width: 768px) {
+
+    .ambient-glow-1,
+    .ambient-glow-2 {
+        animation: none !important;
+        will-change: auto;
+    }
+}

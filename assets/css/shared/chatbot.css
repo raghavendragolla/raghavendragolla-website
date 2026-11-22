@@ -401,6 +401,76 @@ section.ask-gora-panel {
     text-underline-offset: 2px;
 }
 
+/* Phase 3: Markdown elements in assistant answers (lists, inline code, code blocks) */
+.ask-gora-msg-bubble ul,
+.ask-gora-msg-bubble ol {
+    margin: 4px 0;
+    padding-left: 18px;
+}
+
+.ask-gora-msg-bubble li + li {
+    margin-top: 2px;
+}
+
+.ask-gora-inline-code,
+.ask-gora-code pre {
+    font-family: var(--font-mono);
+}
+
+.ask-gora-inline-code {
+    font-size: 12px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: var(--primary-subtle);
+}
+
+.ask-gora-code {
+    margin: 6px 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--surface);
+}
+
+.ask-gora-code-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 4px 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.ask-gora-code pre {
+    margin: 0;
+    padding: 8px;
+    overflow-x: auto;
+    font-size: 11.5px;
+    line-height: 1.45;
+    white-space: pre;
+}
+
+.ask-gora-copy-btn {
+    font: inherit;
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 1px 8px;
+    cursor: pointer;
+}
+
+.ask-gora-copy-btn:hover {
+    border-color: var(--border-strong);
+}
+
+.ask-gora-copy-btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+
 .ask-gora-msg-meta {
     margin-top: 3px;
     font-family: var(--font-mono);
@@ -756,6 +826,16 @@ section.ask-gora-panel {
 @media (max-width: 768px) {
     .back-to-top-btn {
         bottom: max(76px, calc(env(safe-area-inset-bottom) + 64px)) !important;
+    }
+
+    /* The fixed launcher sits over scrolling content, so a live blur is re-computed on every
+       scroll frame. Its fill is already 78-85% opaque, so dropping the blur is barely visible. */
+    .ask-gora-launcher {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        /* Same tint as the glass over a plain page, but opaque: content scrolling underneath no
+           longer shows through the unblurred launcher. */
+        background: linear-gradient(var(--glass-fill-strong), var(--glass-fill-strong)), var(--paper);
     }
 }
 

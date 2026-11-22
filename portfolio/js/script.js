@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const particleCount = isMobile ? 18 : 36;
         const maxDistance = isMobile ? 80 : 120;
+        // Mobile is capped at ~30 fps (motion scaled by elapsed time); desktop stays uncapped.
+        const frameInterval = isMobile ? 1000 / 30 : 0;
+        let lastFrameTime = 0;
 
         let mouse = {
             x: null,
@@ -130,9 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.colorType = Math.random() > 0.3 ? 'teal' : 'gold';
             }
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+            update(step = 1) {
+                this.x += this.vx * step;
+                this.y += this.vy * step;
 
                 if (this.x < 0 || this.x > width) this.vx = -this.vx;
                 if (this.y < 0 || this.y > height) this.vy = -this.vy;
@@ -144,8 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (dist > 0.001 && dist < mouse.radius) {
                         const force = (mouse.radius - dist) / mouse.radius;
-                        this.x += (dx / dist) * force * 1.1;
-                        this.y += (dy / dist) * force * 1.1;
+                        this.x += (dx / dist) * force * 1.1 * step;
+                        this.y += (dy / dist) * force * 1.1 * step;
                     }
                 }
             }
@@ -201,10 +204,42 @@ document.addEventListener('DOMContentLoaded', () => {
             particles.forEach(p => p.draw(tealRgb, goldRgb));
         }
 
-        function animateCanvas() {
-            if (!isPageVisible || prefersReducedMotion.matches) {
+        // Visibility tracking: pause when the canvas is not rendered, and on mobile when the hero
+        // section is scrolled away (the last frame stays painted, so nothing visibly disappears).
+        let canvasOnScreen = true;
+        let heroOnScreen = true;
+        function isCanvasInView() {
+            return canvasOnScreen && (!isMobile || heroOnScreen);
+        }
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                canvasOnScreen = entries[entries.length - 1].isIntersecting;
+                if (isCanvasInView()) startAnimation(); else stopAnimation();
+            }).observe(canvas);
+            const heroEl = isMobile ? document.getElementById('home') : null;
+            if (heroEl) {
+                new IntersectionObserver((entries) => {
+                    heroOnScreen = entries[entries.length - 1].isIntersecting;
+                    if (isCanvasInView()) startAnimation(); else stopAnimation();
+                }).observe(heroEl);
+            }
+        }
+
+        function animateCanvas(timestamp) {
+            if (!isPageVisible || prefersReducedMotion.matches || !isCanvasInView()) {
                 animFrameId = null;
                 return;
+            }
+
+            let frameStep = 1;
+            if (frameInterval) {
+                const elapsed = lastFrameTime ? timestamp - lastFrameTime : frameInterval;
+                if (elapsed < frameInterval - 2) {
+                    animFrameId = requestAnimationFrame(animateCanvas);
+                    return;
+                }
+                frameStep = Math.min(elapsed / (1000 / 60), 3);
+                lastFrameTime = timestamp;
             }
 
             ctx.clearRect(0, 0, width, height);
@@ -228,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             particles.forEach(p => {
-                p.update();
+                p.update(frameStep);
                 p.draw(tealRgb, goldRgb);
             });
 
@@ -240,7 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderStaticFrame();
                 return;
             }
-            if (!animFrameId && isPageVisible) {
+            if (!animFrameId && isPageVisible && isCanvasInView()) {
+                lastFrameTime = 0;
                 animFrameId = requestAnimationFrame(animateCanvas);
             }
         }
@@ -422,8 +458,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectCards = document.querySelectorAll('.project-card');
     const filterStatusEl = document.getElementById('filterStatus');
 
+    let activeProjectFilter = 'all';
+
     function applyProjectFilter(filterValue, isUserInteraction) {
         let visibleCount = 0;
+        activeProjectFilter = filterValue;
 
         filterButtons.forEach(btn => {
             const isActive = btn.getAttribute('data-filter') === filterValue;
@@ -455,15 +494,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (isUserInteraction) {
-            if (filterValue === 'all') {
-                if (window.location.hash.startsWith('#filter=')) {
-                    history.replaceState(null, '', window.location.pathname + window.location.search);
-                }
-            } else {
-                history.replaceState(null, '', '#filter=' + encodeURIComponent(filterValue));
-            }
+            syncFilterHash();
         }
     }
+
+    // Reflect the active filter in the URL without adding history entries (filters never did).
+    // history.state is preserved so other features' entries (e.g. the Ask GORA panel's Back-button
+    // entry) keep their state. Only a filter hash or an empty hash is ever rewritten, so in-page
+    // anchors such as #projects are left alone.
+    function syncFilterHash() {
+        const hash = window.location.hash;
+        if (hash && !hash.startsWith('#filter=')) return;
+        const wanted = activeProjectFilter === 'all' ? '' : '#filter=' + encodeURIComponent(activeProjectFilter);
+        if (hash === wanted) return;
+        history.replaceState(history.state, '', wanted || window.location.pathname + window.location.search);
+    }
+
+    // Back/Forward never changes the selected filter (filters do not create history entries), so
+    // after any history step keep the URL consistent with what is shown, e.g. when the chat
+    // panel's own Back-button entry is popped after a filter was chosen while it was open.
+    window.addEventListener('popstate', syncFilterHash);
 
     // Compute project counts dynamically for each category (Single Source of Truth)
     filterButtons.forEach(btn => {
@@ -622,6 +672,124 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sections.forEach(section => sectionObserver.observe(section));
     }
+
+
+    // ====================================================
+    // 9b. Accurate In-Page Navigation with content-visibility
+    // ====================================================
+    // #skills, #projects, #research and #contact use `content-visibility: auto`, so until they have
+    // been rendered they count as 800px placeholders and the browser would scroll to the wrong place
+    // (Projects alone is several thousand pixels tall). Before the browser scrolls to a #target, the
+    // skipped sections above (and containing) the target are rendered for that one navigation so the
+    // scroll uses real heights; `contain-intrinsic-size: auto` then remembers those heights, and
+    // skipping resumes once the scroll has finished. Native smooth scrolling, history entries,
+    // focus and :target behaviour are left to the browser.
+    (function initSectionNavigation() {
+        const SKIPPED_IDS = ['skills', 'projects', 'research', 'contact'];
+        let forced = [];
+        let releaseTimer = 0;
+        let pendingTarget = null;
+        let visitorScrolled = false;
+
+        function targetFor(hash) {
+            if (!hash || hash.length < 2 || hash.startsWith('#filter=')) return null;
+            try {
+                return document.getElementById(decodeURIComponent(hash.slice(1)));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function renderSectionsUpTo(target) {
+            clearTimeout(releaseTimer);
+            SKIPPED_IDS.forEach((id) => {
+                const section = document.getElementById(id);
+                if (!section || forced.includes(section)) return;
+                const isAboveOrContains = section === target || section.contains(target) ||
+                    Boolean(section.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING);
+                if (isAboveOrContains) {
+                    section.style.setProperty('content-visibility', 'visible');
+                    forced.push(section);
+                }
+            });
+            void document.documentElement.offsetHeight; // lay out real heights before the browser picks the scroll position
+        }
+
+        function landExactly() {
+            // Safety net: if something above changed height during the smooth scroll, land on the target,
+            // but never fight a visitor who has started scrolling themselves.
+            if (!pendingTarget || visitorScrolled) return;
+            const marginTop = parseFloat(getComputedStyle(pendingTarget).scrollMarginTop) || 0;
+            const maxY = document.documentElement.scrollHeight - window.innerHeight;
+            const wanted = Math.max(0, Math.min(maxY, pendingTarget.getBoundingClientRect().top + window.scrollY - marginTop));
+            if (Math.abs(window.scrollY - wanted) > 2) window.scrollTo({ top: wanted, behavior: 'instant' });
+        }
+
+        function release() {
+            forced.forEach((section) => section.style.removeProperty('content-visibility'));
+            forced = [];
+        }
+
+        function releaseAfterScroll(minDelay, target) {
+            clearTimeout(releaseTimer);
+            if (target) {
+                pendingTarget = target;
+                visitorScrolled = false;
+            }
+            const started = Date.now();
+            const finish = () => {
+                window.removeEventListener('scrollend', finish);
+                clearTimeout(releaseTimer);
+                landExactly();
+                releaseTimer = setTimeout(() => {
+                    landExactly();
+                    pendingTarget = null;
+                    release();
+                }, Math.max(150, minDelay - (Date.now() - started)));
+            };
+            if ('onscrollend' in window) window.addEventListener('scrollend', finish);
+            releaseTimer = setTimeout(finish, Math.max(2500, minDelay)); // no scroll happened, or no scrollend support
+        }
+
+        ['wheel', 'touchstart', 'keydown'].forEach((type) => {
+            window.addEventListener(type, () => { visitorScrolled = true; }, { passive: true });
+        });
+
+        // Sidebar, mobile menu and in-page links: render first, then let the native anchor scroll run.
+        document.addEventListener('click', (e) => {
+            if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            const link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+            const target = link && targetFor(link.getAttribute('href'));
+            if (!target) return;
+            renderSectionsUpTo(target);
+            releaseAfterScroll(0, target);
+        }, true);
+
+        // Back / Forward between section links. hashchange only fires when the fragment really changes,
+        // so closing the Ask GORA panel with Back is unaffected.
+        window.addEventListener('hashchange', () => {
+            const target = targetFor(window.location.hash);
+            if (!target) return;
+            const before = target.getBoundingClientRect().top;
+            renderSectionsUpTo(target);
+            if (Math.abs(target.getBoundingClientRect().top - before) > 2) target.scrollIntoView({ block: 'start', behavior: 'instant' });
+            releaseAfterScroll(0, target);
+        });
+
+        // Direct links (/portfolio/#research): land now, re-land once fonts and the page have settled.
+        const initialTarget = targetFor(window.location.hash);
+        if (initialTarget) {
+            renderSectionsUpTo(initialTarget);
+            initialTarget.scrollIntoView({ block: 'start', behavior: 'instant' });
+            const settle = () => {
+                if (forced.length) initialTarget.scrollIntoView({ block: 'start', behavior: 'instant' });
+                releaseAfterScroll(300, initialTarget);
+            };
+            const whenFontsReady = () => (document.fonts ? document.fonts.ready : Promise.resolve()).then(settle);
+            if (document.readyState === 'complete') whenFontsReady();
+            else window.addEventListener('load', whenFontsReady, { once: true });
+        }
+    })();
 
 
     // ====================================================
