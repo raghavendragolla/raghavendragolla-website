@@ -7890,3 +7890,75 @@ h1.hero-title em {
     content-visibility: auto;
     contain-intrinsic-size: auto 1px auto 800px;
 }
+
+/* ==========================================================================
+   Project case studies (Phase 4.3): native <details>, closed by default, so
+   the extra facts cost no layout or paint until a visitor opens them.
+   ========================================================================== */
+.case-study {
+    margin: 1rem 0 0.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+}
+
+.case-study > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.case-study > summary::-webkit-details-marker {
+    display: none;
+}
+
+.case-study > summary::after {
+    content: "+";
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--teal);
+}
+
+.case-study[open] > summary::after {
+    content: "\2212";
+}
+
+.case-study-body {
+    margin: 0;
+    padding: 0 1rem 1rem;
+}
+
+.case-study-body dt {
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.case-study-body dd {
+    margin: 0.2rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    overflow-wrap: anywhere;
+}
+
+.case-study-body a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}

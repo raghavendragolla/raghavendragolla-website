@@ -241,7 +241,8 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
 
     // Suggested questions chips exist
     const chips = panel.locator('.ask-gora-chip');
-    await expect(chips).toHaveCount(6);
+    // 7 suggestions: the six original questions plus the recruiter role-fit question (Phase 4.2).
+    await expect(chips).toHaveCount(7);
 
     // Close button closes panel
     const closeBtn = page.locator('#askGoraCloseBtn');

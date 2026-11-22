@@ -221,11 +221,11 @@
     </style>
 
     <!-- Self-hosted Fonts (no third-party font origins) -->
-    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.7">
 
     <!-- CSS Stack (Cascade Preserved: tokens -> components -> style -> animations -> responsive) -->
-    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.6">
-    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.7">
+    <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.7">
     <!-- Ask GORA: critical launcher styles inline; the full chatbot.css loads without blocking
          first paint: it is only prefetched during load, and chatbot.js inserts it (at this position, so the
          cascade order is unchanged) on first intent: hover, focus, touch or open. Keeping it out of the style
@@ -351,22 +351,22 @@
             }
         }
     </style>
-    <link rel="prefetch" href="/assets/css/shared/chatbot.css?v=24.6" as="style" data-gora-css>
+    <link rel="prefetch" href="/assets/css/shared/chatbot.css?v=24.7" as="style" data-gora-css>
     <noscript>
-        <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.6">
+        <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.7">
     </noscript>
-    <link rel="stylesheet" href="/assets/css/style.css?v=24.6">
-    <link rel="stylesheet" href="/assets/css/animations.css?v=24.6" media="print" data-async-css>
+    <link rel="stylesheet" href="/assets/css/style.css?v=24.7">
+    <link rel="stylesheet" href="/assets/css/animations.css?v=24.7" media="print" data-async-css>
     <noscript>
-        <link rel="stylesheet" href="/assets/css/animations.css?v=24.6">
+        <link rel="stylesheet" href="/assets/css/animations.css?v=24.7">
     </noscript>
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=24.7">
 
     <!-- JavaScript Stack (shared.js loads FIRST) -->
-    <script src="/assets/js/shared.js?v=24.6" defer></script>
-    <script src="/assets/js/script.js?v=24.6" defer></script>
+    <script src="/assets/js/shared.js?v=24.7" defer></script>
+    <script src="/assets/js/script.js?v=24.7" defer></script>
     <script src="/assets/js/push.js?v=1.0" defer></script>
-    <script src="/assets/js/chatbot.js?v=24.6" defer></script>
+    <script src="/assets/js/chatbot.js?v=24.7" defer></script>
 
 </head>
 
@@ -1016,6 +1016,7 @@
                     <span class="ask-gora-suggestions-label">Suggested Questions:</span>
                     <div class="ask-gora-suggestions" role="group" aria-label="Suggested questions">
                         <button class="ask-gora-chip" type="button">Tell me about Raghavendra.</button>
+                        <button class="ask-gora-chip" type="button">Is he a good fit for a Data Analyst role?</button>
                         <button class="ask-gora-chip" type="button">What are his technical skills?</button>
                         <button class="ask-gora-chip" type="button">Tell me about his research.</button>
                         <button class="ask-gora-chip" type="button">Show me his projects.</button>

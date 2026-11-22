@@ -185,17 +185,17 @@
   </style>
 
   <!-- Self-hosted Fonts (no third-party font origins) -->
-  <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.6">
+  <link rel="stylesheet" href="/assets/css/shared/fonts.css?v=24.7">
 
   <!-- Stylesheets (Cascade Preserved: fonts -> tokens -> components -> animations -> style -> responsive -> chatbot) -->
-  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.6">
-  <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.6">
-  <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.6" media="print" data-async-css>
+  <link rel="stylesheet" href="/assets/css/shared/tokens.css?v=24.7">
+  <link rel="stylesheet" href="/assets/css/shared/components.css?v=24.7">
+  <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.7" media="print" data-async-css>
   <noscript>
-    <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.6">
+    <link rel="stylesheet" href="/portfolio/css/animations.css?v=24.7">
   </noscript>
-  <link rel="stylesheet" href="/portfolio/css/style.css?v=24.6">
-  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=24.6">
+  <link rel="stylesheet" href="/portfolio/css/style.css?v=24.7">
+  <link rel="stylesheet" href="/portfolio/css/responsive.css?v=24.7">
   <!-- Ask GORA: critical launcher styles inline; the full chatbot.css loads without blocking
        first paint: it is only prefetched during load, and chatbot.js inserts it (at this position, so the
        cascade order is unchanged) on first intent: hover, focus, touch or open. Keeping it out of the style
@@ -225,15 +225,15 @@
       }
     }
   </style>
-  <link rel="prefetch" href="/assets/css/shared/chatbot.css?v=24.6" as="style" data-gora-css>
+  <link rel="prefetch" href="/assets/css/shared/chatbot.css?v=24.7" as="style" data-gora-css>
   <noscript>
-    <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.6">
+    <link rel="stylesheet" href="/assets/css/shared/chatbot.css?v=24.7">
   </noscript>
 
   <!-- Core Scripts (shared.js loads FIRST) -->
-  <script src="/assets/js/shared.js?v=24.6" defer></script>
-  <script src="/portfolio/js/script.js?v=24.6" defer></script>
-  <script src="/assets/js/chatbot.js?v=24.6" defer></script>
+  <script src="/assets/js/shared.js?v=24.7" defer></script>
+  <script src="/portfolio/js/script.js?v=24.7" defer></script>
+  <script src="/assets/js/chatbot.js?v=24.7" defer></script>
 
 </head>
 
@@ -600,7 +600,7 @@
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </a>
-              <a href="resume/resume.pdf?v=24.6" class="btn ghost" target="_blank" rel="noopener noreferrer">
+              <a href="resume/resume.pdf?v=24.7" class="btn ghost" target="_blank" rel="noopener noreferrer">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -749,7 +749,7 @@
                 </div>
 
                 <div class="dossier-quick-actions">
-                  <a href="resume/resume.pdf?v=24.6" class="btn primary btn-sm" target="_blank" rel="noopener noreferrer">
+                  <a href="resume/resume.pdf?v=24.7" class="btn primary btn-sm" target="_blank" rel="noopener noreferrer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
                     <span>View CV (PDF)</span>
                   </a>
@@ -1281,6 +1281,24 @@
                   </div>
                 </div>
 
+                <!-- Case study (facts from the project repository README) -->
+                <details class="case-study">
+                  <summary>Read the case study<span class="sr-only">: IBM Data Analyst Capstone</span></summary>
+                  <dl class="case-study-body">
+                    <dt>Objective</dt>
+                    <dd>Identify the dominant and fastest-growing technologies, compare developer skills with job-market demand, and analyse compensation to inform technology, hiring and upskilling recommendations.</dd>
+                    <dt>Data &amp; sources</dt>
+                    <dd>Stack Overflow 2019 Developer Survey sample via IBM Skills Network (11,552 records, 85 columns); PromptCloud Naukri job postings (27,005 listings, public domain); IBM Skills Network salary benchmark table (10 languages). Every download is verified with a SHA-256 checksum.</dd>
+                    <dt>Preparation</dt>
+                    <dd>Removed 154 duplicate responses (11,552 &rarr; 11,398), imputed missing categorical values with the mode, normalised compensation and split multi-value answers into first-normal-form tables in a SQLite database.</dd>
+                    <dt>Method</dt>
+                    <dd>10 analytical SQL queries (CTEs, window functions), IQR outlier detection, Mann-Whitney U, Welch&rsquo;s t-test and Chi-square tests, 8 exported figures and a five-tab Streamlit dashboard.</dd>
+                    <dt>Evaluation &amp; results</dt>
+                    <dd>879 high-earner compensation outliers flagged; no significant pay difference between Bachelor&rsquo;s and Master&rsquo;s holders (p = 0.068); Python&rsquo;s desired use was 15.3% above its current use.</dd>
+                    <dt>Limitations</dt>
+                    <dd>Survey respondents self-select (mostly proactive, English-speaking developers); a single survey cycle, so &ldquo;desired next year&rdquo; reflects intentions; compensation in USD reflects exchange rates at collection time.</dd>
+                  </dl>
+                </details>
                 <!-- Node Bottom Dock -->
                 <div class="node-bottom-dock">
                   <div class="node-status-log">
@@ -1436,6 +1454,22 @@
                   </div>
                 </div>
 
+                <!-- Case study (facts from the project repository README) -->
+                <details class="case-study">
+                  <summary>Read the case study<span class="sr-only">: California House Price Predictor</span></summary>
+                  <dl class="case-study-body">
+                    <dt>Objective</dt>
+                    <dd>Predict the median house value of a California district from census indicators and serve the model in an interactive web app.</dd>
+                    <dt>Data &amp; sources</dt>
+                    <dd>California Housing dataset from the 1990 census: 20,640 district records with location, housing, demographic and income features and an ocean-proximity category.</dd>
+                    <dt>Preparation</dt>
+                    <dd>Engineered ratio features; a scikit-learn Pipeline with a ColumnTransformer scales numeric features (StandardScaler) and one-hot encodes ocean proximity.</dd>
+                    <dt>Method</dt>
+                    <dd>Compared Histogram-based Gradient Boosting, Random Forest and Linear Regression on a held-out test set, with permutation feature importance; the best pipeline is serialised and served by Streamlit with district presets and a dataset explorer.</dd>
+                    <dt>Evaluation &amp; results</dt>
+                    <dd>HistGradientBoosting (deployed): R&sup2; 0.836, RMSE $46,378, MAE $30,843. Random Forest: R&sup2; 0.807, RMSE $50,294, MAE $32,235. Linear baseline: R&sup2; 0.597, RMSE $72,668, MAE $50,888.</dd>
+                  </dl>
+                </details>
                 <!-- Node Bottom Dock -->
                 <div class="node-bottom-dock">
                   <div class="node-status-log">
@@ -1549,6 +1583,22 @@
                   </div>
                 </div>
 
+                <!-- Case study (facts from the project repository README) -->
+                <details class="case-study">
+                  <summary>Read the case study<span class="sr-only">: Handwritten Digit Recognition</span></summary>
+                  <dl class="case-study-body">
+                    <dt>Objective</dt>
+                    <dd>Recognise digits that visitors draw by hand, in real time.</dd>
+                    <dt>Data &amp; sources</dt>
+                    <dd>MNIST handwritten digits (28&times;28 grayscale), downloaded automatically by the training pipeline; evaluated on the 10,000-image MNIST test set.</dd>
+                    <dt>Preparation</dt>
+                    <dd>Data augmentation in the training data loader; drawings from the app canvas are centred by centre of mass before prediction.</dd>
+                    <dt>Method</dt>
+                    <dd>Two convolutional blocks (two 3&times;3 convolutions with 32, then 64 filters, each with batch normalisation, ReLU, 2&times;2 max-pooling and 0.25 dropout), dense layers of 256 and 128 units with batch normalisation and 0.5 dropout, and a 10-class softmax output. Repository training command: 15 epochs, batch size 64, learning rate 0.001.</dd>
+                    <dt>Evaluation &amp; results</dt>
+                    <dd>99.64% test accuracy: 9,964 of 10,000 MNIST test images correct (36 errors), confirmed by the confusion matrix in the repository.</dd>
+                  </dl>
+                </details>
                 <!-- Node Bottom Dock -->
                 <div class="node-bottom-dock">
                   <div class="node-status-log">
@@ -1671,6 +1721,24 @@
                   </div>
                 </div>
 
+                <!-- Case study (facts from the project repository README) -->
+                <details class="case-study">
+                  <summary>Read the case study<span class="sr-only">: Cross-Dataset Evaluation of ML Models for Heart Disease Prediction</span></summary>
+                  <dl class="case-study-body">
+                    <dt>Research questions</dt>
+                    <dd>How much discrimination (ROC-AUC, PR-AUC) and probability quality (Brier score, ECE) degrade when a model trained at one hospital is tested on another; whether Platt recalibration restores calibration; whether SHAP explanations stay consistent across cohorts; and how age, sex and missing data affect transferability.</dd>
+                    <dt>Data &amp; sources</dt>
+                    <dd>UCI Heart Disease repository (CC BY 4.0; Janosi, Steinbrunn, Pfisterer &amp; Detrano, 1989, <a href="https://doi.org/10.24432/C52P4X" target="_blank" rel="noopener noreferrer">doi:10.24432/C52P4X</a>): Cleveland (303 records), Hungarian (294), Zurich (123) and VA Long Beach (200); 918 analysed after removing one exact duplicate from each of the Hungarian and VA Long Beach files.</dd>
+                    <dt>Preparation</dt>
+                    <dd>Harmonised to 10 shared non-invasive features (age, sex, chest-pain type, resting blood pressure, fasting blood sugar, resting ECG, maximum heart rate, exercise-induced angina, ST depression, ST slope). Serum cholesterol is excluded because of heavy missingness and zero placeholders in two cohorts; zero blood pressure is recoded as missing and the outcome is dichotomised.</dd>
+                    <dt>Method</dt>
+                    <dd>Logistic Regression, Random Forest, SVM (RBF) and XGBoost; 5-fold stratified cross-validation within each cohort, then 24 directional cross-cohort transfer experiments with 1,000-iteration bootstrap confidence intervals.</dd>
+                    <dt>Evaluation</dt>
+                    <dd>Discrimination, calibration (Brier score, ECE, calibration slope and intercept, before and after Platt scaling), dataset shift (KS, Wasserstein, PSI), SHAP explanation stability (rank correlation, top-5 overlap) and subgroup and missing-data sensitivity.</dd>
+                    <dt>Status</dt>
+                    <dd>MSc dissertation in progress under Dr. Naveen Kumar Mani; not yet peer-reviewed or published. Academic research only: the models are not a clinical diagnostic tool.</dd>
+                  </dl>
+                </details>
                 <!-- Node Bottom Dock -->
                 <div class="node-bottom-dock">
                   <div class="node-status-log">
@@ -1753,7 +1821,7 @@
               <h3 class="resume-name">Raghavendra Golla</h3>
               <p class="resume-sub">MSc Data Science Candidate &bull; Chandigarh University &bull; Chandigarh, India</p>
             </div>
-            <a href="resume/resume.pdf?v=24.6" class="btn primary btn-resume-dl" target="_blank" rel="noopener noreferrer">
+            <a href="resume/resume.pdf?v=24.7" class="btn primary btn-resume-dl" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -2288,7 +2356,7 @@
                 <span class="sub-sep">&bull;</span>
                 <a href="/privacy.html">Privacy Notice</a>
                 <span class="sub-sep">&bull;</span>
-                <a href="resume/resume.pdf?v=24.6" target="_blank" rel="noopener noreferrer">Curriculum Vitae</a>
+                <a href="resume/resume.pdf?v=24.7" target="_blank" rel="noopener noreferrer">Curriculum Vitae</a>
                 <span class="sub-sep">&bull;</span>
                 <a href="https://coursera.org/verify/professional-cert/KEDX396MPOYI" target="_blank" rel="noopener noreferrer">Verify IBM Credential</a>
               </div>
@@ -2442,6 +2510,7 @@
           <span class="ask-gora-suggestions-label">Suggested Questions:</span>
           <div class="ask-gora-suggestions" role="group" aria-label="Suggested questions">
             <button class="ask-gora-chip" type="button">Tell me about Raghavendra.</button>
+            <button class="ask-gora-chip" type="button">Is he a good fit for a Data Analyst role?</button>
             <button class="ask-gora-chip" type="button">What are his technical skills?</button>
             <button class="ask-gora-chip" type="button">Tell me about his research.</button>
             <button class="ask-gora-chip" type="button">Show me his projects.</button>

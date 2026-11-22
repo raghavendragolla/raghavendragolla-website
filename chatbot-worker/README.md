@@ -165,13 +165,19 @@ npx wrangler deploy
 **Worker (`src/index.js`; the entry module `src/worker.js` exports only the handler and the `AiBudget` class, because workerd treats every named export of the entry module as an entry point)**
 1. CORS / Origin allow-list → rate limiter (binding, 10/min per IP, in-memory fallback) → `Content-Length` check → body read with a **hard 10 KB cap on the bytes actually received** → JSON / field validation (`message` 1–400 chars, `history` array ≤ 20 items).
 2. Context: `sanitizeHistory` keeps ≤ 6 earlier messages, newest first, ≤ 2,400 characters in total, earlier answers trimmed to 700 characters, starting with a user turn.
-3. Knowledge: `buildGroundedPrompt(question, history)` = operating rules + the **core profile** + the knowledge sections retrieved for this question and the last turns (`retrieveSections`: deterministic keyword scoring with stem matching, ≤ 5,200 characters of knowledge). `buildSystemPrompt()` still returns the complete knowledge base (used by the drift tests).
+3. Knowledge: `buildGroundedPrompt(question, history)` = operating rules + the **core profile** + the knowledge sections retrieved for this question and the last turns (`retrieveSections`: deterministic keyword scoring with stem matching, ≤ 5,600 characters of knowledge). `buildSystemPrompt()` still returns the complete knowledge base (used by the drift tests).
 4. Daily budget: reserve a conservative estimate in the `AI_BUDGET` Durable Object; refuse with `DAILY_BUDGET_REACHED` (and a static fallback reply) if it would exceed the cap; fail closed if the counter is unavailable.
 5. `env.AI.run('@cf/google/gemma-4-26b-a4b-it', { messages, max_tokens: 512, stream, chat_template_kwargs: { enable_thinking: false } })`.
 6. Streaming: `accountedStream` passes the model's server-sent events through unchanged, records the final `usage` event and settles the budget with the real cost, appends `{"error_code":"EMPTY_RESPONSE"}` or `{"error_code":"STREAM_INTERRUPTED"}` when needed, and cancels the model stream if the visitor stops.
 
 ### 6.2 Knowledge maintenance
 All facts live in `CANDIDATE_PROFILE` (`src/knowledge.js`). The structured sections (`KNOWLEDGE_SECTIONS`: core, education, skills, experience, projects overview, one section per project, research, GitHub, certifications, career, links, FAQ) are generated from it, so a fact is changed in one place only. The drift tests fail if a portfolio project, repository, demo, résumé or certificate link is missing. If a common question does not retrieve the right section, add keywords to that section and a case to `eval/ask-gora-eval.json`.
+
+**Case studies (Phase 4).** Each project has a `caseStudy` (objective, data source, preparation, method and, where the repository documents them, limitations) and `research` has questions, data source, preparation and a disclaimer. These facts come from the projects' public GitHub READMEs and are shown on the portfolio page in the "Read the case study" panels. `test/phase4.test.js` checks that distinctive facts appear in **both** places, so the page and Ask GORA cannot drift apart: update both together.
+
+**Retrieval and rules (Phase 4).** Up to 5,600 characters of knowledge per question. A question that names a section topic ("research", "skills", "education") prefers that section. Role-fit questions (fit, suitable, qualified, hire, recruiter...) retrieve skills, experience, projects overview, certifications and career first. Rule 9 structures project answers (objective, data, approach, verified result, links; limitations only when asked). Rule 10 answers role-fit questions with verified evidence only and offers the résumé and email.
+
+**Frontend (Phase 4).** After an answer about hiring, contact or availability, or one that says information is not available, the chat shows contact links (Resume PDF, Email, LinkedIn, Contact form); out-of-scope refusals never get them. On the portfolio, "Contact form" minimizes the chat and jumps to the contact section. A "Is he a good fit for a Data Analyst role?" suggestion is offered, the composer shows an `N/400` counter from 320 characters (the limit is announced once to screen readers), and phone keyboards show a "Send" key.
 
 ### 6.3 Free-tier limits (verified 2026-11-22 from the official documentation)
 | Service | Free allocation | When exceeded on the Free plan | Source |
@@ -196,9 +202,9 @@ The account's actual plan was **not** verified (no account access from this envi
 - If visitors often see "resting for today", the cap is being reached: check for abuse (rate-limit 429s) first. There is **no paid fallback** by design.
 
 ### 6.6 Testing
-- Worker unit tests (mocked AI, no network, no neurons): `cd chatbot-worker && npm test` (84 tests in `test/index.test.js` and `test/phase3.test.js`).
-- Frontend (mocked API): `npx playwright test tests/chatbot.spec.js tests/phase1.spec.js tests/phase3.spec.js --project=chromium --workers=1`.
-- Live evaluation (consumes free neurons; run deliberately): `npm run eval:ask-gora -- --endpoint <url>` (about 800 neurons for all 38 cases). `--dry-run` checks the setup without sending anything.
+- Worker unit tests (mocked AI, no network, no neurons): `cd chatbot-worker && npm test` (97 tests in `test/index.test.js`, `test/phase3.test.js` and `test/phase4.test.js`; CI runs them in the "Ask GORA Worker Unit Tests" job).
+- Frontend (mocked API): `npx playwright test tests/chatbot.spec.js tests/phase1.spec.js tests/phase3.spec.js tests/phase4.spec.js --project=chromium --workers=1`.
+- Live evaluation (consumes free neurons; run deliberately): `npm run eval:ask-gora -- --endpoint <url>` (about 650 neurons for all 42 cases; the results file keeps a 300-character preview of each answer, scoring uses the full answer). `--dry-run` checks the setup without sending anything.
 
 ### 6.7 Troubleshooting
 | Symptom | Likely cause | Action |
