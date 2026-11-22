@@ -17,6 +17,9 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
     await page.goto('/');
     await page.locator('#askGoraLauncher').click();
     await page.waitForTimeout(300);
+    // Compare the settled, unfocused state: input auto-focus timing differs between first and later opens.
+    await page.evaluate(() => { if (document.activeElement) document.activeElement.blur(); });
+    await page.waitForFunction(() => document.querySelectorAll('#askGoraRoot *, #askGoraPanel').length > 0 && [...document.querySelectorAll('#askGoraPanel, #askGoraPanel *')].every(el => el.getAnimations().length === 0));
     const homeStyles = await page.evaluate(() => {
       const getStyles = (sel) => {
         const el = document.querySelector(sel);
@@ -60,6 +63,9 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
     await page.goto('/portfolio/');
     await page.locator('#askGoraLauncher').click();
     await page.waitForTimeout(300);
+    // Compare the settled, unfocused state: input auto-focus timing differs between first and later opens.
+    await page.evaluate(() => { if (document.activeElement) document.activeElement.blur(); });
+    await page.waitForFunction(() => document.querySelectorAll('#askGoraRoot *, #askGoraPanel').length > 0 && [...document.querySelectorAll('#askGoraPanel, #askGoraPanel *')].every(el => el.getAnimations().length === 0));
     const portfolioStyles = await page.evaluate(() => {
       const getStyles = (sel) => {
         const el = document.querySelector(sel);
@@ -141,6 +147,8 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
         await homeLauncher.click();
         const homePanel = page.locator('#askGoraPanel');
         await expect(homePanel).toBeVisible();
+        // Measure the settled panel: wait for its open transition to finish on both pages.
+        await page.waitForFunction(() => document.getElementById('askGoraPanel').getAnimations().length === 0);
 
         const homeMetrics = await page.evaluate(() => {
           const panel = document.getElementById('askGoraPanel');
@@ -178,6 +186,8 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
         await portLauncher.click();
         const portPanel = page.locator('#askGoraPanel');
         await expect(portPanel).toBeVisible();
+        // Measure the settled panel: wait for its open transition to finish on both pages.
+        await page.waitForFunction(() => document.getElementById('askGoraPanel').getAnimations().length === 0);
 
         const portMetrics = await page.evaluate(() => {
           const panel = document.getElementById('askGoraPanel');
@@ -735,6 +745,18 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
   });
 
   test('Suggested question chips submit instantly on click', async ({ page }) => {
+    // Mocked: this suite must never reach the live Worker (and never spend Workers AI neurons).
+    // The optional live check lives in tests/live-api.smoke.spec.js (npm run test:live-api).
+    let sentMessage = null;
+    await page.route('https://ai.raghavendragolla.com/chat', async route => {
+      sentMessage = route.request().postDataJSON().message;
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ reply: 'Python, SQL, Power BI and Scikit-Learn (mocked).' })
+      });
+    });
+
     await page.goto('/');
     await page.locator('#askGoraLauncher').click();
 
@@ -743,6 +765,8 @@ test.describe('Ask GORA AI Assistant - End-to-End & Visual Suite', () => {
 
     const userMsg = page.locator('.ask-gora-msg-user');
     await expect(userMsg).toHaveText(/What are his technical skills\?/);
+    await expect(page.locator('.ask-gora-msg-assistant').last()).toContainText('(mocked)');
+    expect(sentMessage).toBe('What are his technical skills?');
   });
 
   test('Portfolio page: Back-to-top button stacks properly above Ask GORA launcher without overlap', async ({ page }) => {

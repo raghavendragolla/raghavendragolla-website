@@ -44,14 +44,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     // 2. Interactive Neural Particle Node Canvas
     // ====================================================
+    // Performance notes (Phase 1):
+    // - Initialisation is deferred to an idle callback so it never competes with first paint.
+    // - Mobile is capped at ~30 fps; motion is scaled by elapsed time so speed looks the same.
+    // - The loop pauses when the canvas is not rendered, and on mobile when the hero is scrolled away
+    //   (the last frame stays on screen, so nothing visibly disappears).
+    // - The desktop wave glow uses a wide translucent stroke instead of ctx.shadowBlur (a costly blur pass).
+    function deferToIdleOrLoad(fn, fallbackDelay = 1000) {
+        let executed = false;
+        function run() {
+            if (executed) return;
+            executed = true;
+            fn();
+        }
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(run, { timeout: fallbackDelay });
+        } else if (document.readyState === 'complete') {
+            setTimeout(run, 0);
+        } else {
+            window.addEventListener('load', () => setTimeout(run, 0), { once: true });
+        }
+    }
+
     const canvas = document.getElementById('neural-canvas');
-    if (canvas) {
+    if (canvas) deferToIdleOrLoad(() => {
         const ctx = canvas.getContext('2d');
+        if (!ctx) return;
         let width, height;
         let particles = [];
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const particleCount = isMobile ? 18 : 36;
         const maxDistance = isMobile ? 85 : 120;
+        // 0 = uncapped (desktop keeps its native frame rate and per-frame motion).
+        const frameInterval = isMobile ? 1000 / 30 : 0;
+        let lastFrameTime = 0;
 
         let mouse = {
             x: null,
@@ -108,9 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.colorType = Math.random() > 0.3 ? 'teal' : 'gold';
             }
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+            update(step = 1) {
+                this.x += this.vx * step;
+                this.y += this.vy * step;
 
                 // Screen boundaries bounce
                 if (this.x < 0 || this.x > width) this.vx = -this.vx;
@@ -124,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (distance > 0.001 && distance < mouse.radius) {
                         const force = (mouse.radius - distance) / mouse.radius;
-                        this.x += (dx / distance) * force * 1.2;
-                        this.y += (dy / distance) * force * 1.2;
+                        this.x += (dx / distance) * force * 1.2 * step;
+                        this.y += (dy / distance) * force * 1.2 * step;
                     }
                 }
             }
@@ -228,13 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
             waveRibbons.forEach(ribbon => {
                 ctx.save();
                 ctx.beginPath();
-
-                ctx.strokeStyle = ribbon.color;
-                ctx.lineWidth = ribbon.width;
-                if (!isMobile && ribbon.blur > 0) {
-                    ctx.shadowColor = ribbon.glow;
-                    ctx.shadowBlur = ribbon.blur;
-                }
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
 
                 for (let x = 0; x <= width; x += step) {
                     const dx = (x - pulseCenter) / pulseSpread;
@@ -261,6 +282,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         ctx.lineTo(x, y);
                     }
                 }
+                // Soft glow (desktop only, as before): a wide, faint stroke under the ribbon
+                // approximates the previous shadowBlur halo without the per-frame blur pass.
+                if (!isMobile && ribbon.blur > 0) {
+                    ctx.strokeStyle = ribbon.glow;
+                    ctx.lineWidth = ribbon.width + ribbon.blur;
+                    ctx.stroke();
+                }
+                ctx.strokeStyle = ribbon.color;
+                ctx.lineWidth = ribbon.width;
                 ctx.stroke();
                 ctx.restore();
             });
@@ -308,6 +338,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.updateCanvasTheme();
 
+        // Visibility tracking: the canvas element itself (e.g. hidden by CSS), and on mobile the hero
+        // region it decorates. While out of view the loop stops and the last frame stays painted.
+        let canvasOnScreen = true;
+        let heroOnScreen = true;
+        function isCanvasInView() {
+            return canvasOnScreen && (!isMobile || heroOnScreen);
+        }
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver((entries) => {
+                canvasOnScreen = entries[entries.length - 1].isIntersecting;
+                if (isCanvasInView()) startCanvasLoop(); else stopCanvasLoop();
+            }).observe(canvas);
+            const heroEl = isMobile ? document.getElementById('main-content') : null;
+            if (heroEl) {
+                new IntersectionObserver((entries) => {
+                    heroOnScreen = entries[entries.length - 1].isIntersecting;
+                    if (isCanvasInView()) startCanvasLoop(); else stopCanvasLoop();
+                }).observe(heroEl);
+            }
+        }
+
         function startCanvasLoop() {
             if (prefersReducedMotion.matches) {
                 if (animFrameId) {
@@ -317,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderStaticFrame();
                 return;
             }
-            if (!animFrameId && isPageVisible) {
+            if (!animFrameId && isPageVisible && isCanvasInView()) {
+                lastFrameTime = 0;
                 animFrameId = requestAnimationFrame(animateCanvas);
             }
         }
@@ -347,17 +399,29 @@ document.addEventListener('DOMContentLoaded', () => {
             startCanvasLoop();
         });
 
-        function animateCanvas() {
-            if (!isPageVisible || prefersReducedMotion.matches) {
+        function animateCanvas(timestamp) {
+            if (!isPageVisible || prefersReducedMotion.matches || !isCanvasInView()) {
                 animFrameId = null;
                 if (prefersReducedMotion.matches) renderStaticFrame();
                 return;
             }
 
+            // Mobile frame cap (~30 fps). Motion is scaled by elapsed time so it keeps the same speed.
+            let frameStep = 1;
+            if (frameInterval) {
+                const elapsed = lastFrameTime ? timestamp - lastFrameTime : frameInterval;
+                if (elapsed < frameInterval - 2) {
+                    animFrameId = requestAnimationFrame(animateCanvas);
+                    return;
+                }
+                frameStep = Math.min(elapsed / (1000 / 60), 3);
+                lastFrameTime = timestamp;
+            }
+
             ctx.clearRect(0, 0, width, height);
 
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            waveTime += 1;
+            waveTime += frameStep;
 
             // 1. Draw Quantum Neural Data Waveform
             drawQuantumWave(waveTime, isDark);
@@ -383,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Draw and update each particle
             particles.forEach(p => {
-                p.update();
+                p.update(frameStep);
                 p.draw(tealRgb, goldRgb);
             });
 
@@ -391,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         startCanvasLoop();
-    }
+    });
 
 
     // ====================================================

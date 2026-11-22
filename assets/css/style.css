@@ -115,8 +115,9 @@ body {
     left: -5%;
     width: 680px;
     height: 680px;
-    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 45%, transparent 70%);
-    filter: blur(95px);
+    /* none: keeps the shared components.css gradient/blur for .ambient-glow-1/-2 overridden, as before */
+    background: none;
+    filter: none;
     animation: floatGlow1 18s ease-in-out infinite;
     will-change: transform;
 }
@@ -127,8 +128,9 @@ body {
     right: -8%;
     width: 720px;
     height: 650px;
-    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 45%, transparent 70%);
-    filter: blur(100px);
+    /* none: keeps the shared components.css gradient/blur for .ambient-glow-1/-2 overridden, as before */
+    background: none;
+    filter: none;
     animation: floatGlow2 20s ease-in-out infinite;
     will-change: transform;
 }
@@ -140,8 +142,9 @@ body {
     transform: translate(-50%, -50%);
     width: 750px;
     height: 750px;
-    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 40%, transparent 70%);
-    filter: blur(130px);
+    /* none: keeps the shared components.css gradient/blur for .ambient-glow-1/-2 overridden, as before */
+    background: none;
+    filter: none;
     animation: floatGlow3 26s ease-in-out infinite;
     will-change: transform;
 }
@@ -152,8 +155,9 @@ body {
     left: -5%;
     width: 620px;
     height: 620px;
-    background: radial-gradient(circle, var(--accent-subtle) 0%, var(--primary-subtle) 50%, transparent 75%);
-    filter: blur(85px);
+    /* none: keeps the shared components.css gradient/blur for .ambient-glow-1/-2 overridden, as before */
+    background: none;
+    filter: none;
     animation: floatSun 19s ease-in-out infinite;
     will-change: transform;
 }
@@ -164,12 +168,53 @@ body {
     left: 20%;
     width: 850px;
     height: 280px;
-    background: linear-gradient(135deg, transparent 0%, var(--glow) 40%, var(--primary-subtle) 70%, transparent 100%);
-    filter: blur(65px);
+    /* none: keeps the shared components.css gradient/blur for .ambient-glow-1/-2 overridden, as before */
+    background: none;
+    filter: none;
     transform: rotate(-22deg);
     animation: swooshFloat 22s ease-in-out infinite;
     will-change: transform;
 }
+/* Each glow element keeps its size, position, animation and will-change (its own GPU layer).
+   The gradient and blur are painted by a non-animated ::before inside it, so the browser rasterises
+   the blur once into the glow's layer and the compositor only moves/scales/rotates that cached image
+   each frame (previously the large blur was re-applied on every frame). Values are unchanged. */
+.ambient-glow-1::before,
+.ambient-glow-2::before,
+.ambient-glow-3::before,
+.aurora-sun::before,
+.aurora-swoosh::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.ambient-glow-1::before {
+    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 45%, transparent 70%);
+    filter: blur(95px);
+}
+
+.ambient-glow-2::before {
+    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 45%, transparent 70%);
+    filter: blur(100px);
+}
+
+.ambient-glow-3::before {
+    background: radial-gradient(circle, var(--glow) 0%, var(--primary-subtle) 40%, transparent 70%);
+    filter: blur(130px);
+}
+
+.aurora-sun::before {
+    background: radial-gradient(circle, var(--accent-subtle) 0%, var(--primary-subtle) 50%, transparent 75%);
+    filter: blur(85px);
+}
+
+.aurora-swoosh::before {
+    background: linear-gradient(135deg, transparent 0%, var(--glow) 40%, var(--primary-subtle) 70%, transparent 100%);
+    filter: blur(65px);
+}
+
 
 /* =========================================
    Header & Controls

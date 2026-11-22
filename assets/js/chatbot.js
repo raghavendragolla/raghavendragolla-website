@@ -14,6 +14,12 @@
         timeoutMs: 15000
     };
 
+    // Test hook: allows the Playwright suite to shorten the request timeout.
+    function getTimeoutMs() {
+        var override = typeof window !== 'undefined' ? Number(window.GORA_TIMEOUT_MS) : NaN;
+        return override > 0 ? override : CONFIG.timeoutMs;
+    }
+
     // 2. Chat State
     var state = {
         isOpen: false,
@@ -26,6 +32,7 @@
     var savedScrollY = 0;
     var resizeRaf = null;
     var activeController = null;
+    var activeRequest = null; // { stop } for the answer being generated
     var currentSessionId = 0;
     var initialMessagesHTML = '';
 
@@ -54,55 +61,194 @@
     }
 
     /**
-     * Parse assistant text for safe inline bold and markdown links
+     * Safe Markdown subset renderer for assistant text.
+     * Builds DOM nodes with textContent only (never innerHTML), so model output can never inject
+     * markup or scripts. Supported: paragraphs, "- "/"* " bullet lists, "1." numbered lists,
+     * "#"-"###" headings (rendered as bold lines), **bold**, `inline code`, [label](https://url),
+     * bare https:// URLs, and ``` fenced code blocks with a Copy button. Links must be http(s).
      */
-    function renderFormattedContent(container, text) {
-        var lines = text.split('\n');
-        for (var i = 0; i < lines.length; i++) {
-            var line = lines[i];
-            if (line.trim().length === 0) continue;
+    function makeLink(href, label) {
+        var a = document.createElement('a');
+        a.href = href;
+        a.textContent = label;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        return a;
+    }
 
-            var p = document.createElement('p');
-
-            // Regex matches [label](url) or **bold**
-            var tokenRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*/g;
-            var lastIndex = 0;
-            var match;
-
-            while ((match = tokenRegex.exec(line)) !== null) {
-                if (match.index > lastIndex) {
-                    p.appendChild(document.createTextNode(line.substring(lastIndex, match.index)));
-                }
-
-                if (match[1] && match[2]) {
-                    // Link
-                    var link = document.createElement('a');
-                    link.href = match[2];
-                    link.textContent = match[1];
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    p.appendChild(link);
-                } else if (match[3]) {
-                    // Bold
-                    var strong = document.createElement('strong');
-                    strong.textContent = match[3];
-                    p.appendChild(strong);
-                }
-
-                lastIndex = match.index + match[0].length;
+    function appendInline(parent, text) {
+        var tokenRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|`([^`]+)`|(https?:\/\/[^\s<>()]+[^\s<>().,;:!?'"])/g;
+        var lastIndex = 0;
+        var match;
+        while ((match = tokenRegex.exec(text)) !== null) {
+            if (match.index > lastIndex) parent.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+            if (match[1] && match[2]) {
+                parent.appendChild(makeLink(match[2], match[1]));
+            } else if (match[3]) {
+                var strong = document.createElement('strong');
+                strong.textContent = match[3];
+                parent.appendChild(strong);
+            } else if (match[4]) {
+                var code = document.createElement('code');
+                code.className = 'ask-gora-inline-code';
+                code.textContent = match[4];
+                parent.appendChild(code);
+            } else if (match[5]) {
+                parent.appendChild(makeLink(match[5], match[5]));
             }
-
-            if (lastIndex < line.length) {
-                p.appendChild(document.createTextNode(line.substring(lastIndex)));
-            }
-
-            container.appendChild(p);
+            lastIndex = match.index + match[0].length;
         }
+        if (lastIndex < text.length) parent.appendChild(document.createTextNode(text.substring(lastIndex)));
+    }
+
+    function appendCodeBlock(container, codeText, lang) {
+        var wrap = document.createElement('div');
+        wrap.className = 'ask-gora-code';
+        var bar = document.createElement('div');
+        bar.className = 'ask-gora-code-bar';
+        var label = document.createElement('span');
+        label.textContent = lang || 'code';
+        var copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'ask-gora-copy-btn';
+        copy.setAttribute('aria-label', 'Copy code to clipboard');
+        copy.textContent = 'Copy';
+        bar.appendChild(label);
+        bar.appendChild(copy);
+        var pre = document.createElement('pre');
+        var code = document.createElement('code');
+        code.textContent = codeText;
+        pre.appendChild(code);
+        wrap.appendChild(bar);
+        wrap.appendChild(pre);
+        container.appendChild(wrap);
+    }
+
+    function renderFormattedContent(container, text) {
+        var lines = String(text).replace(/\r\n?/g, '\n').split('\n');
+        var list = null;
+        var listType = '';
+        var i = 0;
+        function closeList() { list = null; listType = ''; }
+        while (i < lines.length) {
+            var line = lines[i];
+            var fence = /^\s*```\s*([\w+-]*)\s*$/.exec(line);
+            if (fence) {
+                closeList();
+                var codeLines = [];
+                i++;
+                while (i < lines.length && !/^\s*```\s*$/.test(lines[i])) { codeLines.push(lines[i]); i++; }
+                appendCodeBlock(container, codeLines.join('\n'), fence[1]);
+                i++; // skip the closing fence (or the end of an unterminated block while streaming)
+                continue;
+            }
+            var trimmed = line.trim();
+            if (!trimmed) { closeList(); i++; continue; }
+            var bullet = /^\s*[-*•]\s+(.*)$/.exec(line);
+            var numbered = /^\s*(\d+)[.)]\s+(.*)$/.exec(line);
+            if (bullet || numbered) {
+                var type = bullet ? 'ul' : 'ol';
+                if (!list || listType !== type) {
+                    list = document.createElement(type);
+                    listType = type;
+                    if (numbered && numbered[1] !== '1') list.setAttribute('start', numbered[1]);
+                    container.appendChild(list);
+                }
+                var li = document.createElement('li');
+                appendInline(li, bullet ? bullet[1] : numbered[2]);
+                list.appendChild(li);
+                i++;
+                continue;
+            }
+            closeList();
+            var heading = /^\s*#{1,6}\s+(.*)$/.exec(line);
+            var p = document.createElement('p');
+            if (heading) {
+                var strong = document.createElement('strong');
+                appendInline(strong, heading[1]);
+                p.appendChild(strong);
+            } else {
+                appendInline(p, trimmed);
+            }
+            container.appendChild(p);
+            i++;
+        }
+    }
+
+    function copyToClipboard(text, button) {
+        function done(ok) {
+            button.textContent = ok ? 'Copied' : 'Copy failed';
+            setTimeout(function () { button.textContent = 'Copy'; }, 1600);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+            return;
+        }
+        try {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            done(ok);
+        } catch (e) {
+            done(false);
+        }
+    }
+
+    /* Conversation persistence (privacy-conscious): the current conversation is kept in
+       sessionStorage, which belongs to this browser tab only, is never sent anywhere except as
+       the usual context with the visitor's next question, survives a refresh or moving between
+       the homepage and the portfolio, and is deleted when the tab closes or the visitor presses
+       Close (which resets the conversation). */
+    var STORAGE_KEY = 'askGora:conversation:v1';
+    var MAX_STORED_MESSAGES = 20;
+
+    function saveConversation() {
+        try {
+            if (!state.history.length) { window.sessionStorage.removeItem(STORAGE_KEY); return; }
+            window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ v: 1, history: state.history.slice(-MAX_STORED_MESSAGES) }));
+        } catch (e) { /* storage disabled or full: the chat still works without it */ }
+    }
+
+    function clearSavedConversation() {
+        try { window.sessionStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+    }
+
+    function restoreConversation() {
+        var saved = null;
+        try { saved = JSON.parse(window.sessionStorage.getItem(STORAGE_KEY) || 'null'); } catch (e) { saved = null; }
+        if (!saved || !Array.isArray(saved.history)) return;
+        var restored = saved.history.filter(function (m) {
+            return m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.length > 0;
+        }).slice(-MAX_STORED_MESSAGES);
+        if (!restored.length) return;
+        state.history = restored;
+        for (var i = 0; i < restored.length; i++) appendMessage(restored[i].role, restored[i].content);
     }
 
     /**
      * Append a message bubble to the chat log
      */
+    /** Creates an empty assistant bubble that a streamed answer is rendered into. */
+    function createAssistantBubble() {
+        var msgEl = document.createElement('div');
+        msgEl.className = 'ask-gora-msg ask-gora-msg-assistant is-streaming';
+        var bubbleEl = document.createElement('div');
+        bubbleEl.className = 'ask-gora-msg-bubble';
+        msgEl.appendChild(bubbleEl);
+        var meta = document.createElement('span');
+        meta.className = 'ask-gora-msg-meta';
+        meta.textContent = 'GORA';
+        msgEl.appendChild(meta);
+        messagesContainer.appendChild(msgEl);
+        return { msgEl: msgEl, bubbleEl: bubbleEl, meta: meta };
+    }
+
     function appendMessage(role, content) {
         if (!messagesContainer) return;
 
@@ -287,13 +433,43 @@
     /**
      * Update UI loading state
      */
+    // While an answer is being generated the send button becomes a Stop button
+    // (same element and position; only its icon and accessible name change).
+    var sendIcon = null;
+    var stopIcon = null;
+    function setSendButtonMode(stopMode) {
+        if (!sendBtn) return;
+        if (!sendIcon) sendIcon = sendBtn.querySelector('svg');
+        if (!stopIcon) {
+            stopIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            stopIcon.setAttribute('viewBox', '0 0 24 24');
+            stopIcon.setAttribute('width', '16');
+            stopIcon.setAttribute('height', '16');
+            stopIcon.setAttribute('aria-hidden', 'true');
+            var sq = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            sq.setAttribute('x', '6');
+            sq.setAttribute('y', '6');
+            sq.setAttribute('width', '12');
+            sq.setAttribute('height', '12');
+            sq.setAttribute('rx', '2');
+            sq.setAttribute('fill', 'currentColor');
+            stopIcon.appendChild(sq);
+        }
+        var current = sendBtn.querySelector('svg');
+        var wanted = stopMode ? stopIcon : sendIcon;
+        if (current && wanted && current !== wanted) sendBtn.replaceChild(wanted, current);
+        sendBtn.classList.toggle('is-stop', stopMode);
+        sendBtn.setAttribute('aria-label', stopMode ? 'Stop generating' : 'Send message');
+    }
+
     function setLoading(loading) {
         state.isLoading = loading;
         if (chatInput) {
             chatInput.disabled = loading;
         }
+        setSendButtonMode(loading);
         if (sendBtn) {
-            sendBtn.disabled = loading || !chatInput || chatInput.value.trim().length === 0;
+            sendBtn.disabled = loading ? false : (!chatInput || chatInput.value.trim().length === 0);
         }
         if (loading) {
             showTypingIndicator();
@@ -306,10 +482,73 @@
     }
 
     /**
+     * Apply the full chatbot stylesheet on first intent.
+     * chatbot.css never blocks first paint; the critical launcher
+     * styles are inline in the page. Applying it here, instead of during page load, keeps its
+     * one-off style recalculation out of the load window.
+     *
+     * During page load the document only carries a low-priority <link rel="prefetch"> hint (marked
+     * data-gora-css), which downloads the file without involving the style engine. On first intent
+     * the real stylesheet is inserted right after that hint, i.e. at the same position in <head>, so
+     * the cascade order is exactly what it was when chatbot.css was a normal render-blocking link.
+     * If the chat is opened while the file is still loading (normally a few ms from cache), opening
+     * completes on its load event, so the panel is first rendered with its final styles.
+     */
+    var stylesState = 'idle'; // 'idle' | 'loading' | 'ready'
+    var pendingOpen = false;
+
+    // Browser history length last seen by the Back-button handling (see init / popstate).
+    var knownHistoryLength = 0;
+
+    function activateStyles() {
+        if (stylesState !== 'idle') return;
+        var hint = document.querySelector('link[data-gora-css]');
+        if (!hint) {
+            stylesState = 'ready'; // no deferred stylesheet on this page (e.g. loaded normally)
+            return;
+        }
+        hint.removeAttribute('data-gora-css');
+        stylesState = 'loading';
+        var sheet = document.createElement('link');
+        sheet.rel = 'stylesheet';
+        sheet.href = hint.getAttribute('href');
+        sheet.onload = sheet.onerror = function () {
+            stylesState = 'ready';
+            if (pendingOpen) {
+                pendingOpen = false;
+                openChat();
+            }
+        };
+        hint.parentNode.insertBefore(sheet, hint.nextSibling);
+    }
+
+    /**
      * Open the chat panel
      */
+    // History API: the panel gets its own history entry so mobile swipe-back or browser Back
+    // minimizes it instead of leaving the page. The entry is pushed synchronously inside the
+    // visitor's tap/click (also when the panel itself still waits for chatbot.css), so it is
+    // created with user activation and before any asynchronous work.
+    function pushPanelHistoryEntry() {
+        if (typeof window === 'undefined' || !window.history) return;
+        if (!window.history.state || !window.history.state.askGoraOpen) {
+            try {
+                window.history.pushState({ askGoraOpen: true }, '');
+            } catch (e) {
+                // Ignore history errors if restricted
+            }
+        }
+        knownHistoryLength = window.history.length;
+    }
+
     function openChat() {
         if (!panel || !launcher) return;
+        activateStyles();
+        pushPanelHistoryEntry();
+        if (stylesState === 'loading') {
+            pendingOpen = true;
+            return;
+        }
         state.isOpen = true;
         state.isMinimized = false;
         launcher.setAttribute('aria-expanded', 'true');
@@ -336,8 +575,18 @@
     /**
      * Minimize the chat panel (hides panel while completely preserving conversation state, input text, and pending requests)
      */
-    function minimizeChat() {
+    function minimizeChat(fromPopstate) {
         if (!panel || !launcher) return;
+        pendingOpen = false; // an open waiting for chatbot.css to load is cancelled
+
+        // Clean up history state if closed via on-screen button rather than popstate
+        if (!fromPopstate && typeof window !== 'undefined' && window.history && window.history.state && window.history.state.askGoraOpen) {
+            try {
+                window.history.back();
+            } catch (err) {
+                // Ignore history errors
+            }
+        }
 
         // Only update UI visibility state - DO NOT reset conversation, history, input, or ongoing requests!
         state.isOpen = false;
@@ -368,8 +617,18 @@
     /**
      * Close the chat panel and completely reset the conversation
      */
-    function closeChat() {
+    function closeChat(fromPopstate) {
         if (!panel || !launcher) return;
+        pendingOpen = false; // an open waiting for chatbot.css to load is cancelled
+
+        // Clean up history state if closed via on-screen button rather than popstate
+        if (!fromPopstate && typeof window !== 'undefined' && window.history && window.history.state && window.history.state.askGoraOpen) {
+            try {
+                window.history.back();
+            } catch (err) {
+                // Ignore history errors
+            }
+        }
 
         // Invalidate any in-flight request session so late responses are ignored
         currentSessionId++;
@@ -390,6 +649,8 @@
         state.isLoading = false;
         state.lastFailedMessage = null;
         state.history = [];
+        activeRequest = null;
+        clearSavedConversation();
 
         // Clear input text and reset composer
         if (chatInput) {
@@ -475,6 +736,7 @@
     function sendMessage(rawText, isRetry) {
         if (!rawText) return;
         var text = rawText.trim();
+        // Duplicate-submission guard: one request at a time (Enter, button, chips and retry all pass here).
         if (text.length === 0 || state.isLoading) return;
 
         // Truncate if exceeds maxChars
@@ -499,46 +761,195 @@
 
         var thisSessionId = currentSessionId;
 
-        // Prepare conversation history payload (last 4 turns)
+        // Conversation context: the last 8 messages (the Worker keeps at most 6 within its character budget).
         var recentHistory = state.history.slice(-8);
 
-        // Fetch timeout controller
+        // Abort controller shared by the timeout, the Stop button and Close.
+        // `timedOut` / `stopped` record WHY the request was aborted.
         var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
         activeController = controller;
-        var timeoutId = controller ? setTimeout(function () {
-            controller.abort();
-        }, CONFIG.timeoutMs) : null;
+        var timedOut = false;
+        var stopped = false;
+        var timeoutMs = getTimeoutMs();
+        var timeoutId = null;
+        function armTimeout() {
+            // First the wait for the first text, then the longest silence allowed between streamed chunks.
+            if (!controller) return;
+            if (timeoutId) clearTimeout(timeoutId);
+            timeoutId = setTimeout(function () {
+                timedOut = true;
+                controller.abort();
+            }, timeoutMs);
+        }
+        armTimeout();
+        activeRequest = {
+            stop: function () {
+                stopped = true;
+                if (controller) controller.abort();
+            }
+        };
+
+        var answer = '';
+        var streamErrorCode = '';
+        var bubble = null;
+        var renderQueued = false;
+        function renderStream() {
+            renderQueued = false;
+            if (!bubble || thisSessionId !== currentSessionId) return;
+            while (bubble.bubbleEl.firstChild) bubble.bubbleEl.removeChild(bubble.bubbleEl.firstChild);
+            renderFormattedContent(bubble.bubbleEl, answer);
+            scrollToBottom();
+        }
+        function onDelta(delta) {
+            if (thisSessionId !== currentSessionId) return;
+            answer += delta;
+            armTimeout();
+            if (!bubble) {
+                hideTypingIndicator();
+                bubble = createAssistantBubble();
+            }
+            if (!renderQueued) {
+                // Render at most once per frame; the timer is a backstop for engines or tabs where
+                // animation frames are throttled, so streamed text still appears incrementally.
+                renderQueued = true;
+                var fired = false;
+                var run = function () { if (fired) return; fired = true; renderStream(); };
+                if (window.requestAnimationFrame) window.requestAnimationFrame(run);
+                setTimeout(run, 120);
+            }
+        }
+
+        // Reads the Worker's server-sent events: `data: {...}` lines carrying either a Workers AI
+        // `response` token, an OpenAI-style `choices[0].delta.content`, or an `error_code` from the Worker.
+        // Only visible answer text is used; reasoning fields are ignored.
+        function readStream(reader) {
+            var decoder = new TextDecoder();
+            var buffer = '';
+            var finished = false;
+            function handleLine(line) {
+                line = line.trim();
+                if (line.indexOf('data:') !== 0) return;
+                var payload = line.slice(5).trim();
+                if (!payload) return;
+                if (payload === '[DONE]') { finished = true; return; }
+                var event;
+                try { event = JSON.parse(payload); } catch (e) { return; }
+                if (!event || typeof event !== 'object') return;
+                if (typeof event.error_code === 'string') { streamErrorCode = event.error_code; return; }
+                var delta = '';
+                if (typeof event.response === 'string') {
+                    delta = event.response;
+                } else if (event.choices && event.choices[0] && event.choices[0].delta && typeof event.choices[0].delta.content === 'string') {
+                    delta = event.choices[0].delta.content;
+                }
+                if (delta) onDelta(delta);
+            }
+            function pump() {
+                return reader.read().then(function (chunk) {
+                    if (chunk.done || finished) {
+                        if (buffer.trim()) handleLine(buffer);
+                        return { streamed: true };
+                    }
+                    buffer += decoder.decode(chunk.value, { stream: true });
+                    var newline;
+                    while ((newline = buffer.indexOf('\n')) >= 0) {
+                        handleLine(buffer.slice(0, newline));
+                        buffer = buffer.slice(newline + 1);
+                    }
+                    return pump();
+                });
+            }
+            return pump();
+        }
+
+        function finishPartial(note) {
+            // Keeps whatever was already streamed: rendered in full, labelled, and remembered as context.
+            if (!bubble || !answer.trim()) return false;
+            renderStream();
+            bubble.msgEl.classList.remove('is-streaming');
+            bubble.meta.textContent = note ? 'GORA · ' + note : 'GORA';
+            state.history.push({ role: 'user', content: text });
+            state.history.push({ role: 'assistant', content: answer.trim() });
+            saveConversation();
+            return true;
+        }
+
+        function cleanup() {
+            if (timeoutId) clearTimeout(timeoutId);
+            if (activeController === controller) activeController = null;
+            activeRequest = null;
+        }
 
         var endpoint = CONFIG.apiBase + CONFIG.chatEndpoint;
 
         fetch(endpoint, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'text/event-stream, application/json'
             },
             body: JSON.stringify({
                 message: text,
-                history: recentHistory
+                history: recentHistory,
+                stream: true
             }),
             signal: controller ? controller.signal : undefined
         })
         .then(function (res) {
-            if (timeoutId) clearTimeout(timeoutId);
-
-            if (res.status === 429) {
-                throw new Error('RATE_LIMIT');
+            var type = (res.headers && res.headers.get('Content-Type')) || '';
+            if (res.ok && type.indexOf('text/event-stream') !== -1 && res.body && typeof res.body.getReader === 'function' && typeof TextDecoder !== 'undefined') {
+                return readStream(res.body.getReader());
             }
-
-            if (!res.ok) {
-                throw new Error('HTTP ' + res.status);
-            }
-            return res.json();
+            // JSON: error responses (they may carry an `error_code` and a visitor-friendly
+            // `fallbackReply`) and non-streaming replies.
+            return res.json().catch(function () { return null; }).then(function (data) {
+                if (!res.ok) {
+                    var httpErr = new Error(res.status === 429 ? 'RATE_LIMIT' : 'HTTP ' + res.status);
+                    httpErr.status = res.status;
+                    httpErr.data = data;
+                    throw httpErr;
+                }
+                return { json: data };
+            });
         })
-        .then(function (data) {
-            if (activeController === controller) activeController = null;
+        .then(function (result) {
+            cleanup();
             if (thisSessionId !== currentSessionId) return;
             setLoading(false);
 
+            if (result && result.streamed) {
+                // Depending on the browser, an aborted stream can end normally instead of throwing.
+                if (stopped) {
+                    if (!finishPartial('stopped')) state.lastFailedMessage = null;
+                    return;
+                }
+                if (timedOut) {
+                    finishPartial('answer incomplete');
+                    appendErrorCard(
+                        'GORA is taking longer than usual',
+                        'The answer did not arrive within ' + Math.round(timeoutMs / 1000) + ' seconds. Please try again in a moment.',
+                        text
+                    );
+                    return;
+                }
+                if (streamErrorCode && streamErrorCode !== 'EMPTY_RESPONSE' && answer.trim()) {
+                    finishPartial('answer interrupted');
+                    appendErrorCard('The answer was cut short', 'The connection to GORA was interrupted. You can try the question again.', text);
+                    return;
+                }
+                if (finishPartial('')) {
+                    state.lastFailedMessage = null;
+                    return;
+                }
+                appendErrorCard(
+                    'A little hiccup!',
+                    'Something went wrong while preparing your answer. Please try again in a moment.',
+                    text
+                );
+                return;
+            }
+
+            var data = result ? result.json : null;
             var assistantText = null;
             if (data && typeof data === 'object') {
                 if (typeof data.response === 'string' && data.response.trim().length > 0) {
@@ -553,6 +964,7 @@
                 appendMessage('assistant', assistantText);
                 state.history.push({ role: 'user', content: text });
                 state.history.push({ role: 'assistant', content: assistantText });
+                saveConversation();
             } else {
                 appendErrorCard(
                     'A little hiccup!',
@@ -562,16 +974,49 @@
             }
         })
         .catch(function (err) {
-            if (timeoutId) clearTimeout(timeoutId);
-            if (activeController === controller) activeController = null;
+            cleanup();
+            // Conversation was closed (or reset) while this request was in flight: ignore it.
             if (thisSessionId !== currentSessionId) return;
             setLoading(false);
 
-            if (err && err.name === 'AbortError' && !state.isLoading) {
+            if (err && err.name === 'AbortError') {
+                if (stopped) {
+                    // Visitor pressed Stop: keep what was generated so far, no error card.
+                    if (!finishPartial('stopped')) state.lastFailedMessage = null;
+                    return;
+                }
+                if (!timedOut) return; // aborted deliberately elsewhere; nothing to report
+                finishPartial('answer incomplete');
+                appendErrorCard(
+                    'GORA is taking longer than usual',
+                    'The answer did not arrive within ' + Math.round(timeoutMs / 1000) + ' seconds. Please try again in a moment.',
+                    text
+                );
                 return;
             }
 
-            if (err && err.message === 'RATE_LIMIT') {
+            if (bubble && answer.trim()) {
+                // The stream broke after part of the answer arrived (network drop).
+                finishPartial('answer interrupted');
+                appendErrorCard('The answer was cut short', 'The connection to GORA was interrupted. You can try the question again.', text);
+                return;
+            }
+
+            var errData = err && err.data && typeof err.data === 'object' ? err.data : null;
+            var errCode = errData && typeof errData.error_code === 'string' ? errData.error_code : '';
+            var fallbackReply = errData && typeof errData.fallbackReply === 'string' && errData.fallbackReply.trim()
+                ? errData.fallbackReply.trim()
+                : '';
+
+            // The "resting for today" message is shown ONLY for the two explicit daily-exhaustion
+            // codes from the backend; the HTTP status alone never selects it.
+            if (errCode === 'DAILY_BUDGET_REACHED' || errCode === 'AI_QUOTA_EXCEEDED') {
+                appendErrorCard(
+                    'GORA is resting for today',
+                    fallbackReply || 'Ask GORA has reached its daily limit. Please explore the portfolio directly or get in touch through the contact details on this page.',
+                    text
+                );
+            } else if (errCode === 'RATE_LIMITED' || errCode === 'AI_BUSY' || (err && err.message === 'RATE_LIMIT' && !errCode)) {
                 appendErrorCard(
                     'GORA is temporarily busy',
                     'I am receiving high traffic right now. Please wait a moment and try again.',
@@ -585,6 +1030,11 @@
                 );
             }
         });
+    }
+
+    /** Stops the answer that is currently being generated (Stop button). */
+    function stopGeneration() {
+        if (activeRequest) activeRequest.stop();
     }
 
     /**
@@ -623,6 +1073,12 @@
         sendBtn = document.getElementById('askGoraSendBtn');
 
         if (!launcher || !panel) return;
+
+        // Apply the full stylesheet as soon as the visitor shows intent to use the launcher
+        // (hover, keyboard focus or touch), so hover/focus styles are ready before the click.
+        ['pointerenter', 'pointerdown', 'touchstart', 'focus'].forEach(function (type) {
+            launcher.addEventListener(type, activateStyles, { once: true, passive: true });
+        });
 
         // Prevent click events inside panel from bubbling to document
         panel.addEventListener('click', function (e) {
@@ -672,6 +1128,11 @@
         if (chatForm) {
             chatForm.addEventListener('submit', function (e) {
                 e.preventDefault();
+                // While an answer is being generated the send button is the Stop button.
+                if (state.isLoading) {
+                    stopGeneration();
+                    return;
+                }
                 if (chatInput) {
                     sendMessage(chatInput.value);
                 }
@@ -693,9 +1154,21 @@
         if (messagesContainer) {
             initialMessagesHTML = messagesContainer.innerHTML;
 
+            // Bring back this tab's conversation after a refresh or a move between pages.
+            restoreConversation();
+
             // Delegated click handler on messagesContainer: handles chips and retry buttons
             // even after conversation reset, with zero risk of duplicate listeners
             messagesContainer.addEventListener('click', function (e) {
+                var copyBtn = e.target.closest('.ask-gora-copy-btn');
+                if (copyBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var codeEl = copyBtn.closest('.ask-gora-code') && copyBtn.closest('.ask-gora-code').querySelector('code');
+                    if (codeEl) copyToClipboard(codeEl.textContent, copyBtn);
+                    return;
+                }
+
                 var chip = e.target.closest('.ask-gora-chip');
                 if (chip) {
                     e.preventDefault();
@@ -738,6 +1211,54 @@
                 }
             });
         });
+
+        // Clean up any stale history state if page was refreshed while Ask GORA was open
+        if (typeof window !== 'undefined' && window.history && window.history.state && window.history.state.askGoraOpen) {
+            try {
+                window.history.replaceState({ askGoraOpen: false }, '');
+            } catch (err) {
+                // Ignore history errors
+            }
+        }
+
+        // History API popstate handler: intercept mobile back-swipe / browser Back
+        // to minimize the chat panel instead of exiting the page.
+        //  - Landing on an entry WITHOUT the chat marker while the panel is open: Back left the
+        //    panel's entry, so minimize it.
+        //  - Landing ON the panel's own entry while it is open (e.g. Back from an in-page anchor
+        //    followed while chatting): the panel belongs there, so keep it open.
+        //  - Landing on a panel entry while the panel is closed (stale or Forward): neutralize the
+        //    marker instead of reopening, so a later Minimize/Close never pops the wrong entry.
+        //  - A popstate that comes with a NEW history entry (history.length grew) is in-page
+        //    navigation such as an #anchor link, not Back/Forward: leave the panel as it is.
+        knownHistoryLength = window.history.length;
+        window.addEventListener('popstate', function () {
+            var lengthNow = window.history.length;
+            var addedEntry = lengthNow > knownHistoryLength;
+            knownHistoryLength = lengthNow;
+            if (addedEntry) return;
+
+            var historyState = window.history.state;
+            var onPanelEntry = !!(historyState && historyState.askGoraOpen);
+            // Back pressed while the panel was still waiting for its stylesheet: cancel the open.
+            if (pendingOpen && !onPanelEntry) {
+                pendingOpen = false;
+                return;
+            }
+            if (onPanelEntry) {
+                if (!state.isOpen) {
+                    try {
+                        window.history.replaceState(Object.assign({}, historyState, { askGoraOpen: false }), '');
+                    } catch (err) {
+                        // Ignore history errors
+                    }
+                }
+                return;
+            }
+            if (state.isOpen) {
+                minimizeChat(true);
+            }
+        });
     }
 
     // Expose programmatic controls and state inspection
@@ -746,6 +1267,7 @@
             open: openChat,
             minimize: minimizeChat,
             close: closeChat,
+            stop: stopGeneration,
             getState: function () {
                 return {
                     isOpen: state.isOpen,

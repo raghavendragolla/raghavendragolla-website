@@ -47,12 +47,18 @@
     .ambient-glow-1 {
         width: 700px;
         height: 700px;
+    }
+
+    .ambient-glow-1::before {
         filter: blur(140px);
     }
 
     .ambient-glow-2 {
         width: 750px;
         height: 750px;
+    }
+
+    .ambient-glow-2::before {
         filter: blur(160px);
     }
 
@@ -932,5 +938,42 @@
 
     :focus-visible {
         outline: 2px solid Highlight;
+    }
+}
+/* =========================================
+   12. Mobile Rendering Performance (<= 768px)
+   Effects that repaint every frame are expensive on phone GPUs. The look is
+   kept: the blurred glows stay where they are (static instead of drifting),
+   the "Enter" CTA border still spins on arrival before settling, and the
+   small decorative icons still animate a few times.
+   ========================================= */
+@media (max-width: 768px) {
+
+    .ambient-glow-1,
+    .ambient-glow-2,
+    .ambient-glow-3,
+    .aurora-sun,
+    .aurora-swoosh {
+        animation: none !important;
+        will-change: auto;
+    }
+
+    /* Rotating conic border + blurred aura: two turns, then rests on the static gradient */
+    .enter,
+    .enter::before {
+        animation-iteration-count: 2;
+    }
+
+    /* Filter-animated decorative icons: a few cycles instead of forever */
+    .thoughts-header-sparkle,
+    .bulb-glow-fx,
+    .theme-toggle .moon-icon {
+        animation-iteration-count: 3;
+    }
+
+    /* Translucent dark footer: keep its tinted gradient, drop the live blur */
+    [data-theme="dark"] .footer-container {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 }

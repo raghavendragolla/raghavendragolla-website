@@ -23,6 +23,10 @@ exclude:
   - README.md
   - AI_CHATBOT_INTEGRATION_AUDIT.md
   - CHATBOT_SINGLE_REPO_ARCHITECTURE.md
+  - WEBSITE_AND_ASK_GORA_AUDIT.md
+  - PHASE1_IMPLEMENTATION_REPORT.md
+  - PHASE2_FINAL_COMPLETION_REPORT.md
+  - PHASE3_FINAL_COMPLETION_REPORT.md
   - eslint.config.mjs
   - playwright.config.js
   - lighthouserc.json
