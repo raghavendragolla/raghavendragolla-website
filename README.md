@@ -11,6 +11,8 @@ Welcome to the official repository for [raghavendragolla.com](https://www.raghav
 - **WCAG 2.1 AA Accessibility**: Built-in skip link (`#main-content`), ARIA dialogs (`role="dialog" aria-modal="true"`), accessible focus-trap and keyboard ESC handling for modal dialogs (`window.setupAccessibleModal`).
 - **PWA & Offline Service Worker**: Service Worker (`sw.js`) with cache-first static asset caching, custom 404 fallback page, and 30-day banner dismissal management (`rg:pwa-dismissed`).
 - **Responsive Layout & Mobile Viewports**: Modern layout handling using CSS Grid & Flexbox, with `100dvh` dynamic viewport unit support for seamless rendering on mobile browsers.
+- **Project Case Studies**: Each portfolio project has a native, keyboard-operable "Read the case study" panel (objective, data sources, preparation, method, evaluation and documented limitations), with facts taken from the project repositories and kept in sync with Ask GORA's knowledge base by tests.
+- **Ask GORA AI Assistant**: Streaming answers grounded in a verified profile knowledge base (Cloudflare Workers AI, daily neuron budget, no paid fallback), with recruiter contact links after hiring or contact questions. Details: `chatbot-worker/README.md`.
 - **SEO & Structured Data**: Open Graph (`og:image`, `og:title`), Twitter Cards, Schema.org `Person` JSON-LD structured data, `robots.txt`, and `sitemap.xml`.
 
 ## 📁 Repository Structure

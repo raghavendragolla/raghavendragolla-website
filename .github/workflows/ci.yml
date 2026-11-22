@@ -61,6 +61,21 @@ jobs:
       - name: Privacy & secrets scan
         run: npm run privacy:scan
 
+  # Ask GORA Worker unit tests. They use only the Node test runner and mocked AI /
+  # Durable Object bindings, so they need no dependency install, no Cloudflare access
+  # and consume no Workers AI neurons.
+  worker-tests:
+    name: Ask GORA Worker Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run Worker tests
+        working-directory: chatbot-worker
+        run: npm test
+
   pdf-check:
     name: PDF Integrity Verification
     runs-on: ubuntu-latest

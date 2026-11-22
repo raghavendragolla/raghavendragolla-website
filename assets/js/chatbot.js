@@ -208,6 +208,73 @@
     var STORAGE_KEY = 'askGora:conversation:v1';
     var MAX_STORED_MESSAGES = 20;
 
+    // Recruiter hand-off (Phase 4.2): after an answer about hiring, contact or availability, or one that
+    // says the information is not available, offer the public contact routes the portfolio already lists.
+    var HANDOFF_LINKS = [
+        { label: 'Resume (PDF)', href: '/portfolio/resume/resume.pdf', external: true },
+        { label: 'Email', href: 'mailto:raghavendrayadavgolla@gmail.com' },
+        { label: 'LinkedIn', href: 'https://www.linkedin.com/in/raghavendragolla', external: true },
+        { label: 'Contact form', href: '/portfolio/#contact', sameSiteSection: true }
+    ];
+    // "resume" (with or without accents) is matched by its stem: an accented letter is not a regex word
+    // character, so it sits outside the \b group, and the accent is written as \u00e9 so this file stays
+    // within the characters of the subset web fonts.
+    var HANDOFF_INTENT = /\b(hire|hiring|recruit\w*|interview\w*|cv|contact|email|reach|availab\w*|role|roles|position|positions|job|jobs|opening|openings|fit|salary|visa|relocat\w*|notice)\b|\br(?:e|\u00e9)sum/i;
+    var NOT_AVAILABLE_TEXT = 'not available in Raghavendra';
+    var OUT_OF_SCOPE_TEXT = 'can only help with questions about his background';
+    var MAX_INPUT_CHARS = 400;
+    var COUNTER_THRESHOLD = 320;
+
+    function shouldOfferHandoff(question, answer) {
+        if (typeof answer !== 'string' || !answer || answer.indexOf(OUT_OF_SCOPE_TEXT) !== -1) return false;
+        return answer.indexOf(NOT_AVAILABLE_TEXT) !== -1 || HANDOFF_INTENT.test(question || '');
+    }
+
+    function appendHandoff(msgEl) {
+        if (!msgEl || msgEl.querySelector('.ask-gora-handoff')) return;
+        var box = document.createElement('div');
+        box.className = 'ask-gora-handoff';
+        box.setAttribute('role', 'group');
+        box.setAttribute('aria-label', 'Contact Raghavendra');
+        for (var i = 0; i < HANDOFF_LINKS.length; i++) {
+            var item = HANDOFF_LINKS[i];
+            var a = document.createElement('a');
+            a.className = 'ask-gora-handoff-link';
+            a.href = item.href;
+            a.textContent = item.label;
+            if (item.external) {
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+            }
+            if (item.sameSiteSection) a.setAttribute('data-gora-section-link', '');
+            box.appendChild(a);
+        }
+        var meta = msgEl.querySelector('.ask-gora-msg-meta');
+        msgEl.insertBefore(box, meta);
+    }
+
+    // A link to a section of the page the visitor is already on: minimize the panel first, then jump
+    // once the panel's own history entry has been popped (otherwise that pop would undo the jump).
+    function goToSection(href) {
+        var url = new URL(href, window.location.href);
+        if (url.pathname !== window.location.pathname) return false; // other page: normal navigation
+        var hadEntry = !!(window.history.state && window.history.state.askGoraOpen);
+        var jumped = false;
+        var jump = function () {
+            if (jumped) return;
+            jumped = true;
+            window.removeEventListener('popstate', jump);
+            window.location.hash = url.hash;
+        };
+        if (hadEntry) {
+            window.addEventListener('popstate', jump);
+            setTimeout(jump, 400);
+        }
+        minimizeChat();
+        if (!hadEntry) jump();
+        return true;
+    }
+
     function saveConversation() {
         try {
             if (!state.history.length) { window.sessionStorage.removeItem(STORAGE_KEY); return; }
@@ -228,7 +295,12 @@
         }).slice(-MAX_STORED_MESSAGES);
         if (!restored.length) return;
         state.history = restored;
-        for (var i = 0; i < restored.length; i++) appendMessage(restored[i].role, restored[i].content);
+        var lastQuestion = '';
+        for (var i = 0; i < restored.length; i++) {
+            var msgEl = appendMessage(restored[i].role, restored[i].content);
+            if (restored[i].role === 'user') lastQuestion = restored[i].content;
+            else if (shouldOfferHandoff(lastQuestion, restored[i].content)) appendHandoff(msgEl);
+        }
     }
 
     /**
@@ -275,6 +347,7 @@
 
         messagesContainer.appendChild(msgEl);
         scrollToBottom();
+        return msgEl;
     }
 
     /**
@@ -657,6 +730,7 @@
             chatInput.value = '';
             chatInput.style.height = '';
             chatInput.disabled = false;
+            updateInputCounter();
         }
         if (sendBtn) {
             sendBtn.disabled = true;
@@ -755,6 +829,7 @@
         if (chatInput && !isRetry) {
             chatInput.value = '';
             chatInput.style.height = 'auto';
+            updateInputCounter();
         }
 
         setLoading(true);
@@ -868,6 +943,7 @@
             renderStream();
             bubble.msgEl.classList.remove('is-streaming');
             bubble.meta.textContent = note ? 'GORA · ' + note : 'GORA';
+            if (!note && shouldOfferHandoff(text, answer)) appendHandoff(bubble.msgEl);
             state.history.push({ role: 'user', content: text });
             state.history.push({ role: 'assistant', content: answer.trim() });
             saveConversation();
@@ -961,7 +1037,8 @@
 
             if (assistantText) {
                 state.lastFailedMessage = null;
-                appendMessage('assistant', assistantText);
+                var answerEl = appendMessage('assistant', assistantText);
+                if (shouldOfferHandoff(text, assistantText)) appendHandoff(answerEl);
                 state.history.push({ role: 'user', content: text });
                 state.history.push({ role: 'assistant', content: assistantText });
                 saveConversation();
@@ -1040,8 +1117,26 @@
     /**
      * Auto-resize input textarea as user types with smooth RAF batching
      */
+    // Shows "N/400" once the question gets long, so the 400-character limit is never a silent stop.
+    var inputCounter = null;
+    var inputLimitStatus = null;
+    function updateInputCounter() {
+        if (!chatInput || !inputCounter) return;
+        var len = chatInput.value.length;
+        inputCounter.hidden = len < COUNTER_THRESHOLD;
+        inputCounter.textContent = len + '/' + MAX_INPUT_CHARS;
+        inputCounter.classList.toggle('is-at-limit', len >= MAX_INPUT_CHARS);
+        // Announced once when the limit is reached (not on every keystroke).
+        var atLimit = len >= MAX_INPUT_CHARS;
+        if (inputLimitStatus && inputLimitStatus.getAttribute('data-at-limit') !== String(atLimit)) {
+            inputLimitStatus.setAttribute('data-at-limit', String(atLimit));
+            inputLimitStatus.textContent = atLimit ? 'Character limit of ' + MAX_INPUT_CHARS + ' reached.' : '';
+        }
+    }
+
     function handleInputResize() {
         if (!chatInput) return;
+        updateInputCounter();
         var hasText = chatInput.value.trim().length > 0;
         if (sendBtn) {
             sendBtn.disabled = state.isLoading || !hasText;
@@ -1148,6 +1243,19 @@
                 }
             });
             chatInput.addEventListener('input', handleInputResize);
+            // Phone keyboards label Enter as "Send" (Enter already sends; Shift+Enter adds a line).
+            chatInput.setAttribute('enterkeyhint', 'send');
+            if (chatForm && !inputCounter) {
+                inputCounter = document.createElement('span');
+                inputCounter.className = 'ask-gora-counter';
+                inputCounter.setAttribute('aria-hidden', 'true');
+                inputCounter.hidden = true;
+                chatForm.appendChild(inputCounter);
+                inputLimitStatus = document.createElement('span');
+                inputLimitStatus.className = 'sr-only';
+                inputLimitStatus.setAttribute('role', 'status');
+                chatForm.appendChild(inputLimitStatus);
+            }
         }
 
         // Cache the pristine initial welcome message and suggested questions markup
@@ -1166,6 +1274,12 @@
                     e.stopPropagation();
                     var codeEl = copyBtn.closest('.ask-gora-code') && copyBtn.closest('.ask-gora-code').querySelector('code');
                     if (codeEl) copyToClipboard(codeEl.textContent, copyBtn);
+                    return;
+                }
+
+                var sectionLink = e.target.closest('[data-gora-section-link]');
+                if (sectionLink && !e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                    if (goToSection(sectionLink.getAttribute('href'))) e.preventDefault();
                     return;
                 }
 
