@@ -11,6 +11,15 @@
  */
 
 import { buildSystemPrompt } from './knowledge.js';
+import { estimateRequestNeurons, actualNeuronsFromResponse, reserveBudget, settleBudget } from './budget.js';
+
+// Durable Object class for the daily AI budget must be exported from the Worker's main module.
+export { AiBudget } from './budget.js';
+
+// Visitor-facing fallback messages (plain text; rendered with textContent by the website).
+const AI_QUOTA_REPLY = "Raghavendra's AI assistant has reached its free daily Cloudflare allocation limit. Please feel free to explore his projects and verified resume directly on the website, or reach out to him directly at raghavendrayadavgolla@gmail.com.";
+const AI_UNAVAILABLE_REPLY = "I am temporarily experiencing edge connectivity delays. You can explore Raghavendra's verified resume, projects, and research directly on the website, or contact him at raghavendrayadavgolla@gmail.com.";
+const BUDGET_REACHED_REPLY = "Ask GORA has reached its daily limit and will be back after 05:30 IST (00:00 UTC). Meanwhile, you can explore Raghavendra's projects, research and resume on this website, or contact him directly at raghavendrayadavgolla@gmail.com.";
 
 // Model selection: Google Gemma 4 26B (4B active parameters MoE)
 // Supported on Cloudflare Workers AI free daily neuron allocation (10,000 neurons/day).
@@ -37,7 +46,33 @@ export const ALLOWED_ORIGINS = new Set([
 export function isAllowedOrigin(origin) {
   if (!origin || typeof origin !== 'string') return false;
   if (ALLOWED_ORIGINS.has(origin)) return true;
+  return isLoopbackOrigin(origin);
+}
+
+function isLoopbackOrigin(origin) {
   return /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+}
+
+/**
+ * Server-side Origin allow-list for POST /chat (inference requests).
+ * ---------------------------------------------------------------------------
+ * Browsers always send an Origin header on these cross-origin POSTs, and page
+ * scripts cannot change it, so this rejects other websites and casual direct
+ * calls (curl, scanners) BEFORE any rate-limit or AI work is done.
+ *
+ * LIMITATION: a non-browser client can forge any Origin header. This is a
+ * cheap filter, not authentication; the per-IP rate limiter stays the
+ * primary abuse control.
+ *
+ * Only the production website origins are accepted. Loopback origins
+ * (http://localhost:*, http://127.0.0.1:*) are accepted only when the Worker
+ * is started with ALLOW_DEV_ORIGINS="true" (e.g. in .dev.vars for wrangler dev),
+ * never in the deployed configuration.
+ */
+export function isOriginAllowedForChat(origin, env) {
+  if (!origin || typeof origin !== 'string') return false;
+  if (ALLOWED_ORIGINS.has(origin)) return true;
+  return Boolean(env && env.ALLOW_DEV_ORIGINS === 'true' && isLoopbackOrigin(origin));
 }
 
 /**
@@ -106,6 +141,29 @@ function jsonResponse(data, status = 200, extraHeaders = {}) {
       ...extraHeaders
     }
   });
+}
+
+/**
+ * Classifies a Workers AI error using its documented internal codes
+ * (https://developers.cloudflare.com/workers-ai/platform/errors/):
+ *   3036 "Account limited"  -> daily free allocation of neurons used up  -> 'DAILY_ALLOCATION'
+ *   3040 "Out of capacity"  -> temporary capacity rejection (retryable)  -> 'CAPACITY'
+ *   anything else                                                        -> 'OTHER'
+ * The platform does not document the thrown error's shape for env.AI.run(), so the code is
+ * read from a numeric `code` property or from the message, and the daily-allocation case also
+ * matches its documented wording. Generic words such as "limit" or "exceeded" are deliberately
+ * NOT matched: they previously caused unrelated errors to be shown as "resting for today".
+ */
+export function classifyAiError(err) {
+  const message = err instanceof Error ? err.message : String(err || '');
+  const code = err && typeof err === 'object' && Number.isFinite(Number(err.code)) ? Number(err.code) : null;
+  if (code === 3036 || /(^|\D)3036(\D|$)/.test(message) || /daily free allocation/i.test(message)) {
+    return 'DAILY_ALLOCATION';
+  }
+  if (code === 3040 || /(^|\D)3040(\D|$)/.test(message) || /capacity temporarily exceeded/i.test(message)) {
+    return 'CAPACITY';
+  }
+  return 'OTHER';
 }
 
 /**
@@ -214,27 +272,33 @@ export default {
 
     // 3. Chat completion endpoint
     if (request.method === 'POST' && pathname === '/chat') {
+      // Security Check: server-side Origin allow-list (cheap filter, not authentication; see above)
+      if (!isOriginAllowedForChat(request.headers.get('Origin'), env)) {
+        return jsonResponse({
+          error: 'Requests are only accepted from the official website.',
+          error_code: 'ORIGIN_NOT_ALLOWED'
+        }, 403, corsHeaders);
+      }
+
       // Security Check: Distributed Edge Rate Limiter (if bound) with Ephemeral In-Memory Fallback
       const clientIp = request.headers.get('CF-Connecting-IP') || request.headers.get('x-real-ip') || '';
+      const rateLimitedBody = {
+        error: 'Rate limit exceeded. Please wait a moment before sending another message.',
+        error_code: 'RATE_LIMITED'
+      };
       if (env && env.RATE_LIMITER && typeof env.RATE_LIMITER.limit === 'function') {
         try {
           const { success } = await env.RATE_LIMITER.limit({ key: clientIp || 'global' });
           if (!success) {
-            return jsonResponse({
-              error: 'Rate limit exceeded. Please wait a moment before sending another message.'
-            }, 429, corsHeaders);
+            return jsonResponse(rateLimitedBody, 429, corsHeaders);
           }
         } catch {
           if (isRateLimited(clientIp)) {
-            return jsonResponse({
-              error: 'Rate limit exceeded. Please wait a moment before sending another message.'
-            }, 429, corsHeaders);
+            return jsonResponse(rateLimitedBody, 429, corsHeaders);
           }
         }
       } else if (isRateLimited(clientIp)) {
-        return jsonResponse({
-          error: 'Rate limit exceeded. Please wait a moment before sending another message.'
-        }, 429, corsHeaders);
+        return jsonResponse(rateLimitedBody, 429, corsHeaders);
       }
 
       // Security Check: Request Body Size Check via Content-Length header
@@ -305,6 +369,42 @@ export default {
 
       const wantStream = body.stream === true || (request.headers.get('Accept') || '').includes('text/event-stream');
 
+      // Daily AI budget (circuit breaker), see budget.js. Active whenever the AI_BUDGET Durable
+      // Object binding is configured (it is, in wrangler.toml). Without the binding (unit tests,
+      // or an older deployment) behaviour is unchanged.
+      let budgetReservation = null;
+      if (env.AI_BUDGET) {
+        const estimate = estimateRequestNeurons(messages, MAX_OUTPUT_TOKENS);
+        try {
+          const result = await reserveBudget(env, estimate);
+          if (!result.allowed) {
+            return jsonResponse({
+              error: 'Daily AI budget reached.',
+              error_code: 'DAILY_BUDGET_REACHED',
+              fallbackReply: BUDGET_REACHED_REPLY
+            }, 429, corsHeaders);
+          }
+          budgetReservation = { day: result.day, estimate };
+        } catch {
+          // Fail CLOSED: if usage cannot be counted, do not run inference.
+          return jsonResponse({
+            error: 'AI service temporarily unavailable.',
+            error_code: 'BUDGET_UNAVAILABLE',
+            fallbackReply: AI_UNAVAILABLE_REPLY
+          }, 503, corsHeaders);
+        }
+      }
+
+      // Replace the conservative reservation with the real cost when the model reports usage.
+      // Runs after the response is sent where possible; failures only leave the estimate charged.
+      const settle = (aiResponse) => {
+        if (!budgetReservation) return;
+        const actual = actualNeuronsFromResponse(aiResponse);
+        if (actual === null) return;
+        const pending = settleBudget(env, budgetReservation.day, budgetReservation.estimate, actual).catch(() => {});
+        if (ctx && typeof ctx.waitUntil === 'function') ctx.waitUntil(pending);
+      };
+
       try {
         // Execute native Workers AI inference with selected active model
         // Note: Disabling thinking mode saves the token budget for the actual assistant reply
@@ -336,6 +436,7 @@ export default {
             ...modelPayload,
             stream: false
           });
+          settle(aiResponse);
 
           const replyText = extractAssistantReply(aiResponse);
 
@@ -343,6 +444,7 @@ export default {
           if (!replyText) {
             return jsonResponse({
               error: 'AI service returned an empty response.',
+              error_code: 'EMPTY_RESPONSE',
               fallbackReply: 'Something went wrong while preparing your answer. Please try again in a moment.',
               model: ACTIVE_MODEL
             }, 502, corsHeaders);
@@ -358,18 +460,28 @@ export default {
           }, 200, corsHeaders);
         }
       } catch (aiErr) {
-        // Safe logging: log only safe error messages, never visitor message content
-        const errorMessage = aiErr instanceof Error ? aiErr.message : String(aiErr);
+        // Never echo the raw error to the visitor; map it to an explicit error code.
+        const kind = classifyAiError(aiErr);
 
-        // Check if error is related to quota or allocation limit
-        const isQuota = /quota|limit|exceeded|capacity|429/i.test(errorMessage);
-
+        if (kind === 'DAILY_ALLOCATION') {
+          return jsonResponse({
+            error: 'Daily AI allocation limit reached.',
+            error_code: 'AI_QUOTA_EXCEEDED',
+            fallbackReply: AI_QUOTA_REPLY
+          }, 429, corsHeaders);
+        }
+        if (kind === 'CAPACITY') {
+          return jsonResponse({
+            error: 'AI service is temporarily busy.',
+            error_code: 'AI_BUSY',
+            fallbackReply: AI_UNAVAILABLE_REPLY
+          }, 503, corsHeaders);
+        }
         return jsonResponse({
-          error: isQuota ? 'Daily AI allocation limit reached.' : 'AI service temporarily unavailable.',
-          fallbackReply: isQuota
-            ? "Raghavendra's AI assistant has reached its free daily Cloudflare allocation limit. Please feel free to explore his projects and verified resume directly on the website, or reach out to him directly at raghavendrayadavgolla@gmail.com."
-            : "I am temporarily experiencing edge connectivity delays. You can explore Raghavendra's verified resume, projects, and research directly on the website, or contact him at raghavendrayadavgolla@gmail.com."
-        }, isQuota ? 429 : 500, corsHeaders);
+          error: 'AI service temporarily unavailable.',
+          error_code: 'AI_UNAVAILABLE',
+          fallbackReply: AI_UNAVAILABLE_REPLY
+        }, 500, corsHeaders);
       }
     }
 
